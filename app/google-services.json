@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "958698115631",
+    "firebase_url": "https://all4one-3ba72.firebaseio.com",
+    "project_id": "all4one-3ba72",
+    "storage_bucket": "all4one-3ba72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958698115631:android:283d3b9d9307c5b7",
+        "android_client_info": {
+          "package_name": "gr.kalymnos.sk3m3l10.ddosdroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958698115631-rstsbgep876b2qscutbf5cofglhuhq5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_kJh_QOgDSwbym6MfSJhzcOOBlRSMIRA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
