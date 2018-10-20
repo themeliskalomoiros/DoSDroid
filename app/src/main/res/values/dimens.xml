@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="subtitle_text_size">16sp</dimen>
+    <dimen name="spinner_item_text_size">24sp</dimen>
+    <dimen name="header_text_size">32sp</dimen>
+    <dimen name="main_site_name_text_size">40sp</dimen>
+    <dimen name="half_default_margin">4dp</dimen>
+    <dimen name="default_margin">8dp</dimen>
+    <dimen name="double_default_margin">16dp</dimen>
+    <dimen name="triple_default_margin">24dp</dimen>
+    <dimen name="quadruple_default_margin">32dp</dimen>
+    <dimen name="menu_item_imageview_width">320dp</dimen>
+    <dimen name="menu_item_imageview_height">@dimen/menu_item_imageview_width</dimen>
+</resources>

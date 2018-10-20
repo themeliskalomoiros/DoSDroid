@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">DDoSDroid</string>
+    <string name="create_an_attack_label">Create an attack</string>
+    <string name="website_hint">example.com</string>
+    <string name="set_the_target_of_the_attack_label">Set the target of the attack.</string>
+    <string name="how_would_you_like_to_gather_your_force_label">How would you like to gather your force?</string>
+    <string name="enter_url_label">Enter url:</string>
+    <string name="network_configuration_label">Network configuration</string>
+    <string name="ufo_content_description">Ufos attacking a city</string>
+    <string-array name="network_technologies">
+        <item>WiFi</item>
+        <item>WiFi P2P</item>
+        <item>NSD</item>
+        <item>Bluetooth</item>
+    </string-array>
 </resources>

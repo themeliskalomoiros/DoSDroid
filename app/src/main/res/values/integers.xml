@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="main_menu_item_lines">2</integer>
+    <integer name="website_lines">1</integer>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/menu_item_imageview_width"
+    android:layout_height="@dimen/menu_item_imageview_width">
+
+    <ImageView
+        android:id="@+id/image"
+        style="@style/Dimensions_Match_Parent"
+        tools:src="@android:drawable/btn_minus" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Menu_Item_TextView"
+        tools:text="Create an attack"/>
+
+</FrameLayout>
