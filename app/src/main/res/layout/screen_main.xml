@@ -29,15 +29,15 @@
 
             <include
                 android:id="@+id/create_attack_menu_item"
-                layout="@layout/main_menu_item" />
+                layout="@layout/menu_item_main" />
 
             <include
                 android:id="@+id/join_attack_menu_item"
-                layout="@layout/main_menu_item" />
+                layout="@layout/menu_item_main" />
 
             <include
                 android:id="@+id/follow_attack_menu_item"
-                layout="@layout/main_menu_item" />
+                layout="@layout/menu_item_main" />
 
         </LinearLayout>
 
