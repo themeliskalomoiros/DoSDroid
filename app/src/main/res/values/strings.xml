@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">DDoSDroid</string>
-    <string name="create_an_attack_label">Create an attack</string>
+    <string name="attack_phase_label">Attack phase</string>
     <string name="website_hint">example.com</string>
     <string name="set_the_target_of_the_attack_label">Set the target of the attack.</string>
     <string name="how_would_you_like_to_gather_your_force_label">How would you like to gather your force?</string>
