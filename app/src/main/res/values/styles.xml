@@ -67,4 +67,32 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="Website_TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/double_default_margin</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
+        <item name="android:textSize">@dimen/main_site_name_text_size</item>
+        <item name="android:lines">@integer/website_lines</item>
+    </style>
+
+    <style name="Website_EditText" parent="Website_TextView">
+        <item name="android:hint">@string/website_hint</item>
+        <item name="android:inputType">textUri</item>
+    </style>
+
+    <style name="Attack_FAB" parent="Dimensions_Wrap_Content">
+        <item name="fabSize">normal</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginTop">@dimen/double_default_margin</item>
+        <item name="android:layout_marginBottom">@dimen/quadruple_default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintVertical_bias">0.0</item>
+    </style>
+
 </resources>

@@ -7,6 +7,11 @@
     <string name="enter_url_label">Enter url:</string>
     <string name="network_configuration_label">Network configuration</string>
     <string name="ufo_content_description">Ufos attacking a city</string>
+    <string name="are_you_ready_label">Are you ready?</string>
+    <string name="target_label">Target</string>
+    <string name="attack_force_label">Attack force</string>
+    <string name="confirm_creation_label">Confirm creation</string>
+    <string name="begin_attack_label">Begin the attack</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>
