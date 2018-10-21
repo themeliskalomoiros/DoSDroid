@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="subtitle_text_size">16sp</dimen>
+    <dimen name="list_item_subtitle_text_size">12sp</dimen>
     <dimen name="spinner_item_text_size">24sp</dimen>
     <dimen name="header_text_size">32sp</dimen>
     <dimen name="main_site_name_text_size">40sp</dimen>
