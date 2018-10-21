@@ -13,6 +13,8 @@
     <string name="confirm_creation_label">Confirm creation</string>
     <string name="begin_attack_label">Begin the attack</string>
     <string name="switch_name">Activate</string>
+    <string name="attack_list_label">Attack list</string>
+    <string name="cloud_hosting_content_description">A cloud hosting image</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>

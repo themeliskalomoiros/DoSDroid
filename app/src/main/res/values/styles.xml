@@ -95,4 +95,15 @@
         <item name="layout_constraintVertical_bias">0.0</item>
     </style>
 
+    <style name="Full_Screen_Imageview">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintTop_toBottomOf">@id/toolBar</item>
+        <item name="android:scaleType">fitEnd</item>
+    </style>
+
 </resources>
