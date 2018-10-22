@@ -11,5 +11,5 @@ public interface ViewMvc {
      * or alter the properties of either the root Android View itself, or any of its
      * child Android View's.*/
     View getRootView();
-    
+
 }
