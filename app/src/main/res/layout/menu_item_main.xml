@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/menu_item_imageview_width"
-    android:layout_height="@dimen/menu_item_imageview_width">
+    android:layout_height="@dimen/menu_item_imageview_width"
+    android:layout_gravity="center_horizontal">
 
     <ImageView
         android:id="@+id/image"
