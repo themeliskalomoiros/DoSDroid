@@ -10,6 +10,7 @@
     <dimen name="double_default_margin">16dp</dimen>
     <dimen name="triple_default_margin">24dp</dimen>
     <dimen name="quadruple_default_margin">32dp</dimen>
-    <dimen name="menu_item_imageview_width">320dp</dimen>
+    <dimen name="menu_item_imageview_width">240dp</dimen>
     <dimen name="menu_item_imageview_height">@dimen/menu_item_imageview_width</dimen>
+    <dimen name="main_screen_item_title_text_size">28sp</dimen>
 </resources>

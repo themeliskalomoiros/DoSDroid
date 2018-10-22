@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/menu_item_imageview_width"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/menu_item_imageview_width"
-    android:layout_gravity="center_horizontal">
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="@dimen/default_margin">
 
     <ImageView
         android:id="@+id/image"
         style="@style/Dimensions_Match_Parent"
-        tools:src="@android:drawable/btn_minus" />
+        android:scaleType="fitEnd"
+        tools:src="@android:drawable/btn_minus"
+        android:contentDescription="@string/main_item_image_content_description" />
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/Menu_Item_TextView"
-        tools:text="Create an attack"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor_transparent"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/title"
+            style="@style/Main_Screen_Item_TextView"
+            tools:text="Create an attack" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/Main_Screen_Item_Subtitle"
+            tools:text="Target a website, gather a strong botnet and begin your attack!" />
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

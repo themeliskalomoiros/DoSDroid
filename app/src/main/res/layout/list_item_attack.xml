@@ -15,7 +15,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:textColor="@color/primaryTextColor"
-        android:textSize=""
         android:textAllCaps="true"
         app:layout_constraintEnd_toStartOf="@+id/attack_switch"
         app:layout_constraintStart_toStartOf="parent"

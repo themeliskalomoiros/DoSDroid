@@ -13,8 +13,9 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
 
     private View root;
     private Toolbar toolbar;
-    private ImageView createAttackImageView, joinAttackImageView, followingAttacksImageView;
-    private TextView createAttackTextView, joinAttackTextView, followingAttacksTextView;
+    private ImageView createAttackImg, joinAttackImg, followingAttacksImg;
+    private TextView createAttackTitle, joinAttackTitle, followingAttacksTitle,
+            createAttackSubtitle, joinAttackSubtitle, followingAttacksSubtitle;
     private ViewGroup createAttackParentView, joinAttackParentView, followingAttacksParentView;
 
     private OnOptionClickListener optionClickListener;
@@ -53,10 +54,12 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
                 optionClickListener.onCreateAttackClick();
             }
         });
-        createAttackImageView = createAttackParentView.findViewById(R.id.image);
-        createAttackImageView.setImageResource(R.drawable.ic_swords);
-        createAttackTextView = createAttackParentView.findViewById(R.id.title);
-        createAttackTextView.setText(R.string.create_attack_label);
+        createAttackImg = createAttackParentView.findViewById(R.id.image);
+        createAttackImg.setImageResource(R.drawable.ic_www_icon);
+        createAttackTitle = createAttackParentView.findViewById(R.id.title);
+        createAttackTitle.setText(R.string.create_attack_label);
+        createAttackSubtitle=createAttackParentView.findViewById(R.id.subtitle);
+        createAttackSubtitle.setText(R.string.create_attack_label_subtitle);
     }
 
     private void initializeJoinAttackViews() {
@@ -66,10 +69,12 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
                 optionClickListener.onJoinAttackClick();
             }
         });
-        joinAttackImageView = joinAttackParentView.findViewById(R.id.image);
-        joinAttackImageView.setImageResource(R.drawable.ic_red_army_flag_over_reichstag);
-        joinAttackTextView = joinAttackParentView.findViewById(R.id.title);
-        joinAttackTextView.setText(R.string.join_attack_label);
+        joinAttackImg = joinAttackParentView.findViewById(R.id.image);
+        joinAttackImg.setImageResource(R.drawable.ic_ufo_invasion);
+        joinAttackTitle = joinAttackParentView.findViewById(R.id.title);
+        joinAttackTitle.setText(R.string.join_attack_label);
+        joinAttackSubtitle=joinAttackParentView.findViewById(R.id.subtitle);
+        joinAttackSubtitle.setText(R.string.join_attack_label_subtitle);
     }
 
     private void initializeFollowingAttacksViews() {
@@ -79,9 +84,11 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
                 optionClickListener.onFollowingAttacksClick();
             }
         });
-        followingAttacksImageView = followingAttacksParentView.findViewById(R.id.image);
-        followingAttacksImageView.setImageResource(R.drawable.ic_soldier_sailor);
-        followingAttacksTextView = followingAttacksParentView.findViewById(R.id.title);
-        followingAttacksTextView.setText(R.string.following_attacks_label);
+        followingAttacksImg = followingAttacksParentView.findViewById(R.id.image);
+        followingAttacksImg.setImageResource(R.drawable.ic_gear_wheels);
+        followingAttacksTitle = followingAttacksParentView.findViewById(R.id.title);
+        followingAttacksTitle.setText(R.string.following_attacks_label);
+        followingAttacksSubtitle=followingAttacksParentView.findViewById(R.id.subtitle);
+        followingAttacksSubtitle.setText(R.string.following_attacks_label_subtitle);
     }
 }
