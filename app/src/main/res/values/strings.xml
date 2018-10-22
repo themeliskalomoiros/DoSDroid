@@ -15,6 +15,9 @@
     <string name="switch_name">Activate</string>
     <string name="attack_list_label">Attack list</string>
     <string name="cloud_hosting_content_description">A cloud hosting image</string>
+    <string name="create_attack_label">Create an attack</string>
+    <string name="join_attack_label">Join an attack</string>
+    <string name="following_attacks_label">Following attacks</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>

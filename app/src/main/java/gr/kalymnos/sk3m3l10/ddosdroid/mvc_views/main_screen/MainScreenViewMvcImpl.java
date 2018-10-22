@@ -54,7 +54,9 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
             }
         });
         createAttackImageView = createAttackParentView.findViewById(R.id.image);
+        createAttackImageView.setImageResource(R.drawable.ic_swords);
         createAttackTextView = createAttackParentView.findViewById(R.id.title);
+        createAttackTextView.setText(R.string.create_attack_label);
     }
 
     private void initializeJoinAttackViews() {
@@ -65,7 +67,9 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
             }
         });
         joinAttackImageView = joinAttackParentView.findViewById(R.id.image);
+        joinAttackImageView.setImageResource(R.drawable.ic_red_army_flag_over_reichstag);
         joinAttackTextView = joinAttackParentView.findViewById(R.id.title);
+        joinAttackTextView.setText(R.string.join_attack_label);
     }
 
     private void initializeFollowingAttacksViews() {
@@ -76,6 +80,8 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
             }
         });
         followingAttacksImageView = followingAttacksParentView.findViewById(R.id.image);
+        followingAttacksImageView.setImageResource(R.drawable.ic_soldier_sailor);
         followingAttacksTextView = followingAttacksParentView.findViewById(R.id.title);
+        followingAttacksTextView.setText(R.string.following_attacks_label);
     }
 }

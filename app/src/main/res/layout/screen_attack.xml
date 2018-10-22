@@ -17,7 +17,7 @@
         android:id="@+id/iv_background"
         style="@style/Full_Screen_Imageview"
         android:contentDescription="@string/ufo_content_description"
-        android:src="@drawable/ic_ufo_invasion" />
+        android:src="@drawable/ic_swords" />
 
     <ScrollView
 
