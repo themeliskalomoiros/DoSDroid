@@ -19,9 +19,9 @@
     <string name="join_attack_label">Join an attack</string>
     <string name="following_attacks_label">Contribution</string>
     <string name="main_item_image_content_description">This image represents a main screen item</string>
-    <string name="create_attack_label_subtitle">Define a target and unleash full power!</string>
+    <string name="create_attack_label_subtitle">Set your target and unleash full power!</string>
     <string name="join_attack_label_subtitle">Place your service to strengthen other attacks.</string>
-    <string name="following_attacks_label_subtitle">View all attacks that you fight for.</string>
+    <string name="following_attacks_label_subtitle">View all attacks where you are taking part.</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>
