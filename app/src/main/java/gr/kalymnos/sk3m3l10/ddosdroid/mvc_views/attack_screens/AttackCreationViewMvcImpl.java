@@ -67,12 +67,12 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 String data = (String) parent.getItemAtPosition(pos);
-                websiteHint.setText(inflater.getContext().getString(R.string.network_configuration_set_label) + data);
+                networkConfigHint.setText(inflater.getContext().getString(R.string.network_configuration_set_label) + data);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                Log.d(AttackCreationViewMvc.class.getSimpleName(),"Nothing selected");
             }
         });
     }
