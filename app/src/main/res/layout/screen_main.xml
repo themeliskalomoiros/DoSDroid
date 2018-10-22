@@ -30,15 +30,15 @@
 
             <include
                 android:id="@+id/create_attack_menu_item"
-                layout="@layout/menu_item_main" />
+                layout="@layout/screen_main_item" />
 
             <include
                 android:id="@+id/join_attack_menu_item"
-                layout="@layout/menu_item_main" />
+                layout="@layout/screen_main_item" />
 
             <include
                 android:id="@+id/follow_attack_menu_item"
-                layout="@layout/menu_item_main" />
+                layout="@layout/screen_main_item" />
 
         </LinearLayout>
 
