@@ -1,9 +1,11 @@
-package gr.kalymnos.sk3m3l10.ddosdroid;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
