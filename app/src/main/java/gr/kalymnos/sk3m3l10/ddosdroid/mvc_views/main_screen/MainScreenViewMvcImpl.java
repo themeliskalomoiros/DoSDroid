@@ -30,36 +30,6 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
     }
 
     @Override
-    public void bindCreateAttackTitle(int titleRes) {
-        createAttackTextView.setText(titleRes);
-    }
-
-    @Override
-    public void bindJoinAttackTitle(int titleRes) {
-        joinAttackTextView.setText(titleRes);
-    }
-
-    @Override
-    public void bindFollowingAttacksTitle(int titleRes) {
-        followingAttacksTextView.setText(titleRes);
-    }
-
-    @Override
-    public void bindCreateAttackImage(int imgRes) {
-        createAttackImageView.setBackgroundResource(imgRes);
-    }
-
-    @Override
-    public void bindJoinAttackImage(int imgRes) {
-        joinAttackImageView.setBackgroundResource(imgRes);
-    }
-
-    @Override
-    public void bindFollowingAttacksImage(int imgRes) {
-        followingAttacksImageView.setBackgroundResource(imgRes);
-    }
-
-    @Override
     public Toolbar getToolbar() {
         return toolbar;
     }
