@@ -58,7 +58,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         createAttackImg.setImageResource(R.drawable.ic_www_icon);
         createAttackTitle = createAttackParentView.findViewById(R.id.title);
         createAttackTitle.setText(R.string.create_attack_label);
-        createAttackSubtitle=createAttackParentView.findViewById(R.id.subtitle);
+        createAttackSubtitle = createAttackParentView.findViewById(R.id.subtitle);
         createAttackSubtitle.setText(R.string.create_attack_label_subtitle);
     }
 
@@ -73,7 +73,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         joinAttackImg.setImageResource(R.drawable.ic_ufo_invasion);
         joinAttackTitle = joinAttackParentView.findViewById(R.id.title);
         joinAttackTitle.setText(R.string.join_attack_label);
-        joinAttackSubtitle=joinAttackParentView.findViewById(R.id.subtitle);
+        joinAttackSubtitle = joinAttackParentView.findViewById(R.id.subtitle);
         joinAttackSubtitle.setText(R.string.join_attack_label_subtitle);
     }
 
@@ -88,7 +88,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         followingAttacksImg.setImageResource(R.drawable.ic_fist);
         followingAttacksTitle = followingAttacksParentView.findViewById(R.id.title);
         followingAttacksTitle.setText(R.string.following_attacks_label);
-        followingAttacksSubtitle=followingAttacksParentView.findViewById(R.id.subtitle);
+        followingAttacksSubtitle = followingAttacksParentView.findViewById(R.id.subtitle);
         followingAttacksSubtitle.setText(R.string.following_attacks_label_subtitle);
     }
 }

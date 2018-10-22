@@ -94,7 +94,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
-        android:text="@string/begin_attack_label"
+        tools:text="@string/begin_attack_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -102,7 +102,7 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/Attack_FAB"
-        android:src="@drawable/ic_swords"
+        tools:src="@drawable/ic_swords"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
