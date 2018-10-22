@@ -16,7 +16,7 @@
     <ImageView
         style="@style/Full_Screen_Imageview"
         android:contentDescription="@string/cloud_hosting_content_description"
-        android:src="@drawable/ic_hosting" />
+        android:src="@drawable/ic_robot_line_art" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="0dp"

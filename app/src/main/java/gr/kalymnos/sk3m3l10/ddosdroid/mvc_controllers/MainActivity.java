@@ -2,24 +2,35 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.view.LayoutInflater;
+import android.widget.Toast;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvcImpl;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.R;
+public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener{
 
-public class MainActivity extends AppCompatActivity {
+    private MainScreenViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.screen_attack);
+        viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this),null);
+        viewMvc.setOnOptionClickListener(this);
+        setContentView(viewMvc.getRootView());
     }
 
-    private void populateSpinner(){
-        Spinner spinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.network_technologies, R.layout.item_spinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+    @Override
+    public void onCreateAttackClick() {
+        Toast.makeText(this, "oncreateattack", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onJoinAttackClick() {
+        Toast.makeText(this, "onjoinattack", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFollowingAttacksClick() {
+        Toast.makeText(this, "onfollowingattacks", Toast.LENGTH_SHORT).show();
     }
 }

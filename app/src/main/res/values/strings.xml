@@ -17,11 +17,11 @@
     <string name="cloud_hosting_content_description">A cloud hosting image</string>
     <string name="create_attack_label">Create an attack</string>
     <string name="join_attack_label">Join an attack</string>
-    <string name="following_attacks_label">Following attacks</string>
+    <string name="following_attacks_label">Contribution</string>
     <string name="main_item_image_content_description">This image represents a main screen item</string>
     <string name="create_attack_label_subtitle">Define a target and unleash full power!</string>
     <string name="join_attack_label_subtitle">Place your service to strengthen other attacks.</string>
-    <string name="following_attacks_label_subtitle">Check out your contribution.</string>
+    <string name="following_attacks_label_subtitle">View all attacks that you fight for.</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>

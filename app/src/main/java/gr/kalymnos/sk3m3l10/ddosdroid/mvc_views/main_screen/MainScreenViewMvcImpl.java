@@ -85,7 +85,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
             }
         });
         followingAttacksImg = followingAttacksParentView.findViewById(R.id.image);
-        followingAttacksImg.setImageResource(R.drawable.ic_gear_wheels);
+        followingAttacksImg.setImageResource(R.drawable.ic_fist);
         followingAttacksTitle = followingAttacksParentView.findViewById(R.id.title);
         followingAttacksTitle.setText(R.string.following_attacks_label);
         followingAttacksSubtitle=followingAttacksParentView.findViewById(R.id.subtitle);
