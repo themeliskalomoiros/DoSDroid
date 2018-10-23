@@ -19,6 +19,8 @@ public interface AttackInfoViewMvc extends ViewMvc {
 
     void bindAttackForceHint(String text);
 
+    void bindBeginOrStopAttackHeader(String text);
+
     void setOnBeginAttacButtonClickListener(OnBeginAttackButtonClickListener listener);
 
     void setFabIconToSwords();
