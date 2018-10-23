@@ -19,6 +19,10 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     private AttackCreationViewMvc viewMvc;
 
+    public interface OnAttackCreationButtonClickListener{
+        void onAttackCreationButtonClicked();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -18,6 +18,10 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
     private AttackInfoViewMvc viewMvc;
     private boolean websiteTextExists;
 
+    private interface OnBeginAttackButtonClickListener{
+        void onBeginAttackButtonClick();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
