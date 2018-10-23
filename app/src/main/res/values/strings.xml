@@ -29,4 +29,10 @@
         <item>NSD</item>
         <item>Bluetooth</item>
     </string-array>
+    <string-array name="network_technologies_description">
+        <item>Wireless local area networking.</item>
+        <item>WiFi peer to peer.</item>
+        <item>Network Service Discovery.</item>
+        <item>Bluetooth wireless technology.</item>
+    </string-array>
 </resources>

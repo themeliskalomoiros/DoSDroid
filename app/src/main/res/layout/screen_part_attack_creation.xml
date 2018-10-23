@@ -1,103 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="25dp">
 
-    <TextView
-        android:id="@+id/textView"
-        style="@style/Header_TextView"
-        android:layout_marginTop="24dp"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingLeft="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingRight="@dimen/default_margin"
-        android:text="@string/enter_url_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/ed_website"
-        style="@style/Website_EditText"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="SPORT24.GR" />
+        <TextView
+            android:id="@+id/textView"
+            style="@style/Header_TextView"
+            android:layout_marginTop="24dp"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:text="@string/enter_url_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView3"
-        style="@style/Header_TextView"
-        android:layout_marginTop="32dp"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingLeft="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:paddingRight="@dimen/default_margin"
-        android:text="@string/network_configuration_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
+        <EditText
+            android:id="@+id/ed_website"
+            style="@style/Website_EditText"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="SPORT24.GR" />
 
-    <TextView
-        android:id="@+id/tv_website_hint"
-        style="@style/Subtitle_TextView"
-        android:layout_marginTop="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginRight="@dimen/default_margin"
-        android:text="@string/set_the_target_of_the_attack_label"
-        app:layout_constraintEnd_toEndOf="@+id/ed_website"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ed_website"
-        app:layout_constraintTop_toBottomOf="@+id/ed_website" />
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/Header_TextView"
+            android:layout_marginTop="32dp"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:text="@string/network_configuration_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
 
-
-    <TextView
-        android:id="@+id/tv_network_config_hint"
-        style="@style/Subtitle_TextView"
-        android:layout_marginTop="@dimen/default_margin"
-        android:text="@string/how_would_you_like_to_gather_your_force_label"
-        app:layout_constraintEnd_toEndOf="@+id/spinner"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        <TextView
+            android:id="@+id/tv_website_hint"
+            style="@style/Subtitle_TextView"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="@string/set_the_target_of_the_attack_label"
+            app:layout_constraintEnd_toEndOf="@+id/ed_website"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/ed_website"
+            app:layout_constraintTop_toBottomOf="@+id/ed_website" />
 
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginRight="@dimen/default_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <TextView
+            android:id="@+id/tv_network_config_hint"
+            style="@style/Subtitle_TextView"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/how_would_you_like_to_gather_your_force_label"
+            app:layout_constraintEnd_toEndOf="@+id/spinner"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/spinner"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
 
-    <TextView
-        android:id="@+id/textView5"
-        style="@style/Header_TextView"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginRight="@dimen/default_margin"
-        android:text="@string/confirm_creation_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_network_config_hint" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/Attack_FAB"
-        android:src="@drawable/ic_check_black"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView5"
+            style="@style/Header_TextView"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:text="@string/confirm_creation_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_network_config_hint" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/Attack_FAB"
+            android:src="@drawable/ic_check_black"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
