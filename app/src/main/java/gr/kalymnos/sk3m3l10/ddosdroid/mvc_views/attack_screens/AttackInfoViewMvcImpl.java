@@ -46,12 +46,12 @@ public class AttackInfoViewMvcImpl implements AttackInfoViewMvc {
     }
 
     @Override
-    public void changeFabIconToSwords() {
+    public void setFabIconToSwords() {
         fab.setBackgroundResource(R.drawable.ic_swords);
     }
 
     @Override
-    public void changeFabIconToStop() {
+    public void setFabIconToStop() {
         fab.setBackgroundResource(R.drawable.ic_stop);
     }
 

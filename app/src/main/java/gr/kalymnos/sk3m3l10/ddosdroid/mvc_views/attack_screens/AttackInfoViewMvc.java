@@ -21,7 +21,7 @@ public interface AttackInfoViewMvc extends ViewMvc {
 
     void setOnBeginAttacButtonClickListener(OnBeginAttackButtonClickListener listener);
 
-    void changeFabIconToSwords();
+    void setFabIconToSwords();
 
-    void changeFabIconToStop();
+    void setFabIconToStop();
 }
