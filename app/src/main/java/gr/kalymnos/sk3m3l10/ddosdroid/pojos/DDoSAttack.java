@@ -2,7 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 
 import java.util.List;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ListUtils.listHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public class DDoSAttack {
 
