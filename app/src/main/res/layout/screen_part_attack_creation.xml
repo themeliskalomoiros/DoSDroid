@@ -14,10 +14,6 @@
             android:id="@+id/textView"
             style="@style/Header_TextView"
             android:layout_marginTop="24dp"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingLeft="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
-            android:paddingRight="@dimen/default_margin"
             android:text="@string/enter_url_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,10 +31,6 @@
             android:id="@+id/textView3"
             style="@style/Header_TextView"
             android:layout_marginTop="32dp"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingLeft="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
-            android:paddingRight="@dimen/default_margin"
             android:text="@string/network_configuration_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,26 +38,29 @@
 
         <TextView
             android:id="@+id/tv_website_hint"
-            style="@style/Subtitle_TextView"
+            style="@style/Website_Hint"
+            android:layout_width="0dp"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             android:text="@string/set_the_target_of_the_attack_label"
             app:layout_constraintEnd_toEndOf="@+id/ed_website"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/ed_website"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/ed_website" />
 
 
         <TextView
             android:id="@+id/tv_network_config_hint"
-            style="@style/Subtitle_TextView"
+            style="@style/Website_Hint"
+            android:layout_width="0dp"
             android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="32dp"
             android:text="@string/how_would_you_like_to_gather_your_force_label"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintEnd_toEndOf="@+id/spinner"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/spinner"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/spinner"
+            android:lines="3"/>
 
 
         <Spinner
@@ -86,12 +81,7 @@
         <TextView
             android:id="@+id/textView5"
             style="@style/Header_TextView"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
             android:text="@string/confirm_creation_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,6 +92,13 @@
             style="@style/Attack_FAB"
             android:src="@drawable/ic_check_black"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="96dp" />
 
 
     </android.support.constraint.ConstraintLayout>

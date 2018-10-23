@@ -22,7 +22,7 @@
     <string name="create_attack_label_subtitle">Set your target and unleash full power!</string>
     <string name="join_attack_label_subtitle">Place your service to strengthen other attacks.</string>
     <string name="following_attacks_label_subtitle">View all attacks where you are taking part.</string>
-    <string name="network_configuration_set_label">Network configuration set to</string>
+    <string name="network_configuration_set_label">Botnet will be created through</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>
