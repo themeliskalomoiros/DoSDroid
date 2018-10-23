@@ -1,7 +1,5 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens;
 
-import android.text.Editable;
-
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 
 public interface AttackCreationViewMvc extends ViewMvc {

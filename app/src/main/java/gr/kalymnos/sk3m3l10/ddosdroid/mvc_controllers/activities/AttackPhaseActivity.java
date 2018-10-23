@@ -15,8 +15,10 @@ public class AttackPhaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewMvc = new AttackPhaseViewMvcImpl(LayoutInflater.from(this),null);
-        getSupportFragmentManager().beginTransaction().add(viewMvc.getFragmentContainerId(),new AttackCreationFragment()).commit();
+        viewMvc = new AttackPhaseViewMvcImpl(LayoutInflater.from(this), null);
+        getSupportFragmentManager().beginTransaction()
+                .add(viewMvc.getFragmentContainerId(), new AttackCreationFragment()).commit();
         setContentView(viewMvc.getRootView());
     }
+
 }
