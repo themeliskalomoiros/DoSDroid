@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,15 +19,27 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
     private AttackInfoViewMvc viewMvc;
     private boolean websiteTextExists;
 
-    private interface OnBeginAttackButtonClickListener{
+    private interface OnBeginAttackButtonClickListener {
         void onBeginAttackButtonClick();
     }
+
+    private OnBeginAttackButtonClickListener mCallback;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initializeViewMvc(inflater, container);
         return viewMvc.getRootView();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallback = (OnBeginAttackButtonClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implement" + mCallback.getClass().getCanonicalName());
+        }
     }
 
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
