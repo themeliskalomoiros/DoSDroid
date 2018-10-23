@@ -8,16 +8,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackInfoViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackInfoViewMvc.ATTACK_STARTED_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackInfoViewMvc.WEBSITE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
 public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.OnBeginAttackButtonClickListener {
 
     private AttackInfoViewMvc viewMvc;
-    private boolean websiteTextExists;
 
     public interface OnBeginAttackButtonClickListener {
         void onBeginAttackButtonClick();
@@ -42,18 +43,33 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
         }
     }
 
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        viewMvc = new AttackInfoViewMvcImpl(inflater, container);
-        viewMvc.setOnBeginAttacButtonClickListener(this);
-        websiteTextExists = getArguments() != null && ValidationUtils.bundleContainsKey(getArguments(),
-                AttackInfoViewMvc.WEBSITE_KEY);
-        if (websiteTextExists) {
-            viewMvc.bindWebsite(getArguments().getString(AttackInfoViewMvc.WEBSITE_KEY));
-        }
+    public static AttackInfoFragment getInstance(String website) {
+        Bundle args = new Bundle();
+        args.putString(WEBSITE_KEY, website);
+        AttackInfoFragment instance = new AttackInfoFragment();
+        instance.setArguments(args);
+        return instance;
     }
 
     @Override
     public void onBeginAttackButtonClick() {
         mCallback.onBeginAttackButtonClick();
+    }
+
+    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        viewMvc = new AttackInfoViewMvcImpl(inflater, container);
+        viewMvc.setOnBeginAttacButtonClickListener(this);
+        if (bundleIsValidAndContainsKey(getArguments(), WEBSITE_KEY)) {
+            viewMvc.bindWebsite(getArguments().getString(WEBSITE_KEY));
+            setFabIcon();
+        }
+    }
+
+    private void setFabIcon() {
+        if (getArguments().getBoolean(ATTACK_STARTED_KEY)) {
+            viewMvc.setFabIconToStop();
+        } else {
+            viewMvc.setFabIconToSwords();
+        }
     }
 }
