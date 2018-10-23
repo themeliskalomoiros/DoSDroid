@@ -13,8 +13,8 @@ public class ValidationUtils {
         return false;
     }
 
-    public static boolean bundleContainsKey(Bundle bundle, String key) {
-        if (bundle.containsKey(key)) {
+    public static boolean bundleIsValidAndContainsKey(Bundle bundle, String key) {
+        if (bundle != null && bundle.containsKey(key)) {
             return true;
         }
         return false;
