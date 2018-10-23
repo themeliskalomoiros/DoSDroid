@@ -45,7 +45,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @Override
     public void onAttackCreationButtonClicked() {
-        Toast.makeText(getContext(), "Fab Clicked!", Toast.LENGTH_SHORT).show();
+        mCallback.onAttackCreationButtonClicked();
     }
 
     @Override

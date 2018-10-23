@@ -19,7 +19,7 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
     private AttackInfoViewMvc viewMvc;
     private boolean websiteTextExists;
 
-    private interface OnBeginAttackButtonClickListener {
+    public interface OnBeginAttackButtonClickListener {
         void onBeginAttackButtonClick();
     }
 
@@ -54,6 +54,6 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
 
     @Override
     public void onBeginAttackButtonClick() {
-        Toast.makeText(getContext(), "Fab clicked", Toast.LENGTH_SHORT).show();
+        mCallback.onBeginAttackButtonClick();
     }
 }
