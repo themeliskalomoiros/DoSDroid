@@ -4,7 +4,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 
 public interface AttackInfoViewMvc extends ViewMvc {
 
-    interface OnBeginAttacButtonClickListener {
+    interface OnBeginAttackButtonClickListener {
         void onBeginAttackButtonClick();
     }
 
@@ -16,7 +16,7 @@ public interface AttackInfoViewMvc extends ViewMvc {
 
     void bindAttackForceHint(String text);
 
-    void setOnBeginAttacButtonClickListener(OnBeginAttacButtonClickListener listener);
+    void setOnBeginAttacButtonClickListener(OnBeginAttackButtonClickListener listener);
 
     void changeFabIconToSwords();
 
