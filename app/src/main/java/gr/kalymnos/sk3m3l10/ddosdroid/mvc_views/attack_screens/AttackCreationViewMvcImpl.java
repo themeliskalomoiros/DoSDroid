@@ -2,6 +2,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     private OnAttackCreationButtonClickListener onAttackCreationButtonClickListener;
     private OnSpinnerItemSelectedListener onSpinnerItemSelectedListener;
+    private OnWebsiteTextChangeListener onWebsiteTextChangeListener;
 
     public AttackCreationViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
@@ -32,6 +35,11 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     @Override
     public String getWebsite() {
         return websiteEditText.getText().toString();
+    }
+
+    @Override
+    public void setWebsiteHint(String hint) {
+        websiteHint.setText(hint);
     }
 
     @Override
@@ -50,6 +58,11 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     @Override
+    public void setOnWebsiteTextChangeListener(OnWebsiteTextChangeListener listener) {
+        onWebsiteTextChangeListener = listener;
+    }
+
+    @Override
     public View getRootView() {
         return root;
     }
@@ -57,10 +70,32 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_part_attack_creation, container, false);
         initializeFab();
-        websiteEditText = root.findViewById(R.id.ed_website);
+        initializeEditText();
         websiteHint = root.findViewById(R.id.tv_website_hint);
         networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
         initializeSpinner(inflater);
+    }
+
+    private void initializeEditText() {
+        websiteEditText = root.findViewById(R.id.ed_website);
+        websiteEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (onWebsiteTextChangeListener != null) {
+                    onWebsiteTextChangeListener.websiteTextChanged(editable.toString());
+                }
+            }
+        });
     }
 
     private void initializeSpinner(LayoutInflater inflater) {
