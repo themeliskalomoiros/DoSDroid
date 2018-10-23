@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,11 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     @Override
     public String getWebsite() {
         return websiteEditText.getText().toString();
+    }
+
+    @Override
+    public void setNetworkConfigHint(String hint) {
+        networkConfigHint.setText(hint);
     }
 
     @Override
@@ -66,13 +72,24 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                String data = (String) parent.getItemAtPosition(pos);
-                networkConfigHint.setText(inflater.getContext().getString(R.string.network_configuration_set_label) + data);
+                if (onSpinnerItemSelectedListener != null) {
+                    onSpinnerItemSelectedListener.onSpinnerItemSelected(getNetworkConfigHInt()
+                            + " " + getNetworkConfigDescription(pos));
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d(AttackCreationViewMvc.class.getSimpleName(),"Nothing selected");
+                Log.d(AttackCreationViewMvc.class.getSimpleName(), "Nothing selected");
+            }
+
+            private String getNetworkConfigDescription(int pos) {
+                return inflater.getContext().getResources().getStringArray(R.array.network_technologies_description)[pos];
+            }
+
+            @NonNull
+            private String getNetworkConfigHInt() {
+                return inflater.getContext().getString(R.string.network_configuration_set_label);
             }
         });
     }

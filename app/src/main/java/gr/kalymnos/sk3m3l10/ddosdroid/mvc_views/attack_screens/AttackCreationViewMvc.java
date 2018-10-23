@@ -9,10 +9,12 @@ public interface AttackCreationViewMvc extends ViewMvc {
     }
 
     interface OnSpinnerItemSelectedListener {
-        void onSpinnerItemSelected(String item);
+        void onSpinnerItemSelected(String hint);
     }
 
     String getWebsite();
+
+    void setNetworkConfigHint(String hint);
 
     void setOnAttackCreationButtonClickListener(OnAttackCreationButtonClickListener listener);
 
