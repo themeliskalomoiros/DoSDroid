@@ -33,11 +33,6 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     @Override
-    public String getWebsite() {
-        return websiteEditText.getText().toString();
-    }
-
-    @Override
     public void setWebsiteHint(String hint) {
         websiteHint.setText(hint);
     }
@@ -133,7 +128,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         fab = root.findViewById(R.id.fab);
         fab.setOnClickListener((view -> {
             if (onAttackCreationButtonClickListener != null) {
-                onAttackCreationButtonClickListener.onAttackCreationButtonClicked();
+                onAttackCreationButtonClickListener.onAttackCreationButtonClicked(websiteEditText.getText().toString());
             }
         }));
     }

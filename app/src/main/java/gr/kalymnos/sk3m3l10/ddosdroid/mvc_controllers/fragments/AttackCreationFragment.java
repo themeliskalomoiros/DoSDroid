@@ -21,7 +21,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     private AttackCreationViewMvc viewMvc;
 
     public interface OnAttackCreationButtonClickListener {
-        void onAttackCreationButtonClicked();
+        void onAttackCreationButtonClicked(String website);
     }
 
     private OnAttackCreationButtonClickListener mCallback;
@@ -44,8 +44,8 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onAttackCreationButtonClicked() {
-        mCallback.onAttackCreationButtonClicked();
+    public void onAttackCreationButtonClicked(String website) {
+        mCallback.onAttackCreationButtonClicked(website);
     }
 
     @Override

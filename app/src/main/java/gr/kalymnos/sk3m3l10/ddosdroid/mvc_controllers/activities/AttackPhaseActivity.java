@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ public class AttackPhaseActivity extends AppCompatActivity implements AttackInfo
     }
 
     @Override
-    public void onAttackCreationButtonClicked() {
+    public void onAttackCreationButtonClicked(String website) {
         getSupportFragmentManager().beginTransaction()
                 .replace(viewMvc.getFragmentContainerId(), new AttackInfoFragment())
                 .commit();
