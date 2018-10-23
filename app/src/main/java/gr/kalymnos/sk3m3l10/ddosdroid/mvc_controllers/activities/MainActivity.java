@@ -1,5 +1,6 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onCreateAttackClick() {
-        Toast.makeText(this, "oncreateattack", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,AttackPhaseActivity.class));
     }
 
     @Override
