@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackInfoFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackPhaseViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackPhaseViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackPhaseViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackPhaseViewMvcImpl;
 
 public class AttackPhaseActivity extends AppCompatActivity implements AttackInfoFragment.OnBeginAttackButtonClickListener,
         AttackCreationFragment.OnAttackCreationButtonClickListener {

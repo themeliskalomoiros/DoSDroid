@@ -9,11 +9,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackCreationViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens.AttackCreationViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackCreationViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackCreationViewMvcImpl;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {

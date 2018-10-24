@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_screens;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen;
 
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
