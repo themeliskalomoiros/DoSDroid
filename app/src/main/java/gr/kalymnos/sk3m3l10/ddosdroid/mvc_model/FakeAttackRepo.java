@@ -14,44 +14,26 @@ public class FakeAttackRepo implements AttackRepository {
     private List<DDoSAttack> allAttacks;
     private OnAttacksFetchListener mCallback;
 
+    private Thread fetchAllAttacksThread, fetchFollowingAttacksThread;
+
     public FakeAttackRepo() {
         this.allAttacks = getFakeAttackList(16);
     }
 
     @Override
     public void fetchAllAttacks() {
-        Thread worker = new Thread(() -> {
-            try {
-                Thread.sleep(SLEEP_TIME_MILLIS);
-                if (mCallback != null) {
-                    mCallback.attacksFetchedSuccess(allAttacks);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        worker.start();
+        if (fetchAllAttacksThread == null) {
+            fetchAllAttacksThread = new Thread(getFetchAllAttacksThread());
+            fetchAllAttacksThread.start();
+        }
     }
 
     @Override
     public void fetchFollowingAttakcs(String botId) {
-        Thread worker = new Thread(() -> {
-            try {
-                Thread.sleep(SLEEP_TIME_MILLIS);
-                if (mCallback != null) {
-                    List<DDoSAttack> list = new ArrayList<>();
-                    for (DDoSAttack attack : allAttacks) {
-                        if (attack.getOwner().getId().equals(botId)) {
-                            list.add(attack);
-                        }
-                    }
-                    mCallback.attacksFetchedSuccess(allAttacks);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        worker.start();
+        if (fetchFollowingAttacksThread == null) {
+            fetchFollowingAttacksThread = new Thread(getFetchFollowingAttacksTask(botId));
+            fetchFollowingAttacksThread.start();
+        }
     }
 
     @Override
@@ -61,7 +43,7 @@ public class FakeAttackRepo implements AttackRepository {
 
     @Override
     public void removeOnAttacksFetchListener() {
-        
+
     }
 
     private List<DDoSAttack> getFakeAttackList(int size) {
@@ -90,5 +72,39 @@ public class FakeAttackRepo implements AttackRepository {
         }
 
         return list;
+    }
+
+    private Runnable getFetchAllAttacksThread() {
+        return () -> {
+            try {
+                Thread.sleep(SLEEP_TIME_MILLIS);
+                if (mCallback != null) {
+                    mCallback.attacksFetchedSuccess(allAttacks);
+                }
+            } catch (InterruptedException e) {
+                //  If we are interrupted we just end the thread by returning
+                return;
+            }
+        };
+    }
+
+    private Runnable getFetchFollowingAttacksTask(String botId) {
+        return () -> {
+            try {
+                Thread.sleep(SLEEP_TIME_MILLIS);
+                if (mCallback != null) {
+                    List<DDoSAttack> list = new ArrayList<>();
+                    for (DDoSAttack attack : allAttacks) {
+                        if (attack.getOwner().getId().equals(botId)) {
+                            list.add(attack);
+                        }
+                    }
+                    mCallback.attacksFetchedSuccess(allAttacks);
+                }
+            } catch (InterruptedException e) {
+                //  If we are interrupted we just end the thread by returning
+                return;
+            }
+        };
     }
 }
