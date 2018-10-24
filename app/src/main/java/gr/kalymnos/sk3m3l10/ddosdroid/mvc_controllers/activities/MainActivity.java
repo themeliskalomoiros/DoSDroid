@@ -32,6 +32,6 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onFollowingAttacksClick() {
-        Toast.makeText(this, "onfollowingattacks", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,AttackListActivity.class));
     }
 }
