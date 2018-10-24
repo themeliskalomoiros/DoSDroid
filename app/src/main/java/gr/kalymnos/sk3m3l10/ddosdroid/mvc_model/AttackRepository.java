@@ -14,7 +14,7 @@ public interface AttackRepository {
     interface OnAttacksFetchListener {
         void attacksFetchedSuccess(List<DDoSAttack> attacks);
 
-        void attacksFetchedFail(List<DDoSAttack> attacks);
+        void attacksFetchedFail(String msg);
     }
 
     void fetchAllAttacks();
