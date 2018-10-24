@@ -19,10 +19,14 @@ public class DDoSBot {
         void onLeftAttackFail();
     }
 
-    private String instanceId;
+    private String id;
 
     public DDoSBot(String instanceId) {
-        this.instanceId = instanceId;
+        this.id = instanceId;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void joinAttack(String attackId, OnJoinedAttackListener listener) {
