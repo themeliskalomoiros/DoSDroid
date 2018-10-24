@@ -16,19 +16,18 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public List<DDoSAttack> getAllAttacks() {
-        return allAttacks;
+    public void fetchAllAttacks() {
+
     }
 
     @Override
-    public List<DDoSAttack> getFollowingAttakcs(String botId) {
+    public void fetchFollowingAttakcs(String botId) {
         List<DDoSAttack> list = new ArrayList<>();
         for (DDoSAttack attack : allAttacks) {
             if (attack.getOwner().getId().equals(botId)) {
                 list.add(attack);
             }
         }
-        return list;
     }
 
     private List<DDoSAttack> getFakeAttackList(int size) {

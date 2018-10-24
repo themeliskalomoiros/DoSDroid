@@ -11,8 +11,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 public interface AttackRepository {
 
-    List<DDoSAttack> getAllAttacks();
+    void fetchAllAttacks();
 
-    List<DDoSAttack> getFollowingAttakcs(String botId);
+    void fetchFollowingAttakcs(String botId);
 
 }
