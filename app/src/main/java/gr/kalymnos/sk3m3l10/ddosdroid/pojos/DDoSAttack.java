@@ -11,12 +11,26 @@ public class DDoSAttack {
     private String pushId, targetWebsite;
     private List<DDoSBot> botsList;
     private DDoSBot owner;
+    private boolean isActive;
     private long timeMilli;
 
     public DDoSAttack(String targetWebsite, DDoSBot owner) {
         this.targetWebsite = targetWebsite;
         this.owner = owner;
         this.timeMilli = System.currentTimeMillis();
+    }
+
+    public DDoSAttack(String targetWebsite, List<DDoSBot> botsList, DDoSBot owner, boolean isActive, long timeMilli) {
+        this.targetWebsite = targetWebsite;
+        this.botsList = botsList;
+        this.owner = owner;
+        this.isActive = isActive;
+        this.timeMilli = timeMilli;
+    }
+
+    public DDoSAttack(String pushId, String targetWebsite, List<DDoSBot> botsList, DDoSBot owner, boolean isActive, long timeMilli) {
+        this(targetWebsite, botsList, owner, isActive, timeMilli);
+        this.pushId = pushId;
     }
 
     public int getBotNetCount() {
@@ -40,11 +54,11 @@ public class DDoSAttack {
         throw new UnsupportedOperationException(TAG + "bot list is null or empty");
     }
 
-    public void start(){
+    public void start() {
         // TODO: needs implementation
     }
 
-    public void stop(){
+    public void stop() {
         // TODO: needs implementation
     }
 
@@ -66,5 +80,13 @@ public class DDoSAttack {
 
     public void setPushId(String pushId) {
         this.pushId = pushId;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
