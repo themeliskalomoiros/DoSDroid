@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvc_controllers.activities.AttackPhaseActivity"></activity>
+        <activity android:name=".mvc_controllers.activities.AttackPhaseActivity" />
+        <activity android:name=".mvc_controllers.activities.AttackListActivity"></activity>
     </application>
 
 </manifest>
