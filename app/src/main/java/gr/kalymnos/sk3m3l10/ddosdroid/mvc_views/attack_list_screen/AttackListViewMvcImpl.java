@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
+
+    private AttacksAdapter attacksAdapter;
 
     public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
@@ -67,6 +70,15 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
         root = inflater.inflate(R.layout.screen_attack_list, container, false);
         toolbar = root.findViewById(R.id.toolBar);
         progressBar.findViewById(R.id.progressBar);
+        initializeRecyclerView();
+    }
+
+    private void initializeRecyclerView() {
         recyclerView = root.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
+        attacksAdapter = new AttacksAdapter(root.getContext());
+        recyclerView.setAdapter(attacksAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
     }
 }
