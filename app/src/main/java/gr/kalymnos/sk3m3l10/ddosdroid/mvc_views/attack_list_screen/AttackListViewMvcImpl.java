@@ -28,7 +28,8 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
 
     @Override
     public void bindAttacks(List<DDoSAttack> attacks) {
-
+        attacksAdapter.addAttacks(attacks);
+        attacksAdapter.notifyDataSetChanged();
     }
 
     @Override
