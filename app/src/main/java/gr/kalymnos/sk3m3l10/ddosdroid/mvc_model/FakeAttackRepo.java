@@ -9,7 +9,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
 public class FakeAttackRepo implements AttackRepository {
 
-    List<DDoSAttack> allAttacks;
+    private static final long SLEEP_TIME_MILLIS = 1600;
+
+    private List<DDoSAttack> allAttacks;
+    private OnAttacksFetchListener mCallback;
 
     public FakeAttackRepo() {
         this.allAttacks = getFakeAttackList(16);
@@ -17,17 +20,43 @@ public class FakeAttackRepo implements AttackRepository {
 
     @Override
     public void fetchAllAttacks() {
-
+        Thread worker = new Thread(() -> {
+            try {
+                Thread.sleep(SLEEP_TIME_MILLIS);
+                if (mCallback != null) {
+                    mCallback.attacksFetchedSuccess(allAttacks);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        worker.start();
     }
 
     @Override
     public void fetchFollowingAttakcs(String botId) {
-        List<DDoSAttack> list = new ArrayList<>();
-        for (DDoSAttack attack : allAttacks) {
-            if (attack.getOwner().getId().equals(botId)) {
-                list.add(attack);
+        Thread worker = new Thread(() -> {
+            try {
+                Thread.sleep(SLEEP_TIME_MILLIS);
+                if (mCallback != null) {
+                    List<DDoSAttack> list = new ArrayList<>();
+                    for (DDoSAttack attack : allAttacks) {
+                        if (attack.getOwner().getId().equals(botId)) {
+                            list.add(attack);
+                        }
+                    }
+                    mCallback.attacksFetchedSuccess(allAttacks);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
+        });
+        worker.start();
+    }
+
+    @Override
+    public void setOnAttacksFetchListener(OnAttacksFetchListener listener) {
+        mCallback = listener;
     }
 
     private List<DDoSAttack> getFakeAttackList(int size) {
