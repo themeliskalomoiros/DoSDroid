@@ -21,8 +21,8 @@ public interface AttackRepository {
 
     void fetchFollowingAttakcs(String botId);
 
-    void setOnAttacksFetchListener(OnAttacksFetchListener listener);
+    void registerOnAttacksFetchListener(OnAttacksFetchListener listener);
 
-    void removeOnAttacksFetchListener();
+    void unRegisterOnAttacksFetchListener();
 
 }

@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,6 +11,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
 public class FakeAttackRepo implements AttackRepository {
 
+    private static final String TAG = FakeAttackRepo.class.getSimpleName();
     private static final long SLEEP_TIME_MILLIS = 1600;
 
     private List<DDoSAttack> allAttacks;
@@ -37,12 +40,12 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public void setOnAttacksFetchListener(OnAttacksFetchListener listener) {
+    public void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
         mCallback = listener;
     }
 
     @Override
-    public void removeOnAttacksFetchListener() {
+    public void unRegisterOnAttacksFetchListener() {
         // First remove the listener's strong reference so the GC can collect the latter
         mCallback = null;
         // Cancel workers execution (by interrupting them)
@@ -97,6 +100,7 @@ public class FakeAttackRepo implements AttackRepository {
                 }
             } catch (InterruptedException e) {
                 //  If we are interrupted we just end the thread by returning
+                Log.d(TAG, "fetchAllAttacksThread was interrupted");
                 return;
             }
         };
@@ -117,6 +121,7 @@ public class FakeAttackRepo implements AttackRepository {
                 }
             } catch (InterruptedException e) {
                 //  If we are interrupted we just end the thread by returning
+                Log.d(TAG, "fetchFollowingAttacksThread was interrupted");
                 return;
             }
         };
