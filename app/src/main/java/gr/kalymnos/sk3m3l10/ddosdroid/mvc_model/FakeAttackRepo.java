@@ -43,7 +43,21 @@ public class FakeAttackRepo implements AttackRepository {
 
     @Override
     public void removeOnAttacksFetchListener() {
+        // First remove the listener's strong reference so the GC can collect the latter
+        mCallback = null;
+        // Cancel workers execution (by interrupting them)
+        cancelWorkerThreads();
+    }
 
+    private void cancelWorkerThreads() {
+        if (fetchFollowingAttacksThread != null) {
+            fetchFollowingAttacksThread.interrupt();
+            fetchFollowingAttacksThread = null;
+        }
+        if (fetchFollowingAttacksThread != null) {
+            fetchFollowingAttacksThread.interrupt();
+            fetchFollowingAttacksThread = null;
+        }
     }
 
     private List<DDoSAttack> getFakeAttackList(int size) {
