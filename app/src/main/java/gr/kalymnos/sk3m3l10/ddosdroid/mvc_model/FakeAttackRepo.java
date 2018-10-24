@@ -59,6 +59,11 @@ public class FakeAttackRepo implements AttackRepository {
         mCallback = listener;
     }
 
+    @Override
+    public void removeOnAttacksFetchListener() {
+        
+    }
+
     private List<DDoSAttack> getFakeAttackList(int size) {
         Random random = new Random();
         String websitePrefix = "website";

@@ -23,4 +23,6 @@ public interface AttackRepository {
 
     void setOnAttacksFetchListener(OnAttacksFetchListener listener);
 
+    void removeOnAttacksFetchListener();
+
 }
