@@ -17,37 +17,31 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValid
 
 public class AttackListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener {
 
-    public static final String FETCH_ALL_ATTACKS_KEY = "fetch_all_attacks_key";
-    public static final String FETCH_FOLLOWING_ATTACKS_KEY = "fetch_following_attacks_key";
     private static final String TAG = AttackListActivity.class.getSimpleName();
+
+    public static final String ATTACK_TYPE_KEY = TAG + "attack type key";
+
+    public static final int TYPE_FETCH_ALL = 101;
+    public static final int TYPE_FETCH_FOLLOWING = 102;
+    private static final int TYPE_NONE = -1;
+
 
     private AttackListViewMvc viewMvc;
     private AttackRepository attackRepo;
+    private List<DDoSAttack> cachedAttacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewMvc = new AttackListViewMvcImpl(LayoutInflater.from(this), null);
-        attackRepo = new FakeAttackRepo(this);
+        startFetchingAttacks();
         setContentView(viewMvc.getRootView());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        attackRepo.registerOnAttacksFetchListener(this);
-        viewMvc.showLoadingIndicator();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        attackRepo.unRegisterOnAttacksFetchListener();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        attackRepo.unRegisterOnAttacksFetchListener();
         attackRepo = null;
     }
 
@@ -65,35 +59,31 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
         //  TODO: Display the error somewhere besides the toast
     }
 
-    private static class AttackTypeValidator {
-        private static final String TAG = AttackTypeValidator.class.getSimpleName();
-        private static final int TYPE_FETCH_ALL = 101;
-        private static final int TYPE_FETCH_FOLLOWING = 102;
-        private static final int TYPE_NONE = -1;
+    private void startFetchingAttacks() {
+        initializeAttackRepo();
 
-        private int getAttacksType(Bundle bundle) {
-            if (bundleContainsAllAttacksTypeKeys(bundle)) {
-                throw new UnsupportedOperationException(getContainsAllAttacksTypeKeysErrorMessage());
-            }
-
-            if (bundleIsValidAndContainsKey(bundle, FETCH_ALL_ATTACKS_KEY)) {
-                return bundle.getInt(FETCH_ALL_ATTACKS_KEY);
-            } else if (bundleIsValidAndContainsKey(bundle, FETCH_FOLLOWING_ATTACKS_KEY)) {
-                return bundle.getInt(FETCH_FOLLOWING_ATTACKS_KEY);
-            }
-
-            return TYPE_NONE;
+        int attacksType = getAttacksType(getIntent().getExtras());
+        if (attacksType == TYPE_FETCH_ALL) {
+            attackRepo.fetchAllAttacks();
+        } else if (attacksType == TYPE_FETCH_FOLLOWING) {
+            //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
+//            String userId = DDoSBot.getLocalUserDDoSBot().getId();
+            attackRepo.fetchFollowingAttakcs("bot3");
+        } else {
+            throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
         }
+        viewMvc.showLoadingIndicator();
+    }
 
-        private boolean bundleContainsAllAttacksTypeKeys(Bundle bundle) {
-            return bundleIsValidAndContainsKey(bundle, FETCH_ALL_ATTACKS_KEY)
-                    && bundleIsValidAndContainsKey(bundle, FETCH_FOLLOWING_ATTACKS_KEY);
-        }
+    private void initializeAttackRepo() {
+        attackRepo = new FakeAttackRepo(this);
+        attackRepo.registerOnAttacksFetchListener(this);
+    }
 
-        private String getContainsAllAttacksTypeKeysErrorMessage() {
-            return TAG + ": " + AttackListActivity.TAG
-                    + "'s bundle must not contain all the attacks type keys. Only one to choose " +
-                    "which type of the attack it should display";
+    private int getAttacksType(Bundle bundle) {
+        if (bundleIsValidAndContainsKey(bundle, ATTACK_TYPE_KEY)) {
+            return bundle.getInt(ATTACK_TYPE_KEY);
         }
+        return TYPE_NONE;
     }
 }

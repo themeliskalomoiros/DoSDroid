@@ -22,7 +22,7 @@ public class FakeAttackRepo implements AttackRepository {
     private Thread fetchAllAttacksThread, fetchFollowingAttacksThread;
 
     public FakeAttackRepo(Activity controller) {
-        this.allAttacks = getFakeAttackList(16);
+        this.allAttacks = getRandomFakeAttackList(16);
         this.controller = controller;
     }
 
@@ -66,7 +66,7 @@ public class FakeAttackRepo implements AttackRepository {
         }
     }
 
-    private List<DDoSAttack> getFakeAttackList(int size) {
+    private List<DDoSAttack> getRandomFakeAttackList(int size) {
         Random random = new Random();
         String websitePrefix = "website";
         String websiteSuffix = ".com";
@@ -74,17 +74,17 @@ public class FakeAttackRepo implements AttackRepository {
         List<DDoSAttack> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             list.add(new DDoSAttack(websitePrefix + i + websiteSuffix,
-                    getFakeBotnet(random.nextInt(7) + 3),
-                    getFakeBotnet(7).get(3),
+                    getRandomFakeBotnet(random.nextInt(7) + 3),
+                    new DDoSBot("bot"+(random.nextInt(3)+1)),
                     i % 2 == 0 ? true : false, System.currentTimeMillis()));
         }
 
         return list;
     }
 
-    private List<DDoSBot> getFakeBotnet(int size) {
+    private List<DDoSBot> getRandomFakeBotnet(int size) {
         Random random = new Random();
-        String prefix = "botnet";
+        String prefix = "bot";
 
         List<DDoSBot> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
