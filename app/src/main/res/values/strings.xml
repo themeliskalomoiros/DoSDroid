@@ -26,6 +26,7 @@
     <string name="target_set_to_label">Target set to</string>
     <string name="stop_attack_label">Stop the attack</string>
     <string name="people_who_follow_attack_label">People who follow this attack:</string>
+    <string name="swords_content_description">Swords icon</string>
     <string-array name="network_technologies">
         <item>WiFi</item>
         <item>WiFi P2P</item>
