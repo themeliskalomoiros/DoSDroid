@@ -84,11 +84,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 //            String userId = DDoSBot.getLocalUserDDoSBot().getId();
             DDoSAttack attack = attackList.get(position);
 
-            if (attack.getOwner().getId().equals("bot3"))
-                return ITEM_VIEW_TYPE_ATTACK_OWNER;
-
             if (attack.botBelongsToBotnet("bot3"))
                 return ITEM_VIEW_TYPE_ATTACK_FOLLOWER;
+
+            if (attack.getOwner().getId().equals("bot3")) {
+                return ITEM_VIEW_TYPE_ATTACK_OWNER;
+            }
 
             return ITEM_VIEW_TYPE_ATTACK;
         }

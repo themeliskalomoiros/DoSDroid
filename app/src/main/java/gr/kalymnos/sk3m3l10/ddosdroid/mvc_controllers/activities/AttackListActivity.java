@@ -29,6 +29,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
 
     public static final int TYPE_FETCH_ALL = 101;
     public static final int TYPE_FETCH_FOLLOWING = 102;
+    public static final int TYPE_FETCH_OWNER = 103;
     private static final int TYPE_NONE = -1;
 
 
@@ -102,6 +103,8 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
             //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
 //            String userId = DDoSBot.getLocalUserDDoSBot().getId();
             attackRepo.fetchFollowingAttakcs("bot3");
+        } else if (attacksType == TYPE_FETCH_OWNER) {
+            attackRepo.fetchAllAttacks();
         } else {
             throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
         }
