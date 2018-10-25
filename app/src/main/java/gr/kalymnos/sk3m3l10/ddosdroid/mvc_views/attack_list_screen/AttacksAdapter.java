@@ -27,6 +27,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private Context context;
     private List<DDoSAttack> attackList;
 
+    private AttackListViewMvc.OnAttackItemClickListener itemClickListener;
+
     public AttacksAdapter(Context context) {
         this.context = context;
     }
@@ -93,6 +95,10 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         throw new UnsupportedOperationException(TAG + ": attackList is null or has no items");
     }
 
+    public void setOnItemClickListener(AttackListViewMvc.OnAttackItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
     class AttackHolder extends RecyclerView.ViewHolder {
 
         private TextView tvWebsite, tvFollowers;
@@ -103,6 +109,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
 
         private void initializeViews(@NonNull View itemView) {
+            itemView.setOnClickListener((view) -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onAttackItemClick(getAdapterPosition());
+                }
+            });
             tvWebsite = itemView.findViewById(R.id.tv_website);
             tvFollowers = itemView.findViewById(R.id.tv_followers);
         }

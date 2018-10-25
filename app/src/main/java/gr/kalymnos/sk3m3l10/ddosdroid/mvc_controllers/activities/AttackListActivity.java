@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
-public class AttackListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener {
+public class AttackListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener,
+        AttackListViewMvc.OnAttackItemClickListener {
 
     private static final String TAG = AttackListActivity.class.getSimpleName();
 
@@ -86,6 +88,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
 
     private void initializeViewMvc() {
         viewMvc = new AttackListViewMvcImpl(LayoutInflater.from(this), null);
+        viewMvc.setOnAttackItemClickListener(this);
         setSupportActionBar(viewMvc.getToolbar());
     }
 
@@ -128,5 +131,10 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
             attackRepo.unRegisterOnAttacksFetchListener();
             attackRepo = null;
         }
+    }
+
+    @Override
+    public void onAttackItemClick(int position) {
+        Toast.makeText(this, cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
     }
 }
