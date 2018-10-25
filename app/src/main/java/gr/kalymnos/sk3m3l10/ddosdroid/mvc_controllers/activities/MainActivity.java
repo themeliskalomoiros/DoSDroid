@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
         super.onCreate(savedInstanceState);
         viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
         viewMvc.setOnOptionClickListener(this);
+        setSupportActionBar(viewMvc.getToolbar());
         setContentView(viewMvc.getRootView());
     }
 

@@ -34,6 +34,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewMvc = new AttackListViewMvcImpl(LayoutInflater.from(this), null);
+        setSupportActionBar(viewMvc.getToolbar());
         startFetchingAttacks();
         setContentView(viewMvc.getRootView());
     }
