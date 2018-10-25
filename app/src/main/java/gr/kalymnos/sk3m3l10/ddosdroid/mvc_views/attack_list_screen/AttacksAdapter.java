@@ -32,7 +32,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @NonNull
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_owner, parent, false);
         return new AttackHolder(itemView);
     }
 

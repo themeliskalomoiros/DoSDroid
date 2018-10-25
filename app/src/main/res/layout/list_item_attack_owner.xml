@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/half_default_margin"
-    android:padding="2dp">
+    android:padding="2dp"
+    android:background="@color/primaryColor">
 
     <TextView
         android:id="@+id/tv_website"
@@ -30,6 +31,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:textSize="@dimen/list_item_subtitle_text_size"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_website"
         app:layout_constraintHorizontal_bias="0.0"
