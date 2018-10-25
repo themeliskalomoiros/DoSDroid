@@ -43,6 +43,11 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
+    public void fetchOwnerAttacks() {
+        fetchAllAttacks();
+    }
+
+    @Override
     public void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
         mCallback = listener;
     }
