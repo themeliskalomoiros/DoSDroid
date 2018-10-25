@@ -3,7 +3,6 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewMvc = new AttackListViewMvcImpl(LayoutInflater.from(this), null);
-        attackRepo = new FakeAttackRepo();
+        attackRepo = new FakeAttackRepo(this);
         setContentView(viewMvc.getRootView());
     }
 
@@ -31,6 +30,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
         super.onStart();
         attackRepo.registerOnAttacksFetchListener(this);
         attackRepo.fetchAllAttacks();
+        viewMvc.showLoadingIndicator();
     }
 
     @Override
@@ -45,11 +45,13 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
         attackRepo = null;
     }
 
+
     @Override
     public void attacksFetchedSuccess(List<DDoSAttack> attacks) {
         //  This method was called from a worker thread and as we know
         //  the ui must always be updated through the main (UI) thread
-        runOnUiThread(() -> viewMvc.bindAttacks(attacks));
+        viewMvc.hideLoadingIndicator();
+        viewMvc.bindAttacks(attacks);
     }
 
     @Override
