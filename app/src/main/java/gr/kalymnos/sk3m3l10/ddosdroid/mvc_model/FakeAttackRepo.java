@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,15 +13,17 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 public class FakeAttackRepo implements AttackRepository {
 
     private static final String TAG = FakeAttackRepo.class.getSimpleName();
-    private static final long SLEEP_TIME_MILLIS = 1600;
+    private static final long SLEEP_TIME_MILLIS = 5600;
 
+    private Activity controller;
     private List<DDoSAttack> allAttacks;
     private OnAttacksFetchListener mCallback;
 
     private Thread fetchAllAttacksThread, fetchFollowingAttacksThread;
 
-    public FakeAttackRepo() {
+    public FakeAttackRepo(Activity controller) {
         this.allAttacks = getFakeAttackList(16);
+        this.controller = controller;
     }
 
     @Override
@@ -53,9 +56,9 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     private void cancelWorkerThreads() {
-        if (fetchFollowingAttacksThread != null) {
-            fetchFollowingAttacksThread.interrupt();
-            fetchFollowingAttacksThread = null;
+        if (fetchAllAttacksThread != null) {
+            fetchAllAttacksThread.interrupt();
+            fetchAllAttacksThread = null;
         }
         if (fetchFollowingAttacksThread != null) {
             fetchFollowingAttacksThread.interrupt();
@@ -96,7 +99,7 @@ public class FakeAttackRepo implements AttackRepository {
             try {
                 Thread.sleep(SLEEP_TIME_MILLIS);
                 if (mCallback != null) {
-                    mCallback.attacksFetchedSuccess(allAttacks);
+                    controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(allAttacks));
                 }
             } catch (InterruptedException e) {
                 //  If we are interrupted we just end the thread by returning
@@ -117,7 +120,7 @@ public class FakeAttackRepo implements AttackRepository {
                             list.add(attack);
                         }
                     }
-                    mCallback.attacksFetchedSuccess(allAttacks);
+                    controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(allAttacks));
                 }
             } catch (InterruptedException e) {
                 //  If we are interrupted we just end the thread by returning
