@@ -13,7 +13,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 public class FakeAttackRepo implements AttackRepository {
 
     private static final String TAG = FakeAttackRepo.class.getSimpleName();
-    private static final long SLEEP_TIME_MILLIS = 5600;
+    private static final long SLEEP_TIME_MILLIS = 1000;
 
     private Activity controller;
     private List<DDoSAttack> allAttacks;
@@ -114,13 +114,13 @@ public class FakeAttackRepo implements AttackRepository {
             try {
                 Thread.sleep(SLEEP_TIME_MILLIS);
                 if (mCallback != null) {
-                    List<DDoSAttack> list = new ArrayList<>();
+                    List<DDoSAttack> followingAttacks = new ArrayList<>();
                     for (DDoSAttack attack : allAttacks) {
                         if (attack.getOwner().getId().equals(botId)) {
-                            list.add(attack);
+                            followingAttacks.add(attack);
                         }
                     }
-                    controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(allAttacks));
+                    controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(followingAttacks));
                 }
             } catch (InterruptedException e) {
                 //  If we are interrupted we just end the thread by returning

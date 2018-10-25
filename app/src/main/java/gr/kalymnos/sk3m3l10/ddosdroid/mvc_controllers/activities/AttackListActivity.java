@@ -11,6 +11,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
 public class AttackListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener {
 
@@ -29,7 +30,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     protected void onStart() {
         super.onStart();
         attackRepo.registerOnAttacksFetchListener(this);
-        attackRepo.fetchAllAttacks();
+        attackRepo.fetchFollowingAttakcs(DDoSBot.getLocalUserDDoSBot().getId());
         viewMvc.showLoadingIndicator();
     }
 
