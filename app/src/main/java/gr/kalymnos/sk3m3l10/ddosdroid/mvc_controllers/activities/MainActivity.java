@@ -5,24 +5,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.widget.Toast;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvcImpl;
 
-public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener{
+public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener {
 
     private MainScreenViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this),null);
+        viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
         viewMvc.setOnOptionClickListener(this);
         setContentView(viewMvc.getRootView());
     }
 
     @Override
     public void onCreateAttackClick() {
-        startActivity(new Intent(this,AttackPhaseActivity.class));
+        startActivity(new Intent(this, AttackPhaseActivity.class));
     }
 
     @Override
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onFollowingAttacksClick() {
-        startActivity(new Intent(this,AttackListActivity.class));
+        Bundle extras = new Bundle();
+        extras.putInt(AttackListActivity.ATTACK_TYPE_KEY, AttackListActivity.TYPE_FETCH_FOLLOWING);
+        Intent intent = new Intent(this, AttackListActivity.class);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 }
