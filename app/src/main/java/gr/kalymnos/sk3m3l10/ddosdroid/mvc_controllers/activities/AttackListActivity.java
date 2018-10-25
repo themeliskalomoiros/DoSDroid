@@ -13,7 +13,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListVie
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
+
 public class AttackListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener {
+
+    public static final String FETCH_ALL_ATTACKS_KEY = "fetch_all_attacks_key";
+    public static final String FETCH_FOLLOWING_ATTACKS_KEY = "fetch_following_attacks_key";
+    private static final String TAG = AttackListActivity.class.getSimpleName();
 
     private AttackListViewMvc viewMvc;
     private AttackRepository attackRepo;
@@ -30,7 +36,6 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     protected void onStart() {
         super.onStart();
         attackRepo.registerOnAttacksFetchListener(this);
-        attackRepo.fetchFollowingAttakcs(DDoSBot.getLocalUserDDoSBot().getId());
         viewMvc.showLoadingIndicator();
     }
 
@@ -58,5 +63,37 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     @Override
     public void attacksFetchedFail(String msg) {
         //  TODO: Display the error somewhere besides the toast
+    }
+
+    private static class AttackTypeValidator {
+        private static final String TAG = AttackTypeValidator.class.getSimpleName();
+        private static final int TYPE_FETCH_ALL = 101;
+        private static final int TYPE_FETCH_FOLLOWING = 102;
+        private static final int TYPE_NONE = -1;
+
+        private int getAttacksType(Bundle bundle) {
+            if (bundleContainsAllAttacksTypeKeys(bundle)) {
+                throw new UnsupportedOperationException(getContainsAllAttacksTypeKeysErrorMessage());
+            }
+
+            if (bundleIsValidAndContainsKey(bundle, FETCH_ALL_ATTACKS_KEY)) {
+                return bundle.getInt(FETCH_ALL_ATTACKS_KEY);
+            } else if (bundleIsValidAndContainsKey(bundle, FETCH_FOLLOWING_ATTACKS_KEY)) {
+                return bundle.getInt(FETCH_FOLLOWING_ATTACKS_KEY);
+            }
+
+            return TYPE_NONE;
+        }
+
+        private boolean bundleContainsAllAttacksTypeKeys(Bundle bundle) {
+            return bundleIsValidAndContainsKey(bundle, FETCH_ALL_ATTACKS_KEY)
+                    && bundleIsValidAndContainsKey(bundle, FETCH_FOLLOWING_ATTACKS_KEY);
+        }
+
+        private String getContainsAllAttacksTypeKeysErrorMessage() {
+            return TAG + ": " + AttackListActivity.TAG
+                    + "'s bundle must not contain all the attacks type keys. Only one to choose " +
+                    "which type of the attack it should display";
+        }
     }
 }
