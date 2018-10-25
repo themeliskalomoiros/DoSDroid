@@ -2,6 +2,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 
 import java.util.List;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
+
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public class DDoSAttack {
@@ -88,5 +90,16 @@ public class DDoSAttack {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean botBelongsToBotnet(String otherBotId) {
+        if (ValidationUtils.listHasItems(botsList)) {
+            for (DDoSBot bot : botsList) {
+                if (bot.getId().equals(otherBotId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
