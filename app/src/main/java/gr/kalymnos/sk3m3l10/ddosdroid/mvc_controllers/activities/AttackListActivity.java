@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 
 import java.util.List;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
@@ -52,6 +52,8 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
         //  This method was called from a worker thread and as we know
         //  the ui must always be updated through the main (UI) thread
         viewMvc.hideLoadingIndicator();
+        viewMvc.bindToolbarSubtitle(getString(R.string.attack_list_toolbar_subtitle_prefix) + " "
+                + attacks.size() + " " + getString(R.string.items_label) + ".");
         viewMvc.bindAttacks(attacks);
     }
 
