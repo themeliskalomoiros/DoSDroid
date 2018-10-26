@@ -1,26 +1,20 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen;
 
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
-public class AttacksListViewMvcImpl implements AttacksListViewMvc {
+public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     private View root;
     private Toolbar toolbar;
     private ViewPager viewPager;
 
-    public AttacksListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
     }
 
@@ -45,7 +39,7 @@ public class AttacksListViewMvcImpl implements AttacksListViewMvc {
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_attack_list, container, false);
+        root = inflater.inflate(R.layout.screen_attack_lists, container, false);
         toolbar = root.findViewById(R.id.toolBar);
         viewPager=root.findViewById(R.id.viewPager);
     }

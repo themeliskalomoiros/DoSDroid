@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvc_controllers.activities.AttackPhaseActivity" />
-        <activity android:name=".mvc_controllers.activities.AttacksListActivity"></activity>
+        <activity android:name=".mvc_controllers.activities.AllAttackListsActivity"></activity>
     </application>
 
 </manifest>

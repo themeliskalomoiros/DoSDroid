@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -27,7 +27,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private Context context;
     private List<DDoSAttack> attackList;
 
-    private AttacksListViewMvc.OnAttackItemClickListener itemClickListener;
+    private AllAttackListsViewMvc.OnAttackItemClickListener itemClickListener;
 
     public AttacksAdapter(Context context) {
         this.context = context;
@@ -96,7 +96,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         throw new UnsupportedOperationException(TAG + ": attackList is null or has no items");
     }
 
-    public void setOnItemClickListener(AttacksListViewMvc.OnAttackItemClickListener listener) {
+    public void setOnItemClickListener(AllAttackListsViewMvc.OnAttackItemClickListener listener) {
         itemClickListener = listener;
     }
 
