@@ -19,7 +19,7 @@ public class AllAttackListsActivity extends AppCompatActivity{
     }
 
     private void initializeViewMvc() {
-        viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null);
+        viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null,getSupportFragmentManager());
         setSupportActionBar(viewMvc.getToolbar());
     }
 }

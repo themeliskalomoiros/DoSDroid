@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,8 +15,8 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private Toolbar toolbar;
     private ViewPager viewPager;
 
-    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
-        initializeViews(inflater, container);
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
+        initializeViews(inflater, container,fragmentManager);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
         return root;
     }
 
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+    private void initializeViews(LayoutInflater inflater, ViewGroup container,FragmentManager fragmentManager) {
         root = inflater.inflate(R.layout.screen_attack_lists, container, false);
         toolbar = root.findViewById(R.id.toolBar);
         viewPager=root.findViewById(R.id.viewPager);
