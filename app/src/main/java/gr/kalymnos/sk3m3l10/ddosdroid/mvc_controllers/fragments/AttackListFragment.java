@@ -31,9 +31,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 public class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackRepository.OnAttacksFetchListener {
 
-    private static final String TAG = AttackListFragment.class.getSimpleName();
+    protected static final String TAG = AttackListFragment.class.getSimpleName();
     private AttackListViewMvc viewMvc;
-    private AttackRepository attackRepo;
+    protected AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
 
     public static Fragment getInstance(int attacksType) {
@@ -104,7 +104,7 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
         viewMvc.setOnAttackItemClickListener(this);
     }
 
-    private void startFetchingAttacks() {
+    protected void startFetchingAttacks() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
                 attackRepo.fetchAllAttacks();
@@ -127,7 +127,7 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
         attackRepo.registerOnAttacksFetchListener(this);
     }
 
-    private int getAttacksType(Bundle bundle) {
+    protected int getAttacksType(Bundle bundle) {
         if (bundleIsValidAndContainsKey(bundle, ATTACK_TYPE_KEY)) {
             return bundle.getInt(ATTACK_TYPE_KEY);
         }
