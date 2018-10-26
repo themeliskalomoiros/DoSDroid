@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,29 +18,10 @@ public class AttacksListViewMvcImpl implements AttacksListViewMvc {
 
     private View root;
     private Toolbar toolbar;
-    private ProgressBar progressBar;
-    private RecyclerView recyclerView;
-
-    private AttacksAdapter attacksAdapter;
+    private ViewPager viewPager;
 
     public AttacksListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
-    }
-
-    @Override
-    public void bindAttacks(List<DDoSAttack> attacks) {
-        attacksAdapter.addAttacks(attacks);
-        attacksAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showLoadingIndicator() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoadingIndicator() {
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -50,13 +32,6 @@ public class AttacksListViewMvcImpl implements AttacksListViewMvc {
     @Override
     public void bindToolbarTitle(String title) {
         toolbar.setTitle(title);
-    }
-
-    @Override
-    public void setOnAttackItemClickListener(OnAttackItemClickListener listener) {
-        if (attacksAdapter!=null){
-            attacksAdapter.setOnItemClickListener(listener);
-        }
     }
 
     @Override
@@ -72,16 +47,8 @@ public class AttacksListViewMvcImpl implements AttacksListViewMvc {
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_attack_list, container, false);
         toolbar = root.findViewById(R.id.toolBar);
-        progressBar = root.findViewById(R.id.progressBar);
-        initializeRecyclerView();
+        viewPager=root.findViewById(R.id.viewPager);
     }
 
-    private void initializeRecyclerView() {
-        recyclerView = root.findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
-        attacksAdapter = new AttacksAdapter(root.getContext());
-        recyclerView.setAdapter(attacksAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-    }
+
 }
