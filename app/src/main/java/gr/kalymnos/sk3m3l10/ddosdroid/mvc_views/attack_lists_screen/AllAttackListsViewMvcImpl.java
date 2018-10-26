@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackListFragment;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment;
 
 public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
