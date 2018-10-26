@@ -34,7 +34,7 @@ public class FakeAttackRepo implements AttackRepository {
     @Override
     public void fetchAllAttacks() {
         if (fetchAllAttacksThread == null) {
-            fetchAllAttacksThread = new Thread(getFetchAllAttacksThread());
+            fetchAllAttacksThread = new Thread(getFetchAllAttacksTask());
             fetchAllAttacksThread.start();
         }
     }
@@ -122,9 +122,10 @@ public class FakeAttackRepo implements AttackRepository {
         return list;
     }
 
-    private Runnable getFetchAllAttacksThread() {
+    private Runnable getFetchAllAttacksTask() {
         return () -> {
             try {
+                Log.d(TAG,"FetchAllAttacksThread says Hello!!!");
                 Thread.sleep(SLEEP_TIME_MILLIS);
                 if (mCallback != null) {
                     controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(allAttacks));
@@ -140,6 +141,7 @@ public class FakeAttackRepo implements AttackRepository {
     private Runnable getFetchFollowingAttacksTask(String botId) {
         return () -> {
             try {
+                Log.d(TAG,"FetchFollowingAttacksThread says Hello!!!");
                 Thread.sleep(SLEEP_TIME_MILLIS);
                 if (mCallback != null) {
                     List<DDoSAttack> followingAttacks = new ArrayList<>();

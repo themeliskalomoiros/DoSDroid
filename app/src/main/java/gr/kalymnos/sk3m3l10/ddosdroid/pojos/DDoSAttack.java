@@ -22,7 +22,6 @@ public class DDoSAttack implements Parcelable {
     }
 
     public interface NetworkType {
-        String NETWORK_TYPE_KEY = TAG + "network_type_key";
         int INTERNET = 0;
         int WIFI_P2P = 1;
         int NSD = 2;
