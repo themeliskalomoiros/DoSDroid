@@ -34,10 +34,6 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onFollowingAttacksClick() {
-        Bundle extras = new Bundle();
-        extras.putInt(AttacksListActivity.ATTACK_TYPE_KEY, AttacksListActivity.TYPE_FETCH_FOLLOWING);
-        Intent intent = new Intent(this, AttacksListActivity.class);
-        intent.putExtras(extras);
-        startActivity(intent);
+        startActivity(new Intent(this, AttacksListActivity.class));
     }
 }

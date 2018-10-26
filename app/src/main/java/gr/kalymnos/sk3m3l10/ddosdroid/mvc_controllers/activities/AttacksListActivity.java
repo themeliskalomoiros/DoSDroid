@@ -19,125 +19,19 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
-public class AttacksListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener,
-        AttacksListViewMvc.OnAttackItemClickListener {
-
-    private static final String TAG = AttacksListActivity.class.getSimpleName();
-
-    public static final String ATTACK_TYPE_KEY = TAG + "attack type key";
-    public static final String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
-
-    public static final int TYPE_FETCH_ALL = 101;
-    public static final int TYPE_FETCH_FOLLOWING = 102;
-    public static final int TYPE_FETCH_OWNER = 103;
-    private static final int TYPE_NONE = -1;
-
+public class AttacksListActivity extends AppCompatActivity{
 
     private AttacksListViewMvc viewMvc;
-    private AttackRepository attackRepo;
-    private List<DDoSAttack> cachedAttacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeViewMvc();
-        if (cachedAttacksExist(savedInstanceState)) {
-            drawListAndSubtitle(cachedAttacks);
-        } else {
-            startFetchingAttacks();
-        }
         setContentView(viewMvc.getRootView());
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (listHasItems(cachedAttacks)) {
-            outState.putParcelableArrayList(CACHED_ATTACKS_KEY, (ArrayList<? extends Parcelable>) cachedAttacks);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        clearFetchingAttacksListener();
-    }
-
-
-    @Override
-    public void attacksFetchedSuccess(List<DDoSAttack> attacks) {
-        cachedAttacks = attacks;
-        viewMvc.hideLoadingIndicator();
-        drawListAndSubtitle(attacks);
-    }
-
-    @Override
-    public void attacksFetchedFail(String msg) {
-        //  TODO: Display the error somewhere besides the toast
-    }
-
-    private boolean cachedAttacksExist(Bundle savedInstanceState) {
-        if (bundleIsValidAndContainsKey(savedInstanceState, CACHED_ATTACKS_KEY)) {
-            List<DDoSAttack> temp = savedInstanceState.getParcelableArrayList(CACHED_ATTACKS_KEY);
-            if (listHasItems(temp)) {
-                cachedAttacks = temp;
-                return true;
-            }
-        }
-        return false;
     }
 
     private void initializeViewMvc() {
         viewMvc = new AttacksListViewMvcImpl(LayoutInflater.from(this), null);
-        viewMvc.setOnAttackItemClickListener(this);
         setSupportActionBar(viewMvc.getToolbar());
-    }
-
-    private void startFetchingAttacks() {
-        initializeAttackRepo();
-
-        int attacksType = getAttacksType(getIntent().getExtras());
-        if (attacksType == TYPE_FETCH_ALL) {
-            attackRepo.fetchAllAttacks();
-        } else if (attacksType == TYPE_FETCH_FOLLOWING) {
-            //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-//            String userId = DDoSBot.getLocalUserDDoSBot().getId();
-            attackRepo.fetchFollowingAttakcs("bot3");
-        } else if (attacksType == TYPE_FETCH_OWNER) {
-            attackRepo.fetchAllAttacks();
-        } else {
-            throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
-        }
-        viewMvc.showLoadingIndicator();
-    }
-
-    private void initializeAttackRepo() {
-        attackRepo = new FakeAttackRepo(this);
-        attackRepo.registerOnAttacksFetchListener(this);
-    }
-
-    private void drawListAndSubtitle(List<DDoSAttack> cachedAttacks) {
-        viewMvc.bindToolbarSubtitle(getString(R.string.attack_list_toolbar_subtitle_prefix) + " "
-                + cachedAttacks.size() + " " + getString(R.string.items_label) + ".");
-        viewMvc.bindAttacks(cachedAttacks);
-    }
-
-    private int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, ATTACK_TYPE_KEY)) {
-            return bundle.getInt(ATTACK_TYPE_KEY);
-        }
-        return TYPE_NONE;
-    }
-
-    private void clearFetchingAttacksListener() {
-        if (attackRepo != null) {
-            attackRepo.unRegisterOnAttacksFetchListener();
-            attackRepo = null;
-        }
-    }
-
-    @Override
-    public void onAttackItemClick(int position) {
-        Toast.makeText(this, cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
     }
 }
