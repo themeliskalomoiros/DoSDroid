@@ -19,13 +19,15 @@ public interface AttackRepository {
 
     void fetchAllAttacks();
 
+    void fetchAllAttacks(int networkType);
+
     void fetchFollowingAttakcs(String botId);
 
-    void fetchFollowingAttakcs(String botId, String networkType);
+    void fetchFollowingAttakcs(String botId, int networkType);
 
     void fetchOwnerAttacks();
 
-    void fetchOwnerAttacks(String networkType);
+    void fetchOwnerAttacks(int networkType);
 
     void registerOnAttacksFetchListener(OnAttacksFetchListener listener);
 

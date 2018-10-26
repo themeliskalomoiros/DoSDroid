@@ -40,6 +40,11 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
+    public void fetchAllAttacks(int networkType) {
+        fetchAllAttacks();
+    }
+
+    @Override
     public void fetchFollowingAttakcs(String botId) {
         if (fetchFollowingAttacksThread == null) {
             fetchFollowingAttacksThread = new Thread(getFetchFollowingAttacksTask(botId));
@@ -48,7 +53,7 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public void fetchFollowingAttakcs(String botId, String networkType) {
+    public void fetchFollowingAttakcs(String botId, int networkType) {
         fetchFollowingAttakcs(botId);
     }
 
@@ -58,8 +63,8 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public void fetchOwnerAttacks(String networkType) {
-        fetchAllAttacks();
+    public void fetchOwnerAttacks(int networkType) {
+        fetchOwnerAttacks();
     }
 
     @Override
