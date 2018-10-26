@@ -10,6 +10,11 @@ import java.util.Random;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.BLUETOOTH;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.INTERNET;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.NSD;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.WIFI_P2P;
+
 public class FakeAttackRepo implements AttackRepository {
 
     private static final String TAG = FakeAttackRepo.class.getSimpleName();
@@ -43,7 +48,17 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
+    public void fetchFollowingAttakcs(String botId, String networkType) {
+        fetchFollowingAttakcs(botId);
+    }
+
+    @Override
     public void fetchOwnerAttacks() {
+        fetchAllAttacks();
+    }
+
+    @Override
+    public void fetchOwnerAttacks(String networkType) {
         fetchAllAttacks();
     }
 
@@ -76,11 +91,14 @@ public class FakeAttackRepo implements AttackRepository {
         String websitePrefix = "website";
         String websiteSuffix = ".com";
 
+        int[] networkTypes = {INTERNET, WIFI_P2P, NSD, BLUETOOTH};
+
         List<DDoSAttack> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             list.add(new DDoSAttack(websitePrefix + i + websiteSuffix,
+                    networkTypes[random.nextInt(networkTypes.length)],
+                    new DDoSBot("bot" + (random.nextInt(3) + 1)),
                     getRandomFakeBotnet(random.nextInt(7) + 3),
-                    new DDoSBot("bot"+(random.nextInt(3)+1)),
                     i % 2 == 0 ? true : false, System.currentTimeMillis()));
         }
 
