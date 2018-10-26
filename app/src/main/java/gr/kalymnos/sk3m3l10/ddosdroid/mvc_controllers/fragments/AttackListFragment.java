@@ -36,6 +36,14 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
     private AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
 
+    public static Fragment getInstance(int attacksType) {
+        Bundle args = new Bundle();
+        args.putInt(ATTACK_TYPE_KEY, attacksType);
+        Fragment instance = new AttackListFragment();
+        instance.setArguments(args);
+        return instance;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
