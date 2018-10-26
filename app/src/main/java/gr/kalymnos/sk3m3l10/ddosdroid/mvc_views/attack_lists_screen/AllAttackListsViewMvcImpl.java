@@ -48,7 +48,7 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
-        root = inflater.inflate(R.layout.screen_attack_lists, container, false);
+        root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
         toolbar = root.findViewById(R.id.toolBar);
         initializeViewPager(fragmentManager);
     }
