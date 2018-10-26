@@ -29,7 +29,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     private AttackListViewMvc.OnAttackItemClickListener itemClickListener;
 
-    public AttacksAdapter(Context context) {
+    AttacksAdapter(Context context) {
         this.context = context;
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
-class AttackListViewMvcImpl implements AttackListViewMvc {
+public class AttackListViewMvcImpl implements AttackListViewMvc {
 
     private View root;
     private ProgressBar progressBar;
@@ -20,7 +20,7 @@ class AttackListViewMvcImpl implements AttackListViewMvc {
 
     private AttacksAdapter attacksAdapter;
 
-    AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+    public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
     }
 
