@@ -29,14 +29,14 @@
     <string name="swords_content_description">Swords icon</string>
     <string name="attack_list_toolbar_subtitle_prefix">Total count:</string>
     <string name="items_label">items</string>
-    <string-array name="network_technologies">
-        <item>WiFi</item>
+    <string-array name="network_technologies_titles">
+        <item>Internet</item>
         <item>WiFi P2P</item>
         <item>NSD</item>
         <item>Bluetooth</item>
     </string-array>
     <string-array name="network_technologies_description">
-        <item>Wireless local area networking.</item>
+        <item>Use the internet as your network.</item>
         <item>WiFi peer to peer.</item>
         <item>Network Service Discovery.</item>
         <item>Bluetooth wireless technology.</item>
