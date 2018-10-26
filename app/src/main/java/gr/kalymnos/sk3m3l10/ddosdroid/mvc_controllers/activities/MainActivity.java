@@ -8,7 +8,8 @@ import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_FOLLOWING;
 
 public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener {
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
     @Override
     public void onFollowingAttacksClick() {
         Bundle extras = new Bundle();
-        extras.putInt(DDoSAttack.ATTACK_TYPE_KEY, DDoSAttack.TYPE_FETCH_FOLLOWING);
+        extras.putInt(ATTACK_TYPE_KEY, TYPE_FETCH_FOLLOWING);
         Intent intent = new Intent(this, AllAttackListsActivity.class);
         intent.putExtras(extras);
         startActivity(intent);

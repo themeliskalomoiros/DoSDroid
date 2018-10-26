@@ -11,6 +11,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 public interface AttackRepository {
 
+
+
     interface OnAttacksFetchListener {
         void attacksFetchedSuccess(List<DDoSAttack> attacks);
 

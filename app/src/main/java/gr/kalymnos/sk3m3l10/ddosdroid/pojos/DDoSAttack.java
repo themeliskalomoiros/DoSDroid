@@ -12,12 +12,15 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 public class DDoSAttack implements Parcelable {
 
     private static final String TAG = DDoSAttack.class.getSimpleName();
-    public static final String ATTACK_TYPE_KEY = TAG + "attack type key";
-    public static final String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
-    public static final int TYPE_FETCH_ALL = 101;
-    public static final int TYPE_FETCH_FOLLOWING = 102;
-    public static final int TYPE_FETCH_OWNER = 103;
-    public static final int TYPE_NONE = -1;
+    
+    public interface AttackType{
+         String ATTACK_TYPE_KEY = TAG + "attack type key";
+         String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
+         int TYPE_FETCH_ALL = 101;
+         int TYPE_FETCH_FOLLOWING = 102;
+         int TYPE_FETCH_OWNER = 103;
+         int TYPE_NONE = -1;
+    }
 
     private String pushId, targetWebsite;
     private List<DDoSBot> botsList;
