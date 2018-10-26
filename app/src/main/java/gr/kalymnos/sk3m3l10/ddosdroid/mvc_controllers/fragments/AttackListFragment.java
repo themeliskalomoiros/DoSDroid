@@ -20,11 +20,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListVi
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.CACHED_ATTACKS_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_ALL;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_FOLLOWING;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_OWNER;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.CACHED_ATTACKS_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 

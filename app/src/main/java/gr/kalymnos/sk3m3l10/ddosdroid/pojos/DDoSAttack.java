@@ -11,10 +11,10 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public class DDoSAttack implements Parcelable {
     private static final String TAG = DDoSAttack.class.getSimpleName();
+    public static final String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
 
     public interface AttackType {
         String ATTACK_TYPE_KEY = TAG + "attack type key";
-        String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
         int TYPE_FETCH_ALL = 101;
         int TYPE_FETCH_FOLLOWING = 102;
         int TYPE_FETCH_OWNER = 103;
@@ -22,6 +22,7 @@ public class DDoSAttack implements Parcelable {
     }
 
     public interface NetworkType {
+        String NETWORK_TYPE_KEY = TAG + "network_type_key";
         int INTERNET = 0;
         int WIFI_P2P = 1;
         int NSD = 2;
