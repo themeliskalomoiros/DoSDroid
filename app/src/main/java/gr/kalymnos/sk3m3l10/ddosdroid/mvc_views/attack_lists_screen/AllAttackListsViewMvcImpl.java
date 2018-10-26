@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen;
 
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -58,6 +59,8 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
         pagerAdapter = new MyPagerAdapter(fragmentManager, tabTitles, attacksType);
         viewPager = root.findViewById(R.id.viewPager);
         viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = root.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
