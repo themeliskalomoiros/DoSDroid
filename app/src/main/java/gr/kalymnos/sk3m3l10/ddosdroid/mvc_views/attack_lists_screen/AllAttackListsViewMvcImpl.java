@@ -20,7 +20,10 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
 
-    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
+    private int attacksType;
+
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int attacksType) {
+        this.attacksType = attacksType;
         initializeViews(inflater, container, fragmentManager);
     }
 
@@ -52,7 +55,7 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     private void initializeViewPager(FragmentManager fragmentManager) {
         String[] tabTitles = root.getContext().getResources().getStringArray(R.array.network_technologies_titles);
-        pagerAdapter = new MyPagerAdapter(fragmentManager, tabTitles);
+        pagerAdapter = new MyPagerAdapter(fragmentManager, tabTitles, attacksType);
         viewPager = root.findViewById(R.id.viewPager);
         viewPager.setAdapter(pagerAdapter);
     }
@@ -60,15 +63,17 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private static class MyPagerAdapter extends FragmentPagerAdapter {
 
         private String[] titles;
+        private int attacksType;
 
-        public MyPagerAdapter(FragmentManager fm, String[] titles) {
+        public MyPagerAdapter(FragmentManager fm, String[] titles, int attacksType) {
             super(fm);
             this.titles = titles;
+            this.attacksType = attacksType;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return new AttackListFragment();
+            return AttackListFragment.getInstance(attacksType);
         }
 
         @Nullable
