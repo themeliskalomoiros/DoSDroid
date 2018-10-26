@@ -57,6 +57,8 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
         if (cachedAttacksExist(savedInstanceState)) {
             viewMvc.bindAttacks(cachedAttacks);
         } else {
+            initializeAttackRepo();
+            viewMvc.showLoadingIndicator();
             startFetchingAttacks();
         }
     }
@@ -103,19 +105,21 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
     }
 
     private void startFetchingAttacks() {
-        initializeAttackRepo();
-        if (getAttacksType(getArguments()) == TYPE_FETCH_ALL) {
-            attackRepo.fetchAllAttacks();
-        } else if (getAttacksType(getArguments()) == TYPE_FETCH_FOLLOWING) {
-            //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-//            String userId = DDoSBot.getLocalUserDDoSBot().getId();
-            attackRepo.fetchFollowingAttakcs("bot3");
-        } else if (getAttacksType(getArguments()) == TYPE_FETCH_OWNER) {
-            attackRepo.fetchOwnerAttacks();
-        } else {
-            throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
+        switch (getAttacksType(getArguments())) {
+            case TYPE_FETCH_ALL:
+                attackRepo.fetchAllAttacks();
+                break;
+            case TYPE_FETCH_FOLLOWING:
+                //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
+                //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
+                attackRepo.fetchFollowingAttakcs("bot3");
+                break;
+            case TYPE_FETCH_OWNER:
+                attackRepo.fetchOwnerAttacks();
+                break;
+            default:
+                throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
         }
-        viewMvc.showLoadingIndicator();
     }
 
     private void initializeAttackRepo() {
