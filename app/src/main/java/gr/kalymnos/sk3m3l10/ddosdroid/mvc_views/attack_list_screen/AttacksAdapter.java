@@ -27,7 +27,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private Context context;
     private List<DDoSAttack> attackList;
 
-    private AttackListViewMvc.OnAttackItemClickListener itemClickListener;
+    private AttacksListViewMvc.OnAttackItemClickListener itemClickListener;
 
     public AttacksAdapter(Context context) {
         this.context = context;
@@ -96,7 +96,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         throw new UnsupportedOperationException(TAG + ": attackList is null or has no items");
     }
 
-    public void setOnItemClickListener(AttackListViewMvc.OnAttackItemClickListener listener) {
+    public void setOnItemClickListener(AttacksListViewMvc.OnAttackItemClickListener listener) {
         itemClickListener = listener;
     }
 

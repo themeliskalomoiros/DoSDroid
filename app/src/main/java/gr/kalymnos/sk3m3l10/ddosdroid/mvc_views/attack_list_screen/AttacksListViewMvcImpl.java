@@ -13,7 +13,7 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
-public class AttackListViewMvcImpl implements AttackListViewMvc {
+public class AttacksListViewMvcImpl implements AttacksListViewMvc {
 
     private View root;
     private Toolbar toolbar;
@@ -22,7 +22,7 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
 
     private AttacksAdapter attacksAdapter;
 
-    public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+    public AttacksListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
     }
 

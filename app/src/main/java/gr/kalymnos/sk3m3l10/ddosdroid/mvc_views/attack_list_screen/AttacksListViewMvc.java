@@ -5,7 +5,7 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvcWithToolbar;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
-public interface AttackListViewMvc extends ViewMvcWithToolbar {
+public interface AttacksListViewMvc extends ViewMvcWithToolbar {
 
     interface OnAttackItemClickListener {
         void onAttackItemClick(int position);

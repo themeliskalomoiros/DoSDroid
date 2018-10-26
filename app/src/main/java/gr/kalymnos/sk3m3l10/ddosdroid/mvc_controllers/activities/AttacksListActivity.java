@@ -12,17 +12,17 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FakeAttackRepo;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttackListViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttacksListViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_list_screen.AttacksListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
-public class AttackListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener,
-        AttackListViewMvc.OnAttackItemClickListener {
+public class AttacksListActivity extends AppCompatActivity implements AttackRepository.OnAttacksFetchListener,
+        AttacksListViewMvc.OnAttackItemClickListener {
 
-    private static final String TAG = AttackListActivity.class.getSimpleName();
+    private static final String TAG = AttacksListActivity.class.getSimpleName();
 
     public static final String ATTACK_TYPE_KEY = TAG + "attack type key";
     public static final String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
@@ -33,7 +33,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     private static final int TYPE_NONE = -1;
 
 
-    private AttackListViewMvc viewMvc;
+    private AttacksListViewMvc viewMvc;
     private AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
 
@@ -88,7 +88,7 @@ public class AttackListActivity extends AppCompatActivity implements AttackRepos
     }
 
     private void initializeViewMvc() {
-        viewMvc = new AttackListViewMvcImpl(LayoutInflater.from(this), null);
+        viewMvc = new AttacksListViewMvcImpl(LayoutInflater.from(this), null);
         viewMvc.setOnAttackItemClickListener(this);
         setSupportActionBar(viewMvc.getToolbar());
     }
