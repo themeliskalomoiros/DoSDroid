@@ -12,9 +12,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 public interface AttackRepository {
 
     interface OnAttacksFetchListener {
+
         void attacksFetchedSuccess(List<DDoSAttack> attacks);
 
         void attacksFetchedFail(String msg);
+
     }
 
     void fetchAllAttacks();
@@ -24,6 +26,10 @@ public interface AttackRepository {
     void fetchFollowingAttakcs(String botId);
 
     void fetchFollowingAttakcs(String botId, int networkType);
+
+    void fetchNotFollowingAttacks(String botId);
+
+    void fetchNotFollowingAttacks(String botId, int networkType);
 
     void fetchOwnerAttacks();
 

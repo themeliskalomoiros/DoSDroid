@@ -58,6 +58,16 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
+    public void fetchNotFollowingAttacks(String botId) {
+        fetchFollowingAttakcs(botId);
+    }
+
+    @Override
+    public void fetchNotFollowingAttacks(String botId, int networkType) {
+        fetchFollowingAttakcs(botId);
+    }
+
+    @Override
     public void fetchOwnerAttacks() {
         fetchAllAttacks();
     }
