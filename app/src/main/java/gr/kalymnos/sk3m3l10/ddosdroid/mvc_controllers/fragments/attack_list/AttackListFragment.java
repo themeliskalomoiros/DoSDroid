@@ -22,6 +22,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_ALL;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_FOLLOWING;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_FOLLOWING;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_OWNER;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.CACHED_ATTACKS_KEY;
@@ -116,6 +117,9 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchOwnerAttacks();
+                break;
+            case TYPE_FETCH_NOT_FOLLOWING:
+                attackRepo.fetchNotFollowingAttacks("bot3");
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
