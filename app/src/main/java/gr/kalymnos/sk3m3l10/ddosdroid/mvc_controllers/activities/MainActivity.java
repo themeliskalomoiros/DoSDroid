@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvcImpl;
+
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_FOLLOWING;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_FOLLOWING;
 
 public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener {
 
@@ -31,13 +32,17 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onJoinAttackClick() {
-        Toast.makeText(this, "onjoinattack", Toast.LENGTH_SHORT).show();
+        startAllAttackListsActivity(TYPE_FETCH_NOT_FOLLOWING);
     }
 
     @Override
     public void onFollowingAttacksClick() {
+        startAllAttackListsActivity(TYPE_FETCH_FOLLOWING);
+    }
+
+    private void startAllAttackListsActivity(int typeFetchFollowing) {
         Bundle extras = new Bundle();
-        extras.putInt(ATTACK_TYPE_KEY, TYPE_FETCH_FOLLOWING);
+        extras.putInt(ATTACK_TYPE_KEY, typeFetchFollowing);
         Intent intent = new Intent(this, AllAttackListsActivity.class);
         intent.putExtras(extras);
         startActivity(intent);
