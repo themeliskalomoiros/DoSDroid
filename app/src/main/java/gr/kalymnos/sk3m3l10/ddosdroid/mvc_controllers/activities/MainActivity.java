@@ -19,10 +19,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
-        viewMvc.setOnOptionClickListener(this);
-        setSupportActionBar(viewMvc.getToolbar());
-        setContentView(viewMvc.getRootView());
+        setupUi();
     }
 
     @Override
@@ -46,5 +43,16 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
         Intent intent = new Intent(this, AllAttackListsActivity.class);
         intent.putExtras(extras);
         startActivity(intent);
+    }
+
+    private void setupUi() {
+        initializeViewMvc();
+        setSupportActionBar(viewMvc.getToolbar());
+        setContentView(viewMvc.getRootView());
+    }
+
+    private void initializeViewMvc() {
+        viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
+        viewMvc.setOnOptionClickListener(this);
     }
 }
