@@ -18,8 +18,7 @@ public class AttackPhaseActivity extends AppCompatActivity implements AttackInfo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewMvc = new AttackPhaseViewMvcImpl(LayoutInflater.from(this), null);
-        setContentView(viewMvc.getRootView());
+        setupUi();
         getSupportFragmentManager().beginTransaction()
                 .replace(viewMvc.getFragmentContainerId(), new AttackCreationFragment())
                 .commit();
@@ -35,5 +34,10 @@ public class AttackPhaseActivity extends AppCompatActivity implements AttackInfo
     @Override
     public void onBeginAttackButtonClick() {
         Toast.makeText(this, "attack begin", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setupUi() {
+        viewMvc = new AttackPhaseViewMvcImpl(LayoutInflater.from(this), null);
+        setContentView(viewMvc.getRootView());
     }
 }
