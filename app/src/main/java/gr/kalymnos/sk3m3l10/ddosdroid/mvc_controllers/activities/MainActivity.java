@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
@@ -38,11 +39,16 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
     }
 
     private void startAllAttackListsActivity(int typeFetchFollowing) {
+        startActivity(createAllAttackListsActivityIntent(typeFetchFollowing));
+    }
+
+    @NonNull
+    private Intent createAllAttackListsActivityIntent(int typeFetchFollowing) {
         Bundle extras = new Bundle();
         extras.putInt(ATTACK_TYPE_KEY, typeFetchFollowing);
         Intent intent = new Intent(this, AllAttackListsActivity.class);
         intent.putExtras(extras);
-        startActivity(intent);
+        return intent;
     }
 
     private void setupUi() {
