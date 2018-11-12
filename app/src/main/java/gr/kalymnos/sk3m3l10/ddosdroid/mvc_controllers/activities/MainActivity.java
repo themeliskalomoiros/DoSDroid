@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
     private Intent createAllAttackListsActivityIntent(int typeFetchFollowing) {
         Bundle extras = new Bundle();
         extras.putInt(ATTACK_TYPE_KEY, typeFetchFollowing);
-        Intent intent = new Intent(this, AllAttackListsActivity.class);
+        Intent intent = new Intent(this, AttackListsActivity.class);
         intent.putExtras(extras);
         return intent;
     }

@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AllAttackListsViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AllAttackListsViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListsViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListsViewMvcImpl;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
-public class AllAttackListsActivity extends AppCompatActivity {
+public class AttackListsActivity extends AppCompatActivity {
 
-    private AllAttackListsViewMvc viewMvc;
+    private AttackListsViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
     }
 
     private void initializeViewMvc(Bundle savedInstanceState) {
-        viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null,
+        viewMvc = new AttackListsViewMvcImpl(LayoutInflater.from(this), null,
                 getSupportFragmentManager(), getAttacksType(getIntent().getExtras()));
         setSupportActionBar(viewMvc.getToolbar());
     }
