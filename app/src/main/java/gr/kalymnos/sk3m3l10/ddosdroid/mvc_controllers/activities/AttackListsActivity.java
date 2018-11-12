@@ -18,11 +18,15 @@ public class AttackListsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeViewMvc(savedInstanceState);
+        setupUi();
+    }
+
+    private void setupUi() {
+        initializeViewMvc();
         setContentView(viewMvc.getRootView());
     }
 
-    private void initializeViewMvc(Bundle savedInstanceState) {
+    private void initializeViewMvc() {
         viewMvc = new AttackListsViewMvcImpl(LayoutInflater.from(this), null,
                 getSupportFragmentManager(), getAttacksType(getIntent().getExtras()));
         setSupportActionBar(viewMvc.getToolbar());
