@@ -21,19 +21,19 @@ public interface AttackRepository {
 
     void fetchAllAttacks();
 
-    void fetchAllAttacks(int networkType);
+    void fetchAllAttacksOf(int networkType);
 
-    void fetchFollowingAttakcs(String botId);
+    void fetchFollowingAttakcsOf(String botId);
 
-    void fetchFollowingAttakcs(String botId, int networkType);
+    void fetchFollowingAttakcsOf(String botId, int networkType);
 
-    void fetchNotFollowingAttacks(String botId);
+    void fetchNotFollowingAttacksOf(String botId);
 
-    void fetchNotFollowingAttacks(String botId, int networkType);
+    void fetchNotFollowingAttacksOf(String botId, int networkType);
 
     void fetchOwnerAttacks();
 
-    void fetchOwnerAttacks(int networkType);
+    void fetchOwnerAttacksOf(int networkType);
 
     void registerOnAttacksFetchListener(OnAttacksFetchListener listener);
 

@@ -14,18 +14,18 @@ public class InternetAttackListFragment extends AttackListFragment {
     protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacks(INTERNET);
+                attackRepo.fetchAllAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_FOLLOWING:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
                 //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchFollowingAttakcs("bot3", INTERNET);
+                attackRepo.fetchFollowingAttakcsOf("bot3", INTERNET);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacks(INTERNET);
+                attackRepo.fetchOwnerAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_NOT_FOLLOWING:
-                attackRepo.fetchNotFollowingAttacks("bot3", INTERNET);
+                attackRepo.fetchNotFollowingAttacksOf("bot3", INTERNET);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

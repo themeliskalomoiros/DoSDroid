@@ -14,18 +14,18 @@ public class NSDAttackListFragment extends AttackListFragment {
     protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacks(NSD);
+                attackRepo.fetchAllAttacksOf(NSD);
                 break;
             case TYPE_FETCH_FOLLOWING:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
                 //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchFollowingAttakcs("bot3", NSD);
+                attackRepo.fetchFollowingAttakcsOf("bot3", NSD);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacks(NSD);
+                attackRepo.fetchOwnerAttacksOf(NSD);
                 break;
             case TYPE_FETCH_NOT_FOLLOWING:
-                attackRepo.fetchNotFollowingAttacks("bot3", NSD);
+                attackRepo.fetchNotFollowingAttacksOf("bot3", NSD);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

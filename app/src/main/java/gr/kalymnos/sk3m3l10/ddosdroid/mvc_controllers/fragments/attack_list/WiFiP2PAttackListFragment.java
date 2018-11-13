@@ -14,18 +14,18 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
     protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacks(WIFI_P2P);
+                attackRepo.fetchAllAttacksOf(WIFI_P2P);
                 break;
             case TYPE_FETCH_FOLLOWING:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
                 //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchFollowingAttakcs("bot3", WIFI_P2P);
+                attackRepo.fetchFollowingAttakcsOf("bot3", WIFI_P2P);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacks(WIFI_P2P);
+                attackRepo.fetchOwnerAttacksOf(WIFI_P2P);
                 break;
             case TYPE_FETCH_NOT_FOLLOWING:
-                attackRepo.fetchNotFollowingAttacks("bot3", WIFI_P2P);
+                attackRepo.fetchNotFollowingAttacksOf("bot3", WIFI_P2P);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

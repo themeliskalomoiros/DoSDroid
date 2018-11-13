@@ -14,18 +14,18 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacks(BLUETOOTH);
+                attackRepo.fetchAllAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_FOLLOWING:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
                 //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchFollowingAttakcs("bot3", BLUETOOTH);
+                attackRepo.fetchFollowingAttakcsOf("bot3", BLUETOOTH);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacks(BLUETOOTH);
+                attackRepo.fetchOwnerAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_NOT_FOLLOWING:
-                attackRepo.fetchNotFollowingAttacks("bot3", BLUETOOTH);
+                attackRepo.fetchNotFollowingAttacksOf("bot3", BLUETOOTH);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

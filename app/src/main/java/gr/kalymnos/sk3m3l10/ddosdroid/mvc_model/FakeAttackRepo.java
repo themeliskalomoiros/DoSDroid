@@ -40,12 +40,12 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public void fetchAllAttacks(int networkType) {
+    public void fetchAllAttacksOf(int networkType) {
         fetchAllAttacks();
     }
 
     @Override
-    public void fetchFollowingAttakcs(String botId) {
+    public void fetchFollowingAttakcsOf(String botId) {
         if (fetchFollowingAttacksThread == null) {
             fetchFollowingAttacksThread = new Thread(getFetchFollowingAttacksTask(botId));
             fetchFollowingAttacksThread.start();
@@ -53,18 +53,18 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public void fetchFollowingAttakcs(String botId, int networkType) {
-        fetchFollowingAttakcs(botId);
+    public void fetchFollowingAttakcsOf(String botId, int networkType) {
+        fetchFollowingAttakcsOf(botId);
     }
 
     @Override
-    public void fetchNotFollowingAttacks(String botId) {
-        fetchFollowingAttakcs(botId);
+    public void fetchNotFollowingAttacksOf(String botId) {
+        fetchFollowingAttakcsOf(botId);
     }
 
     @Override
-    public void fetchNotFollowingAttacks(String botId, int networkType) {
-        fetchFollowingAttakcs(botId);
+    public void fetchNotFollowingAttacksOf(String botId, int networkType) {
+        fetchFollowingAttakcsOf(botId);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     @Override
-    public void fetchOwnerAttacks(int networkType) {
+    public void fetchOwnerAttacksOf(int networkType) {
         fetchOwnerAttacks();
     }
 
