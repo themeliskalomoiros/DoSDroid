@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.Inte
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.NSDAttackListFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.WiFiP2PAttackListFragment;
 
-public class AttackListsViewMvcImpl implements AttackListsViewMvc {
+public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     private View root;
     private Toolbar toolbar;
@@ -27,7 +27,7 @@ public class AttackListsViewMvcImpl implements AttackListsViewMvc {
 
     private int attacksType;
 
-    public AttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int attacksType) {
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int attacksType) {
         this.attacksType = attacksType;
         initializeViews(inflater, container, fragmentManager);
     }
@@ -53,7 +53,7 @@ public class AttackListsViewMvcImpl implements AttackListsViewMvc {
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
-        root = inflater.inflate(R.layout.screen_attack_lists, container, false);
+        root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
         toolbar = root.findViewById(R.id.toolBar);
         initializeViewPager(fragmentManager);
     }
