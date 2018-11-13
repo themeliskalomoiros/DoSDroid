@@ -98,26 +98,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         viewMvc.setOnAttackItemClickListener(this);
     }
 
-    protected void fetchAttacksAccordingToType() {
-        switch (getAttacksType(getArguments())) {
-            case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacks();
-                break;
-            case TYPE_FETCH_FOLLOWING:
-                //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-                //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchFollowingAttakcs("bot3");
-                break;
-            case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacks();
-                break;
-            case TYPE_FETCH_NOT_FOLLOWING:
-                attackRepo.fetchNotFollowingAttacks("bot3");
-                break;
-            default:
-                throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
-        }
-    }
+    protected abstract void fetchAttacksAccordingToType();
 
     private void initializeAttackRepo() {
         attackRepo = new FakeAttackRepo(getActivity());
