@@ -23,13 +23,13 @@ public class AttackListsActivity extends AppCompatActivity {
 
     private void setupUi() {
         initializeViewMvc();
+        setSupportActionBar(viewMvc.getToolbar());
         setContentView(viewMvc.getRootView());
     }
 
     private void initializeViewMvc() {
         viewMvc = new AttackListsViewMvcImpl(LayoutInflater.from(this), null,
                 getSupportFragmentManager(), getAttacksType(getIntent().getExtras()));
-        setSupportActionBar(viewMvc.getToolbar());
     }
 
     private int getAttacksType(Bundle bundle) {
