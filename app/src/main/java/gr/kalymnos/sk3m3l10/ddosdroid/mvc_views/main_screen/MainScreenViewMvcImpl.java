@@ -57,7 +57,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         createAttackImg = createAttackParentView.findViewById(R.id.image);
         createAttackImg.setImageResource(R.drawable.ic_www_icon);
         createAttackTitle = createAttackParentView.findViewById(R.id.title);
-        createAttackTitle.setText(R.string.create_attack_label);
+        createAttackTitle.setText(R.string.attack_a_website_label);
         createAttackSubtitle = createAttackParentView.findViewById(R.id.subtitle);
         createAttackSubtitle.setText(R.string.create_attack_label_subtitle);
     }
@@ -87,7 +87,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         contributionImg = contributionParentView.findViewById(R.id.image);
         contributionImg.setImageResource(R.drawable.ic_fist);
         contributionTitle = contributionParentView.findViewById(R.id.title);
-        contributionTitle.setText(R.string.contribution_label);
+        contributionTitle.setText(R.string.contributions_label);
         contributionSubtitle = contributionParentView.findViewById(R.id.subtitle);
         contributionSubtitle.setText(R.string.joined_attacks_label_subtitle);
     }

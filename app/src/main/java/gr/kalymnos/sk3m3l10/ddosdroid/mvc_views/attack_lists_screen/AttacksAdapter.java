@@ -41,15 +41,16 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        if (viewType == ITEM_VIEW_TYPE_ATTACK_JOINED) {
-            itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_joined, parent, false);
-            return new JoinedAttackHolder(itemView);
-        } else if (viewType == ITEM_VIEW_TYPE_ATTACK_OWNER) {
-            itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_owner, parent, false);
-            return new OwnerAttackHolder(itemView);
-        } else {
-            itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack, parent, false);
-            return new AttackHolder(itemView);
+        switch (viewType) {
+            case ITEM_VIEW_TYPE_ATTACK_JOINED:
+                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_joined, parent, false);
+                return new JoinedAttackHolder(itemView);
+            case ITEM_VIEW_TYPE_ATTACK_OWNER:
+                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_owner, parent, false);
+                return new OwnerAttackHolder(itemView);
+            default:
+                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack, parent, false);
+                return new AttackHolder(itemView);
         }
     }
 
