@@ -19,10 +19,24 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValid
 
 public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.OnBeginAttackButtonClickListener {
 
+    public static AttackInfoFragment getInstance(String website) {
+        AttackInfoFragment instance = new AttackInfoFragment();
+        instance.setArguments(createFragmentArgs(website));
+        return instance;
+    }
+
+    @NonNull
+    private static Bundle createFragmentArgs(String website) {
+        Bundle args = new Bundle();
+        args.putString(WEBSITE_KEY, website);
+        return args;
+    }
+
     private AttackInfoViewMvc viewMvc;
 
     public interface OnBeginAttackButtonClickListener {
         void onBeginAttackButtonClick();
+
     }
 
     private OnBeginAttackButtonClickListener mCallback;
@@ -42,14 +56,6 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement" + mCallback.getClass().getCanonicalName());
         }
-    }
-
-    public static AttackInfoFragment getInstance(String website) {
-        Bundle args = new Bundle();
-        args.putString(WEBSITE_KEY, website);
-        AttackInfoFragment instance = new AttackInfoFragment();
-        instance.setArguments(args);
-        return instance;
     }
 
     @Override
