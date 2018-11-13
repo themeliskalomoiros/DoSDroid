@@ -30,16 +30,16 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onJoinAttackClick() {
-        startActivity(createAllAttackListsActivityIntent(TYPE_FETCH_NOT_FOLLOWING));
+        startActivity(createAttackListsActivityIntent(TYPE_FETCH_NOT_FOLLOWING));
     }
 
     @Override
     public void onFollowingAttacksClick() {
-        startActivity(createAllAttackListsActivityIntent(TYPE_FETCH_FOLLOWING));
+        startActivity(createAttackListsActivityIntent(TYPE_FETCH_FOLLOWING));
     }
 
     @NonNull
-    private Intent createAllAttackListsActivityIntent(int typeFetchFollowing) {
+    private Intent createAttackListsActivityIntent(int typeFetchFollowing) {
         Bundle extras = new Bundle();
         extras.putInt(ATTACK_TYPE_KEY, typeFetchFollowing);
         Intent intent = new Intent(this, AttackListsActivity.class);
