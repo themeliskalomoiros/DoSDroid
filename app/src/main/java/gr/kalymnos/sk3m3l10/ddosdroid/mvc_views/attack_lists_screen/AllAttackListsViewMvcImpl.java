@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -55,16 +56,20 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
         root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
         toolbar = root.findViewById(R.id.toolBar);
-        initializeViewPager(fragmentManager);
+        initializeViewPagerWithTabLayout(fragmentManager);
     }
 
-    private void initializeViewPager(FragmentManager fragmentManager) {
-        String[] tabTitles = root.getContext().getResources().getStringArray(R.array.network_technologies_titles);
-        pagerAdapter = new MyPagerAdapter(fragmentManager, tabTitles, attacksType);
+    private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
+        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), attacksType);
         viewPager = root.findViewById(R.id.viewPager);
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = root.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @NonNull
+    private String[] getTabTitlesFromResources() {
+        return root.getContext().getResources().getStringArray(R.array.network_technologies_titles);
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
