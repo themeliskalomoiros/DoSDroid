@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvc_controllers.activities.AttackPhaseActivity" />
+        <activity
+            android:name=".mvc_controllers.activities.AttackPhaseActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".mvc_controllers.activities.AttackListsActivity"></activity>
     </application>
 
