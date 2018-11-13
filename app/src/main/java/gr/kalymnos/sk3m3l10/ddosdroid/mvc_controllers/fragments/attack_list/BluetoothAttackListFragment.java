@@ -7,6 +7,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FE
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.BLUETOOTH;
 
 public class BluetoothAttackListFragment extends AttackListFragment {
+
+    private static final String TAG = "BluetoothAttackListFrag";
+
     @Override
     protected void startFetchingAttacks() {
         switch (getAttacksType(getArguments())) {

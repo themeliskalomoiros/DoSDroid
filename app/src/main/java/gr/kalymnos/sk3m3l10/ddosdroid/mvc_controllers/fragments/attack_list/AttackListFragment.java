@@ -32,7 +32,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 public class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackRepository.OnAttacksFetchListener {
 
-    protected static final String TAG = AttackListFragment.class.getSimpleName();
+    private static final String TAG = AttackListFragment.class.getSimpleName();
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;

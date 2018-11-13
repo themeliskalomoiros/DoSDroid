@@ -8,6 +8,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.INTERN
 
 public class InternetAttackListFragment extends AttackListFragment {
 
+    private static final String TAG = "InternetAttackListFragm";
+
     @Override
     protected void startFetchingAttacks() {
         switch (getAttacksType(getArguments())) {

@@ -7,6 +7,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FE
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.WIFI_P2P;
 
 public class WiFiP2PAttackListFragment extends AttackListFragment {
+
+    private static final String TAG = "WiFiP2PAttackListFragme";
+
     @Override
     protected void startFetchingAttacks() {
         switch (getAttacksType(getArguments())) {
