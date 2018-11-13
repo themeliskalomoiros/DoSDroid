@@ -23,13 +23,13 @@ public interface AttackRepository {
 
     void fetchAllAttacksOf(int networkType);
 
-    void fetchFollowingAttakcsOf(String botId);
+    void fetchJoinedAttakcsOf(String botId);
 
-    void fetchFollowingAttakcsOf(String botId, int networkType);
+    void fetchJoinedAttakcsOf(String botId, int networkType);
 
-    void fetchNotFollowingAttacksOf(String botId);
+    void fetchNotJoinedAttacksOf(String botId);
 
-    void fetchNotFollowingAttacksOf(String botId, int networkType);
+    void fetchNotJoinedAttacksOf(String botId, int networkType);
 
     void fetchOwnerAttacks();
 

@@ -13,10 +13,10 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
 
     private View root;
     private Toolbar toolbar;
-    private ImageView createAttackImg, joinAttackImg, followingAttacksImg;
-    private TextView createAttackTitle, joinAttackTitle, followingAttacksTitle,
-            createAttackSubtitle, joinAttackSubtitle, followingAttacksSubtitle;
-    private ViewGroup createAttackParentView, joinAttackParentView, followingAttacksParentView;
+    private ImageView createAttackImg, joinAttackImg, contributionImg;
+    private TextView createAttackTitle, joinAttackTitle, contributionTitle,
+            createAttackSubtitle, joinAttackSubtitle, contributionSubtitle;
+    private ViewGroup createAttackParentView, joinAttackParentView, contributionParentView;
 
     private OnOptionClickListener optionClickListener;
 
@@ -44,7 +44,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         toolbar = root.findViewById(R.id.toolBar);
         initializeCreateAttackViews();
         initializeJoinAttackViews();
-        initializeFollowingAttacksViews();
+        initializeContributionViews();
     }
 
     private void initializeCreateAttackViews() {
@@ -77,18 +77,18 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         joinAttackSubtitle.setText(R.string.join_attack_label_subtitle);
     }
 
-    private void initializeFollowingAttacksViews() {
-        followingAttacksParentView = root.findViewById(R.id.follow_attack_menu_item);
-        followingAttacksParentView.setOnClickListener((view) -> {
+    private void initializeContributionViews() {
+        contributionParentView = root.findViewById(R.id.contribution_menu_item);
+        contributionParentView.setOnClickListener((view) -> {
             if (optionClickListener != null) {
-                optionClickListener.onFollowingAttacksClick();
+                optionClickListener.onContributionClick();
             }
         });
-        followingAttacksImg = followingAttacksParentView.findViewById(R.id.image);
-        followingAttacksImg.setImageResource(R.drawable.ic_fist);
-        followingAttacksTitle = followingAttacksParentView.findViewById(R.id.title);
-        followingAttacksTitle.setText(R.string.following_attacks_label);
-        followingAttacksSubtitle = followingAttacksParentView.findViewById(R.id.subtitle);
-        followingAttacksSubtitle.setText(R.string.following_attacks_label_subtitle);
+        contributionImg = contributionParentView.findViewById(R.id.image);
+        contributionImg.setImageResource(R.drawable.ic_fist);
+        contributionTitle = contributionParentView.findViewById(R.id.title);
+        contributionTitle.setText(R.string.contribution_label);
+        contributionSubtitle = contributionParentView.findViewById(R.id.subtitle);
+        contributionSubtitle.setText(R.string.joined_attacks_label_subtitle);
     }
 }

@@ -17,7 +17,6 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     private View root;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-
     private AttacksAdapter attacksAdapter;
 
     public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {

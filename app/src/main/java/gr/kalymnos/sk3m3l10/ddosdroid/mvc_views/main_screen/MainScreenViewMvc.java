@@ -9,7 +9,7 @@ public interface MainScreenViewMvc extends ViewMvcWithToolbar {
 
         void onJoinAttackClick();
 
-        void onFollowingAttacksClick();
+        void onContributionClick();
     }
 
     void setOnOptionClickListener(OnOptionClickListener listener);

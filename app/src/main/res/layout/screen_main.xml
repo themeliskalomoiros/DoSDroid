@@ -37,7 +37,7 @@
                 layout="@layout/screen_main_item" />
 
             <include
-                android:id="@+id/follow_attack_menu_item"
+                android:id="@+id/contribution_menu_item"
                 layout="@layout/screen_main_item" />
 
         </LinearLayout>

@@ -19,10 +19,10 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
-    private static final int ITEM_VIEW_TYPE_ATTACK = 0;
-    private static final int ITEM_VIEW_TYPE_ATTACK_FOLLOWER = 1;
-    private static final int ITEM_VIEW_TYPE_ATTACK_OWNER = 2;
     private static final String TAG = AttacksAdapter.class.getSimpleName();
+    private static final int ITEM_VIEW_TYPE_ATTACK = 0;
+    private static final int ITEM_VIEW_TYPE_ATTACK_JOINED = 1;
+    private static final int ITEM_VIEW_TYPE_ATTACK_OWNER = 2;
 
     private Context context;
     private List<DDoSAttack> attackList;
@@ -41,12 +41,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        if (viewType == ITEM_VIEW_TYPE_ATTACK_FOLLOWER) {
-            itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_follower, parent, false);
-            return new AttackHolderFollower(itemView);
+        if (viewType == ITEM_VIEW_TYPE_ATTACK_JOINED) {
+            itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_joined, parent, false);
+            return new JoinedAttackHolder(itemView);
         } else if (viewType == ITEM_VIEW_TYPE_ATTACK_OWNER) {
             itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_owner, parent, false);
-            return new AttackOwnerHolder(itemView);
+            return new OwnerAttackHolder(itemView);
         } else {
             itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack, parent, false);
             return new AttackHolder(itemView);
@@ -58,13 +58,13 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         if (listHasItems(attackList)) {
             DDoSAttack attack = attackList.get(position);
             String website = attack.getTargetWebsite();
-            String followingText = context.getString(R.string.people_who_follow_attack_label) + " " + attack.getBotNetCount();
+            String peopleJoinedText = context.getString(R.string.people_who_joined_attack_label) + " " + attack.getBotNetCount();
 
-            if (attackHolder instanceof AttackOwnerHolder) {
-                AttackOwnerHolder attackOwnerHolder = (AttackOwnerHolder) attackHolder;
-                attackOwnerHolder.bindViews(website, followingText, attack.isActive());
+            if (attackHolder instanceof OwnerAttackHolder) {
+                OwnerAttackHolder ownerAttackHolder = (OwnerAttackHolder) attackHolder;
+                ownerAttackHolder.bindViews(website, peopleJoinedText, attack.isActive());
             } else {
-                attackHolder.bindViews(website, followingText);
+                attackHolder.bindViews(website, peopleJoinedText);
             }
         }
     }
@@ -85,7 +85,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             DDoSAttack attack = attackList.get(position);
 
             if (attack.botBelongsToBotnet("bot3"))
-                return ITEM_VIEW_TYPE_ATTACK_FOLLOWER;
+                return ITEM_VIEW_TYPE_ATTACK_JOINED;
 
             if (attack.getOwner().getId().equals("bot3")) {
                 return ITEM_VIEW_TYPE_ATTACK_OWNER;
@@ -102,7 +102,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     class AttackHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvWebsite, tvFollowers;
+        private TextView tvWebsite, tvPeopleJoined;
 
         public AttackHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,32 +116,32 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                 }
             });
             tvWebsite = itemView.findViewById(R.id.tv_website);
-            tvFollowers = itemView.findViewById(R.id.tv_followers);
+            tvPeopleJoined = itemView.findViewById(R.id.tv_people_who_joined);
         }
 
-        void bindViews(String website, String followersText) {
+        void bindViews(String website, String peopleJoinedText) {
             tvWebsite.setText(website);
-            tvFollowers.setText(followersText);
+            tvPeopleJoined.setText(peopleJoinedText);
         }
     }
 
-    class AttackHolderFollower extends AttackHolder {
-        public AttackHolderFollower(@NonNull View itemView) {
+    class JoinedAttackHolder extends AttackHolder {
+        public JoinedAttackHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    class AttackOwnerHolder extends AttackHolder {
+    class OwnerAttackHolder extends AttackHolder {
 
         private Switch activationSwitch;
 
-        public AttackOwnerHolder(@NonNull View itemView) {
+        public OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
             activationSwitch = itemView.findViewById(R.id.attack_activation_switch);
         }
 
-        void bindViews(String website, String followersText, boolean attackIsActive) {
-            super.bindViews(website, followersText);
+        void bindViews(String website, String peopleJoinedText, boolean attackIsActive) {
+            super.bindViews(website, peopleJoinedText);
             activationSwitch.setChecked(attackIsActive);
         }
     }

@@ -16,8 +16,8 @@ public class DDoSAttack implements Parcelable {
     public interface AttackType {
         String ATTACK_TYPE_KEY = TAG + "attack type key";
         int TYPE_FETCH_ALL = 101;
-        int TYPE_FETCH_FOLLOWING = 102;
-        int TYPE_FETCH_NOT_FOLLOWING = 103;
+        int TYPE_FETCH_JOINED = 102;
+        int TYPE_FETCH_NOT_JOINED = 103;
         int TYPE_FETCH_OWNER = 104;
         int TYPE_NONE = -1;
     }

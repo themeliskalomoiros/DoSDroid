@@ -10,8 +10,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvcImpl;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_FOLLOWING;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_FOLLOWING;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_JOINED;
 
 public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener {
 
@@ -30,25 +30,25 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onJoinAttackClick() {
-        startActivity(createAttackListsActivityIntent(TYPE_FETCH_NOT_FOLLOWING));
+        startActivity(createAttackListsActivityIntent(TYPE_FETCH_NOT_JOINED));
     }
 
     @Override
-    public void onFollowingAttacksClick() {
-        startActivity(createAttackListsActivityIntent(TYPE_FETCH_FOLLOWING));
+    public void onContributionClick() {
+        startActivity(createAttackListsActivityIntent(TYPE_FETCH_JOINED));
     }
 
     @NonNull
-    private Intent createAttackListsActivityIntent(int typeFetchFollowing) {
+    private Intent createAttackListsActivityIntent(int attackType) {
         Intent intent = new Intent(this, AllAttackListsActivity.class);
-        intent.putExtras(createAttackListsActivityIntentBundle(typeFetchFollowing));
+        intent.putExtras(createAttackListsActivityIntentBundle(attackType));
         return intent;
     }
 
     @NonNull
-    private Bundle createAttackListsActivityIntentBundle(int typeFetchFollowing) {
+    private Bundle createAttackListsActivityIntentBundle(int attackType) {
         Bundle extras = new Bundle();
-        extras.putInt(ATTACK_TYPE_KEY, typeFetchFollowing);
+        extras.putInt(ATTACK_TYPE_KEY, attackType);
         return extras;
     }
 
