@@ -7,13 +7,13 @@ import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackInfoFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackPhaseViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackPhaseViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.CreateAttackViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.CreateAttackViewMvcImpl;
 
-public class AttackPhaseActivity extends AppCompatActivity implements AttackInfoFragment.OnBeginAttackButtonClickListener,
+public class CreateAttackActivity extends AppCompatActivity implements AttackInfoFragment.OnBeginAttackButtonClickListener,
         AttackCreationFragment.OnAttackCreationButtonClickListener {
 
-    private AttackPhaseViewMvc viewMvc;
+    private CreateAttackViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class AttackPhaseActivity extends AppCompatActivity implements AttackInfo
     }
 
     private void setupUi() {
-        viewMvc = new AttackPhaseViewMvcImpl(LayoutInflater.from(this), null);
+        viewMvc = new CreateAttackViewMvcImpl(LayoutInflater.from(this), null);
         setContentView(viewMvc.getRootView());
     }
 }

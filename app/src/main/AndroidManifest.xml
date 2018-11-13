@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvc_controllers.activities.AttackPhaseActivity"
+            android:name=".mvc_controllers.activities.CreateAttackActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".mvc_controllers.activities.AttackListsActivity"></activity>
     </application>

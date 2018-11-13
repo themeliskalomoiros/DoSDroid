@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-public class AttackPhaseViewMvcImpl implements AttackPhaseViewMvc {
+public class CreateAttackViewMvcImpl implements CreateAttackViewMvc {
 
     private View root;
     private Toolbar toolbar;
 
-    public AttackPhaseViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+    public CreateAttackViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
     }
 
@@ -37,7 +37,7 @@ public class AttackPhaseViewMvcImpl implements AttackPhaseViewMvc {
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_attack_phase, container, false);
+        root = inflater.inflate(R.layout.screen_create_attack, container, false);
         toolbar = root.findViewById(R.id.toolBar);
     }
 }

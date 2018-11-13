@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onCreateAttackClick() {
-        startActivity(new Intent(this, AttackPhaseActivity.class));
+        startActivity(new Intent(this, CreateAttackActivity.class));
     }
 
     @Override
