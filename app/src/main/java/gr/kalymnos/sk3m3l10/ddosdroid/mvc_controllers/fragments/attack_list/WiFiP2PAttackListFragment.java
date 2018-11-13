@@ -11,7 +11,7 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
     private static final String TAG = "WiFiP2PAttackListFragme";
 
     @Override
-    protected void startFetchingAttacks() {
+    protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
                 attackRepo.fetchAllAttacks(WIFI_P2P);

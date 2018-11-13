@@ -11,7 +11,7 @@ public class InternetAttackListFragment extends AttackListFragment {
     private static final String TAG = "InternetAttackListFragm";
 
     @Override
-    protected void startFetchingAttacks() {
+    protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
                 attackRepo.fetchAllAttacks(INTERNET);

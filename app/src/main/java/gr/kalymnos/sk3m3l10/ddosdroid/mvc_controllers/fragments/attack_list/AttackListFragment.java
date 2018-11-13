@@ -29,10 +29,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.CACHED_ATTACKS_KEY
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
-public class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
+public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackRepository.OnAttacksFetchListener {
 
     private static final String TAG = AttackListFragment.class.getSimpleName();
+
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
@@ -50,9 +51,9 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
         if (cachedAttacksExist(savedInstanceState)) {
             viewMvc.bindAttacks(cachedAttacks);
         } else {
-            initializeAttackRepo();
             viewMvc.showLoadingIndicator();
-            startFetchingAttacks();
+            initializeAttackRepo();
+            fetchAttacksAccordingToType();
         }
     }
 
@@ -97,7 +98,7 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
         viewMvc.setOnAttackItemClickListener(this);
     }
 
-    protected void startFetchingAttacks() {
+    protected void fetchAttacksAccordingToType() {
         switch (getAttacksType(getArguments())) {
             case TYPE_FETCH_ALL:
                 attackRepo.fetchAllAttacks();
