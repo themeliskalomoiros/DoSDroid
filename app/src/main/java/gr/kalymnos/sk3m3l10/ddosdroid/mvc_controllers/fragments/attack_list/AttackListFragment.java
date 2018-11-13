@@ -143,6 +143,20 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         Toast.makeText(getContext(), cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    *
+    * I broke a switch statement that was exists in AllAttackListsViewMvcImpl.MyPagerAdapter
+    * which was checking the text and returning a specific AttackListFragment subclass.
+    *
+    * Now AllAttackListsViewMvcImpl.MyPagerAdapter.getItemId() just creates an instance of
+    * AttackListFragmentBuilder and call build() to return that specific AttackListFragment subclass
+    * instance.
+    *
+    * This technique was used to clean the code. The justification lies in Uncled Bob's book
+    * "Clean Code", chapter 3, page 39.
+    *
+    * */
+
     public interface AttackListFragmentBuilder {
         AttackListFragment build(String tabTitle, int attackType);
     }
@@ -159,7 +173,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         private AttackListFragment getAttackListFragmentImplFromTabTitle(String tabTitle) {
             switch (tabTitle) {
                 // Titles were copied from R.arrays.network_technologies_titles
-                case "INTERNET":
+                case "Internet":
                     return new InternetAttackListFragment();
                 case "WiFi P2P":
                     return new WiFiP2PAttackListFragment();
