@@ -37,14 +37,6 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
     protected AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
 
-    public static Fragment getInstance(int attacksType) {
-        Bundle args = new Bundle();
-        args.putInt(ATTACK_TYPE_KEY, attacksType);
-        Fragment instance = new AttackListFragment();
-        instance.setArguments(args);
-        return instance;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -148,5 +140,16 @@ public class AttackListFragment extends Fragment implements AttackListViewMvc.On
     @Override
     public void onAttackItemClick(int position) {
         Toast.makeText(getContext(), cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
+    }
+
+    public abstract static class Builder {
+        public abstract AttackListFragment getInstance(int attacksType);
+
+        @NonNull
+        protected static Bundle createFragmentArgs(int attacksType) {
+            Bundle args = new Bundle();
+            args.putInt(ATTACK_TYPE_KEY, attacksType);
+            return args;
+        }
     }
 }
