@@ -27,7 +27,7 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
     @Override
     public void onAttackCreationButtonClicked(String website) {
         getSupportFragmentManager().beginTransaction()
-                .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.getInstance(website))
+                .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.Builder.build(website))
                 .commit();
     }
 

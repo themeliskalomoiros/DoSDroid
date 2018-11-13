@@ -19,19 +19,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValid
 
 public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.OnBeginAttackButtonClickListener {
 
-    public static AttackInfoFragment getInstance(String website) {
-        AttackInfoFragment instance = new AttackInfoFragment();
-        instance.setArguments(createFragmentArgs(website));
-        return instance;
-    }
-
-    @NonNull
-    private static Bundle createFragmentArgs(String website) {
-        Bundle args = new Bundle();
-        args.putString(WEBSITE_KEY, website);
-        return args;
-    }
-
     private AttackInfoViewMvc viewMvc;
 
     public interface OnBeginAttackButtonClickListener {
@@ -81,6 +68,21 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
         } else {
             viewMvc.setFabIconToSwords();
             viewMvc.bindBeginOrStopAttackHeader(getString(R.string.begin_attack_label));
+        }
+    }
+
+    public static class Builder {
+        public static AttackInfoFragment build(String website) {
+            AttackInfoFragment instance = new AttackInfoFragment();
+            instance.setArguments(createFragmentArgs(website));
+            return instance;
+        }
+
+        @NonNull
+        private static Bundle createFragmentArgs(String website) {
+            Bundle args = new Bundle();
+            args.putString(WEBSITE_KEY, website);
+            return args;
         }
     }
 }
