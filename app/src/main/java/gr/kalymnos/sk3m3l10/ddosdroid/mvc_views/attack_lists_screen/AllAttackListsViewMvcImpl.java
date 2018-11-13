@@ -14,10 +14,6 @@ import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.BluetoothAttackListFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.InternetAttackListFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.NSDAttackListFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.WiFiP2PAttackListFragment;
 
 public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
@@ -85,19 +81,8 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
         @Override
         public Fragment getItem(int position) {
-            switch (titles[position]) {
-                // These cases are copied from R.arrays.network_technologies_titles
-                case "INTERNET":
-                    return InternetAttackListFragment.getInstance(attacksType);
-                case "WiFi P2P":
-                    return WiFiP2PAttackListFragment.getInstance(attacksType);
-                case "NSD":
-                    return NSDAttackListFragment.getInstance(attacksType);
-                case "Bluetooth":
-                    return BluetoothAttackListFragment.getInstance(attacksType);
-                default:
-                    return AttackListFragment.getInstance(attacksType);
-            }
+            AttackListFragment.AttackListFragmentBuilderImpl builder = new AttackListFragment.AttackListFragmentBuilderImpl();
+            return builder.build(titles[position], attacksType);
         }
 
         @Nullable
