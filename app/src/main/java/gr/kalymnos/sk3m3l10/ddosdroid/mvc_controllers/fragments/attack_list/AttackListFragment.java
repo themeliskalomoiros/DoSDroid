@@ -143,8 +143,34 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         Toast.makeText(getContext(), cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
     }
 
-    public abstract static class Builder {
-        public abstract AttackListFragment getInstance(int attacksType);
+    public interface AttackListFragmentBuilder {
+        AttackListFragment build(String tabTitle, int attackType);
+    }
+
+    public static class AttackListFragmentBuilderImpl implements AttackListFragmentBuilder {
+
+        @Override
+        public AttackListFragment build(String tabTitle, int attackType) {
+            AttackListFragment instance = getAttackListFragmentImplFromTabTitle(tabTitle);
+            instance.setArguments(createFragmentArgs(attackType));
+            return instance;
+        }
+
+        private AttackListFragment getAttackListFragmentImplFromTabTitle(String tabTitle) {
+            switch (tabTitle) {
+                // Titles were copied from R.arrays.network_technologies_titles
+                case "INTERNET":
+                    return new InternetAttackListFragment();
+                case "WiFi P2P":
+                    return new WiFiP2PAttackListFragment();
+                case "NSD":
+                    return new NSDAttackListFragment();
+                case "Bluetooth":
+                    return new BluetoothAttackListFragment();
+                default:
+                    throw new UnsupportedOperationException(TAG + " " + tabTitle + " is not a valid tab title");
+            }
+        }
 
         @NonNull
         protected static Bundle createFragmentArgs(int attacksType) {
