@@ -20,13 +20,12 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     private static final String TAG = AttacksAdapter.class.getSimpleName();
-    private static final int ITEM_VIEW_TYPE_ATTACK = 0;
-    private static final int ITEM_VIEW_TYPE_ATTACK_JOINED = 1;
-    private static final int ITEM_VIEW_TYPE_ATTACK_OWNER = 2;
+    private static final int ITEM_VIEW_TYPE_SIMPLE_ATTACK = 0;
+    private static final int ITEM_VIEW_TYPE_JOINED_ATTACK = 1;
+    private static final int ITEM_VIEW_TYPE_OWNER_ATTACK = 2;
 
     private Context context;
     private List<DDoSAttack> attackList;
-
     private AttackListViewMvc.OnAttackItemClickListener itemClickListener;
 
     AttacksAdapter(Context context) {
@@ -40,18 +39,20 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @NonNull
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView;
         switch (viewType) {
-            case ITEM_VIEW_TYPE_ATTACK_JOINED:
-                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_joined, parent, false);
-                return new JoinedAttackHolder(itemView);
-            case ITEM_VIEW_TYPE_ATTACK_OWNER:
-                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_owner, parent, false);
-                return new OwnerAttackHolder(itemView);
+            case ITEM_VIEW_TYPE_JOINED_ATTACK:
+                return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
+            case ITEM_VIEW_TYPE_OWNER_ATTACK:
+                return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
+            case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
+                return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
             default:
-                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack, parent, false);
-                return new AttackHolder(itemView);
+                throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
         }
+    }
+
+    private View createViewFrom(int layoutRes, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(layoutRes, parent, false);
     }
 
     @Override
@@ -59,13 +60,13 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         if (listHasItems(attackList)) {
             DDoSAttack attack = attackList.get(position);
             String website = attack.getTargetWebsite();
-            String peopleJoinedText = context.getString(R.string.people_who_joined_attack_label) + " " + attack.getBotNetCount();
+            String usersJoinedText = context.getString(R.string.users_joined) + " " + attack.getBotNetCount();
 
             if (attackHolder instanceof OwnerAttackHolder) {
                 OwnerAttackHolder ownerAttackHolder = (OwnerAttackHolder) attackHolder;
-                ownerAttackHolder.bindViews(website, peopleJoinedText, attack.isActive());
+                ownerAttackHolder.bindViews(website, usersJoinedText, attack.isActive());
             } else {
-                attackHolder.bindViews(website, peopleJoinedText);
+                attackHolder.bindViews(website, usersJoinedText);
             }
         }
     }
@@ -86,13 +87,13 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             DDoSAttack attack = attackList.get(position);
 
             if (attack.botBelongsToBotnet("bot3"))
-                return ITEM_VIEW_TYPE_ATTACK_JOINED;
+                return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
             if (attack.getOwner().getId().equals("bot3")) {
-                return ITEM_VIEW_TYPE_ATTACK_OWNER;
+                return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 
-            return ITEM_VIEW_TYPE_ATTACK;
+            return ITEM_VIEW_TYPE_SIMPLE_ATTACK;
         }
         throw new UnsupportedOperationException(TAG + ": attackList is null or has no items");
     }
@@ -101,28 +102,34 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         itemClickListener = listener;
     }
 
-    class AttackHolder extends RecyclerView.ViewHolder {
+    abstract class AttackHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvWebsite, tvPeopleJoined;
+        private TextView websiteTextView, joinedTextView;
 
-        public AttackHolder(@NonNull View itemView) {
+        AttackHolder(@NonNull View itemView) {
             super(itemView);
             initializeViews(itemView);
         }
 
-        private void initializeViews(@NonNull View itemView) {
+        protected void initializeViews(@NonNull View itemView) {
             itemView.setOnClickListener((view) -> {
                 if (itemClickListener != null) {
                     itemClickListener.onAttackItemClick(getAdapterPosition());
                 }
             });
-            tvWebsite = itemView.findViewById(R.id.tv_website);
-            tvPeopleJoined = itemView.findViewById(R.id.tv_people_who_joined);
+            websiteTextView = itemView.findViewById(R.id.website_textview);
+            joinedTextView = itemView.findViewById(R.id.joined_textview);
         }
 
-        void bindViews(String website, String peopleJoinedText) {
-            tvWebsite.setText(website);
-            tvPeopleJoined.setText(peopleJoinedText);
+        void bindViews(String website, String joinedText) {
+            websiteTextView.setText(website);
+            joinedTextView.setText(joinedText);
+        }
+    }
+
+    class SimpleAttackHolder extends AttackHolder {
+        SimpleAttackHolder(@NonNull View itemView) {
+            super(itemView);
         }
     }
 
@@ -141,8 +148,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             activationSwitch = itemView.findViewById(R.id.attack_activation_switch);
         }
 
-        void bindViews(String website, String peopleJoinedText, boolean attackIsActive) {
-            super.bindViews(website, peopleJoinedText);
+        void bindViews(String website, String usersJoinedText, boolean attackIsActive) {
+            super.bindViews(website, usersJoinedText);
             activationSwitch.setChecked(attackIsActive);
         }
     }
