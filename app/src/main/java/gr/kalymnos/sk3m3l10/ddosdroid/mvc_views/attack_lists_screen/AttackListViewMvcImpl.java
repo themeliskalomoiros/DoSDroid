@@ -48,7 +48,7 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
 
     @Override
     public void setOnSwitchCheckedStateListener(OnSwitchCheckedStateListener listener) {
-
+        attacksAdapter.setOnSwitchCheckedStateListener(listener);
     }
 
     @Override

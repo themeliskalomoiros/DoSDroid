@@ -14,6 +14,8 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnSwitchCheckedStateListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnAttackItemClickListener;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -26,7 +28,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     private Context context;
     private List<DDoSAttack> attackList;
-    private AttackListViewMvc.OnAttackItemClickListener itemClickListener;
+    private OnAttackItemClickListener itemClickListener;
+    private OnSwitchCheckedStateListener switchCheckedStateListener;
 
     AttacksAdapter(Context context) {
         this.context = context;
@@ -98,8 +101,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         throw new UnsupportedOperationException(TAG + ": attackList is null or has no items");
     }
 
-    public void setOnItemClickListener(AttackListViewMvc.OnAttackItemClickListener listener) {
+    public void setOnItemClickListener(OnAttackItemClickListener listener) {
         itemClickListener = listener;
+    }
+
+    public void setOnSwitchCheckedStateListener(OnSwitchCheckedStateListener switchCheckedStateListener) {
+        this.switchCheckedStateListener = switchCheckedStateListener;
     }
 
     abstract class AttackHolder extends RecyclerView.ViewHolder {
