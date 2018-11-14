@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -111,7 +112,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     abstract class AttackHolder extends RecyclerView.ViewHolder {
 
-        private TextView websiteTextView, numberJoinedTextView;
+        private TextView websiteTitle, websiteSubtitle;
+        private ImageView websiteIcon;
 
         AttackHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,13 +126,14 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                     itemClickListener.onAttackItemClick(getAdapterPosition());
                 }
             });
-            websiteTextView = itemView.findViewById(R.id.website_textview);
-            numberJoinedTextView = itemView.findViewById(R.id.number_joined_textview);
+            websiteTitle = itemView.findViewById(R.id.website_textview);
+            websiteSubtitle = itemView.findViewById(R.id.number_joined_textview);
+            websiteIcon = itemView.findViewById(R.id.website_imageview);
         }
 
         void bindViews(String website, String joinedText) {
-            websiteTextView.setText(website);
-            numberJoinedTextView.setText(joinedText);
+            websiteTitle.setText(website);
+            websiteSubtitle.setText(joinedText);
         }
     }
 
