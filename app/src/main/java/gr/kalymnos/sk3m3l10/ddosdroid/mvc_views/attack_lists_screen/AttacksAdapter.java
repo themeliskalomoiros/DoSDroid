@@ -143,17 +143,38 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
     }
 
-    class SimpleAttackHolder extends AttackHolder {
+    private interface AttackHolderBuilder {
+        AttackHolder build(int viewType, ViewGroup parent);
+    }
+
+    class AttackHolderBuilderImpl implements AttackHolderBuilder {
+
+        @Override
+        public AttackHolder build(int viewType, ViewGroup parent) {
+            switch (viewType) {
+                case ITEM_VIEW_TYPE_JOINED_ATTACK:
+                    return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
+                case ITEM_VIEW_TYPE_OWNER_ATTACK:
+                    return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
+                case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
+                    return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
+                default:
+                    throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
+            }
+        }
+    }
+
+    private class SimpleAttackHolder extends AttackHolder {
         SimpleAttackHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    class JoinedAttackHolder extends AttackHolder {
+    private class JoinedAttackHolder extends AttackHolder {
 
         private Switch joinSwitch;
 
-        public JoinedAttackHolder(@NonNull View itemView) {
+        JoinedAttackHolder(@NonNull View itemView) {
             super(itemView);
         }
 
@@ -169,11 +190,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
     }
 
-    class OwnerAttackHolder extends AttackHolder {
+    private class OwnerAttackHolder extends AttackHolder {
 
         private Switch activateSwitch;
 
-        public OwnerAttackHolder(@NonNull View itemView) {
+        OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
             activateSwitch = itemView.findViewById(R.id.activation_switch);
             activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
