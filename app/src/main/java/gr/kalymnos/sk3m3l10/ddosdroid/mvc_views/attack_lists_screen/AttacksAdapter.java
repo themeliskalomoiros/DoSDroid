@@ -15,9 +15,10 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnSwitchCheckedStateListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnAttackItemClickListener;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnAttackItemClickListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
@@ -30,7 +31,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private Context context;
     private List<DDoSAttack> attackList;
     private OnAttackItemClickListener itemClickListener;
-    private OnSwitchCheckedStateListener switchCheckedStateListener;
+    private OnJoinSwitchCheckedStateListener switchCheckedStateListener;
+    private OnActivateSwitchCheckedStateListener activateSwitchCheckedStateListener;
 
     AttacksAdapter(Context context) {
         this.context = context;
@@ -106,8 +108,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         itemClickListener = listener;
     }
 
-    public void setOnSwitchCheckedStateListener(OnSwitchCheckedStateListener switchCheckedStateListener) {
-        this.switchCheckedStateListener = switchCheckedStateListener;
+    public void setOnSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener) {
+        this.switchCheckedStateListener = listener;
+    }
+
+    public void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener) {
+        this.activateSwitchCheckedStateListener = listener;
     }
 
     abstract class AttackHolder extends RecyclerView.ViewHolder {
@@ -144,23 +150,42 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     }
 
     class JoinedAttackHolder extends AttackHolder {
+
+        private Switch joinSwitch;
+
         public JoinedAttackHolder(@NonNull View itemView) {
             super(itemView);
+        }
+
+        @Override
+        protected void initializeViews(@NonNull View itemView) {
+            super.initializeViews(itemView);
+            joinSwitch = itemView.findViewById(R.id.join_switch);
+            joinSwitch.setOnCheckedChangeListener((view, isChecked) -> {
+                if (switchCheckedStateListener != null) {
+                    switchCheckedStateListener.onJoinSwitchCheckedState(getAdapterPosition(), isChecked);
+                }
+            });
         }
     }
 
     class OwnerAttackHolder extends AttackHolder {
 
-        private Switch activationSwitch;
+        private Switch activateSwitch;
 
         public OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
-            activationSwitch = itemView.findViewById(R.id.attack_activation_switch);
+            activateSwitch = itemView.findViewById(R.id.activation_switch);
+            activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
+                if (activateSwitchCheckedStateListener != null) {
+                    activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
+                }
+            });
         }
 
         void bindViews(String website, String usersJoinedText, boolean attackIsActive) {
             super.bindViews(website, usersJoinedText);
-            activationSwitch.setChecked(attackIsActive);
+            activateSwitch.setChecked(attackIsActive);
         }
     }
 }
