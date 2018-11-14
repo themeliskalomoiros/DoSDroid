@@ -111,7 +111,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     abstract class AttackHolder extends RecyclerView.ViewHolder {
 
-        private TextView websiteTextView, joinedTextView;
+        private TextView websiteTextView, numberJoinedTextView;
 
         AttackHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,12 +125,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                 }
             });
             websiteTextView = itemView.findViewById(R.id.website_textview);
-            joinedTextView = itemView.findViewById(R.id.joined_textview);
+            numberJoinedTextView = itemView.findViewById(R.id.number_joined_textview);
         }
 
         void bindViews(String website, String joinedText) {
             websiteTextView.setText(website);
-            joinedTextView.setText(joinedText);
+            numberJoinedTextView.setText(joinedText);
         }
     }
 

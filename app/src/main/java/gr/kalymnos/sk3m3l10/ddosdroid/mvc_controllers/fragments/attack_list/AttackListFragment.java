@@ -26,7 +26,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValid
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
-        AttackRepository.OnAttacksFetchListener {
+        AttackListViewMvc.OnSwitchCheckedStateListener, AttackRepository.OnAttacksFetchListener {
 
     private static final String TAG = AttackListFragment.class.getSimpleName();
 
@@ -92,6 +92,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackListViewMvcImpl(inflater, container);
         viewMvc.setOnAttackItemClickListener(this);
+        viewMvc.setOnSwitchCheckedStateListener(this);
     }
 
     protected abstract void fetchAttacksAccordingToType();
@@ -118,6 +119,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onAttackItemClick(int position) {
         Toast.makeText(getContext(), cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSwitchCheckedState(int position, boolean isChecked) {
+        Toast.makeText(getContext(), "Item at position"+(position)+" switch set to "+isChecked, Toast.LENGTH_SHORT).show();
     }
 
     /*

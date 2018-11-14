@@ -17,7 +17,7 @@
         tools:text="www.sport24.gr" />
 
     <TextView
-        android:id="@+id/joined_textview"
+        android:id="@+id/number_joined_textview"
         style="@style/Attack_List_Item_Subtitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
