@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -15,19 +16,23 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnAttackItemClickListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     private static final String TAG = AttacksAdapter.class.getSimpleName();
-    private static final int ITEM_VIEW_TYPE_ATTACK = 0;
-    private static final int ITEM_VIEW_TYPE_ATTACK_JOINED = 1;
-    private static final int ITEM_VIEW_TYPE_ATTACK_OWNER = 2;
+    private static final int ITEM_VIEW_TYPE_SIMPLE_ATTACK = 0;
+    private static final int ITEM_VIEW_TYPE_JOINED_ATTACK = 1;
+    private static final int ITEM_VIEW_TYPE_OWNER_ATTACK = 2;
 
     private Context context;
     private List<DDoSAttack> attackList;
-
-    private AttackListViewMvc.OnAttackItemClickListener itemClickListener;
+    private OnAttackItemClickListener itemClickListener;
+    private OnJoinSwitchCheckedStateListener switchCheckedStateListener;
+    private OnActivateSwitchCheckedStateListener activateSwitchCheckedStateListener;
 
     AttacksAdapter(Context context) {
         this.context = context;
@@ -40,33 +45,17 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @NonNull
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView;
-        switch (viewType) {
-            case ITEM_VIEW_TYPE_ATTACK_JOINED:
-                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_joined, parent, false);
-                return new JoinedAttackHolder(itemView);
-            case ITEM_VIEW_TYPE_ATTACK_OWNER:
-                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack_owner, parent, false);
-                return new OwnerAttackHolder(itemView);
-            default:
-                itemView = LayoutInflater.from(context).inflate(R.layout.list_item_attack, parent, false);
-                return new AttackHolder(itemView);
-        }
+        return new AttackHolderBuilderImpl().build(viewType, parent);
+    }
+
+    private View createViewFrom(int layoutRes, ViewGroup parent) {
+        return LayoutInflater.from(context).inflate(layoutRes, parent, false);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
         if (listHasItems(attackList)) {
-            DDoSAttack attack = attackList.get(position);
-            String website = attack.getTargetWebsite();
-            String peopleJoinedText = context.getString(R.string.people_who_joined_attack_label) + " " + attack.getBotNetCount();
-
-            if (attackHolder instanceof OwnerAttackHolder) {
-                OwnerAttackHolder ownerAttackHolder = (OwnerAttackHolder) attackHolder;
-                ownerAttackHolder.bindViews(website, peopleJoinedText, attack.isActive());
-            } else {
-                attackHolder.bindViews(website, peopleJoinedText);
-            }
+            attackHolder.bind(attackList.get(position));
         }
     }
 
@@ -86,64 +75,120 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             DDoSAttack attack = attackList.get(position);
 
             if (attack.botBelongsToBotnet("bot3"))
-                return ITEM_VIEW_TYPE_ATTACK_JOINED;
+                return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
             if (attack.getOwner().getId().equals("bot3")) {
-                return ITEM_VIEW_TYPE_ATTACK_OWNER;
+                return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 
-            return ITEM_VIEW_TYPE_ATTACK;
+            return ITEM_VIEW_TYPE_SIMPLE_ATTACK;
         }
         throw new UnsupportedOperationException(TAG + ": attackList is null or has no items");
     }
 
-    public void setOnItemClickListener(AttackListViewMvc.OnAttackItemClickListener listener) {
+    public void setOnItemClickListener(OnAttackItemClickListener listener) {
         itemClickListener = listener;
     }
 
-    class AttackHolder extends RecyclerView.ViewHolder {
+    public void setOnSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener) {
+        this.switchCheckedStateListener = listener;
+    }
 
-        private TextView tvWebsite, tvPeopleJoined;
+    public void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener) {
+        this.activateSwitchCheckedStateListener = listener;
+    }
 
-        public AttackHolder(@NonNull View itemView) {
+    abstract class AttackHolder extends RecyclerView.ViewHolder {
+
+        private TextView websiteTitle, websiteSubtitle;
+        private ImageView websiteIcon;
+
+        AttackHolder(@NonNull View itemView) {
             super(itemView);
             initializeViews(itemView);
         }
 
-        private void initializeViews(@NonNull View itemView) {
+        protected void initializeViews(@NonNull View itemView) {
             itemView.setOnClickListener((view) -> {
                 if (itemClickListener != null) {
                     itemClickListener.onAttackItemClick(getAdapterPosition());
                 }
             });
-            tvWebsite = itemView.findViewById(R.id.tv_website);
-            tvPeopleJoined = itemView.findViewById(R.id.tv_people_who_joined);
+            websiteTitle = itemView.findViewById(R.id.website_textview);
+            websiteSubtitle = itemView.findViewById(R.id.number_joined_textview);
+            websiteIcon = itemView.findViewById(R.id.website_imageview);
         }
 
-        void bindViews(String website, String peopleJoinedText) {
-            tvWebsite.setText(website);
-            tvPeopleJoined.setText(peopleJoinedText);
+        void bind(DDoSAttack attack) {
+            websiteTitle.setText(attack.getTargetWebsite());
+            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotNetCount()));
+            //  TODO: if a website has a favicon.ico then display it in websiteIcon
+        }
+
+        private String createUsersJoinedTextFrom(int usersJoined) {
+            return context.getString(R.string.users_joined) + " " + usersJoined;
         }
     }
 
-    class JoinedAttackHolder extends AttackHolder {
-        public JoinedAttackHolder(@NonNull View itemView) {
+    private class SimpleAttackHolder extends AttackHolder {
+        SimpleAttackHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    class OwnerAttackHolder extends AttackHolder {
+    private class JoinedAttackHolder extends AttackHolder {
 
-        private Switch activationSwitch;
+        private Switch joinSwitch;
 
-        public OwnerAttackHolder(@NonNull View itemView) {
+        JoinedAttackHolder(@NonNull View itemView) {
             super(itemView);
-            activationSwitch = itemView.findViewById(R.id.attack_activation_switch);
         }
 
-        void bindViews(String website, String peopleJoinedText, boolean attackIsActive) {
-            super.bindViews(website, peopleJoinedText);
-            activationSwitch.setChecked(attackIsActive);
+        @Override
+        protected void initializeViews(@NonNull View itemView) {
+            super.initializeViews(itemView);
+            joinSwitch = itemView.findViewById(R.id.join_switch);
+            joinSwitch.setOnCheckedChangeListener((view, isChecked) -> {
+                if (switchCheckedStateListener != null) {
+                    switchCheckedStateListener.onJoinSwitchCheckedState(getAdapterPosition(), isChecked);
+                }
+            });
+        }
+    }
+
+    private class OwnerAttackHolder extends AttackHolder {
+
+        private Switch activateSwitch;
+
+        OwnerAttackHolder(@NonNull View itemView) {
+            super(itemView);
+            activateSwitch = itemView.findViewById(R.id.activation_switch);
+            activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
+                if (activateSwitchCheckedStateListener != null) {
+                    activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
+                }
+            });
+        }
+    }
+
+    private interface AttackHolderBuilder {
+        AttackHolder build(int viewType, ViewGroup parent);
+    }
+
+    class AttackHolderBuilderImpl implements AttackHolderBuilder {
+
+        @Override
+        public AttackHolder build(int viewType, ViewGroup parent) {
+            switch (viewType) {
+                case ITEM_VIEW_TYPE_JOINED_ATTACK:
+                    return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
+                case ITEM_VIEW_TYPE_OWNER_ATTACK:
+                    return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
+                case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
+                    return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
+                default:
+                    throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
+            }
         }
     }
 }

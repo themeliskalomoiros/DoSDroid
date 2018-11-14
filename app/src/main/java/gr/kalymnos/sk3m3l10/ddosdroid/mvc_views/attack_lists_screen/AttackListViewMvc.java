@@ -10,6 +10,14 @@ public interface AttackListViewMvc extends ViewMvc {
         void onAttackItemClick(int position);
     }
 
+    interface OnJoinSwitchCheckedStateListener {
+        void onJoinSwitchCheckedState(int position, boolean isChecked);
+    }
+
+    interface OnActivateSwitchCheckedStateListener {
+        void onActivateSwitchCheckedState(int position, boolean isChecked);
+    }
+
     void bindAttacks(List<DDoSAttack> attacks);
 
     void showLoadingIndicator();
@@ -17,4 +25,8 @@ public interface AttackListViewMvc extends ViewMvc {
     void hideLoadingIndicator();
 
     void setOnAttackItemClickListener(OnAttackItemClickListener listener);
+
+    void setOnJoinSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener);
+
+    void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener);
 }

@@ -67,7 +67,7 @@ public class AttackInfoViewMvcImpl implements AttackInfoViewMvc {
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_part_attack_info, container, false);
-        tvWebsite = root.findViewById(R.id.tv_website);
+        tvWebsite = root.findViewById(R.id.website_textview);
         tvWebsiteHint = root.findViewById(R.id.tv_website_hint);
         tvAttackForce = root.findViewById(R.id.tv_attack_force_msg);
         tvAttackForceHint = root.findViewById(R.id.tv_attack_force_hint);
