@@ -45,7 +45,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @NonNull
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AttackHolderBuilderImpl().build(viewType,parent);
+        return new AttackHolderBuilderImpl().build(viewType, parent);
     }
 
     private View createViewFrom(int layoutRes, ViewGroup parent) {
@@ -55,16 +55,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
         if (listHasItems(attackList)) {
-            DDoSAttack attack = attackList.get(position);
-            String website = attack.getTargetWebsite();
-            String usersJoinedText = context.getString(R.string.users_joined) + " " + attack.getBotNetCount();
-
-            if (attackHolder instanceof OwnerAttackHolder) {
-                OwnerAttackHolder ownerAttackHolder = (OwnerAttackHolder) attackHolder;
-                ownerAttackHolder.bindViews(website, usersJoinedText, attack.isActive());
-            } else {
-                attackHolder.bindViews(website, usersJoinedText);
-            }
+            attackHolder.bind(attackList.get(position));
         }
     }
 
@@ -128,30 +119,13 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             websiteIcon = itemView.findViewById(R.id.website_imageview);
         }
 
-        void bindViews(String website, String joinedText) {
-            websiteTitle.setText(website);
-            websiteSubtitle.setText(joinedText);
+        void bind(DDoSAttack attack) {
+            websiteTitle.setText(attack.getTargetWebsite());
+            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotNetCount()));
         }
-    }
 
-    private interface AttackHolderBuilder {
-        AttackHolder build(int viewType, ViewGroup parent);
-    }
-
-    class AttackHolderBuilderImpl implements AttackHolderBuilder {
-
-        @Override
-        public AttackHolder build(int viewType, ViewGroup parent) {
-            switch (viewType) {
-                case ITEM_VIEW_TYPE_JOINED_ATTACK:
-                    return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
-                case ITEM_VIEW_TYPE_OWNER_ATTACK:
-                    return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
-                case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
-                    return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
-                default:
-                    throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
-            }
+        private String createUsersJoinedTextFrom(int usersJoined) {
+            return context.getString(R.string.users_joined) + " " + usersJoined;
         }
     }
 
@@ -194,10 +168,26 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                 }
             });
         }
+    }
 
-        void bindViews(String website, String usersJoinedText, boolean attackIsActive) {
-            super.bindViews(website, usersJoinedText);
-            activateSwitch.setChecked(attackIsActive);
+    private interface AttackHolderBuilder {
+        AttackHolder build(int viewType, ViewGroup parent);
+    }
+
+    class AttackHolderBuilderImpl implements AttackHolderBuilder {
+
+        @Override
+        public AttackHolder build(int viewType, ViewGroup parent) {
+            switch (viewType) {
+                case ITEM_VIEW_TYPE_JOINED_ATTACK:
+                    return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
+                case ITEM_VIEW_TYPE_OWNER_ATTACK:
+                    return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
+                case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
+                    return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
+                default:
+                    throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
+            }
         }
     }
 }

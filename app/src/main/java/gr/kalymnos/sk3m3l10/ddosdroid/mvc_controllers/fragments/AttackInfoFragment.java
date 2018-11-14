@@ -23,7 +23,6 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
 
     public interface OnBeginAttackButtonClickListener {
         void onBeginAttackButtonClick();
-
     }
 
     private OnBeginAttackButtonClickListener mCallback;
@@ -31,7 +30,7 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initializeViewMvc(inflater, container);
+        initializeViewMvcAndDrawAttackForceArea(inflater, container);
         return viewMvc.getRootView();
     }
 
@@ -50,7 +49,7 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
         mCallback.onBeginAttackButtonClick();
     }
 
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+    private void initializeViewMvcAndDrawAttackForceArea(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackInfoViewMvcImpl(inflater, container);
         viewMvc.setOnBeginAttacButtonClickListener(this);
         if (bundleIsValidAndContainsKey(getArguments(), WEBSITE_KEY)) {
