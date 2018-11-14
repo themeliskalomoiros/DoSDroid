@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Switch
-        android:id="@+id/attack_activation_switch"
+        android:id="@+id/activation_switch"
         style="@style/Attack_List_Item_Switch"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,9 +52,9 @@
         android:text="@string/you_started_this_attack_label"
         android:textColor="@color/primaryTextColor"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/attack_activation_switch"
+        app:layout_constraintBottom_toBottomOf="@+id/activation_switch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/attack_activation_switch"
+        app:layout_constraintTop_toTopOf="@+id/activation_switch"
         app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

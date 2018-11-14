@@ -10,8 +10,12 @@ public interface AttackListViewMvc extends ViewMvc {
         void onAttackItemClick(int position);
     }
 
-    interface OnSwitchCheckedStateListener{
-        void onSwitchCheckedState(int position, boolean isChecked);
+    interface OnJoinSwitchCheckedStateListener {
+        void onJoinSwitchCheckedState(int position, boolean isChecked);
+    }
+
+    interface OnActivateSwitchCheckedStateListener {
+        void onActivateSwitchCheckedState(int position, boolean isChecked);
     }
 
     void bindAttacks(List<DDoSAttack> attacks);
@@ -22,5 +26,7 @@ public interface AttackListViewMvc extends ViewMvc {
 
     void setOnAttackItemClickListener(OnAttackItemClickListener listener);
 
-    void setOnSwitchCheckedStateListener(OnSwitchCheckedStateListener listener);
+    void setOnJoinSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener);
+
+    void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener);
 }

@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Switch
-        android:id="@+id/attack_activation_switch"
+        android:id="@+id/join_switch"
         style="@style/Attack_List_Item_Switch"
         android:textOn="@string/switch_joined_text_on"
         android:textOff="@string/switch_joined_text_off"
@@ -54,9 +54,9 @@
         android:text="@string/you_joined_this_attack_label"
         android:textColor="@color/primaryTextColor"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/attack_activation_switch"
+        app:layout_constraintBottom_toBottomOf="@+id/join_switch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/attack_activation_switch"
+        app:layout_constraintTop_toTopOf="@+id/join_switch"
         app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

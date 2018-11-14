@@ -26,7 +26,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValid
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
-        AttackListViewMvc.OnSwitchCheckedStateListener, AttackRepository.OnAttacksFetchListener {
+        AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
+        AttackRepository.OnAttacksFetchListener {
 
     private static final String TAG = AttackListFragment.class.getSimpleName();
 
@@ -92,7 +93,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackListViewMvcImpl(inflater, container);
         viewMvc.setOnAttackItemClickListener(this);
-        viewMvc.setOnSwitchCheckedStateListener(this);
+        viewMvc.setOnJoinSwitchCheckedStateListener(this);
+        viewMvc.setOnActivateSwitchCheckedStateListener(this);
     }
 
     protected abstract void fetchAttacksAccordingToType();
@@ -122,23 +124,28 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void onSwitchCheckedState(int position, boolean isChecked) {
-        Toast.makeText(getContext(), "Item at position"+(position)+" switch set to "+isChecked, Toast.LENGTH_SHORT).show();
+    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
+        Toast.makeText(getContext(), "Item at position" + (position) + " switch set to " + isChecked, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
+        Toast.makeText(getContext(), "Item at position" + (position) + " switch set to " + isChecked, Toast.LENGTH_SHORT).show();
     }
 
     /*
-    *
-    * I broke a switch statement that was exists in AllAttackListsViewMvcImpl.MyPagerAdapter
-    * which was checking the text and returning a specific AttackListFragment subclass.
-    *
-    * Now AllAttackListsViewMvcImpl.MyPagerAdapter.getItemId() just creates an instance of
-    * AttackListFragmentBuilder and call build() to return that specific AttackListFragment subclass
-    * instance.
-    *
-    * This technique was used to clean the code. The justification lies in Uncled Bob's book
-    * "Clean Code", chapter 3, page 39.
-    *
-    * */
+     *
+     * I broke a switch statement that was exists in AllAttackListsViewMvcImpl.MyPagerAdapter
+     * which was checking the text and returning a specific AttackListFragment subclass.
+     *
+     * Now AllAttackListsViewMvcImpl.MyPagerAdapter.getItemId() just creates an instance of
+     * AttackListFragmentBuilder and call build() to return that specific AttackListFragment subclass
+     * instance.
+     *
+     * This technique was used to clean the code. The justification lies in Uncled Bob's book
+     * "Clean Code", chapter 3, page 39.
+     *
+     * */
 
     public interface AttackListFragmentBuilder {
         AttackListFragment build(String tabTitle, int attackType);
