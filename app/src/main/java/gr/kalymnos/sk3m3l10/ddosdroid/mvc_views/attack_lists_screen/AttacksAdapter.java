@@ -122,6 +122,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         void bind(DDoSAttack attack) {
             websiteTitle.setText(attack.getTargetWebsite());
             websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotNetCount()));
+            //  TODO: if a website has a favicon.ico then display it in websiteIcon
         }
 
         private String createUsersJoinedTextFrom(int usersJoined) {
