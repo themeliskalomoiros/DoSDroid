@@ -30,6 +30,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     public AttackCreationViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
+        setupUi(inflater);
     }
 
     @Override
@@ -64,15 +65,20 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_part_attack_creation, container, false);
-        initializeFab();
-        initializeEditText();
         websiteHint = root.findViewById(R.id.tv_website_hint);
         networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
-        initializeSpinner(inflater);
+        websiteEditText = root.findViewById(R.id.ed_website);
+        spinner = root.findViewById(R.id.spinner);
+        fab = root.findViewById(R.id.fab);
     }
 
-    private void initializeEditText() {
-        websiteEditText = root.findViewById(R.id.ed_website);
+    private void setupUi(LayoutInflater inflater) {
+        setupEditText();
+        setupSpinner(inflater);
+        setupFab();
+    }
+
+    private void setupEditText() {
         websiteEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -93,8 +99,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         });
     }
 
-    private void initializeSpinner(LayoutInflater inflater) {
-        spinner = root.findViewById(R.id.spinner);
+    private void setupSpinner(LayoutInflater inflater) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(inflater.getContext(),
                 R.array.network_technologies_titles, R.layout.item_spinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -124,8 +129,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         });
     }
 
-    private void initializeFab() {
-        fab = root.findViewById(R.id.fab);
+    private void setupFab() {
         fab.setOnClickListener((view -> {
             if (onAttackCreationButtonClickListener != null) {
                 onAttackCreationButtonClickListener.onAttackCreationButtonClicked(websiteEditText.getText().toString());
