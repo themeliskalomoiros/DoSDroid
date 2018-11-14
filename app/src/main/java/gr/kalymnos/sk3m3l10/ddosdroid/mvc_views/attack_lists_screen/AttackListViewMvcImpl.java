@@ -47,6 +47,11 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     }
 
     @Override
+    public void setOnSwitchCheckedStateListener(OnSwitchCheckedStateListener listener) {
+
+    }
+
+    @Override
     public View getRootView() {
         return root;
     }
