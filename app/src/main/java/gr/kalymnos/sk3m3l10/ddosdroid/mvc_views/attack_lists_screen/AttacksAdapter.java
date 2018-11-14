@@ -45,16 +45,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @NonNull
     @Override
     public AttackHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case ITEM_VIEW_TYPE_JOINED_ATTACK:
-                return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
-            case ITEM_VIEW_TYPE_OWNER_ATTACK:
-                return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
-            case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
-                return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
-            default:
-                throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
-        }
+        return new AttackHolderBuilderImpl().build(viewType,parent);
     }
 
     private View createViewFrom(int layoutRes, ViewGroup parent) {
