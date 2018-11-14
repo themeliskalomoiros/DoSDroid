@@ -12,7 +12,6 @@
     <string name="attack_force_label">Attack force</string>
     <string name="confirm_creation_label">Confirm creation</string>
     <string name="begin_attack_label">Begin the attack</string>
-    <string name="switch_name">Activate</string>
     <string name="attack_list_label">Attack list</string>
     <string name="cloud_hosting_content_description">A cloud hosting image</string>
     <string name="attack_a_website_label">Attack a website</string>
@@ -26,9 +25,15 @@
     <string name="target_set_to_label">Target set to</string>
     <string name="stop_attack_label">Stop the attack</string>
     <string name="users_joined">Users joined:</string>
-    <string name="swords_content_description">Swords icon</string>
+    <string name="website_image_content_description">Icon of the website</string>
     <string name="attack_list_toolbar_subtitle_prefix">Total count:</string>
     <string name="items_label">items</string>
+    <string name="you_started_this_attack_label">You\'ve started this attack:</string>
+    <string name="switch_owner_text_on">Disable</string>
+    <string name="switch_owner_text_off">Activate</string>
+    <string name="switch_joined_text_on">Leave</string>
+    <string name="switch_joined_text_off">Join</string>
+    <string name="you_joined_this_attack_label">You\'ve joined this attack:</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

@@ -2,40 +2,35 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Attack_List_Item">
+    style="@style/Attack_List_Item"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="33dp">
 
     <TextView
         android:id="@+id/website_textview"
         style="@style/Attack_List_Item_Website"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_attack"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/website_imageview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/website_imageview"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="www.sport24.gr" />
 
     <TextView
         android:id="@+id/joined_textview"
         style="@style/Attack_List_Item_Subtitle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/website_textview"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/website_textview"
         app:layout_constraintTop_toBottomOf="@+id/website_textview"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="157 are following this attack." />
+        tools:text="Users joined this attack: 13" />
 
     <ImageView
-        android:id="@+id/imageView_attack"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:contentDescription="@string/swords_content_description"
-        android:src="@drawable/ic_swords"
-        app:layout_constraintBottom_toBottomOf="@+id/joined_textview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/website_textview"
-        app:layout_constraintTop_toTopOf="@+id/website_textview" />
+        android:id="@+id/website_imageview"
+        style="@style/Attack_List_Item_Website_Icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/website_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

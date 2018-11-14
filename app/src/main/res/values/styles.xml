@@ -125,30 +125,51 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/default_margin</item>
-        <item name="android:padding">@dimen/half_of_half_default_margin</item>
+        <item name="android:padding">@dimen/default_margin</item>
         <item name="android:background">@color/primaryColor</item>
     </style>
 
     <style name="Attack_List_Item_Website">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/triple_default_margin</item>
-        <item name="android:layout_marginLeft">@dimen/triple_default_margin</item>
+        <item name="android:layout_marginStart">@dimen/double_default_margin</item>
+        <item name="android:layout_marginLeft">@dimen/double_default_margin</item>
         <item name="android:layout_marginTop">@dimen/default_margin</item>
         <item name="android:layout_marginEnd">@dimen/default_margin</item>
         <item name="android:layout_marginRight">@dimen/default_margin</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/primaryTextColor</item>
-        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="Attack_List_Item_Subtitle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/half_of_half_default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
         <item name="android:layout_marginBottom">@dimen/default_margin</item>
         <item name="android:textSize">@dimen/list_item_subtitle_text_size</item>
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="Attack_List_Item_Website_Icon">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
+        <item name="android:contentDescription">@string/website_image_content_description</item>
+        <item name="android:src">@drawable/ic_swords</item>
+    </style>
+
+    <style name="Attack_List_Item_Switch" parent="Dimensions_Wrap_Content">
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:layout_marginBottom">@dimen/default_margin</item>
+        <item name="android:textOff">@string/switch_owner_text_off</item>
+        <item name="android:textOn">@string/switch_owner_text_on</item>
+        <item name="android:showText" tools:targetApi="lollipop">true</item>
+    </style>
 </resources>
