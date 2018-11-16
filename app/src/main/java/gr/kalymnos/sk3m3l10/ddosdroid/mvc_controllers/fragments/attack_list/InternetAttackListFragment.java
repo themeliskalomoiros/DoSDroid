@@ -22,7 +22,7 @@ public class InternetAttackListFragment extends AttackListFragment {
                 attackRepo.fetchJoinedAttakcsOf("bot3", INTERNET);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacksOf(INTERNET);
+                attackRepo.fetchLocalOwnerAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_NOT_JOINED:
                 attackRepo.fetchNotJoinedAttacksOf("bot3", INTERNET);

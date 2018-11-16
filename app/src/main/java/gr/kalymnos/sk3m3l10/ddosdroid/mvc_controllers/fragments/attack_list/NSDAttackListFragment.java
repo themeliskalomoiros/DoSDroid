@@ -22,7 +22,7 @@ public class NSDAttackListFragment extends AttackListFragment {
                 attackRepo.fetchJoinedAttakcsOf("bot3", NSD);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacksOf(NSD);
+                attackRepo.fetchLocalOwnerAttacksOf(NSD);
                 break;
             case TYPE_FETCH_NOT_JOINED:
                 attackRepo.fetchNotJoinedAttacksOf("bot3", NSD);

@@ -22,7 +22,7 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
                 attackRepo.fetchJoinedAttakcsOf("bot3", WIFI_P2P);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacksOf(WIFI_P2P);
+                attackRepo.fetchLocalOwnerAttacksOf(WIFI_P2P);
                 break;
             case TYPE_FETCH_NOT_JOINED:
                 attackRepo.fetchNotJoinedAttacksOf("bot3", WIFI_P2P);

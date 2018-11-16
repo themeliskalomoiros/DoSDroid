@@ -22,7 +22,7 @@ public class BluetoothAttackListFragment extends AttackListFragment {
                 attackRepo.fetchJoinedAttakcsOf("bot3", BLUETOOTH);
                 break;
             case TYPE_FETCH_OWNER:
-                attackRepo.fetchOwnerAttacksOf(BLUETOOTH);
+                attackRepo.fetchLocalOwnerAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_NOT_JOINED:
                 attackRepo.fetchNotJoinedAttacksOf("bot3", BLUETOOTH);

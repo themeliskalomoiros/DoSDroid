@@ -1,9 +1,9 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model;
 
-import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -20,153 +20,213 @@ public class FakeAttackRepo implements AttackRepository {
     private static final String TAG = FakeAttackRepo.class.getSimpleName();
     private static final long SLEEP_TIME_MILLIS = 1000;
 
-    private Activity controller;
-    private List<DDoSAttack> allAttacks;
-    private OnAttacksFetchListener mCallback;
+    /*
+     * Static fields of FakeAttackRepo will be initialized from a static block
+     * */
+    private static List<DDoSAttack> allAttacks;
 
-    private Thread fetchAllAttacksThread, fetchFollowingAttacksThread;
-
-    public FakeAttackRepo(Activity controller) {
-        this.allAttacks = getRandomFakeAttackList(16);
-        this.controller = controller;
+    static {
+        allAttacks = AttackCreator.createAttacks(200, NetworkTypeCreator.createRandomNetworkType(), BotCreator.createRandomBot());
     }
+
+    private OnAttacksFetchListener callback;
 
     @Override
     public void fetchAllAttacks() {
-        if (fetchAllAttacksThread == null) {
-            fetchAllAttacksThread = new Thread(getFetchAllAttacksTask());
-            fetchAllAttacksThread.start();
-        }
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                callback.attacksFetchedSuccess(allAttacks);
+            }
+        }).start();
     }
 
     @Override
     public void fetchAllAttacksOf(int networkType) {
-        fetchAllAttacks();
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    if (attack.getNetworkType() == networkType) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
     public void fetchJoinedAttakcsOf(String botId) {
-        if (fetchFollowingAttacksThread == null) {
-            fetchFollowingAttacksThread = new Thread(getFetchFollowingAttacksTask(botId));
-            fetchFollowingAttacksThread.start();
-        }
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    if (attack.botBelongsToBotnet(botId)) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
     public void fetchJoinedAttakcsOf(String botId, int networkType) {
-        fetchJoinedAttakcsOf(botId);
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    boolean sameBotAndNetworkType = attack.botBelongsToBotnet(botId)
+                            && attack.getNetworkType() == networkType;
+                    if (sameBotAndNetworkType) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
     public void fetchNotJoinedAttacksOf(String botId) {
-        fetchJoinedAttakcsOf(botId);
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    if (!attack.botBelongsToBotnet(botId)) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
     public void fetchNotJoinedAttacksOf(String botId, int networkType) {
-        fetchJoinedAttakcsOf(botId);
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    boolean sameBotAndNetworkType = attack.botBelongsToBotnet(botId)
+                            && attack.getNetworkType() == networkType;
+                    if (!sameBotAndNetworkType) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
-    public void fetchOwnerAttacks() {
-        fetchAllAttacks();
+    public void fetchLocalOwnerAttacks() {
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    boolean ownerIsLocalUser = attack.getOwner().equals(DDoSBot.getLocalUserDDoSBot());
+                    if (ownerIsLocalUser) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
-    public void fetchOwnerAttacksOf(int networkType) {
-        fetchOwnerAttacks();
+    public void fetchLocalOwnerAttacksOf(int networkType) {
+        new Thread(() -> {
+            sleep(SLEEP_TIME_MILLIS);
+            if (callback != null) {
+                List<DDoSAttack> attacks = new ArrayList<>();
+                for (DDoSAttack attack : allAttacks) {
+                    boolean ownerIsLocalUser = attack.getOwner().equals(DDoSBot.getLocalUserDDoSBot());
+                    boolean sameNetworkType = attack.getNetworkType() == networkType;
+                    if (ownerIsLocalUser && sameNetworkType) {
+                        attacks.add(attack);
+                    }
+                }
+                callback.attacksFetchedSuccess(attacks);
+            }
+        }).start();
     }
 
     @Override
     public void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
-        mCallback = listener;
+        callback = listener;
     }
 
     @Override
     public void unRegisterOnAttacksFetchListener() {
-        // First remove the listener's strong reference so the GC can collect the latter
-        mCallback = null;
-        // Cancel workers execution (by interrupting them)
-        cancelWorkerThreads();
+        callback = null;
     }
 
-    private void cancelWorkerThreads() {
-        if (fetchAllAttacksThread != null) {
-            fetchAllAttacksThread.interrupt();
-            fetchAllAttacksThread = null;
-        }
-        if (fetchFollowingAttacksThread != null) {
-            fetchFollowingAttacksThread.interrupt();
-            fetchFollowingAttacksThread = null;
-        }
-    }
+    private static class AttackCreator {
 
-    private List<DDoSAttack> getRandomFakeAttackList(int size) {
-        Random random = new Random();
-        String websitePrefix = "website";
-        String websiteSuffix = ".com";
-
-        int[] networkTypes = {INTERNET, WIFI_P2P, NSD, BLUETOOTH};
-
-        List<DDoSAttack> list = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            list.add(new DDoSAttack(websitePrefix + i + websiteSuffix,
-                    networkTypes[random.nextInt(networkTypes.length)],
-                    new DDoSBot("bot" + (random.nextInt(3) + 1)),
-                    getRandomFakeBotnet(random.nextInt(7) + 3),
-                    i % 2 == 0 ? true : false, System.currentTimeMillis()));
-        }
-
-        return list;
-    }
-
-    private List<DDoSBot> getRandomFakeBotnet(int size) {
-        Random random = new Random();
-        String prefix = "bot";
-
-        List<DDoSBot> list = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            list.add(new DDoSBot(prefix + (random.nextInt(10) + 1)));
-        }
-
-        return list;
-    }
-
-    private Runnable getFetchAllAttacksTask() {
-        return () -> {
-            try {
-                Log.d(TAG,"FetchAllAttacksThread says Hello!!!");
-                Thread.sleep(SLEEP_TIME_MILLIS);
-                if (mCallback != null) {
-                    controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(allAttacks));
-                }
-            } catch (InterruptedException e) {
-                //  If we are interrupted we just end the thread by returning
-                Log.d(TAG, "fetchAllAttacksThread was interrupted");
-                return;
+        static List<DDoSAttack> createAttacks(int count, int networkType, DDoSBot owner) {
+            DDoSAttack[] attacks = new DDoSAttack[count];
+            for (int i = 0; i < attacks.length; i++) {
+                attacks[i] = createAttack(networkType, owner);
             }
-        };
+            return Arrays.asList(attacks);
+        }
+
+        static DDoSAttack createAttack(int networkType, DDoSBot owner) {
+            return new DDoSAttack("sample.com", networkType, owner,
+                    BotCreator.createBotnet(new Random().nextInt(30)),
+                    createRandomBoolean(), System.currentTimeMillis());
+        }
+
     }
 
-    private Runnable getFetchFollowingAttacksTask(String botId) {
-        return () -> {
-            try {
-                Log.d(TAG,"FetchFollowingAttacksThread says Hello!!!");
-                Thread.sleep(SLEEP_TIME_MILLIS);
-                if (mCallback != null) {
-                    List<DDoSAttack> followingAttacks = new ArrayList<>();
-                    for (DDoSAttack attack : allAttacks) {
-                        if (attack.getOwner().getId().equals(botId)) {
-                            followingAttacks.add(attack);
-                        }
-                    }
-                    controller.runOnUiThread(() -> mCallback.attacksFetchedSuccess(followingAttacks));
-                }
-            } catch (InterruptedException e) {
-                //  If we are interrupted we just end the thread by returning
-                Log.d(TAG, "fetchFollowingAttacksThread was interrupted");
-                return;
+    private static class BotCreator {
+
+        static List<DDoSBot> createBotnet(int count) {
+            DDoSBot[] bots = new DDoSBot[count];
+            for (int i = 0; i < bots.length; i++) {
+                bots[i] = createRandomBot();
             }
-        };
+            return Arrays.asList(bots);
+        }
+
+        static DDoSBot createRandomBot() {
+            Random random = new Random();
+            boolean isOwner = createRandomBoolean();
+
+            if (isOwner) {
+                return DDoSBot.getLocalUserDDoSBot();
+            } else {
+                return new DDoSBot(String.valueOf(random.nextInt(30)));
+            }
+        }
+    }
+
+    private static class NetworkTypeCreator {
+        static int createRandomNetworkType() {
+            int[] allNetworkTypes = {INTERNET, BLUETOOTH, NSD, WIFI_P2P};
+            int randomChoice = new Random().nextInt(allNetworkTypes.length);
+            return allNetworkTypes[randomChoice];
+        }
+    }
+
+    private static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Log.e(TAG, "Error while sleep()", e);
+        }
+    }
+
+    static boolean createRandomBoolean() {
+        return new Random().nextInt(2) > 0 ? true : false;
     }
 }
