@@ -14,6 +14,7 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
@@ -70,14 +71,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public int getItemViewType(int position) {
         if (ValidationUtils.listHasItems(attackList)) {
-            //  TODO: after FakeAttackRepo replace with real user id instead of "bot3"
-//            String userId = DDoSBot.getLocalUserDDoSBot().getId();
-            DDoSAttack attack = attackList.get(position);
 
-            if (attack.botBelongsToBotnet("bot3"))
+            DDoSAttack attack = attackList.get(position);
+            if (attack.botBelongsToBotnet(DDoSBot.getLocalUserDDoSBot().getId()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
-            if (attack.getOwner().getId().equals("bot3")) {
+            if (attack.getOwner().getId().equals(DDoSBot.getLocalUserDDoSBot().getId())) {
                 return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 

@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -26,17 +27,22 @@ public class FakeAttackRepo implements AttackRepository {
     private static List<DDoSAttack> allAttacks;
 
     static {
-        allAttacks = AttackCreator.createAttacks(200, NetworkTypeCreator.createRandomNetworkType(), BotCreator.createRandomBot());
+        allAttacks = AttackCreator.createAttacks(20);
     }
 
     private OnAttacksFetchListener callback;
+    private Activity controller;
+
+    public FakeAttackRepo(Activity controller) {
+        this.controller = controller;
+    }
 
     @Override
     public void fetchAllAttacks() {
         new Thread(() -> {
             sleep(SLEEP_TIME_MILLIS);
             if (callback != null) {
-                callback.attacksFetchedSuccess(allAttacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(allAttacks));
             }
         }).start();
     }
@@ -52,7 +58,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -68,7 +74,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -86,7 +92,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -102,7 +108,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -120,7 +126,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -137,7 +143,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -155,7 +161,7 @@ public class FakeAttackRepo implements AttackRepository {
                         attacks.add(attack);
                     }
                 }
-                callback.attacksFetchedSuccess(attacks);
+                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -172,10 +178,10 @@ public class FakeAttackRepo implements AttackRepository {
 
     private static class AttackCreator {
 
-        static List<DDoSAttack> createAttacks(int count, int networkType, DDoSBot owner) {
+        static List<DDoSAttack> createAttacks(int count) {
             DDoSAttack[] attacks = new DDoSAttack[count];
             for (int i = 0; i < attacks.length; i++) {
-                attacks[i] = createAttack(networkType, owner);
+                attacks[i] = createAttack(NetworkTypeCreator.createRandomNetworkType(), BotCreator.createRandomBot());
             }
             return Arrays.asList(attacks);
         }
@@ -211,9 +217,12 @@ public class FakeAttackRepo implements AttackRepository {
     }
 
     private static class NetworkTypeCreator {
+        private static final String TAG = "NetworkTypeCreator";
+
         static int createRandomNetworkType() {
             int[] allNetworkTypes = {INTERNET, BLUETOOTH, NSD, WIFI_P2P};
             int randomChoice = new Random().nextInt(allNetworkTypes.length);
+            Log.d(TAG, "reporting networktype " + allNetworkTypes[randomChoice]);
             return allNetworkTypes[randomChoice];
         }
     }
