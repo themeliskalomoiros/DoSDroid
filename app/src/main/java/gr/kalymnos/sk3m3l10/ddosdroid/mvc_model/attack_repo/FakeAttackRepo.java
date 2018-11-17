@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo;
 
 import android.app.Activity;
 import android.util.Log;

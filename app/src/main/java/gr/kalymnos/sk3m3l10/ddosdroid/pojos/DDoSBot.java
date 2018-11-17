@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 /*  This class represents a single bot which apparently
     belongs to a botnet of a DDoSAttack.*/
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FakeInstanceIdProvider;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id_provider.FakeInstanceIdProvider;
 
 public class DDoSBot {
 
