@@ -117,6 +117,10 @@ public class DDoSAttack implements Parcelable {
         return false;
     }
 
+    public boolean hasNetworkTypeOf(int networkType) {
+        return getNetworkType() == networkType;
+    }
+
     public int getNetworkType() {
         return networkType;
     }
