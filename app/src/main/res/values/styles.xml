@@ -171,5 +171,6 @@
         <item name="android:textOff">@string/switch_owner_text_off</item>
         <item name="android:textOn">@string/switch_owner_text_on</item>
         <item name="android:showText" tools:targetApi="lollipop">true</item>
+        <item name="android:checked">true</item>
     </style>
 </resources>
