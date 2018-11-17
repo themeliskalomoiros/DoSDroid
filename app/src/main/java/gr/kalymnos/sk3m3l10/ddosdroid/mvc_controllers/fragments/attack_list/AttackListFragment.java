@@ -103,7 +103,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void logAttackType() {
         int attackType = getArguments().getInt(ATTACK_TYPE_KEY);
-        Log.d(TAG,"Attack type is "+LoggingUtils.getAttackTypeName(attackType));
+        Log.d(TAG, "Attack type is " + LoggingUtils.getAttackTypeName(attackType));
     }
 
     private void initializeAttackRepo() {
@@ -127,7 +127,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackItemClick(int position) {
-        Toast.makeText(getContext(), cachedAttacks.get(position).getTargetWebsite(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Clicked item " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override

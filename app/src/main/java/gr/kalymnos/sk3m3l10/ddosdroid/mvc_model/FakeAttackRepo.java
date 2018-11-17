@@ -21,15 +21,7 @@ public class FakeAttackRepo implements AttackRepository {
     private static final String TAG = FakeAttackRepo.class.getSimpleName();
     private static final long SLEEP_TIME_MILLIS = 1000;
 
-    /*
-     * Static fields of FakeAttackRepo will be initialized from a static block
-     * */
-    private static List<DDoSAttack> allAttacks;
-
-    static {
-        allAttacks = AttackCreator.createAttacks(20);
-    }
-
+    private List<DDoSAttack> allAttacks = AttackCreator.createAttacks(200);
     private OnAttacksFetchListener callback;
     private Activity controller;
 
@@ -53,11 +45,13 @@ public class FakeAttackRepo implements AttackRepository {
             sleep(SLEEP_TIME_MILLIS);
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
+
                 for (DDoSAttack attack : allAttacks) {
-                    if (attack.getNetworkType() == networkType) {
+                    if (attack.hasNetworkTypeOf(networkType)) {
                         attacks.add(attack);
                     }
                 }
+
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
@@ -69,11 +63,14 @@ public class FakeAttackRepo implements AttackRepository {
             sleep(SLEEP_TIME_MILLIS);
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
+
                 for (DDoSAttack attack : allAttacks) {
-                    if (attack.botBelongsToBotnet(botId)) {
+                    boolean botJoinedAttack = !attack.isOwnedBy(botId) && attack.botBelongsToBotnet(botId);
+                    if (botJoinedAttack) {
                         attacks.add(attack);
                     }
                 }
+
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
@@ -85,13 +82,18 @@ public class FakeAttackRepo implements AttackRepository {
             sleep(SLEEP_TIME_MILLIS);
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
+
                 for (DDoSAttack attack : allAttacks) {
-                    boolean sameBotAndNetworkType = attack.botBelongsToBotnet(botId)
-                            && attack.getNetworkType() == networkType;
-                    if (sameBotAndNetworkType) {
-                        attacks.add(attack);
+                    if (attack.hasNetworkTypeOf(networkType)) {
+                        boolean botJoinedAttack = !attack.isOwnedBy(botId) && attack.botBelongsToBotnet(botId);
+
+                        if (botJoinedAttack) {
+                            attacks.add(attack);
+                        }
+
                     }
                 }
+
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
@@ -104,10 +106,15 @@ public class FakeAttackRepo implements AttackRepository {
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
                 for (DDoSAttack attack : allAttacks) {
-                    if (!attack.botBelongsToBotnet(botId)) {
-                        attacks.add(attack);
+                    if (!attack.isOwnedBy(botId)) {
+
+                        if (!attack.botBelongsToBotnet(botId)) {
+                            attacks.add(attack);
+                        }
+
                     }
                 }
+
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
@@ -120,10 +127,16 @@ public class FakeAttackRepo implements AttackRepository {
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
                 for (DDoSAttack attack : allAttacks) {
-                    boolean sameBotAndNetworkType = attack.botBelongsToBotnet(botId)
-                            && attack.getNetworkType() == networkType;
-                    if (!sameBotAndNetworkType) {
-                        attacks.add(attack);
+                    if (attack.hasNetworkTypeOf(networkType)) {
+
+                        if (!attack.isOwnedBy(botId)) {
+
+                            if (!attack.botBelongsToBotnet(botId)) {
+                                attacks.add(attack);
+                            }
+
+                        }
+
                     }
                 }
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
@@ -138,10 +151,11 @@ public class FakeAttackRepo implements AttackRepository {
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
                 for (DDoSAttack attack : allAttacks) {
-                    boolean ownerIsLocalUser = attack.getOwner().equals(DDoSBot.getLocalUserDDoSBot());
-                    if (ownerIsLocalUser) {
+
+                    if (attack.isOwnedBy(DDoSBot.getLocalUserDDoSBot().getId())) {
                         attacks.add(attack);
                     }
+
                 }
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
@@ -155,10 +169,12 @@ public class FakeAttackRepo implements AttackRepository {
             if (callback != null) {
                 List<DDoSAttack> attacks = new ArrayList<>();
                 for (DDoSAttack attack : allAttacks) {
-                    boolean ownerIsLocalUser = attack.getOwner().equals(DDoSBot.getLocalUserDDoSBot());
-                    boolean sameNetworkType = attack.getNetworkType() == networkType;
-                    if (ownerIsLocalUser && sameNetworkType) {
-                        attacks.add(attack);
+                    if (attack.hasNetworkTypeOf(networkType)) {
+
+                        if (attack.isOwnedBy(DDoSBot.getLocalUserDDoSBot().getId())) {
+                            attacks.add(attack);
+                        }
+
                     }
                 }
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
@@ -180,39 +196,49 @@ public class FakeAttackRepo implements AttackRepository {
 
         static List<DDoSAttack> createAttacks(int count) {
             DDoSAttack[] attacks = new DDoSAttack[count];
-            for (int i = 0; i < attacks.length; i++) {
-                attacks[i] = createAttack(NetworkTypeCreator.createRandomNetworkType(), BotCreator.createRandomBot());
-            }
+            populateArrayWithRandomAttacks(attacks);
             return Arrays.asList(attacks);
         }
 
-        static DDoSAttack createAttack(int networkType, DDoSBot owner) {
-            return new DDoSAttack("sample.com", networkType, owner,
-                    BotCreator.createBotnet(new Random().nextInt(30)),
-                    createRandomBoolean(), System.currentTimeMillis());
+        private static void populateArrayWithRandomAttacks(DDoSAttack[] attacks) {
+            for (int i = 0; i < attacks.length; i++) {
+                attacks[i] = createAttack(NetworkTypeCreator.createRandomNetworkType(), BotCreator.createRandomBot());
+            }
         }
 
+        static DDoSAttack createAttack(int networkType, DDoSBot owner) {
+            return new DDoSAttack(WebsiteCreator.createWebsite(), networkType, owner,
+                    BotCreator.createRandomBotnet(new Random().nextInt(8)),
+                    createRandomBoolean(), System.currentTimeMillis());
+        }
+    }
+
+    private static class WebsiteCreator {
+        private static final String PREFIX = "sport";
+        private static final String SUFFIX = ".com";
+
+        static String createWebsite() {
+            return PREFIX + String.valueOf(new Random().nextInt(100)) + SUFFIX;
+        }
     }
 
     private static class BotCreator {
+        private static final String PREFIX = "bot ";
 
-        static List<DDoSBot> createBotnet(int count) {
+        static List<DDoSBot> createRandomBotnet(int count) {
             DDoSBot[] bots = new DDoSBot[count];
-            for (int i = 0; i < bots.length; i++) {
-                bots[i] = createRandomBot();
-            }
+            populateArrayWithRandomBots(bots);
             return Arrays.asList(bots);
         }
 
-        static DDoSBot createRandomBot() {
-            Random random = new Random();
-            boolean isOwner = createRandomBoolean();
-
-            if (isOwner) {
-                return DDoSBot.getLocalUserDDoSBot();
-            } else {
-                return new DDoSBot(String.valueOf(random.nextInt(30)));
+        private static void populateArrayWithRandomBots(DDoSBot[] bots) {
+            for (int i = 0; i < bots.length; i++) {
+                bots[i] = createRandomBot();
             }
+        }
+
+        private static DDoSBot createRandomBot() {
+            return new DDoSBot(PREFIX + String.valueOf(new Random().nextInt(16)));
         }
     }
 
@@ -227,15 +253,15 @@ public class FakeAttackRepo implements AttackRepository {
         }
     }
 
+    static boolean createRandomBoolean() {
+        return new Random().nextInt(2) > 0 ? true : false;
+    }
+
     private static void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             Log.e(TAG, "Error while sleep()", e);
         }
-    }
-
-    static boolean createRandomBoolean() {
-        return new Random().nextInt(2) > 0 ? true : false;
     }
 }
