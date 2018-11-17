@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 /*  This class represents a single bot which apparently
     belongs to a botnet of a DDoSAttack.*/
 
-import com.google.firebase.iid.FirebaseInstanceId;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FakeInstanceIdProvider;
 
 public class DDoSBot {
 
@@ -38,7 +38,7 @@ public class DDoSBot {
     }
 
     public static DDoSBot getLocalUserDDoSBot() {
-        String instanceId = FirebaseInstanceId.getInstance().getId();
-        return new DDoSBot(instanceId);
+        //  TODO: Replace with real InstanceIdProvider
+        return new DDoSBot(new FakeInstanceIdProvider().getInstanceId());
     }
 }
