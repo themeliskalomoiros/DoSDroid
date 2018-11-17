@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.LoggingUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
@@ -34,6 +36,12 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        logAttackType();
+    }
 
     @Nullable
     @Override
@@ -98,6 +106,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected abstract void fetchAttacksAccordingToType();
+
+    private void logAttackType() {
+        int attackType = getArguments().getInt(ATTACK_TYPE_KEY);
+        Log.d(TAG,"Attack type is "+LoggingUtils.getAttackTypeName(attackType));
+    }
 
     private void initializeAttackRepo() {
         attackRepo = new FakeAttackRepo(getActivity());

@@ -19,8 +19,6 @@ public class InternetAttackListFragment extends AttackListFragment {
                 attackRepo.fetchAllAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_JOINED:
-                //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-                //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
                 attackRepo.fetchJoinedAttakcsOf(DDoSBot.getLocalUserDDoSBot().getId(), INTERNET);
                 break;
             case TYPE_FETCH_OWNER:
