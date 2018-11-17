@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo;
 
+import android.app.Activity;
+
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
@@ -9,32 +11,45 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
  * This repository stores all the DDoS attack data
  * */
 
-public interface AttackRepository {
+public abstract class AttackRepository {
+    protected static final String TAG = "AttackRepository";
 
-    interface OnAttacksFetchListener {
+    public interface OnAttacksFetchListener {
         void attacksFetchedSuccess(List<DDoSAttack> attacks);
 
         void attacksFetchedFail(String msg);
     }
 
-    void fetchAllAttacks();
+    protected Activity controller;
+    protected OnAttacksFetchListener callback;
 
-    void fetchAllAttacksOf(int networkType);
+    public AttackRepository(Activity controller) {
+        this.controller = controller;
+    }
 
-    void fetchJoinedAttakcsOf(String botId);
+    public abstract void fetchAllAttacks();
 
-    void fetchJoinedAttakcsOf(String botId, int networkType);
+    public abstract void fetchAllAttacksOf(int networkType);
 
-    void fetchNotJoinedAttacksOf(String botId);
+    public abstract void fetchJoinedAttakcsOf(String botId);
 
-    void fetchNotJoinedAttacksOf(String botId, int networkType);
+    public abstract void fetchJoinedAttakcsOf(String botId, int networkType);
 
-    void fetchLocalOwnerAttacks();
+    public abstract void fetchNotJoinedAttacksOf(String botId);
 
-    void fetchLocalOwnerAttacksOf(int networkType);
+    public abstract void fetchNotJoinedAttacksOf(String botId, int networkType);
 
-    void registerOnAttacksFetchListener(OnAttacksFetchListener listener);
+    public abstract void fetchLocalOwnerAttacks();
 
-    void unRegisterOnAttacksFetchListener();
+    public abstract void fetchLocalOwnerAttacksOf(int networkType);
+
+    public final void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
+        callback = listener;
+    }
+
+    public final void unRegisterOnAttacksFetchListenerAndController() {
+        callback = null;
+        controller = null;
+    }
 
 }

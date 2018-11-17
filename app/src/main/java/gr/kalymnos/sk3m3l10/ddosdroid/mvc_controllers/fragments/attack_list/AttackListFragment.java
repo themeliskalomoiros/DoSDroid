@@ -120,7 +120,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void removeFetchingAttacksListener() {
         if (attackRepo != null) {
-            attackRepo.unRegisterOnAttacksFetchListener();
+            attackRepo.unRegisterOnAttacksFetchListenerAndController();
             attackRepo = null;
         }
     }

@@ -16,17 +16,13 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.INTERN
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.WIFI_P2P;
 
-public class FakeAttackRepo implements AttackRepository {
-
-    private static final String TAG = FakeAttackRepo.class.getSimpleName();
+public class FakeAttackRepo extends AttackRepository {
     private static final long SLEEP_TIME_MILLIS = 1000;
 
     private List<DDoSAttack> allAttacks = AttackCreator.createAttacks(200);
-    private OnAttacksFetchListener callback;
-    private Activity controller;
 
     public FakeAttackRepo(Activity controller) {
-        this.controller = controller;
+        super(controller);
     }
 
     @Override
@@ -180,16 +176,6 @@ public class FakeAttackRepo implements AttackRepository {
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
             }
         }).start();
-    }
-
-    @Override
-    public void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
-        callback = listener;
-    }
-
-    @Override
-    public void unRegisterOnAttacksFetchListener() {
-        callback = null;
     }
 
     private static class AttackCreator {
