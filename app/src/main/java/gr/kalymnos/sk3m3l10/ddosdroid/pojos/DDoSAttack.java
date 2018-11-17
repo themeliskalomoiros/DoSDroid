@@ -121,6 +121,10 @@ public class DDoSAttack implements Parcelable {
         return networkType == networkType;
     }
 
+    public boolean isOwnedBy(String ownerId){
+        return owner.getId().equals(ownerId);
+    }
+
     protected DDoSAttack(Parcel in) {
         pushId = in.readString();
         targetWebsite = in.readString();
