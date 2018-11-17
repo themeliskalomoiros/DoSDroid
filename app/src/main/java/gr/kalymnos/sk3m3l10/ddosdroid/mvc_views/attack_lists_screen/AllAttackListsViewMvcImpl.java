@@ -8,12 +8,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.LoggingUtils;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment.AttackListFragmentBuilderImpl;
 
 public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
@@ -22,10 +25,10 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
 
-    private int attacksType;
+    private int attackType;
 
-    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int attacksType) {
-        this.attacksType = attacksType;
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int attackType) {
+        this.attackType = attackType;
         initializeViews(inflater, container, fragmentManager);
     }
 
@@ -56,7 +59,7 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     }
 
     private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
-        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), attacksType);
+        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), attackType);
         viewPager = root.findViewById(R.id.viewPager);
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = root.findViewById(R.id.tabLayout);
@@ -70,19 +73,22 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] titles;
-        private int attacksType;
+        private static final String TAG = "MyPagerAdapter";
 
-        public MyPagerAdapter(FragmentManager fm, String[] titles, int attacksType) {
+        private String[] titles;
+        private int attackType;
+
+        public MyPagerAdapter(FragmentManager fm, String[] titles, int attackType) {
             super(fm);
             this.titles = titles;
-            this.attacksType = attacksType;
+            this.attackType = attackType;
+            Log.d(TAG,"Attack type is "+LoggingUtils.getAttackTypeName(attackType));
         }
 
         @Override
         public Fragment getItem(int position) {
-            AttackListFragment.AttackListFragmentBuilderImpl builder = new AttackListFragment.AttackListFragmentBuilderImpl();
-            return builder.build(titles[position], attacksType);
+            AttackListFragmentBuilderImpl builder = new AttackListFragmentBuilderImpl();
+            return builder.build(titles[position], attackType);
         }
 
         @Nullable
