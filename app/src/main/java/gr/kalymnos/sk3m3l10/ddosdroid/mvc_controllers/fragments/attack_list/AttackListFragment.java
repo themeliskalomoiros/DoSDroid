@@ -37,12 +37,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     protected AttackRepository attackRepo;
     private List<DDoSAttack> cachedAttacks;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        logAttackType();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
