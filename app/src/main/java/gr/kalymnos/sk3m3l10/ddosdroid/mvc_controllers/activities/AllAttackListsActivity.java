@@ -25,6 +25,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
 
     private void setupUi() {
         initializeViewMvc();
+        viewMvc.bindToolbarTitle(getIntent().getStringExtra(EXTRA_TITLE));
         setSupportActionBar(viewMvc.getToolbar());
         setContentView(viewMvc.getRootView());
     }

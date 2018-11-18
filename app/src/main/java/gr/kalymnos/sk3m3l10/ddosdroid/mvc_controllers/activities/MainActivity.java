@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen.MainScreenViewMvcImpl;
 
@@ -30,25 +31,26 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     @Override
     public void onJoinAttackClick() {
-        startActivity(createAttackListsActivityIntent(TYPE_FETCH_NOT_JOINED));
+        startActivity(createAttackListsActivityIntent(TYPE_FETCH_NOT_JOINED,R.string.join_attack_label));
     }
 
     @Override
     public void onContributionClick() {
-        startActivity(createAttackListsActivityIntent(TYPE_FETCH_JOINED));
+        startActivity(createAttackListsActivityIntent(TYPE_FETCH_JOINED, R.string.contributions_label));
     }
 
     @NonNull
-    private Intent createAttackListsActivityIntent(int attackType) {
+    private Intent createAttackListsActivityIntent(int attackType, int titleRes) {
         Intent intent = new Intent(this, AllAttackListsActivity.class);
-        intent.putExtras(createAttackListsActivityIntentBundle(attackType));
+        intent.putExtras(createAttackListsActivityIntentBundle(attackType, getString(titleRes)));
         return intent;
     }
 
     @NonNull
-    private Bundle createAttackListsActivityIntentBundle(int attackType) {
+    private Bundle createAttackListsActivityIntentBundle(int attackType, String title) {
         Bundle extras = new Bundle();
         extras.putInt(ATTACK_TYPE_KEY, attackType);
+        extras.putString(AllAttackListsActivity.EXTRA_TITLE, title);
         return extras;
     }
 
