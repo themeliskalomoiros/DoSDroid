@@ -14,7 +14,7 @@
             android:id="@+id/textView"
             style="@style/Header_TextView"
             android:layout_marginTop="24dp"
-            android:text="@string/enter_url_label"
+            android:text="@string/paste_url_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

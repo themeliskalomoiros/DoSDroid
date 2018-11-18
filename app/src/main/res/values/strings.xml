@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">DDoSDroid</string>
     <string name="attack_phase_label">Attack phase</string>
-    <string name="website_hint">example.com</string>
+    <string name="website_hint">https://www.example.com</string>
     <string name="set_the_target_of_the_attack_label">Set the target of the attack.</string>
     <string name="how_would_you_like_to_gather_your_force_label">How would you like to gather your force?</string>
-    <string name="enter_url_label">Enter url:</string>
+    <string name="paste_url_label">Paste full url:</string>
     <string name="network_configuration_label">Network configuration</string>
     <string name="ufo_content_description">Ufos attacking a city</string>
     <string name="are_you_ready_label">Are you ready?</string>
@@ -34,6 +34,7 @@
     <string name="switch_joined_text_on">Leave</string>
     <string name="switch_joined_text_off">Join</string>
     <string name="you_joined_this_attack_label">You\'ve joined this attack:</string>
+    <string name="enter_valid_url_label">Please enter a valid url.</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
