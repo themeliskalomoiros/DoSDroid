@@ -12,6 +12,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NO
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
 public class AllAttackListsActivity extends AppCompatActivity {
+    private static final String TAG = "AllAttackListsActivity";
+    public static final String EXTRA_TITLE = TAG + "title key";
 
     private AllAttackListsViewMvc viewMvc;
 
