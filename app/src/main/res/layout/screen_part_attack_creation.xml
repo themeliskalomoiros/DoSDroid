@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/target_label"
             style="@style/Header_TextView"
             android:layout_marginTop="24dp"
             android:text="@string/paste_url_label"
@@ -22,13 +22,13 @@
         <EditText
             android:id="@+id/ed_website"
             style="@style/Website_EditText"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/target_label"
+            app:layout_constraintStart_toStartOf="@+id/target_label"
+            app:layout_constraintTop_toBottomOf="@+id/target_label"
             tools:text="SPORT24.GR" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/attack_force_label"
             style="@style/Header_TextView"
             android:layout_marginTop="32dp"
             android:text="@string/network_configuration_label"
@@ -75,7 +75,7 @@
             android:layout_marginRight="@dimen/default_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/attack_force_label" />
 
 
         <TextView
