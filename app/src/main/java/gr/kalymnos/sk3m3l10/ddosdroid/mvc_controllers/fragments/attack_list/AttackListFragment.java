@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetworkType;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc;
@@ -35,6 +36,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
+    private AttackNetworkType attackNetworkType;
     private List<DDoSAttack> cachedAttacks;
 
     @Nullable
@@ -53,6 +55,10 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             viewMvc.showLoadingIndicator();
             initializeAttackRepo();
             fetchAttacksAccordingToType();
+        }
+        
+        if (attackNetworkType==null){
+            initializeAttackNetworkType();
         }
     }
 
@@ -100,6 +106,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected abstract void fetchAttacksAccordingToType();
+
+    protected abstract void initializeAttackNetworkType();
 
     private void initializeAttackRepo() {
         attackRepo = new FakeAttackRepo(getActivity());
