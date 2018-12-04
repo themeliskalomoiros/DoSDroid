@@ -101,11 +101,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     protected abstract void fetchAttacksAccordingToType();
 
-    private void logAttackType() {
-        int attackType = getArguments().getInt(ATTACK_TYPE_KEY);
-        Log.d(TAG, "Attack type is " + LoggingUtils.getAttackTypeName(attackType));
-    }
-
     private void initializeAttackRepo() {
         attackRepo = new FakeAttackRepo(getActivity());
         attackRepo.registerOnAttacksFetchListener(this);
