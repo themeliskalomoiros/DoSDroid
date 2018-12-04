@@ -1,16 +1,16 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.network;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 
-/**
- * Attacks are created specified by a network that a a follower must connect
- * in order to be part of this attack. This class represents this Network.
- */
+/*
+* When an attack is created a network type is specified (internet, bluetooth, wifi p2p, etc...).
+* The ddos botnet must be connected to this network type in order to follow that attack.
+* */
 
-public abstract class Network {
+public abstract class AttackNetworkType {
 
     public interface OnConnectionListener {
         void onConnected();
@@ -23,7 +23,7 @@ public abstract class Network {
     protected BroadcastReceiver connectivityReceiver;
     protected IntentFilter connectivityIntentFilter;
 
-    protected Network(@NonNull Context context, OnConnectionListener listener) {
+    protected AttackNetworkType(@NonNull Context context, OnConnectionListener listener) {
         this.context = context;
         this.connectionListener = listener;
         this.initializeConnectivityReceiver();
