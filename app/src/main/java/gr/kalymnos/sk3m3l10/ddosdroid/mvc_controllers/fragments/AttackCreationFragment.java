@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackCreationViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackCreationViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {

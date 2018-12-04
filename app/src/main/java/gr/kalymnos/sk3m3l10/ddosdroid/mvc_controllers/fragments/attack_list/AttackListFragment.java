@@ -13,11 +13,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetwork;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;

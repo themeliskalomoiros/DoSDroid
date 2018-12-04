@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackInfoViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackInfoViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvcImpl;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackInfoViewMvc.ATTACK_STARTED_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen.AttackInfoViewMvc.WEBSITE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc.ATTACK_STARTED_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc.WEBSITE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
 public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.OnBeginAttackButtonClickListener {

@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.main_screen;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_main;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvcWithToolbar;
 

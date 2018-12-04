@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_phase_screen;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase;
 
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
