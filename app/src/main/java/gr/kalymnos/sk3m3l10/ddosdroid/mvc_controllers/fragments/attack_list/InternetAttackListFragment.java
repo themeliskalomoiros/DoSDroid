@@ -35,6 +35,6 @@ public class InternetAttackListFragment extends AttackListFragment {
 
     @Override
     protected void initializeAttackNetworkType() {
-        attackNetworkType = new Internet(getContext(),null);
+        attackNetwork = new Internet(getContext(),null);
     }
 }

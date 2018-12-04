@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetworkType;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetwork;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.attack_lists_screen.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.LoggingUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
@@ -36,7 +34,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
-    protected AttackNetworkType attackNetworkType;
+    protected AttackNetwork attackNetwork;
     private List<DDoSAttack> cachedAttacks;
 
     @Nullable
@@ -57,7 +55,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             fetchAttacksAccordingToType();
         }
         
-        if (attackNetworkType==null){
+        if (attackNetwork ==null){
             initializeAttackNetworkType();
         }
     }
@@ -130,7 +128,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackItemClick(int position) {
-        if (attackNetworkType.isConnected()){
+        if (attackNetwork.isConnected()){
             Toast.makeText(getContext(), "You are connected to the attacks network", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getContext(), "You are not connected to the attacks network", Toast.LENGTH_SHORT).show();

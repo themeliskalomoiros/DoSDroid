@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-public class Internet extends AttackNetworkType {
+public class Internet extends AttackNetwork {
 
     public Internet(@NonNull Context context, @NonNull OnConnectionListener listener) {
         super(context, listener);
