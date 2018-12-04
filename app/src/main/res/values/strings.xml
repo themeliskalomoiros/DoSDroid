@@ -38,6 +38,7 @@
     <string name="internet_disconnected_msg">No internet connection!</string>
     <string name="contribute_to_this_attack_label">Join</string>
     <string name="against_label">Against</string>
+    <string name="people_joined_this_attack">People joined this atack:</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
