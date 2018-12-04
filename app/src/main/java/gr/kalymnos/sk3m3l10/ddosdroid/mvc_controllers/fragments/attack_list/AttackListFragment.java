@@ -34,7 +34,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
-    protected AttackNetwork attackNetwork;
     private List<DDoSAttack> cachedAttacks;
 
     @Nullable
@@ -53,10 +52,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             viewMvc.showLoadingIndicator();
             initializeAttackRepo();
             fetchAttacksAccordingToType();
-        }
-        
-        if (attackNetwork ==null){
-            initializeAttackNetworkType();
         }
     }
 
@@ -105,8 +100,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     protected abstract void fetchAttacksAccordingToType();
 
-    protected abstract void initializeAttackNetworkType();
-
     private void initializeAttackRepo() {
         attackRepo = new FakeAttackRepo(getActivity());
         attackRepo.registerOnAttacksFetchListener(this);
@@ -128,11 +121,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackItemClick(int position) {
-        if (attackNetwork.isConnected()){
-            Toast.makeText(getContext(), "You are connected to the attacks network", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getContext(), "You are not connected to the attacks network", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     @Override

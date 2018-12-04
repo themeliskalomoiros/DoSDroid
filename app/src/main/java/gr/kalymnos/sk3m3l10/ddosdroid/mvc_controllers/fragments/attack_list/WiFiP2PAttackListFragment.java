@@ -33,9 +33,4 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
         }
     }
-
-    @Override
-    protected void initializeAttackNetworkType() {
-
-    }
 }
