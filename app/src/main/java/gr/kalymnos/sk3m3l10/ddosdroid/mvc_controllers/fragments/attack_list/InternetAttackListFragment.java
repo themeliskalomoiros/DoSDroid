@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.Internet;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_ALL;
@@ -30,5 +31,10 @@ public class InternetAttackListFragment extends AttackListFragment {
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
         }
+    }
+
+    @Override
+    protected void initializeAttackNetworkType() {
+        attackNetworkType = new Internet(getContext(),null);
     }
 }

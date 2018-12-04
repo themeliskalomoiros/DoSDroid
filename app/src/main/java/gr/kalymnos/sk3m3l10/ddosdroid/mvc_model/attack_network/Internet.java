@@ -18,7 +18,8 @@ public class Internet extends AttackNetworkType {
 
     @Override
     public void connect() {
-        //  TODO: implementation needed
+        //  TODO: Consider wifi-scanning when user wants to connect
+        //  developer.android.com/guide/topics/connectivity/wifi-scan
     }
 
     @Override

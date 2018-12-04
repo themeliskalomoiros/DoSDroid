@@ -36,7 +36,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
-    private AttackNetworkType attackNetworkType;
+    protected AttackNetworkType attackNetworkType;
     private List<DDoSAttack> cachedAttacks;
 
     @Nullable
@@ -130,7 +130,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackItemClick(int position) {
-        Toast.makeText(getContext(), "Clicked item " + position, Toast.LENGTH_SHORT).show();
+        if (attackNetworkType.isConnected()){
+            Toast.makeText(getContext(), "You are connected to the attacks network", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getContext(), "You are not connected to the attacks network", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
