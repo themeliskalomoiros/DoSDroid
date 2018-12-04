@@ -35,6 +35,7 @@
     <string name="switch_joined_text_off">Join</string>
     <string name="you_joined_this_attack_label">You\'ve joined this attack:</string>
     <string name="enter_valid_url_label">Please enter a valid url.</string>
+    <string name="internet_disconnected_msg">No internet connection!</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
