@@ -19,10 +19,10 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     }
 
     @Override
-    public void setOnJoinAttackClickListener(OnJoinAttackClickListener listener) {
+    public void setOnJoinAttackClickListener(OnJoinAttackButtonClickListener listener) {
         joinFab.setOnClickListener(view -> {
             if (listener != null) {
-                listener.onJoinAttackClicked();
+                listener.onJoinAttackButtonClicked();
             }
         });
     }
@@ -33,8 +33,9 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     }
 
     @Override
-    public void bindWebsiteDate(long dateMilli) {
-        //  TODO: needs implementation
+    public void bindWebsiteDate(String date) {
+        String prefix = root.getContext().getResources().getString(R.string.attack_date_prefix);
+        this.date.setText(prefix + " " + date);
     }
 
     @Override
