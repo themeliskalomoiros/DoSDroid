@@ -11,7 +11,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public class DDoSAttack implements Parcelable {
     private static final String TAG = DDoSAttack.class.getSimpleName();
-    public static final String CACHED_ATTACKS_KEY = TAG + "caching attacks key";
 
     public interface AttackType {
         String ATTACK_TYPE_KEY = TAG + "attack type key";
@@ -27,6 +26,11 @@ public class DDoSAttack implements Parcelable {
         int WIFI_P2P = 1;
         int NSD = 2;
         int BLUETOOTH = 3;
+    }
+
+    public interface Extra {
+        String EXTRA_ATTACK = TAG+"extra attacks";
+        String EXTRA_ATTACKS = TAG + "caching attacks key";
     }
 
     private String pushId, targetWebsite;

@@ -21,7 +21,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.CACHED_ATTACKS_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -57,7 +57,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (listHasItems(cachedAttacks)) {
-            outState.putParcelableArrayList(CACHED_ATTACKS_KEY, (ArrayList<? extends Parcelable>) cachedAttacks);
+            outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
         }
     }
 
@@ -80,8 +80,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
-        if (bundleIsValidAndContainsKey(savedInstanceState, CACHED_ATTACKS_KEY)) {
-            List<DDoSAttack> temp = savedInstanceState.getParcelableArrayList(CACHED_ATTACKS_KEY);
+        if (bundleIsValidAndContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
+            List<DDoSAttack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
             if (listHasItems(temp)) {
                 cachedAttacks = temp;
                 return true;
