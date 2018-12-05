@@ -40,7 +40,27 @@ public class Attack implements Parcelable {
         this.pushId = pushId;
     }
 
-    public int getBotNetCount() {
+    protected Attack(Parcel in) {
+        pushId = in.readString();
+        website = in.readString();
+        networkType = in.readInt();
+        isActive = in.readByte() != 0;
+        timeMilli = in.readLong();
+    }
+
+    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
+        @Override
+        public Attack createFromParcel(Parcel in) {
+            return new Attack(in);
+        }
+
+        @Override
+        public Attack[] newArray(int size) {
+            return new Attack[size];
+        }
+    };
+
+    public int getBotCount() {
         if (listHasItems(botsList)) {
             return botsList.size();
         }
@@ -93,7 +113,7 @@ public class Attack implements Parcelable {
         isActive = active;
     }
 
-    public boolean botBelongsToBotnet(String otherBotId) {
+    public boolean includes(String otherBotId) {
         if (ValidationUtils.listHasItems(botsList)) {
             for (Bot bot : botsList) {
                 if (bot.getId().equals(otherBotId)) {
@@ -112,26 +132,6 @@ public class Attack implements Parcelable {
         return owner.getId().equals(ownerId);
     }
 
-    protected Attack(Parcel in) {
-        pushId = in.readString();
-        website = in.readString();
-        networkType = in.readInt();
-        isActive = in.readByte() != 0;
-        timeMilli = in.readLong();
-    }
-
-    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
-        @Override
-        public Attack createFromParcel(Parcel in) {
-            return new Attack(in);
-        }
-
-        @Override
-        public Attack[] newArray(int size) {
-            return new Attack[size];
-        }
-    };
-
     @Override
     public int describeContents() {
         return 0;
@@ -144,43 +144,5 @@ public class Attack implements Parcelable {
         parcel.writeInt(networkType);
         parcel.writeByte((byte) (isActive ? 1 : 0));
         parcel.writeLong(timeMilli);
-    }
-
-    public interface AttackType {
-        String ATTACK_TYPE_KEY = TAG + "attack type key";
-        int TYPE_FETCH_ALL = 101;
-        int TYPE_FETCH_JOINED = 102;
-        int TYPE_FETCH_NOT_JOINED = 103;
-        int TYPE_FETCH_OWNER = 104;
-        int TYPE_NONE = -1;
-    }
-
-    public interface NetworkType {
-        int INTERNET = 0;
-        int WIFI_P2P = 1;
-        int NSD = 2;
-        int BLUETOOTH = 3;
-    }
-
-    public interface Extra {
-        String EXTRA_ATTACK = TAG + "extra attacks";
-        String EXTRA_ATTACKS = TAG + "caching attacks key";
-    }
-
-    public static class NetworkTypeTranslator {
-        public static String translate(int networkType) {
-            switch (networkType) {
-                case NetworkType.BLUETOOTH:
-                    return "Bluetooth";
-                case NetworkType.INTERNET:
-                    return "Internet";
-                case NetworkType.WIFI_P2P:
-                    return "Wifi Peer to Peer";
-                case NetworkType.NSD:
-                    return "Network Service Discovery";
-                default:
-                    throw new UnsupportedOperationException(TAG + ": no such network type");
-            }
-        }
     }
 }

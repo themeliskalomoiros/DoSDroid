@@ -11,10 +11,10 @@ import java.util.Random;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.BLUETOOTH;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.INTERNET;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.NSD;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.WIFI_P2P;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.BLUETOOTH;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.INTERNET;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.NSD;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.WIFI_P2P;
 
 public class FakeAttackRepo extends AttackRepository {
     private static final long SLEEP_TIME_MILLIS = 1000;
@@ -61,7 +61,7 @@ public class FakeAttackRepo extends AttackRepository {
                 List<Attack> attacks = new ArrayList<>();
 
                 for (Attack attack : allAttacks) {
-                    boolean botJoinedAttack = !attack.isOwnedBy(botId) && attack.botBelongsToBotnet(botId);
+                    boolean botJoinedAttack = !attack.isOwnedBy(botId) && attack.includes(botId);
                     if (botJoinedAttack) {
                         attacks.add(attack);
                     }
@@ -81,7 +81,7 @@ public class FakeAttackRepo extends AttackRepository {
 
                 for (Attack attack : allAttacks) {
                     if (attack.hasNetworkTypeOf(networkType)) {
-                        boolean botJoinedAttack = !attack.isOwnedBy(botId) && attack.botBelongsToBotnet(botId);
+                        boolean botJoinedAttack = !attack.isOwnedBy(botId) && attack.includes(botId);
 
                         if (botJoinedAttack) {
                             attacks.add(attack);
@@ -104,7 +104,7 @@ public class FakeAttackRepo extends AttackRepository {
                 for (Attack attack : allAttacks) {
                     if (!attack.isOwnedBy(botId)) {
 
-                        if (!attack.botBelongsToBotnet(botId)) {
+                        if (!attack.includes(botId)) {
                             attacks.add(attack);
                         }
 
@@ -127,7 +127,7 @@ public class FakeAttackRepo extends AttackRepository {
 
                         if (!attack.isOwnedBy(botId)) {
 
-                            if (!attack.botBelongsToBotnet(botId)) {
+                            if (!attack.includes(botId)) {
                                 attacks.add(attack);
                             }
 

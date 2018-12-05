@@ -73,7 +73,7 @@ class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
         if (ValidationUtils.listHasItems(attackList)) {
 
             Attack attack = attackList.get(position);
-            if (attack.botBelongsToBotnet(Bot.getLocalUserDDoSBot().getId()))
+            if (attack.includes(Bot.getLocalUserDDoSBot().getId()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
             if (attack.getOwner().getId().equals(Bot.getLocalUserDDoSBot().getId())) {
@@ -120,7 +120,7 @@ class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
 
         void bind(Attack attack) {
             websiteTitle.setText(attack.getWebsite());
-            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotNetCount()));
+            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotCount()));
             //  TODO: if a website has a favicon.ico then display it in websiteIcon
         }
 

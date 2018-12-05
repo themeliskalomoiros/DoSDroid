@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
 
@@ -20,7 +22,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        attack = getArguments().getParcelable(Attack.Extra.EXTRA_ATTACK);
+        attack = getArguments().getParcelable(AttackConstants.Extra.EXTRA_ATTACK);
     }
 
     @Nullable
@@ -37,8 +39,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void bindAttackToUi() {
-        viewMvc.bindAttackForce(attack.getBotNetCount());
-        viewMvc.bindNetworkConfiguration(Attack.NetworkTypeTranslator.translate(attack.getNetworkType()));
+        viewMvc.bindAttackForce(attack.getBotCount());
+        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
         viewMvc.bindWebsiteDate(attack.getTimeMilli());
     }

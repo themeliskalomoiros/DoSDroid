@@ -2,11 +2,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_ALL;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_OWNER;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.WIFI_P2P;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_ALL;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.WIFI_P2P;
 
 public class WiFiP2PAttackListFragment extends AttackListFragment {
 

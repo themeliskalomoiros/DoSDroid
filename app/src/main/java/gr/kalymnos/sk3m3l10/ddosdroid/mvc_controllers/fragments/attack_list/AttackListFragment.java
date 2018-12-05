@@ -20,12 +20,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.ATTACK_TYPE_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_NONE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.Extra.EXTRA_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -135,7 +136,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void startJoinAttackActivity(Attack attack) {
         Intent intent = new Intent(getContext(), JoinAttackActivity.class);
-        intent.putExtra(Attack.Extra.EXTRA_ATTACK, attack);
+        intent.putExtra(AttackConstants.Extra.EXTRA_ATTACK, attack);
         getContext().startActivity(intent);
     }
 
