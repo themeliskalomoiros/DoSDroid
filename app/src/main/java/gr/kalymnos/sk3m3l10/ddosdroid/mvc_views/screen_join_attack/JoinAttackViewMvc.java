@@ -7,7 +7,7 @@ public interface JoinAttackViewMvc extends ViewMvcWithToolbar {
         void onJoinAttackClicked();
     }
 
-    void OnJoinAttackClickListener(OnJoinAttackClickListener listener);
+    void setOnJoinAttackClickListener(OnJoinAttackClickListener listener);
 
     void bindWebsite(String website);
 

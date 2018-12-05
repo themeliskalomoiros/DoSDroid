@@ -21,7 +21,7 @@ public class JoinAttackViewMvcImp implements JoinAttackViewMvc {
     }
 
     @Override
-    public void OnJoinAttackClickListener(OnJoinAttackClickListener listener) {
+    public void setOnJoinAttackClickListener(OnJoinAttackClickListener listener) {
         joinFab.setOnClickListener(view -> {
             if (listener != null) {
                 listener.onJoinAttackClicked();
