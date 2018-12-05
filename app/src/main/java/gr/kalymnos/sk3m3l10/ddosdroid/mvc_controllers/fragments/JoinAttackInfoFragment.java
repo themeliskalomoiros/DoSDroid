@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attack = getArguments().getParcelable(AttackConstants.Extra.EXTRA_ATTACK);
+        Log.d("pornes",""+attack.getBotCount());
     }
 
     @Nullable

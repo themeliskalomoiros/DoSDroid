@@ -44,6 +44,8 @@ public class Attack implements Parcelable {
         pushId = in.readString();
         website = in.readString();
         networkType = in.readInt();
+        botsList = in.createTypedArrayList(Bot.CREATOR);
+        owner = in.readParcelable(Bot.class.getClassLoader());
         isActive = in.readByte() != 0;
         timeMilli = in.readLong();
     }
@@ -142,6 +144,8 @@ public class Attack implements Parcelable {
         parcel.writeString(pushId);
         parcel.writeString(website);
         parcel.writeInt(networkType);
+        parcel.writeTypedList(botsList);
+        parcel.writeParcelable(owner, i);
         parcel.writeByte((byte) (isActive ? 1 : 0));
         parcel.writeLong(timeMilli);
     }
