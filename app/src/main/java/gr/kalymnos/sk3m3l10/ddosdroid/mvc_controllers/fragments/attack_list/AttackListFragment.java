@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
@@ -20,6 +22,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListVi
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
@@ -120,7 +124,19 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackItemClick(int position) {
+        if (listHasItems(cachedAttacks)) {
+            if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
+                startJoinAttackActivity(cachedAttacks.get(position));
+            } else if (getAttacksType(getArguments()) == TYPE_FETCH_JOINED) {
+                //  TODO: what sould be done when user clicked an attack that he already joined?
+            }
+        }
+    }
 
+    private void startJoinAttackActivity(DDoSAttack attack) {
+        Intent intent = new Intent(getContext(), JoinAttackActivity.class);
+        intent.putExtra(DDoSAttack.Extra.EXTRA_ATTACK, attack);
+        getContext().startActivity(intent);
     }
 
     @Override
