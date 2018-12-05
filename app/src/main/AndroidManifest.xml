@@ -19,7 +19,8 @@
         <activity
             android:name=".mvc_controllers.activities.CreateAttackActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".mvc_controllers.activities.AllAttackListsActivity"></activity>
+        <activity android:name=".mvc_controllers.activities.AllAttackListsActivity" />
+        <activity android:name=".mvc_controllers.activities.JoinActivity"></activity>
     </application>
 
 </manifest>
