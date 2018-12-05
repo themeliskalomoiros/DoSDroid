@@ -80,7 +80,7 @@
 
 
         <TextView
-            android:id="@+id/tv_network_configuration"
+            android:id="@+id/network_configuration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -95,25 +95,11 @@
             android:textSize="@dimen/spinner_item_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_network_configuration_label"
+            app:layout_constraintTop_toBottomOf="@+id/network_configuration_label"
             tools:text="The botnet of this attack is connected through Internet." />
 
         <TextView
-            android:id="@+id/join_attack_label"
-            style="@style/Header_TextView"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_network_configuration"
-            tools:text="@string/contribute_to_this_attack_label" />
-
-        <TextView
-            android:id="@+id/tv_network_configuration_label"
+            android:id="@+id/network_configuration_label"
             style="@style/Header_TextView"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -121,26 +107,41 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:text="@string/network_configuration_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.669"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_attack_force"
-            tools:text="@string/network_configuration_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_attack_force" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             style="@style/Attack_FAB"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/ic_fist"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/join_attack_label" />
+            app:layout_constraintTop_toBottomOf="@+id/network_configuration" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_robot_line_art"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fab"
+            app:layout_constraintTop_toBottomOf="@+id/network_configuration" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

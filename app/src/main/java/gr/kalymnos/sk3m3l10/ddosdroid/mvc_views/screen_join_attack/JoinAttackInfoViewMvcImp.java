@@ -57,7 +57,7 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
         website = root.findViewById(R.id.website_textview);
         date = root.findViewById(R.id.tv_website_hint);
         attackForce = root.findViewById(R.id.tv_attack_force);
-        networkConf = root.findViewById(R.id.tv_network_configuration);
+        networkConf = root.findViewById(R.id.network_configuration);
         joinFab = root.findViewById(R.id.fab);
     }
 }
