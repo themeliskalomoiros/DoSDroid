@@ -22,9 +22,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.Attac
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
-class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
+class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
 
-    private static final String TAG = AttacksAdapter.class.getSimpleName();
+    private static final String TAG = AttackAdapter.class.getSimpleName();
     private static final int ITEM_VIEW_TYPE_SIMPLE_ATTACK = 0;
     private static final int ITEM_VIEW_TYPE_JOINED_ATTACK = 1;
     private static final int ITEM_VIEW_TYPE_OWNER_ATTACK = 2;
@@ -35,7 +35,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private OnJoinSwitchCheckedStateListener switchCheckedStateListener;
     private OnActivateSwitchCheckedStateListener activateSwitchCheckedStateListener;
 
-    AttacksAdapter(Context context) {
+    AttackAdapter(Context context) {
         this.context = context;
     }
 

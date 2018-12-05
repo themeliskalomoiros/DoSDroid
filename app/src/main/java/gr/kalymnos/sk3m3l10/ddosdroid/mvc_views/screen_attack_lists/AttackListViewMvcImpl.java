@@ -17,7 +17,7 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     private View root;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    private AttacksAdapter attacksAdapter;
+    private AttackAdapter attackAdapter;
 
     public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
@@ -25,8 +25,8 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
 
     @Override
     public void bindAttacks(List<Attack> attacks) {
-        attacksAdapter.addAttacks(attacks);
-        attacksAdapter.notifyDataSetChanged();
+        attackAdapter.addAttacks(attacks);
+        attackAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -41,19 +41,19 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
 
     @Override
     public void setOnAttackItemClickListener(OnAttackItemClickListener listener) {
-        if (attacksAdapter != null) {
-            attacksAdapter.setOnItemClickListener(listener);
+        if (attackAdapter != null) {
+            attackAdapter.setOnItemClickListener(listener);
         }
     }
 
     @Override
     public void setOnJoinSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener) {
-        attacksAdapter.setOnSwitchCheckedStateListener(listener);
+        attackAdapter.setOnSwitchCheckedStateListener(listener);
     }
 
     @Override
     public void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener) {
-        attacksAdapter.setOnActivateSwitchCheckedStateListener(listener);
+        attackAdapter.setOnActivateSwitchCheckedStateListener(listener);
     }
 
     @Override
@@ -70,8 +70,8 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     private void initializeRecyclerView() {
         recyclerView = root.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
-        attacksAdapter = new AttacksAdapter(root.getContext());
-        recyclerView.setAdapter(attacksAdapter);
+        attackAdapter = new AttackAdapter(root.getContext());
+        recyclerView.setAdapter(attackAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
     }
