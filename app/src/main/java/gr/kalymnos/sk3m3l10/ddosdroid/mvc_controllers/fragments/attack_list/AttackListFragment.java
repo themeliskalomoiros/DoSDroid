@@ -129,7 +129,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         if (listHasItems(cachedAttacks)) {
             if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
                 Attack attack = cachedAttacks.get(position);
-                Log.d("pornes",""+attack.getBotCount());
                 startJoinAttackActivity(attack);
             } else if (getAttacksType(getArguments()) == TYPE_FETCH_JOINED) {
                 //  TODO: what sould be done when user clicked an attack that he already joined?

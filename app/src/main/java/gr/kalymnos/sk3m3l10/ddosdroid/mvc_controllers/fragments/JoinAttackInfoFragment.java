@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
-public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
+public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener {
 
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
@@ -24,7 +24,6 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attack = getArguments().getParcelable(AttackConstants.Extra.EXTRA_ATTACK);
-        Log.d("pornes",""+attack.getBotCount());
     }
 
     @Nullable
@@ -36,7 +35,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     @Override
-    public void onJoinAttackClicked() {
+    public void onJoinAttackButtonClicked() {
 
     }
 
@@ -44,7 +43,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         viewMvc.bindAttackForce(attack.getBotCount());
         viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
-        viewMvc.bindWebsiteDate(attack.getTimeMilli());
+        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(),attack.getTimeMilli()));
     }
 
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
