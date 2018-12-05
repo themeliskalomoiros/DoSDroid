@@ -64,7 +64,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_part_attack_creation, container, false);
+        root = inflater.inflate(R.layout.screen_attack_creation, container, false);
         websiteHint = root.findViewById(R.id.tv_website_hint);
         networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
         websiteEditText = root.findViewById(R.id.ed_website);
