@@ -195,7 +195,7 @@ public class FakeAttackRepo extends AttackRepository {
         static Attack createAttack(int networkType, Bot owner) {
             return new Attack(WebsiteCreator.createWebsite(), networkType, owner,
                     BotCreator.createRandomBotnet(new Random().nextInt(8)),
-                    createRandomBoolean(), System.currentTimeMillis());
+                    System.currentTimeMillis());
         }
     }
 
@@ -237,10 +237,6 @@ public class FakeAttackRepo extends AttackRepository {
             Log.d(TAG, "reporting networktype " + allNetworkTypes[randomChoice]);
             return allNetworkTypes[randomChoice];
         }
-    }
-
-    static boolean createRandomBoolean() {
-        return new Random().nextInt(2) > 0 ? true : false;
     }
 
     private static void sleep(long millis) {

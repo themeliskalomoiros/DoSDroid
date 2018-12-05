@@ -16,7 +16,6 @@ public class Attack implements Parcelable {
     int networkType;
     private List<Bot> botsList;
     private Bot owner;
-    private boolean isActive;
     private long timeMilli;
 
     public Attack(String website, int networkType, Bot owner) {
@@ -26,41 +25,17 @@ public class Attack implements Parcelable {
         this.timeMilli = System.currentTimeMillis();
     }
 
-    public Attack(String website, int networkType, Bot owner, List<Bot> botsList,
-                  boolean isActive, long timeMilli) {
+    public Attack(String website, int networkType, Bot owner, List<Bot> botsList, long timeMilli) {
         this(website, networkType, owner);
         this.botsList = botsList;
-        this.isActive = isActive;
         this.timeMilli = timeMilli;
     }
 
     public Attack(String pushId, String website, int networkType, List<Bot> botsList,
-                  Bot owner, boolean isActive, long timeMilli) {
-        this(website, networkType, owner, botsList, isActive, timeMilli);
+                  Bot owner, long timeMilli) {
+        this(website, networkType, owner, botsList, timeMilli);
         this.pushId = pushId;
     }
-
-    protected Attack(Parcel in) {
-        pushId = in.readString();
-        website = in.readString();
-        networkType = in.readInt();
-        botsList = in.createTypedArrayList(Bot.CREATOR);
-        owner = in.readParcelable(Bot.class.getClassLoader());
-        isActive = in.readByte() != 0;
-        timeMilli = in.readLong();
-    }
-
-    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
-        @Override
-        public Attack createFromParcel(Parcel in) {
-            return new Attack(in);
-        }
-
-        @Override
-        public Attack[] newArray(int size) {
-            return new Attack[size];
-        }
-    };
 
     public int getBotCount() {
         if (listHasItems(botsList)) {
@@ -107,14 +82,6 @@ public class Attack implements Parcelable {
         return timeMilli;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public boolean includes(String otherBotId) {
         if (ValidationUtils.listHasItems(botsList)) {
             for (Bot bot : botsList) {
@@ -134,6 +101,28 @@ public class Attack implements Parcelable {
         return owner.getId().equals(ownerId);
     }
 
+    protected Attack(Parcel in) {
+        pushId = in.readString();
+        website = in.readString();
+        networkType = in.readInt();
+        botsList = in.createTypedArrayList(Bot.CREATOR);
+        owner = in.readParcelable(Bot.class.getClassLoader());
+        timeMilli = in.readLong();
+    }
+
+    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
+        @Override
+        public Attack createFromParcel(Parcel in) {
+            return new Attack(in);
+        }
+
+        @Override
+        public Attack[] newArray(int size) {
+            return new Attack[size];
+        }
+    };
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -146,7 +135,6 @@ public class Attack implements Parcelable {
         parcel.writeInt(networkType);
         parcel.writeTypedList(botsList);
         parcel.writeParcelable(owner, i);
-        parcel.writeByte((byte) (isActive ? 1 : 0));
         parcel.writeLong(timeMilli);
     }
 }
