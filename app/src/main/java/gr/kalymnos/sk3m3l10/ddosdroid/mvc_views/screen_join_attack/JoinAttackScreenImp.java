@@ -60,7 +60,7 @@ public class JoinAttackScreenImp implements JoinAttackScreen {
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_join_attack, container, false);
+        root = inflater.inflate(R.layout.screen_join_attack_info, container, false);
         toolbar = root.findViewById(R.id.toolBar);
         website = root.findViewById(R.id.website_textview);
         date = root.findViewById(R.id.tv_website_hint);
