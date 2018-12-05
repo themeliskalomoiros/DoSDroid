@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-public class JoinAttackViewMvcImp implements JoinAttackViewMvc {
+public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
 
     private View root;
     private Toolbar toolbar;
     private TextView website, date, attackForce, networkConf;
     private FloatingActionButton joinFab;
 
-    public JoinAttackViewMvcImp(LayoutInflater inflater, ViewGroup container) {
+    public JoinAttackInfoViewMvcImp(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
     }
 
