@@ -12,27 +12,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 public class DDoSAttack implements Parcelable {
     private static final String TAG = DDoSAttack.class.getSimpleName();
 
-    public interface AttackType {
-        String ATTACK_TYPE_KEY = TAG + "attack type key";
-        int TYPE_FETCH_ALL = 101;
-        int TYPE_FETCH_JOINED = 102;
-        int TYPE_FETCH_NOT_JOINED = 103;
-        int TYPE_FETCH_OWNER = 104;
-        int TYPE_NONE = -1;
-    }
-
-    public interface NetworkType {
-        int INTERNET = 0;
-        int WIFI_P2P = 1;
-        int NSD = 2;
-        int BLUETOOTH = 3;
-    }
-
-    public interface Extra {
-        String EXTRA_ATTACK = TAG+"extra attacks";
-        String EXTRA_ATTACKS = TAG + "caching attacks key";
-    }
-
     private String pushId, targetWebsite;
     int networkType;
     private List<DDoSBot> botsList;
@@ -66,6 +45,10 @@ public class DDoSAttack implements Parcelable {
             return botsList.size();
         }
         return 0;
+    }
+
+    public int getNetworkType() {
+        return networkType;
     }
 
     public void addBot(DDoSBot bot) {
@@ -161,5 +144,26 @@ public class DDoSAttack implements Parcelable {
         parcel.writeInt(networkType);
         parcel.writeByte((byte) (isActive ? 1 : 0));
         parcel.writeLong(timeMilli);
+    }
+
+    public interface AttackType {
+        String ATTACK_TYPE_KEY = TAG + "attack type key";
+        int TYPE_FETCH_ALL = 101;
+        int TYPE_FETCH_JOINED = 102;
+        int TYPE_FETCH_NOT_JOINED = 103;
+        int TYPE_FETCH_OWNER = 104;
+        int TYPE_NONE = -1;
+    }
+
+    public interface NetworkType {
+        int INTERNET = 0;
+        int WIFI_P2P = 1;
+        int NSD = 2;
+        int BLUETOOTH = 3;
+    }
+
+    public interface Extra {
+        String EXTRA_ATTACK = TAG+"extra attacks";
+        String EXTRA_ATTACKS = TAG + "caching attacks key";
     }
 }
