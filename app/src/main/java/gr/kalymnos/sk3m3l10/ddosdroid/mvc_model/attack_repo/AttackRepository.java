@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 
 
 /*
@@ -15,7 +15,7 @@ public abstract class AttackRepository {
     protected static final String TAG = "AttackRepository";
 
     public interface OnAttacksFetchListener {
-        void attacksFetchedSuccess(List<DDoSAttack> attacks);
+        void attacksFetchedSuccess(List<Attack> attacks);
 
         void attacksFetchedFail(String msg);
     }

@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.JoinAttackInfoFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvcImp;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
-
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.Extra.EXTRA_ATTACK;
 
 public class JoinAttackActivity extends AppCompatActivity {
 

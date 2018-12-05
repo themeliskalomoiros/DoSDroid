@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
@@ -30,7 +30,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private static final int ITEM_VIEW_TYPE_OWNER_ATTACK = 2;
 
     private Context context;
-    private List<DDoSAttack> attackList;
+    private List<Attack> attackList;
     private OnAttackItemClickListener itemClickListener;
     private OnJoinSwitchCheckedStateListener switchCheckedStateListener;
     private OnActivateSwitchCheckedStateListener activateSwitchCheckedStateListener;
@@ -39,7 +39,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         this.context = context;
     }
 
-    public void addAttacks(List<DDoSAttack> attackList) {
+    public void addAttacks(List<Attack> attackList) {
         this.attackList = attackList;
     }
 
@@ -72,11 +72,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     public int getItemViewType(int position) {
         if (ValidationUtils.listHasItems(attackList)) {
 
-            DDoSAttack attack = attackList.get(position);
-            if (attack.botBelongsToBotnet(DDoSBot.getLocalUserDDoSBot().getId()))
+            Attack attack = attackList.get(position);
+            if (attack.botBelongsToBotnet(Bot.getLocalUserDDoSBot().getId()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
-            if (attack.getOwner().getId().equals(DDoSBot.getLocalUserDDoSBot().getId())) {
+            if (attack.getOwner().getId().equals(Bot.getLocalUserDDoSBot().getId())) {
                 return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 
@@ -118,8 +118,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             websiteIcon = itemView.findViewById(R.id.website_imageview);
         }
 
-        void bind(DDoSAttack attack) {
-            websiteTitle.setText(attack.getTargetWebsite());
+        void bind(Attack attack) {
+            websiteTitle.setText(attack.getWebsite());
             websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotNetCount()));
             //  TODO: if a website has a favicon.ico then display it in websiteIcon
         }

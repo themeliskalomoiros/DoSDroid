@@ -1,11 +1,11 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 
 /*  This class represents a single bot which apparently
-    belongs to a botnet of a DDoSAttack.*/
+    belongs to a botnet of a Attack.*/
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id_provider.FakeInstanceIdProvider;
 
-public class DDoSBot {
+public class Bot {
 
     public interface OnJoinedAttackListener {
         void onJoinedAttackSuccess();
@@ -21,7 +21,7 @@ public class DDoSBot {
 
     private String id;
 
-    public DDoSBot(String instanceId) {
+    public Bot(String instanceId) {
         this.id = instanceId;
     }
 
@@ -37,8 +37,8 @@ public class DDoSBot {
 
     }
 
-    public static DDoSBot getLocalUserDDoSBot() {
+    public static Bot getLocalUserDDoSBot() {
         //  TODO: Replace with real InstanceIdProvider
-        return new DDoSBot(new FakeInstanceIdProvider().getInstanceId());
+        return new Bot(new FakeInstanceIdProvider().getInstanceId());
     }
 }

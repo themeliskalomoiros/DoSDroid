@@ -1,12 +1,12 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_ALL;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_OWNER;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.NSD;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_ALL;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.NSD;
 
 public class NSDAttackListFragment extends AttackListFragment {
 
@@ -20,14 +20,14 @@ public class NSDAttackListFragment extends AttackListFragment {
                 break;
             case TYPE_FETCH_JOINED:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-                //  String userId = DDoSBot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchJoinedAttakcsOf(DDoSBot.getLocalUserDDoSBot().getId(), NSD);
+                //  String userId = Bot.getLocalUserDDoSBot().getId();
+                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUserDDoSBot().getId(), NSD);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(NSD);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(DDoSBot.getLocalUserDDoSBot().getId(), NSD);
+                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUserDDoSBot().getId(), NSD);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

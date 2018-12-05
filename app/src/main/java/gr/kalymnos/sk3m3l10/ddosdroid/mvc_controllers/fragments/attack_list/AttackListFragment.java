@@ -19,13 +19,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.ATTACK_TYPE_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_NONE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.Extra.EXTRA_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -37,7 +37,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
-    private List<DDoSAttack> cachedAttacks;
+    private List<Attack> cachedAttacks;
 
     @Nullable
     @Override
@@ -72,7 +72,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void attacksFetchedSuccess(List<DDoSAttack> attacks) {
+    public void attacksFetchedSuccess(List<Attack> attacks) {
         cachedAttacks = attacks;
         viewMvc.hideLoadingIndicator();
         viewMvc.bindAttacks(cachedAttacks);
@@ -85,7 +85,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
         if (bundleIsValidAndContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
-            List<DDoSAttack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
+            List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
             if (listHasItems(temp)) {
                 cachedAttacks = temp;
                 return true;
@@ -133,9 +133,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
-    private void startJoinAttackActivity(DDoSAttack attack) {
+    private void startJoinAttackActivity(Attack attack) {
         Intent intent = new Intent(getContext(), JoinAttackActivity.class);
-        intent.putExtra(DDoSAttack.Extra.EXTRA_ATTACK, attack);
+        intent.putExtra(Attack.Extra.EXTRA_ATTACK, attack);
         getContext().startActivity(intent);
     }
 

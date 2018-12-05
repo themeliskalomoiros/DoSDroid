@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 
 public class AttackListViewMvcImpl implements AttackListViewMvc {
 
@@ -24,7 +24,7 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     }
 
     @Override
-    public void bindAttacks(List<DDoSAttack> attacks) {
+    public void bindAttacks(List<Attack> attacks) {
         attacksAdapter.addAttacks(attacks);
         attacksAdapter.notifyDataSetChanged();
     }

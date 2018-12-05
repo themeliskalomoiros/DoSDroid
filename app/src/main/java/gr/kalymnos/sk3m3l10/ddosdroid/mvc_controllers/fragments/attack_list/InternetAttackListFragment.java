@@ -1,13 +1,12 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.Internet;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSBot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_ALL;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.AttackType.TYPE_FETCH_OWNER;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.DDoSAttack.NetworkType.INTERNET;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_ALL;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack.NetworkType.INTERNET;
 
 public class InternetAttackListFragment extends AttackListFragment {
 
@@ -20,13 +19,13 @@ public class InternetAttackListFragment extends AttackListFragment {
                 attackRepo.fetchAllAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_JOINED:
-                attackRepo.fetchJoinedAttakcsOf(DDoSBot.getLocalUserDDoSBot().getId(), INTERNET);
+                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUserDDoSBot().getId(), INTERNET);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(DDoSBot.getLocalUserDDoSBot().getId(), INTERNET);
+                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUserDDoSBot().getId(), INTERNET);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

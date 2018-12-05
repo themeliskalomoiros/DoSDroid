@@ -9,34 +9,34 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
-public class DDoSAttack implements Parcelable {
-    private static final String TAG = DDoSAttack.class.getSimpleName();
+public class Attack implements Parcelable {
+    private static final String TAG = Attack.class.getSimpleName();
 
-    private String pushId, targetWebsite;
+    private String pushId, website;
     int networkType;
-    private List<DDoSBot> botsList;
-    private DDoSBot owner;
+    private List<Bot> botsList;
+    private Bot owner;
     private boolean isActive;
     private long timeMilli;
 
-    public DDoSAttack(String targetWebsite, int networkType, DDoSBot owner) {
-        this.targetWebsite = targetWebsite;
+    public Attack(String website, int networkType, Bot owner) {
+        this.website = website;
         this.owner = owner;
         this.networkType = networkType;
         this.timeMilli = System.currentTimeMillis();
     }
 
-    public DDoSAttack(String targetWebsite, int networkType, DDoSBot owner, List<DDoSBot> botsList,
-                      boolean isActive, long timeMilli) {
-        this(targetWebsite, networkType, owner);
+    public Attack(String website, int networkType, Bot owner, List<Bot> botsList,
+                  boolean isActive, long timeMilli) {
+        this(website, networkType, owner);
         this.botsList = botsList;
         this.isActive = isActive;
         this.timeMilli = timeMilli;
     }
 
-    public DDoSAttack(String pushId, String targetWebsite, int networkType, List<DDoSBot> botsList,
-                      DDoSBot owner, boolean isActive, long timeMilli) {
-        this(targetWebsite, networkType, owner, botsList, isActive, timeMilli);
+    public Attack(String pushId, String website, int networkType, List<Bot> botsList,
+                  Bot owner, boolean isActive, long timeMilli) {
+        this(website, networkType, owner, botsList, isActive, timeMilli);
         this.pushId = pushId;
     }
 
@@ -51,14 +51,14 @@ public class DDoSAttack implements Parcelable {
         return networkType;
     }
 
-    public void addBot(DDoSBot bot) {
+    public void addBot(Bot bot) {
         if (listHasItems(botsList)) {
             botsList.add(bot);
         }
         throw new UnsupportedOperationException(TAG + "bot list is null or empty");
     }
 
-    public void removeBot(DDoSBot bot) {
+    public void removeBot(Bot bot) {
         if (listHasItems(botsList)) {
             botsList.remove(bot);
         }
@@ -73,11 +73,11 @@ public class DDoSAttack implements Parcelable {
         this.pushId = pushId;
     }
 
-    public String getTargetWebsite() {
-        return targetWebsite;
+    public String getWebsite() {
+        return website;
     }
 
-    public DDoSBot getOwner() {
+    public Bot getOwner() {
         return owner;
     }
 
@@ -95,7 +95,7 @@ public class DDoSAttack implements Parcelable {
 
     public boolean botBelongsToBotnet(String otherBotId) {
         if (ValidationUtils.listHasItems(botsList)) {
-            for (DDoSBot bot : botsList) {
+            for (Bot bot : botsList) {
                 if (bot.getId().equals(otherBotId)) {
                     return true;
                 }
@@ -112,23 +112,23 @@ public class DDoSAttack implements Parcelable {
         return owner.getId().equals(ownerId);
     }
 
-    protected DDoSAttack(Parcel in) {
+    protected Attack(Parcel in) {
         pushId = in.readString();
-        targetWebsite = in.readString();
+        website = in.readString();
         networkType = in.readInt();
         isActive = in.readByte() != 0;
         timeMilli = in.readLong();
     }
 
-    public static final Creator<DDoSAttack> CREATOR = new Creator<DDoSAttack>() {
+    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
         @Override
-        public DDoSAttack createFromParcel(Parcel in) {
-            return new DDoSAttack(in);
+        public Attack createFromParcel(Parcel in) {
+            return new Attack(in);
         }
 
         @Override
-        public DDoSAttack[] newArray(int size) {
-            return new DDoSAttack[size];
+        public Attack[] newArray(int size) {
+            return new Attack[size];
         }
     };
 
@@ -140,7 +140,7 @@ public class DDoSAttack implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(pushId);
-        parcel.writeString(targetWebsite);
+        parcel.writeString(website);
         parcel.writeInt(networkType);
         parcel.writeByte((byte) (isActive ? 1 : 0));
         parcel.writeLong(timeMilli);
