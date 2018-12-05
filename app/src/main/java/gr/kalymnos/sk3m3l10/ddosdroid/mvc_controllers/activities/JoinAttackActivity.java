@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvcImp;
 
-public class JoinActivity extends AppCompatActivity {
+public class JoinAttackActivity extends AppCompatActivity {
 
     private JoinAttackViewMvc viewMvc;
 
