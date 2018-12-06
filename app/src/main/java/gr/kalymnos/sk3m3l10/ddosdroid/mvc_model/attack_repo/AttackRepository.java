@@ -43,6 +43,8 @@ public abstract class AttackRepository {
 
     public abstract void fetchLocalOwnerAttacksOf(int networkType);
 
+    public abstract void uploadAttack(Attack attack);
+
     public final void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
         callback = listener;
     }

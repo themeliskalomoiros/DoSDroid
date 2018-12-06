@@ -178,6 +178,11 @@ public class FakeAttackRepo extends AttackRepository {
         }).start();
     }
 
+    @Override
+    public void uploadAttack(Attack attack) {
+
+    }
+
     private static class AttackCreator {
 
         static List<Attack> createAttacks(int count) {
