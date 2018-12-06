@@ -63,12 +63,12 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     @Override
-    public void onConnected() {
+    public void onAttackNetworkConnected() {
 
     }
 
     @Override
-    public void onDisconnected(CharSequence reason) {
+    public void onAttackNetworkDisconnected(CharSequence reason) {
 
     }
 }

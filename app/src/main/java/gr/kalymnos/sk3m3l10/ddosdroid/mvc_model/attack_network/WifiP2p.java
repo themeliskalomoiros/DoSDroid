@@ -11,7 +11,7 @@ class WifiP2p extends AttackNetwork {
 
     @Override
     public void connect() {
-        connectionListener.onConnected();
+        connectionListener.onAttackNetworkConnected();
     }
 
     @Override

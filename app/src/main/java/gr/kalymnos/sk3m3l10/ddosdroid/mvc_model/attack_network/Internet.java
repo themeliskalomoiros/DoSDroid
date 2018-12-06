@@ -19,7 +19,7 @@ public class Internet extends AttackNetwork {
     @Override
     public void connect() {
         //  TODO: Consider wifi-scanning when user wants to connect
-        connectionListener.onConnected();
+        connectionListener.onAttackNetworkConnected();
     }
 
     @Override
@@ -41,9 +41,9 @@ public class Internet extends AttackNetwork {
                 switch (intent.getAction()) {
                     case ConnectivityManager.CONNECTIVITY_ACTION:
                         if (NetworkManager.isConnectedToNetwork(getNetworkInfo(intent))) {
-                            connectionListener.onConnected();
+                            connectionListener.onAttackNetworkConnected();
                         } else {
-                            connectionListener.onDisconnected(context.getString(R.string.internet_disconnected_msg));
+                            connectionListener.onAttackNetworkDisconnected(context.getString(R.string.internet_disconnected_msg));
                         }
                         break;
                 }

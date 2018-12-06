@@ -15,9 +15,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
 public abstract class AttackNetwork {
 
     public interface OnConnectionListener {
-        void onConnected();
+        void onAttackNetworkConnected();
 
-        void onDisconnected(CharSequence reason);
+        void onAttackNetworkDisconnected(CharSequence reason);
     }
 
     protected Context context;

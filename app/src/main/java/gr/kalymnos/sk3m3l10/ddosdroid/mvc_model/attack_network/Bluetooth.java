@@ -11,7 +11,7 @@ class Bluetooth extends AttackNetwork {
 
     @Override
     public void connect() {
-        connectionListener.onConnected();
+        connectionListener.onAttackNetworkConnected();
     }
 
     @Override
