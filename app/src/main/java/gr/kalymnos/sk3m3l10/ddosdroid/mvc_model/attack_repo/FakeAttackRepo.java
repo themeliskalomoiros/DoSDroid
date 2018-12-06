@@ -10,6 +10,7 @@ import java.util.Random;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.ThreadUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.INTERNET;
@@ -17,7 +18,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.N
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.WIFI_P2P;
 
 public class FakeAttackRepo extends AttackRepository {
-    private static final long SLEEP_TIME_MILLIS = 1000;
 
     private List<Attack> allAttacks = AttackCreator.createAttacks(200);
 
@@ -28,7 +28,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchAllAttacks() {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 controller.runOnUiThread(() -> callback.attacksFetchedSuccess(allAttacks));
             }
@@ -38,7 +38,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchAllAttacksOf(int networkType) {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchJoinedAttakcsOf(String botId) {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchJoinedAttakcsOf(String botId, int networkType) {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchNotJoinedAttacksOf(String botId) {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
@@ -119,7 +119,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchNotJoinedAttacksOf(String botId, int networkType) {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
@@ -143,7 +143,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchLocalOwnerAttacks() {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
@@ -161,7 +161,7 @@ public class FakeAttackRepo extends AttackRepository {
     @Override
     public void fetchLocalOwnerAttacksOf(int networkType) {
         new Thread(() -> {
-            sleep(SLEEP_TIME_MILLIS);
+            ThreadUtils.sleepOneSecond();
             if (callback != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
@@ -236,14 +236,6 @@ public class FakeAttackRepo extends AttackRepository {
             int randomChoice = new Random().nextInt(allNetworkTypes.length);
             Log.d(TAG, "reporting networktype " + allNetworkTypes[randomChoice]);
             return allNetworkTypes[randomChoice];
-        }
-    }
-
-    private static void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            Log.e(TAG, "Error while sleep()", e);
         }
     }
 }
