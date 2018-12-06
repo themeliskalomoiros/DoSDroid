@@ -55,15 +55,15 @@ public abstract class AttackNetwork {
     protected abstract void initializeConnectivityIntentFilter();
 
     public interface AttackNetworkFactory {
-        AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackType);
+        AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType);
     }
 
     public static class AttackNetworkFactoryImp implements AttackNetworkFactory {
         private static final String TAG = "AttackNetworkFactoryImp";
 
         @Override
-        public AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackType) {
-            switch (attackType) {
+        public AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType) {
+            switch (attackNetworkType) {
                 case AttackConstants.NetworkType.INTERNET:
                     return new Internet(context, connectionListener);
                 case AttackConstants.NetworkType.WIFI_P2P:
