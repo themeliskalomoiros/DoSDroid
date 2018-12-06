@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+
 /*
-* When an attack is created a network type is specified (internet, bluetooth, wifi p2p, etc...).
-* The ddos botnet must be connected to this network type in order to follow that attack.
-* */
+ * When an attack is created a network type is specified (internet, bluetooth, wifi p2p, etc...).
+ * The ddos botnet must be connected to this network type in order to follow that attack.
+ * */
 
 public abstract class AttackNetwork {
 
@@ -51,4 +53,28 @@ public abstract class AttackNetwork {
     protected abstract void initializeConnectivityReceiver();
 
     protected abstract void initializeConnectivityIntentFilter();
+
+    public interface AttackNetworkFactory {
+        AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackType);
+    }
+
+    public static class AttackNetworkFactoryImp implements AttackNetworkFactory {
+        private static final String TAG = "AttackNetworkFactoryImp";
+
+        @Override
+        public AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackType) {
+            switch (attackType) {
+                case AttackConstants.NetworkType.INTERNET:
+                    return new Internet(context, connectionListener);
+                case AttackConstants.NetworkType.WIFI_P2P:
+                    return new WifiP2p(context, connectionListener);
+                case AttackConstants.NetworkType.NSD:
+                    return new Nsd(context, connectionListener);
+                case AttackConstants.NetworkType.BLUETOOTH:
+                    return new Bluetooth(context, connectionListener);
+                default:
+                    throw new UnsupportedOperationException(TAG + ": unknown attack type");
+            }
+        }
+    }
 }
