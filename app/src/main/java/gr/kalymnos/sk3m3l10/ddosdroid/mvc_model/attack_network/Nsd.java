@@ -11,7 +11,7 @@ class Nsd extends AttackNetwork {
 
     @Override
     public void connect() {
-
+        connectionListener.onConnected();
     }
 
     @Override
