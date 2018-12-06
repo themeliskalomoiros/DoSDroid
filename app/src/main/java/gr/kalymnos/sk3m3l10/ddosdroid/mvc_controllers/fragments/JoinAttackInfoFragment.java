@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetwork;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
@@ -64,11 +65,11 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onAttackNetworkConnected() {
-
+        Toast.makeText(getContext(), "AttackNetwork connected", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onAttackNetworkDisconnected(CharSequence reason) {
-
+        Toast.makeText(getContext(), "AttackNetwork disconnected", Toast.LENGTH_SHORT).show();
     }
 }
