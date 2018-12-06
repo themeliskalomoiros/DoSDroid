@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetwork;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.OnOwnerAttackResponseReceiveListener;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
@@ -21,7 +22,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
-        AttackNetwork.OnConnectionListener {
+        AttackNetwork.OnConnectionListener,OnOwnerAttackResponseReceiveListener {
 
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
@@ -77,5 +78,10 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onAttackNetworkDisconnected(CharSequence reason) {
         Toast.makeText(getContext(), "AttackNetwork disconnected", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onOwnerAttackResponseReceived(boolean attackEnabled) {
+
     }
 }
