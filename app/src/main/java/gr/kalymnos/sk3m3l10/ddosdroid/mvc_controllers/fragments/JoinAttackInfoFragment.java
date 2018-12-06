@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network.AttackNetwork;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_repo.FakeAttackRepo;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
@@ -23,13 +26,15 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
     private AttackNetwork attackNetwork;
+    private AttackRepository attackRepository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attack = getArguments().getParcelable(AttackConstants.Extra.EXTRA_ATTACK);
+        attackRepository = new FakeAttackRepo(getActivity());
         attackNetwork = new AttackNetwork.AttackNetworkFactoryImp()
-                .makeAttackNetwork(getContext(),this,attack.getNetworkType());
+                .makeAttackNetwork(getContext(), this, attack.getNetworkType());
     }
 
     @Nullable
@@ -65,7 +70,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onAttackNetworkConnected() {
-        Toast.makeText(getContext(), "AttackNetwork connected", Toast.LENGTH_SHORT).show();
+        attack.addBot(Bot.getLocalUserDDoSBot());
+        attackRepository.uploadAttack(attack);
     }
 
     @Override
