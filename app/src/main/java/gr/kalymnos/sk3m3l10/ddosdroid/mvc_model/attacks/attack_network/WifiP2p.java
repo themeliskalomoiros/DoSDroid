@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_network;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_network;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
