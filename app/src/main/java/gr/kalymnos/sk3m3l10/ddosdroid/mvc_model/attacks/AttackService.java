@@ -21,11 +21,21 @@ public class AttackService extends Service {
 
     private ExecutorService executor;
 
-    public static void startAttack(Attack attack, Context context) {
-        Intent intent = new Intent(context, AttackService.class);
-        intent.setAction(ACTION_START_ATTACK);
-        intent.putExtra(AttackConstants.Extra.EXTRA_ATTACK, attack);
-        context.startService(intent);
+    public static class AttackServiceManager {
+        public static void startAttack(Attack attack, Context context) {
+            context.startService(createIntent(context, attack, ACTION_START_ATTACK));
+        }
+
+        public static void stopAttack(Attack attack, Context context) {
+            context.startService(createIntent(context, attack, ACTION_STOP_ATTACK));
+        }
+
+        private static Intent createIntent(Context context, Attack attack, String action) {
+            Intent intent = new Intent(context, AttackService.class);
+            intent.setAction(action);
+            intent.putExtra(AttackConstants.Extra.EXTRA_ATTACK, attack);
+            return intent;
+        }
     }
 
     @Override
