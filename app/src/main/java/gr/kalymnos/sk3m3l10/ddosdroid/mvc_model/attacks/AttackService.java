@@ -49,17 +49,17 @@ public class AttackService extends Service {
         }
     }
 
-    private boolean isLastAttack(Attack attack) {
+    private void handleStartAction() {
         // TODO: implementation needed
-        return false;
     }
 
     private void handleStopAttack() {
         // TODO: implementation needed
     }
 
-    private void handleStartAction() {
+    private boolean isLastAttack(Attack attack) {
         // TODO: implementation needed
+        return false;
     }
 
     @Override
