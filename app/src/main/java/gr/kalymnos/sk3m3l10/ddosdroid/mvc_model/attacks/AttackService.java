@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
@@ -16,32 +19,17 @@ public class AttackService extends Service {
     private static final String TAG = "AttackService";
 
     public static final int ATTACK_LIMIT = 10;
-    public static final String ACTION_START_ATTACK = TAG + "start attack action";
-    public static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
+    private static final String ACTION_START_ATTACK = TAG + "start attack action";
+    private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
 
     private ExecutorService executor;
-
-    public static class AttackServiceManager {
-        public static void startAttack(Attack attack, Context context) {
-            context.startService(createIntent(context, attack, ACTION_START_ATTACK));
-        }
-
-        public static void stopAttack(Attack attack, Context context) {
-            context.startService(createIntent(context, attack, ACTION_STOP_ATTACK));
-        }
-
-        private static Intent createIntent(Context context, Attack attack, String action) {
-            Intent intent = new Intent(context, AttackService.class);
-            intent.setAction(action);
-            intent.putExtra(AttackConstants.Extra.EXTRA_ATTACK, attack);
-            return intent;
-        }
-    }
+    private Map<String, Future> taskMap;
 
     @Override
     public void onCreate() {
         super.onCreate();
         executor = Executors.newFixedThreadPool(ATTACK_LIMIT);
+        taskMap = new HashMap<>();
     }
 
     @Override
@@ -95,5 +83,22 @@ public class AttackService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    public static class AttackServiceManager {
+        public static void startAttack(Attack attack, Context context) {
+            context.startService(createIntent(context, attack, ACTION_START_ATTACK));
+        }
+
+        public static void stopAttack(Attack attack, Context context) {
+            context.startService(createIntent(context, attack, ACTION_STOP_ATTACK));
+        }
+
+        private static Intent createIntent(Context context, Attack attack, String action) {
+            Intent intent = new Intent(context, AttackService.class);
+            intent.setAction(action);
+            intent.putExtra(AttackConstants.Extra.EXTRA_ATTACK, attack);
+            return intent;
+        }
     }
 }
