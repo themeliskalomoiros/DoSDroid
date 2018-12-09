@@ -40,12 +40,28 @@ public class AttackService extends Service {
             case ACTION_START_ATTACK:
                 handleStartAction();
                 return START_REDELIVER_INTENT;
+            case ACTION_STOP_ATTACK:
+                handleStopAttack();
+                if (isLastAttack((Attack) intent.getParcelableExtra(AttackConstants.Extra.EXTRA_ATTACK))) {
+                    return START_NOT_STICKY;
+                }
+                return START_REDELIVER_INTENT;
             default:
                 return super.onStartCommand(intent, flags, startId);
         }
     }
 
+    private boolean isLastAttack(Attack attack) {
+        // TODO: implementation needed
+        return false;
+    }
+
+    private void handleStopAttack() {
+        // TODO: implementation needed
+    }
+
     private void handleStartAction() {
+        // TODO: implementation needed
     }
 
     @Override
