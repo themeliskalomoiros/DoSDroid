@@ -106,7 +106,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void initializeAttackRepo() {
         attackRepo = new FakeAttackRepo(getActivity());
-        attackRepo.registerOnAttacksFetchListener(this);
+        attackRepo.addOnAttacksFetchListener(this);
     }
 
     protected int getAttacksType(Bundle bundle) {
@@ -118,7 +118,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void removeFetchingAttacksListener() {
         if (attackRepo != null) {
-            attackRepo.unRegisterOnAttacksFetchListenerAndController();
+            attackRepo.removeOnAttacksFetchListener();
             attackRepo = null;
         }
     }

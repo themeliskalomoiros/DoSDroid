@@ -19,13 +19,7 @@ public abstract class AttackRepository {
 
         void attacksFetchedFail(String msg);
     }
-
-    protected Activity controller;
     protected OnAttacksFetchListener callback;
-
-    public AttackRepository(Activity controller) {
-        this.controller = controller;
-    }
 
     public abstract void fetchAllAttacks();
 
@@ -45,13 +39,12 @@ public abstract class AttackRepository {
 
     public abstract void uploadAttack(Attack attack);
 
-    public final void registerOnAttacksFetchListener(OnAttacksFetchListener listener) {
+    public final void addOnAttacksFetchListener(OnAttacksFetchListener listener) {
         callback = listener;
     }
 
-    public final void unRegisterOnAttacksFetchListenerAndController() {
+    public final void removeOnAttacksFetchListener() {
         callback = null;
-        controller = null;
     }
 
 }

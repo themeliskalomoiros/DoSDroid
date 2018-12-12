@@ -20,9 +20,10 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.W
 public class FakeAttackRepo extends AttackRepository {
 
     private List<Attack> allAttacks = AttackCreator.createAttacks(200);
+    private Activity controller;
 
     public FakeAttackRepo(Activity controller) {
-        super(controller);
+        this.controller = controller;
     }
 
     @Override
