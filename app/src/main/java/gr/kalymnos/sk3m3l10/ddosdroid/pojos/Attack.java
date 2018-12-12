@@ -44,6 +44,10 @@ public class Attack implements Parcelable {
         return 0;
     }
 
+    public List<Bot> getBotsList() {
+        return botsList;
+    }
+
     public int getNetworkType() {
         return networkType;
     }
