@@ -50,7 +50,29 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchAllAttacksOf(int networkType) {
+        attacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Attack> attacks = extractAttacksFrom(dataSnapshot, networkType);
+                callback.attacksFetchedSuccess(attacks);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.attacksFetchedFail(databaseError.getMessage());
+            }
+
+            private List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot, int networkType) {
+                List<Attack> attacks = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Attack attack = snapshot.getValue(Attack.class);
+                    if (attack.getNetworkType() == networkType) {
+                        attacks.add(attack);
+                    }
+                }
+                return attacks;
+            }
+        });
     }
 
     @Override
