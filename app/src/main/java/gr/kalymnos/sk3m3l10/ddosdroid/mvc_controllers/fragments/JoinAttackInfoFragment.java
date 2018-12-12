@@ -22,7 +22,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
-        AttackNetwork.OnConnectionListener,OnOwnerAttackResponseReceiveListener {
+        AttackNetwork.OnConnectionListener, OnOwnerAttackResponseReceiveListener {
 
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
@@ -48,7 +48,11 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onJoinAttackButtonClicked() {
-        attackNetwork.connect();
+        if (!attackNetwork.isConnected()) {
+            attackNetwork.connect();
+        }else{
+            //  TODO: Join the attack directly
+        }
     }
 
     private void bindAttackToUi() {
