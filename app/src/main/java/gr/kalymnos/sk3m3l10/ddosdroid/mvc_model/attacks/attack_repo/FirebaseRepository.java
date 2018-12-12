@@ -25,27 +25,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchAllAttacks() {
-        attacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Attack> attacks = extractAttacksFrom(dataSnapshot);
-                callback.attacksFetchedSuccess(attacks);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                callback.attacksFetchedFail(databaseError.getMessage());
-            }
-
-            @NonNull
-            private List<Attack> extractAttacksFrom(@NonNull DataSnapshot dataSnapshot) {
-                List<Attack> attacks = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    attacks.add(snapshot.getValue(Attack.class));
-                }
-                return attacks;
-            }
-        });
+        attacksRef.addListenerForSingleValueEvent(new AllAttacksValueEventListener());
     }
 
     @Override
@@ -108,6 +88,13 @@ public class FirebaseRepository extends AttackRepository {
     @Override
     public void uploadAttack(Attack attack) {
 
+    }
+
+    private abstract class AbstractValueEventListener implements ValueEventListener{
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            callback.attacksFetchedFail(databaseError.getMessage());
+        }
     }
 
     private abstract class CustomValueEventListener implements ValueEventListener {
