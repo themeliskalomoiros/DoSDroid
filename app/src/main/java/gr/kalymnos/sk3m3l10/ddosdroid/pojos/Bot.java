@@ -8,6 +8,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id_provider.FakeInstanc
 public class Bot implements Parcelable {
     private String id;
 
+    public Bot() {
+    }
+
     public Bot(String instanceId) {
         this.id = instanceId;
     }

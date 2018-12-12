@@ -18,6 +18,9 @@ public class Attack implements Parcelable {
     private Bot owner;
     private long timeMilli;
 
+    public Attack() {
+    }
+
     public Attack(String website, int networkType, Bot owner) {
         this.website = website;
         this.owner = owner;
