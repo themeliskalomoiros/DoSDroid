@@ -127,4 +127,16 @@ public class FirebaseRepository extends AttackRepository {
             callback.attacksFetchedFail(databaseError.getMessage());
         }
     }
+
+    private class AllAttacksValueEventListener extends CustomValueEventListener {
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            attacks = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                attacks.add(snapshot.getValue(Attack.class));
+            }
+            return attacks;
+        }
+    }
 }
