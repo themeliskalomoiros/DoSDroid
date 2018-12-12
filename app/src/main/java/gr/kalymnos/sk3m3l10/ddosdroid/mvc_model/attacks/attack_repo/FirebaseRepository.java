@@ -25,7 +25,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchAllAttacks() {
-        attacksRef.addListenerForSingleValueEvent(new AllAttacksValueEventListener());
+        attacksRef.addListenerForSingleValueEvent(new AttacksValueEventListener());
     }
 
     @Override
@@ -90,38 +90,25 @@ public class FirebaseRepository extends AttackRepository {
 
     }
 
-    private abstract class AbstractValueEventListener implements ValueEventListener{
+    private abstract class AbstractValueEventListener implements ValueEventListener {
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
             callback.attacksFetchedFail(databaseError.getMessage());
         }
     }
 
-    private abstract class CustomValueEventListener implements ValueEventListener {
-
-        protected List<Attack> attacks;
+    private class AttacksValueEventListener extends AbstractValueEventListener {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            attacks = extractAttacksFrom(dataSnapshot);
+            List<Attack> attacks = extractAttacksFrom(dataSnapshot);
             callback.attacksFetchedSuccess(attacks);
         }
 
-        protected abstract List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot);
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            callback.attacksFetchedFail(databaseError.getMessage());
-        }
-    }
-
-    private class AllAttacksValueEventListener extends CustomValueEventListener {
-
-        @Override
-        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
-            attacks = new ArrayList<>();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                attacks.add(snapshot.getValue(Attack.class));
+        private List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                attacks.add(child.getValue(Attack.class));
             }
             return attacks;
         }
