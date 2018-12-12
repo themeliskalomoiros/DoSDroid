@@ -109,4 +109,22 @@ public class FirebaseRepository extends AttackRepository {
     public void uploadAttack(Attack attack) {
 
     }
+
+    private abstract class CustomValueEventListener implements ValueEventListener {
+
+        protected List<Attack> attacks;
+
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            attacks = extractAttacksFrom(dataSnapshot);
+            callback.attacksFetchedSuccess(attacks);
+        }
+
+        protected abstract List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot);
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            callback.attacksFetchedFail(databaseError.getMessage());
+        }
+    }
 }
