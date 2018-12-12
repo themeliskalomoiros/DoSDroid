@@ -23,13 +23,13 @@ public class AttackService extends Service {
     private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
 
     private ExecutorService executor;
-    private Map<String, Future> taskMap;
+    private Map<String, Future> tasks;
 
     @Override
     public void onCreate() {
         super.onCreate();
         executor = Executors.newFixedThreadPool(ATTACK_LIMIT);
-        taskMap = new HashMap<>();
+        tasks = new HashMap<>();
     }
 
     @Override
