@@ -43,7 +43,8 @@ public class AttackService extends Service {
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_ATTACK:
                 handleStopAttack(attack);
-                if (isLastAttack((Attack) intent.getParcelableExtra(AttackConstants.Extra.EXTRA_ATTACK))) {
+                if (isLastAttack(attack)) {
+                    stopSelf();
                     return START_NOT_STICKY;
                 }
                 return START_REDELIVER_INTENT;
