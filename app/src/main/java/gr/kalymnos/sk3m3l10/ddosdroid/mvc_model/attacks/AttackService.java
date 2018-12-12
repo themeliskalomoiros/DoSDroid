@@ -61,7 +61,13 @@ public class AttackService extends Service {
     }
 
     private void handleStopAttack(Attack attack) {
-        // TODO: implementation needed
+        if (mapHasItems(tasks) && tasks.containsKey(attack.getPushId())) {
+            Future attackFuture = tasks.get(attack.getPushId());
+            attackFuture.cancel(true);
+            if (attackFuture.isDone()) {
+                tasks.remove(attack.getPushId());
+            }
+        }
     }
 
     private boolean isLastAttack(Attack attack) {
