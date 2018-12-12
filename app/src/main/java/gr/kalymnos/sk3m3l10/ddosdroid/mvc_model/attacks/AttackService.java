@@ -71,8 +71,7 @@ public class AttackService extends Service {
     }
 
     private boolean isLastAttack(Attack attack) {
-        // TODO: implementation needed
-        return false;
+        return tasks.containsKey(attack.getPushId()) && tasks.size() == 1;
     }
 
     @Override
