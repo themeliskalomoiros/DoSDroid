@@ -34,12 +34,13 @@ public class AttackService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Attack attack = intent.getParcelableExtra(AttackConstants.Extra.EXTRA_ATTACK);
         switch (intent.getAction()) {
             case ACTION_START_ATTACK:
-                handleStartAction();
+                handleStartAction(attack);
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_ATTACK:
-                handleStopAttack();
+                handleStopAttack(attack);
                 if (isLastAttack((Attack) intent.getParcelableExtra(AttackConstants.Extra.EXTRA_ATTACK))) {
                     return START_NOT_STICKY;
                 }
@@ -49,11 +50,11 @@ public class AttackService extends Service {
         }
     }
 
-    private void handleStartAction() {
-        // TODO: implementation needed
+    private void handleStartAction(Attack attack) {
+
     }
 
-    private void handleStopAttack() {
+    private void handleStopAttack(Attack attack) {
         // TODO: implementation needed
     }
 
