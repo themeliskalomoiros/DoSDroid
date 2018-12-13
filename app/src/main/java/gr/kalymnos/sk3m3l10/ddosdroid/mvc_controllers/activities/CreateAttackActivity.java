@@ -30,8 +30,7 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
 
     @Override
     public void onAttackCreationButtonClicked(String website) {
-        boolean validUrlTyped = !TextUtils.isEmpty(website) && URLUtil.isValidUrl(website);
-        if (validUrlTyped) {
+        if (URLUtil.isValidUrl(website)) {
             getSupportFragmentManager().beginTransaction()
                     .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.Builder.build(website))
                     .commit();
