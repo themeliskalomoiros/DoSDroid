@@ -68,7 +68,7 @@ public class FirebaseRepository extends AttackRepository {
     public void uploadAttack(Attack attack) {
         String pushId = attacksRef.push().getKey();
         attack.setPushId(pushId);
-        attacksRef.child(pushId).setValue(attack, (error,ref)->onAttackUploadedListener.onAttackUploaded(attack));
+        attacksRef.child(pushId).setValue(attack, (error, ref) -> onAttackUploadedListener.onAttackUploaded(attack));
     }
 
     @Override
@@ -76,8 +76,8 @@ public class FirebaseRepository extends AttackRepository {
         attacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if (snapshot.getKey().equals(attack.getPushId())){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().equals(attack.getPushId())) {
                         snapshot.getRef().setValue(attack);
                     }
                 }
@@ -85,7 +85,7 @@ public class FirebaseRepository extends AttackRepository {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                
+
             }
         });
     }
@@ -141,7 +141,7 @@ public class FirebaseRepository extends AttackRepository {
 
     private class JoinedAttacksValueEventListenerOfBot extends AbstractValueEventListener {
 
-        private String botId;
+        protected String botId;
 
         public JoinedAttacksValueEventListenerOfBot(String botId) {
             this.botId = botId;
@@ -159,8 +159,8 @@ public class FirebaseRepository extends AttackRepository {
             return attacks;
         }
 
-        protected boolean botJoinedAttack(Attack attack) {
-            return !attack.isOwnedBy(botId) && attack.includes(botId);
+        protected final boolean botJoinedAttack(Attack attack) {
+            return attack.includes(botId) && !attack.isOwnedBy(botId);
         }
     }
 
@@ -197,18 +197,25 @@ public class FirebaseRepository extends AttackRepository {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 Attack attack = child.getValue(Attack.class);
-                if (!botJoinedAttack(attack)) {
+                if (botNotBelongTo(attack)) {
                     attacks.add(attack);
                 }
             }
             return attacks;
         }
+
+        protected final boolean botNotBelongTo(Attack attack) {
+            return !attack.includes(botId) && !attack.isOwnedBy(botId);
+        }
     }
 
-    private class NotJoinedAttacksValueEventListenerOfBotAndNetworkType extends JoinedAttacksValueEventListenerOfBotAndNetworkType {
+    private class NotJoinedAttacksValueEventListenerOfBotAndNetworkType extends NotJoinedAttacksValueEventListenerOfBot {
+
+        private int networkType;
 
         public NotJoinedAttacksValueEventListenerOfBotAndNetworkType(String botId, int networkType) {
-            super(botId, networkType);
+            super(botId);
+            this.networkType = networkType;
         }
 
         @Override
@@ -216,7 +223,7 @@ public class FirebaseRepository extends AttackRepository {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 Attack attack = child.getValue(Attack.class);
-                if (!botJoinedAttack(attack) && attack.getNetworkType() == networkType) {
+                if (botNotBelongTo(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
             }
