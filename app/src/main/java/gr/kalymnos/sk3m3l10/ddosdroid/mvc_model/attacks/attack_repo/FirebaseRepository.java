@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
 public class FirebaseRepository extends AttackRepository {
     private static final String NODE_ATTACKS = "attacks";
@@ -50,7 +51,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchNotJoinedAttacksOf(String botId, int networkType) {
-        attacksRef.addListenerForSingleValueEvent(new NotJoinedAttacksValueEventListenerOfBotAndNetworkType(botId,networkType));
+        attacksRef.addListenerForSingleValueEvent(new NotJoinedAttacksValueEventListenerOfBotAndNetworkType(botId, networkType));
     }
 
     @Override
@@ -183,7 +184,7 @@ public class FirebaseRepository extends AttackRepository {
         }
     }
 
-    private class NotJoinedAttacksValueEventListenerOfBotAndNetworkType extends JoinedAttacksValueEventListenerOfBotAndNetworkType{
+    private class NotJoinedAttacksValueEventListenerOfBotAndNetworkType extends JoinedAttacksValueEventListenerOfBotAndNetworkType {
 
         public NotJoinedAttacksValueEventListenerOfBotAndNetworkType(String botId, int networkType) {
             super(botId, networkType);
@@ -195,6 +196,45 @@ public class FirebaseRepository extends AttackRepository {
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 Attack attack = child.getValue(Attack.class);
                 if (!botJoinedAttack(attack) && attack.getNetworkType() == networkType) {
+                    attacks.add(attack);
+                }
+            }
+            return attacks;
+        }
+    }
+
+    private class LocalOwnerAttacksValueEventListener extends AbstractValueEventListener {
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Attack attack = snapshot.getValue(Attack.class);
+                if (belongsToLocalOwner(attack)) {
+                    attacks.add(attack);
+                }
+            }
+            return attacks;
+        }
+
+        protected boolean belongsToLocalOwner(Attack attack) {
+            return attack.getOwner().getId().equals(Bot.getLocalUserDDoSBot());
+        }
+    }
+
+    private class LocalOwnerAttacksValueEventListenerOfNetworkType extends LocalOwnerAttacksValueEventListener {
+        private int networkType;
+
+        public LocalOwnerAttacksValueEventListenerOfNetworkType(int networkType) {
+            this.networkType = networkType;
+        }
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Attack attack = snapshot.getValue(Attack.class);
+                if (belongsToLocalOwner(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
             }
