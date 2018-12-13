@@ -118,11 +118,11 @@ public class FirebaseRepository extends AttackRepository {
         }
     }
 
-    private class AttacksValueEventListenerWithNetworkType extends AbstractValueEventListener {
+    private class AttacksValueEventListenerOfNetworkType extends AbstractValueEventListener {
 
         private int networkType;
 
-        public AttacksValueEventListenerWithNetworkType(int networkType) {
+        public AttacksValueEventListenerOfNetworkType(int networkType) {
             this.networkType = networkType;
         }
 
@@ -132,6 +132,27 @@ public class FirebaseRepository extends AttackRepository {
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 Attack attack = child.getValue(Attack.class);
                 if (attack.getNetworkType() == networkType) {
+                    attacks.add(attack);
+                }
+            }
+            return attacks;
+        }
+    }
+
+    private class AttacksValueEventListenerOfBot extends AbstractValueEventListener {
+
+        private String botId;
+
+        public AttacksValueEventListenerOfBot(String botId) {
+            this.botId = botId;
+        }
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                Attack attack = child.getValue(Attack.class);
+                if (attack.includes(botId)) {
                     attacks.add(attack);
                 }
             }
