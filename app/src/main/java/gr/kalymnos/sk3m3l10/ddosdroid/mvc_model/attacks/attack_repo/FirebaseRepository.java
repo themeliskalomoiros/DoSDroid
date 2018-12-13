@@ -35,12 +35,12 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchJoinedAttakcsOf(String botId) {
-
+        attacksRef.addListenerForSingleValueEvent(new JoinedAttacksValueEventListenerOfBot(botId));
     }
 
     @Override
     public void fetchJoinedAttakcsOf(String botId, int networkType) {
-
+        
     }
 
     @Override
