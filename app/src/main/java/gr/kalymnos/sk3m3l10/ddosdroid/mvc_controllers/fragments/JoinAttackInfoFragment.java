@@ -12,7 +12,7 @@ import android.widget.Toast;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_network.AttackNetwork;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_network.OnOwnerAttackResponseReceiveListener;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.FakeAttackRepo;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
@@ -33,7 +33,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attack = getArguments().getParcelable(AttackConstants.Extra.EXTRA_ATTACK);
-        attackRepository = new FakeAttackRepo(getActivity());
+        attackRepository = new FirebaseRepository();
         attackNetwork = new AttackNetwork.AttackNetworkFactoryImp()
                 .makeAttackNetwork(getContext(), this, attack.getNetworkType());
     }
@@ -50,7 +50,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     public void onJoinAttackButtonClicked() {
         if (!attackNetwork.isConnected()) {
             attackNetwork.connect();
-        }else{
+        } else {
             //  TODO: Join the attack directly
         }
     }
