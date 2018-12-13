@@ -91,13 +91,6 @@ public class FirebaseRepository extends AttackRepository {
     }
 
     private abstract class AbstractValueEventListener implements ValueEventListener {
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            callback.attacksFetchedFail(databaseError.getMessage());
-        }
-    }
-
-    private class AttacksValueEventListener extends AbstractValueEventListener {
 
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,10 +98,42 @@ public class FirebaseRepository extends AttackRepository {
             callback.attacksFetchedSuccess(attacks);
         }
 
-        private List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            callback.attacksFetchedFail(databaseError.getMessage());
+        }
+
+        protected abstract List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot);
+    }
+
+    private class AttacksValueEventListener extends AbstractValueEventListener {
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 attacks.add(child.getValue(Attack.class));
+            }
+            return attacks;
+        }
+    }
+
+    private class AttacksValueEventListenerWithNetworkType extends AbstractValueEventListener {
+
+        private int networkType;
+
+        public AttacksValueEventListenerWithNetworkType(int networkType) {
+            this.networkType = networkType;
+        }
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                Attack attack = child.getValue(Attack.class);
+                if (attack.getNetworkType() == networkType) {
+                    attacks.add(attack);
+                }
             }
             return attacks;
         }
