@@ -40,7 +40,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchJoinedAttakcsOf(String botId, int networkType) {
-        
+
     }
 
     @Override
@@ -137,8 +137,30 @@ public class FirebaseRepository extends AttackRepository {
             return attacks;
         }
 
-        private boolean botJoinedAttack(Attack attack) {
+        protected boolean botJoinedAttack(Attack attack) {
             return !attack.isOwnedBy(botId) && attack.includes(botId);
+        }
+    }
+
+    private class JoinedAttacksValueEventListenerOfBotAndNetworkType extends JoinedAttacksValueEventListenerOfBot {
+
+        private int networkType;
+
+        public JoinedAttacksValueEventListenerOfBotAndNetworkType(String botId, int networkType) {
+            super(botId);
+            this.networkType = networkType;
+        }
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                Attack attack = child.getValue(Attack.class);
+                if (botJoinedAttack(attack) && attack.getNetworkType() == networkType) {
+                    attacks.add(attack);
+                }
+            }
+            return attacks;
         }
     }
 }
