@@ -68,7 +68,7 @@ public class FirebaseRepository extends AttackRepository {
     public void uploadAttack(Attack attack) {
         String pushId = attacksRef.push().getKey();
         attack.setPushId(pushId);
-        attacksRef.child(pushId).setValue(attack);
+        attacksRef.child(pushId).setValue(attack, (error,ref)->onAttackUploadedListener.onAttackUploaded(attack));
     }
 
     @Override
@@ -95,12 +95,12 @@ public class FirebaseRepository extends AttackRepository {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             List<Attack> attacks = extractAttacksFrom(dataSnapshot);
-            callback.attacksFetchedSuccess(attacks);
+            onAttacksFetchListener.attacksFetchedSuccess(attacks);
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            callback.attacksFetchedFail(databaseError.getMessage());
+            onAttacksFetchListener.attacksFetchedFail(databaseError.getMessage());
         }
 
         protected abstract List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot);
