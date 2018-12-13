@@ -36,7 +36,7 @@ public class Bot implements Parcelable {
         return id;
     }
 
-    public static Bot getLocalUserDDoSBot() {
+    public static Bot getLocalUser() {
         //  TODO: Replace with real InstanceIdProvider
         return new Bot(new FirebaseInstanceIdIdProvider().getInstanceId());
     }

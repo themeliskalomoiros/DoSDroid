@@ -62,7 +62,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     @Override
     public void onAttackCreationButtonClicked(String website) {
         viewMvc.showLoadingIndicator();
-        Attack attack = new Attack(website, viewMvc.getNetworkConf(), Bot.getLocalUserDDoSBot());
+        Attack attack = new Attack(website, viewMvc.getNetworkConf(), Bot.getLocalUser());
         attackRepo.uploadAttack(attack);
     }
 

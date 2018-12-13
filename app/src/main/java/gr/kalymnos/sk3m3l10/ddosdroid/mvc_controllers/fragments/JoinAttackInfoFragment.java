@@ -75,7 +75,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onAttackNetworkConnected() {
-        attack.addBot(Bot.getLocalUserDDoSBot());
+        attack.addBot(Bot.getLocalUser());
         attackRepository.uploadAttack(attack);
     }
 

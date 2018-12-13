@@ -19,13 +19,13 @@ public class BluetoothAttackListFragment extends AttackListFragment {
                 attackRepo.fetchAllAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_JOINED:
-                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUserDDoSBot().getId(), BLUETOOTH);
+                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUser().getId(), BLUETOOTH);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUserDDoSBot().getId(), BLUETOOTH);
+                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUser().getId(), BLUETOOTH);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

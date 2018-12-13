@@ -20,14 +20,14 @@ public class NSDAttackListFragment extends AttackListFragment {
                 break;
             case TYPE_FETCH_JOINED:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-                //  String userId = Bot.getLocalUserDDoSBot().getId();
-                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUserDDoSBot().getId(), NSD);
+                //  String userId = Bot.getLocalUser().getId();
+                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUser().getId(), NSD);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(NSD);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUserDDoSBot().getId(), NSD);
+                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUser().getId(), NSD);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

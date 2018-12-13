@@ -73,10 +73,10 @@ class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
         if (ValidationUtils.listHasItems(attackList)) {
 
             Attack attack = attackList.get(position);
-            if (attack.includes(Bot.getLocalUserDDoSBot().getId()))
+            if (attack.includes(Bot.getLocalUser().getId()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
-            if (attack.getOwner().getId().equals(Bot.getLocalUserDDoSBot().getId())) {
+            if (attack.getOwner().getId().equals(Bot.getLocalUser().getId())) {
                 return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 
