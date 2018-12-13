@@ -45,12 +45,12 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchNotJoinedAttacksOf(String botId) {
-
+        attacksRef.addListenerForSingleValueEvent(new NotJoinedAttacksValueEventListenerOfBot(botId));
     }
 
     @Override
     public void fetchNotJoinedAttacksOf(String botId, int networkType) {
-
+        attacksRef.addListenerForSingleValueEvent(new NotJoinedAttacksValueEventListenerOfBotAndNetworkType(botId,networkType));
     }
 
     @Override
