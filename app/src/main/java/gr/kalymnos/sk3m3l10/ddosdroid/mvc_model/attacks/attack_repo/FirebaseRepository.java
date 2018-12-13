@@ -30,29 +30,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchAllAttacksOf(int networkType) {
-        attacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Attack> attacks = extractAttacksFrom(dataSnapshot, networkType);
-                callback.attacksFetchedSuccess(attacks);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                callback.attacksFetchedFail(databaseError.getMessage());
-            }
-
-            private List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot, int networkType) {
-                List<Attack> attacks = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Attack attack = snapshot.getValue(Attack.class);
-                    if (attack.getNetworkType() == networkType) {
-                        attacks.add(attack);
-                    }
-                }
-                return attacks;
-            }
-        });
+        attacksRef.addListenerForSingleValueEvent(new AttacksValueEventListenerOfNetworkType(networkType));
     }
 
     @Override
@@ -139,11 +117,11 @@ public class FirebaseRepository extends AttackRepository {
         }
     }
 
-    private class AttacksValueEventListenerOfBot extends AbstractValueEventListener {
+    private class JoinedAttacksValueEventListenerOfBot extends AbstractValueEventListener {
 
         private String botId;
 
-        public AttacksValueEventListenerOfBot(String botId) {
+        public JoinedAttacksValueEventListenerOfBot(String botId) {
             this.botId = botId;
         }
 
@@ -152,11 +130,15 @@ public class FirebaseRepository extends AttackRepository {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 Attack attack = child.getValue(Attack.class);
-                if (attack.includes(botId)) {
+                if (botJoinedAttack(attack)) {
                     attacks.add(attack);
                 }
             }
             return attacks;
+        }
+
+        private boolean botJoinedAttack(Attack attack) {
+            return !attack.isOwnedBy(botId) && attack.includes(botId);
         }
     }
 }
