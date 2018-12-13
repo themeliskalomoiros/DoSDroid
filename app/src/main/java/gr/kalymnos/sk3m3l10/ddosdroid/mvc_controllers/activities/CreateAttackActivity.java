@@ -13,9 +13,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFr
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackInfoFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 
 public class CreateAttackActivity extends AppCompatActivity implements AttackInfoFragment.OnBeginAttackButtonClickListener,
-        AttackCreationFragment.OnAttackCreationButtonClickListener {
+        AttackCreationFragment.OnAttackCreationListener {
 
     private CreateAttackViewMvc viewMvc;
 
@@ -29,19 +30,19 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
     }
 
     @Override
-    public void onAttackCreationButtonClicked(String website) {
-        if (URLUtil.isValidUrl(website)) {
+    public void onBeginAttackButtonClick() {
+        Toast.makeText(this, "attack begin", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAttackCreated(Attack attack) {
+        if (URLUtil.isValidUrl(attack.getWebsite())) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.Builder.build(website))
+                    .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.Builder.build(attack.getWebsite()))
                     .commit();
         } else {
             Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label,Snackbar.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onBeginAttackButtonClick() {
-        Toast.makeText(this, "attack begin", Toast.LENGTH_SHORT).show();
     }
 
     private void setupUi() {

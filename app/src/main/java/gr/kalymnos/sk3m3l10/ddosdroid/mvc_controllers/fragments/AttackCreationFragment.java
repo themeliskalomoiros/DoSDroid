@@ -15,23 +15,25 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.AttackReposi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
-        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
+        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener, AttackRepository.OnAttackUploadedListener {
 
     private AttackCreationViewMvc viewMvc;
     private AttackRepository attackRepo;
+    private OnAttackCreationListener callback;
 
-    public interface OnAttackCreationButtonClickListener {
-        void onAttackCreationButtonClicked(String website);
+    public interface OnAttackCreationListener {
+        void onAttackCreated(Attack attack);
     }
-
-    private OnAttackCreationButtonClickListener mCallback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         attackRepo = new FirebaseRepository();
+        attackRepo.addOnAttackUploadedListener(this);
     }
 
     @Nullable
@@ -45,15 +47,29 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mCallback = (OnAttackCreationButtonClickListener) context;
+            callback = (OnAttackCreationListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implement" + mCallback.getClass().getCanonicalName());
+            throw new ClassCastException(context.toString() + "must implement" + callback.getClass().getCanonicalName());
         }
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        attackRepo.removeOnAttacksFetchListener();
+    }
+
+    @Override
     public void onAttackCreationButtonClicked(String website) {
-        mCallback.onAttackCreationButtonClicked(website);
+        viewMvc.showLoadingIndicator();
+        Attack attack = new Attack(website, viewMvc.getNetworkConf(), Bot.getLocalUserDDoSBot());
+        attackRepo.uploadAttack(attack);
+    }
+
+
+    @Override
+    public void onAttackUploaded(Attack attack) {
+        callback.onAttackCreated(attack);
     }
 
     @Override

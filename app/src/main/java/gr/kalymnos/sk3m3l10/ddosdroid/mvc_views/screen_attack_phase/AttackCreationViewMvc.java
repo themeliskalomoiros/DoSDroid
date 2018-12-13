@@ -29,4 +29,6 @@ public interface AttackCreationViewMvc extends ViewMvc {
     void showLoadingIndicator();
 
     void hideLoadingIndicator();
+
+    int getNetworkConf();
 }

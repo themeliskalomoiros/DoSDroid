@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id_provider.FakeInstanceIdProvider;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id_provider.FirebaseInstanceIdIdProvider;
 
 public class Bot implements Parcelable {
     private String id;
@@ -37,7 +38,7 @@ public class Bot implements Parcelable {
 
     public static Bot getLocalUserDDoSBot() {
         //  TODO: Replace with real InstanceIdProvider
-        return new Bot(new FakeInstanceIdProvider().getInstanceId());
+        return new Bot(new FirebaseInstanceIdIdProvider().getInstanceId());
     }
 
     @Override

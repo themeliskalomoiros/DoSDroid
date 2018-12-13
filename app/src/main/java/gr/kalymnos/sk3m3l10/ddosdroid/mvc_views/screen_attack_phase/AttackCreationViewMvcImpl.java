@@ -16,6 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
@@ -73,6 +76,22 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     @Override
     public void hideLoadingIndicator() {
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public int getNetworkConf() {
+        switch (spinner.getSelectedItemPosition()) {
+            case 0:
+                return AttackConstants.NetworkType.INTERNET;
+            case 1:
+                return AttackConstants.NetworkType.WIFI_P2P;
+            case 2:
+                return AttackConstants.NetworkType.NSD;
+            case 3:
+                return AttackConstants.NetworkType.BLUETOOTH;
+            default:
+                throw new UnsupportedOperationException(TAG + ": No such network configuration");
+        }
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
