@@ -6,8 +6,4 @@ public interface CreateAttackViewMvc extends ViewMvcWithToolbar {
     void bindToolbarSubtitle(CharSequence subtitle);
 
     int getFragmentContainerId();
-
-    void showLoadingIndicator();
-
-    void hideLoadingIndicator();
 }

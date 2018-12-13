@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private EditText websiteEditText;
     private TextView websiteHint, networkConfigHint;
     private Spinner spinner;
+    private ProgressBar progressBar;
 
     private OnAttackCreationButtonClickListener onAttackCreationButtonClickListener;
     private OnSpinnerItemSelectedListener onSpinnerItemSelectedListener;
@@ -63,6 +65,16 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         return root;
     }
 
+    @Override
+    public void showLoadingIndicator() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingIndicator() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_attack_creation, container, false);
         websiteHint = root.findViewById(R.id.tv_website_hint);
@@ -70,6 +82,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         websiteEditText = root.findViewById(R.id.ed_website);
         spinner = root.findViewById(R.id.spinner);
         fab = root.findViewById(R.id.fab);
+        progressBar = root.findViewById(R.id.progressBar);
     }
 
     private void setupUi(LayoutInflater inflater) {

@@ -25,4 +25,8 @@ public interface AttackCreationViewMvc extends ViewMvc {
     void setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener listener);
 
     void setOnWebsiteTextChangeListener(OnWebsiteTextChangeListener listener);
+
+    void showLoadingIndicator();
+
+    void hideLoadingIndicator();
 }

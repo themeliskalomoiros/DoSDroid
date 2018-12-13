@@ -12,7 +12,6 @@ public class CreateAttackViewMvcImpl implements CreateAttackViewMvc {
 
     private View root;
     private Toolbar toolbar;
-    private ProgressBar progressBar;
 
     public CreateAttackViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
@@ -29,16 +28,6 @@ public class CreateAttackViewMvcImpl implements CreateAttackViewMvc {
     }
 
     @Override
-    public void showLoadingIndicator() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoadingIndicator() {
-        progressBar.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
     public Toolbar getToolbar() {
         return toolbar;
     }
@@ -51,6 +40,5 @@ public class CreateAttackViewMvcImpl implements CreateAttackViewMvc {
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_create_attack, container, false);
         toolbar = root.findViewById(R.id.toolBar);
-        progressBar=root.findViewById(R.id.progressBar);
     }
 }
