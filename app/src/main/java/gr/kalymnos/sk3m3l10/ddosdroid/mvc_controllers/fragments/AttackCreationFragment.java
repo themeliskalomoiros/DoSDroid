@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 
@@ -18,12 +20,19 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
 
     private AttackCreationViewMvc viewMvc;
+    private AttackRepository attackRepo;
 
     public interface OnAttackCreationButtonClickListener {
         void onAttackCreationButtonClicked(String website);
     }
 
     private OnAttackCreationButtonClickListener mCallback;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        attackRepo = new FirebaseRepository();
+    }
 
     @Nullable
     @Override
