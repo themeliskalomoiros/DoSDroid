@@ -9,11 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvcImpl;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc.ATTACK_STARTED_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc.WEBSITE_KEY;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
@@ -54,19 +52,6 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
         viewMvc.setOnBeginAttacButtonClickListener(this);
         if (bundleIsValidAndContainsKey(getArguments(), WEBSITE_KEY)) {
             viewMvc.bindWebsite(getArguments().getString(WEBSITE_KEY));
-            // A Fab that will display a sword in case of the attack has not started
-            // and a header that will display Begin/Stop the Attack
-            drawAttackForceArea();
-        }
-    }
-
-    private void drawAttackForceArea() {
-        if (getArguments().getBoolean(ATTACK_STARTED_KEY)) {
-            viewMvc.setFabIconToStop();
-            viewMvc.bindBeginOrStopAttackHeader(getString(R.string.stop_attack_label));
-        } else {
-            viewMvc.setFabIconToSwords();
-            viewMvc.bindBeginOrStopAttackHeader(getString(R.string.begin_attack_label));
         }
     }
 

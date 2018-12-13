@@ -41,19 +41,19 @@
 
 
         <TextView
-            android:id="@+id/tv_begin_stop_attack"
+            android:id="@+id/tv_begin_attack"
             style="@style/Header_TextView"
             android:layout_marginTop="16dp"
+            android:text="@string/begin_attack_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint"
-            tools:text="@string/begin_attack_label" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             style="@style/Attack_FAB"
-            app:layout_constraintTop_toBottomOf="@+id/tv_begin_stop_attack"
-            tools:src="@drawable/ic_swords" />
+            android:src="@drawable/ic_swords"
+            app:layout_constraintTop_toBottomOf="@+id/tv_begin_attack" />
 
 
     </android.support.constraint.ConstraintLayout>
