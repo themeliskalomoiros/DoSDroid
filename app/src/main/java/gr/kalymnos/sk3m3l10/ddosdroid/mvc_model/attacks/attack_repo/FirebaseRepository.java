@@ -40,7 +40,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchJoinedAttakcsOf(String botId, int networkType) {
-
+        attacksRef.addListenerForSingleValueEvent(new JoinedAttacksValueEventListenerOfBotAndNetworkType(botId, networkType));
     }
 
     @Override
@@ -144,7 +144,7 @@ public class FirebaseRepository extends AttackRepository {
 
     private class JoinedAttacksValueEventListenerOfBotAndNetworkType extends JoinedAttacksValueEventListenerOfBot {
 
-        private int networkType;
+        protected int networkType;
 
         public JoinedAttacksValueEventListenerOfBotAndNetworkType(String botId, int networkType) {
             super(botId);
@@ -157,6 +157,44 @@ public class FirebaseRepository extends AttackRepository {
             for (DataSnapshot child : dataSnapshot.getChildren()) {
                 Attack attack = child.getValue(Attack.class);
                 if (botJoinedAttack(attack) && attack.getNetworkType() == networkType) {
+                    attacks.add(attack);
+                }
+            }
+            return attacks;
+        }
+    }
+
+    private class NotJoinedAttacksValueEventListenerOfBot extends JoinedAttacksValueEventListenerOfBot {
+
+        public NotJoinedAttacksValueEventListenerOfBot(String botId) {
+            super(botId);
+        }
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                Attack attack = child.getValue(Attack.class);
+                if (!botJoinedAttack(attack)) {
+                    attacks.add(attack);
+                }
+            }
+            return attacks;
+        }
+    }
+
+    private class NotJoinedAttacksValueEventListenerOfBotAndNetworkType extends JoinedAttacksValueEventListenerOfBotAndNetworkType{
+
+        public NotJoinedAttacksValueEventListenerOfBotAndNetworkType(String botId, int networkType) {
+            super(botId, networkType);
+        }
+
+        @Override
+        protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
+            List<Attack> attacks = new ArrayList<>();
+            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                Attack attack = child.getValue(Attack.class);
+                if (!botJoinedAttack(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
             }
