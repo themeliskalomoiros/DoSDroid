@@ -36,13 +36,9 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
 
     @Override
     public void onAttackCreated(Attack attack) {
-        if (URLUtil.isValidUrl(attack.getWebsite())) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.Builder.build(attack))
-                    .commit();
-        } else {
-            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label,Snackbar.LENGTH_SHORT).show();
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(viewMvc.getFragmentContainerId(), AttackInfoFragment.Builder.build(attack))
+                .commit();
     }
 
     private void setupUi() {
