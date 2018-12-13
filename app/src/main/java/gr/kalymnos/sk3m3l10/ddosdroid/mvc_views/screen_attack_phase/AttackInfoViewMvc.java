@@ -15,10 +15,6 @@ public interface AttackInfoViewMvc extends ViewMvc {
 
     void bindWebsiteHint(String text);
 
-    void bindAttackForceText(String text);
-
-    void bindAttackForceHint(String text);
-
     void bindBeginOrStopAttackHeader(String text);
 
     void setOnBeginAttacButtonClickListener(OnBeginAttackButtonClickListener listener);

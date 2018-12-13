@@ -11,7 +11,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 public class AttackInfoViewMvcImpl implements AttackInfoViewMvc {
 
     private View root;
-    private TextView tvWebsite, tvWebsiteHint, tvAttackForce, tvAttackForceHint, tvBeginOrStopAttack;
+    private TextView tvWebsite, tvWebsiteHint, tvBeginOrStopAttack;
     private FloatingActionButton fab;
 
     private OnBeginAttackButtonClickListener onBeginAttackButtonClickListener;
@@ -28,16 +28,6 @@ public class AttackInfoViewMvcImpl implements AttackInfoViewMvc {
     @Override
     public void bindWebsiteHint(String text) {
         tvWebsiteHint.setText(text);
-    }
-
-    @Override
-    public void bindAttackForceText(String text) {
-        tvAttackForce.setText(text);
-    }
-
-    @Override
-    public void bindAttackForceHint(String text) {
-        tvAttackForceHint.setText(text);
     }
 
     @Override
@@ -69,8 +59,6 @@ public class AttackInfoViewMvcImpl implements AttackInfoViewMvc {
         root = inflater.inflate(R.layout.screen_attack_info, container, false);
         tvWebsite = root.findViewById(R.id.website_textview);
         tvWebsiteHint = root.findViewById(R.id.tv_website_hint);
-        tvAttackForce = root.findViewById(R.id.tv_attack_force);
-        tvAttackForceHint = root.findViewById(R.id.tv_attack_force_hint);
         tvBeginOrStopAttack = root.findViewById(R.id.tv_begin_stop_attack);
         initializeFab();
     }

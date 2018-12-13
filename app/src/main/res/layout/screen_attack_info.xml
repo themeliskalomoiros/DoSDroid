@@ -39,55 +39,14 @@
             app:layout_constraintTop_toBottomOf="@+id/website_textview"
             tools:text="Created on 14/12/2017." />
 
-        <TextView
-            android:id="@+id/attack_force_label"
-            style="@style/Header_TextView"
-            android:layout_marginTop="32dp"
-            android:text="@string/attack_force_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
-
-
-        <TextView
-            android:id="@+id/tv_attack_force_hint"
-            style="@style/Subtitle_TextView"
-            android:layout_marginTop="@dimen/default_margin"
-            app:layout_constraintEnd_toEndOf="@+id/tv_attack_force"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_attack_force"
-            app:layout_constraintTop_toBottomOf="@+id/tv_attack_force"
-            tools:text="Need a powerfull botnet for an effective attack." />
-
-
-        <TextView
-            android:id="@+id/tv_attack_force"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
-            android:paddingStart="@dimen/double_default_margin"
-            android:paddingLeft="@dimen/double_default_margin"
-            android:paddingEnd="@dimen/double_default_margin"
-            android:paddingRight="@dimen/double_default_margin"
-            android:textSize="@dimen/spinner_item_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/attack_force_label"
-            tools:text="So far none has joined you for this attack." />
-
 
         <TextView
             android:id="@+id/tv_begin_stop_attack"
             style="@style/Header_TextView"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_attack_force_hint"
+            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint"
             tools:text="@string/begin_attack_label" />
 
         <android.support.design.widget.FloatingActionButton
