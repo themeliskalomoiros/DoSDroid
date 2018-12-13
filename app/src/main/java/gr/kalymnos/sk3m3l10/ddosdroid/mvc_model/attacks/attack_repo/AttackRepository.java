@@ -1,7 +1,5 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo;
 
-import android.app.Activity;
-
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
@@ -19,6 +17,7 @@ public abstract class AttackRepository {
 
         void attacksFetchedFail(String msg);
     }
+
     protected OnAttacksFetchListener callback;
 
     public abstract void fetchAllAttacks();
@@ -38,6 +37,8 @@ public abstract class AttackRepository {
     public abstract void fetchLocalOwnerAttacksOf(int networkType);
 
     public abstract void uploadAttack(Attack attack);
+
+    public abstract void updateAttack(Attack attack);
 
     public final void addOnAttacksFetchListener(OnAttacksFetchListener listener) {
         callback = listener;

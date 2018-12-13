@@ -184,6 +184,11 @@ public class FakeAttackRepo extends AttackRepository {
 
     }
 
+    @Override
+    public void updateAttack(Attack attack) {
+
+    }
+
     private static class AttackCreator {
 
         static List<Attack> createAttacks(int count) {

@@ -56,17 +56,24 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void fetchLocalOwnerAttacks() {
-
+        attacksRef.addListenerForSingleValueEvent(new LocalOwnerAttacksValueEventListener());
     }
 
     @Override
     public void fetchLocalOwnerAttacksOf(int networkType) {
-
+        attacksRef.addListenerForSingleValueEvent(new LocalOwnerAttacksValueEventListenerOfNetworkType(networkType));
     }
 
     @Override
     public void uploadAttack(Attack attack) {
+        String pushId = attacksRef.push().getKey();
+        attack.setPushId(pushId);
+        attacksRef.child(pushId).setValue(attack);
+    }
 
+    @Override
+    public void updateAttack(Attack attack) {
+        
     }
 
     private abstract class AbstractValueEventListener implements ValueEventListener {
