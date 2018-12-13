@@ -73,7 +73,21 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void updateAttack(Attack attack) {
-        
+        attacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if (snapshot.getKey().equals(attack.getPushId())){
+                        snapshot.getRef().setValue(attack);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                
+            }
+        });
     }
 
     private abstract class AbstractValueEventListener implements ValueEventListener {
