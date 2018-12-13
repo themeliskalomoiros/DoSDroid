@@ -18,7 +18,12 @@ public abstract class AttackRepository {
         void attacksFetchedFail(String msg);
     }
 
-    protected OnAttacksFetchListener callback;
+    public interface OnAttackUploadedListener {
+        void onAttackUploaded(Attack attack);
+    }
+
+    protected OnAttacksFetchListener onAttacksFetchListener;
+    protected OnAttackUploadedListener onAttackUploadedListener;
 
     public abstract void fetchAllAttacks();
 
@@ -41,11 +46,19 @@ public abstract class AttackRepository {
     public abstract void updateAttack(Attack attack);
 
     public final void addOnAttacksFetchListener(OnAttacksFetchListener listener) {
-        callback = listener;
+        onAttacksFetchListener = listener;
     }
 
     public final void removeOnAttacksFetchListener() {
-        callback = null;
+        onAttacksFetchListener = null;
+    }
+
+    public final void addOnAttackUploadedListener(OnAttackUploadedListener listener) {
+        onAttackUploadedListener = listener;
+    }
+
+    public final void removeOnAttackUploadedListener() {
+        onAttackUploadedListener = null;
     }
 
 }

@@ -30,8 +30,8 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchAllAttacks() {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(allAttacks));
+            if (onAttacksFetchListener != null) {
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(allAttacks));
             }
         }).start();
     }
@@ -40,7 +40,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchAllAttacksOf(int networkType) {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
 
                 for (Attack attack : allAttacks) {
@@ -49,7 +49,7 @@ public class FakeAttackRepo extends AttackRepository {
                     }
                 }
 
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -58,7 +58,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchJoinedAttakcsOf(String botId) {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
 
                 for (Attack attack : allAttacks) {
@@ -68,7 +68,7 @@ public class FakeAttackRepo extends AttackRepository {
                     }
                 }
 
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -77,7 +77,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchJoinedAttakcsOf(String botId, int networkType) {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
 
                 for (Attack attack : allAttacks) {
@@ -91,7 +91,7 @@ public class FakeAttackRepo extends AttackRepository {
                     }
                 }
 
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -100,7 +100,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchNotJoinedAttacksOf(String botId) {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
                     if (!attack.isOwnedBy(botId)) {
@@ -112,7 +112,7 @@ public class FakeAttackRepo extends AttackRepository {
                     }
                 }
 
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -121,7 +121,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchNotJoinedAttacksOf(String botId, int networkType) {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
                     if (attack.hasNetworkTypeOf(networkType)) {
@@ -136,7 +136,7 @@ public class FakeAttackRepo extends AttackRepository {
 
                     }
                 }
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -145,7 +145,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchLocalOwnerAttacks() {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
 
@@ -154,7 +154,7 @@ public class FakeAttackRepo extends AttackRepository {
                     }
 
                 }
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
@@ -163,7 +163,7 @@ public class FakeAttackRepo extends AttackRepository {
     public void fetchLocalOwnerAttacksOf(int networkType) {
         new Thread(() -> {
             ThreadUtils.sleepOneSecond();
-            if (callback != null) {
+            if (onAttacksFetchListener != null) {
                 List<Attack> attacks = new ArrayList<>();
                 for (Attack attack : allAttacks) {
                     if (attack.hasNetworkTypeOf(networkType)) {
@@ -174,7 +174,7 @@ public class FakeAttackRepo extends AttackRepository {
 
                     }
                 }
-                controller.runOnUiThread(() -> callback.attacksFetchedSuccess(attacks));
+                controller.runOnUiThread(() -> onAttacksFetchListener.attacksFetchedSuccess(attacks));
             }
         }).start();
     }
