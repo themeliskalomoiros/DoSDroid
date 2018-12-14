@@ -14,7 +14,7 @@ public abstract class JoinAttackManager {
 
     protected OnJoinAttackListener onJoinAttackListener;
 
-    private JoinAttackManager() {
+    protected JoinAttackManager() {
     }
 
     public abstract void joinAttack(Attack attack, AttackNetwork network);
