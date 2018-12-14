@@ -12,6 +12,12 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.NetworkType.W
 public abstract class JoinAttackManager {
     private static final String TAG = "JoinAttackManager";
 
+    public interface OnJoinAttackListener {
+        void onAttackJoined();
+
+        void onAttackJoinedFailed(String reason);
+    }
+
     protected OnJoinAttackListener onJoinAttackListener;
 
     protected JoinAttackManager() {
@@ -27,11 +33,6 @@ public abstract class JoinAttackManager {
         onJoinAttackListener = null;
     }
 
-    public interface OnJoinAttackListener {
-        void onAttackJoined();
-
-        void onAttackJoinedFailed(String reason);
-    }
 
     public interface Builder {
         public JoinAttackManager build(int attackNetworkType);
