@@ -6,6 +6,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 public abstract class JoinAttackManager {
     protected OnJoinAttackListener onJoinAttackListener;
 
+    private JoinAttackManager(){}
+
     public interface OnJoinAttackListener {
         void onAttackJoined();
 
