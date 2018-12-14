@@ -52,6 +52,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
             attackNetwork.connect();
         } else {
             //  TODO: Join the attack directly
+            Toast.makeText(getContext(), "Joining the attack directly!", Toast.LENGTH_SHORT).show();
         }
     }
 

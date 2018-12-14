@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_service;
 
 import android.app.Service;
 import android.content.Context;
