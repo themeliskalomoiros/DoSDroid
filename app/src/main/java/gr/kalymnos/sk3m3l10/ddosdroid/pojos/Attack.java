@@ -48,6 +48,10 @@ public class Attack implements Parcelable {
         return botIds;
     }
 
+    public void setBotIds(List<String> botIds) {
+        this.botIds = botIds;
+    }
+
     public void setPushId(String pushId) {
         this.pushId = pushId;
     }
