@@ -56,16 +56,9 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         }
     }
 
-    private void bindAttackToUi() {
-        viewMvc.bindAttackForce(attack.getBotIds().size());
-        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
-        viewMvc.bindWebsite(attack.getWebsite());
-        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
-    }
-
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        viewMvc = new JoinAttackInfoViewMvcImp(inflater, container);
-        viewMvc.setOnJoinAttackClickListener(this);
+    private void startJoinProcedure() {
+        Attacks.addBot(attack,Bot.getLocalUser());
+        attackRepository.updateAttack(attack);
     }
 
     public static JoinAttackInfoFragment getInstance(Bundle args) {
@@ -89,8 +82,15 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     }
 
-    private void startJoinProcedure() {
-        Attacks.addBot(attack,Bot.getLocalUser());
-        attackRepository.updateAttack(attack);
+    private void bindAttackToUi() {
+        viewMvc.bindAttackForce(attack.getBotIds().size());
+        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
+        viewMvc.bindWebsite(attack.getWebsite());
+        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
+    }
+
+    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        viewMvc = new JoinAttackInfoViewMvcImp(inflater, container);
+        viewMvc.setOnJoinAttackClickListener(this);
     }
 }

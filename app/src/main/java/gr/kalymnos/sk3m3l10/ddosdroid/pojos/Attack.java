@@ -12,6 +12,7 @@ public class Attack implements Parcelable {
     private int networkType;
     private long timeMillis;
     private Bot owner;
+    // Ideally a Set is needed but Firebase accepts map/list.
     private List<String> botIds = new ArrayList<>();
 
     public Attack() {
@@ -46,10 +47,6 @@ public class Attack implements Parcelable {
 
     public List<String> getBotIds() {
         return botIds;
-    }
-
-    public void setBotIds(List<String> botIds) {
-        this.botIds = botIds;
     }
 
     public void setPushId(String pushId) {
