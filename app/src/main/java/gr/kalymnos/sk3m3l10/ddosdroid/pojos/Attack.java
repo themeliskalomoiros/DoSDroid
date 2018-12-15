@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
@@ -10,11 +11,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public class Attack implements Parcelable {
-    private static final String TAG = Attack.class.getSimpleName();
 
     private String pushId, website;
     int networkType;
-    private List<Bot> botsList;
+    private List<Bot> bots = new ArrayList<>();
     private Bot owner;
     private long timeMilli;
 
@@ -28,27 +28,23 @@ public class Attack implements Parcelable {
         this.timeMilli = System.currentTimeMillis();
     }
 
-    public Attack(String website, int networkType, Bot owner, List<Bot> botsList, long timeMilli) {
-        this(website, networkType, owner);
-        this.botsList = botsList;
-        this.timeMilli = timeMilli;
-    }
+    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
+        @Override
+        public Attack createFromParcel(Parcel in) {
+            return new Attack(in);
+        }
 
-    public Attack(String pushId, String website, int networkType, List<Bot> botsList,
-                  Bot owner, long timeMilli) {
-        this(website, networkType, owner, botsList, timeMilli);
-        this.pushId = pushId;
-    }
+        @Override
+        public Attack[] newArray(int size) {
+            return new Attack[size];
+        }
+    };
 
     public int getBotCount() {
-        if (listHasItems(botsList)) {
-            return botsList.size();
+        if (listHasItems(bots)) {
+            return bots.size();
         }
         return 0;
-    }
-
-    public List<Bot> getBotsList() {
-        return botsList;
     }
 
     public int getNetworkType() {
@@ -56,17 +52,11 @@ public class Attack implements Parcelable {
     }
 
     public void addBot(Bot bot) {
-        if (listHasItems(botsList)) {
-            botsList.add(bot);
-        }
-        throw new UnsupportedOperationException(TAG + "bot list is null or empty");
+        bots.add(bot);
     }
 
     public void removeBot(Bot bot) {
-        if (listHasItems(botsList)) {
-            botsList.remove(bot);
-        }
-        throw new UnsupportedOperationException(TAG + "bot list is null or empty");
+        bots.remove(bot);
     }
 
     public String getPushId() {
@@ -90,18 +80,14 @@ public class Attack implements Parcelable {
     }
 
     public boolean includes(String otherBotId) {
-        if (ValidationUtils.listHasItems(botsList)) {
-            for (Bot bot : botsList) {
+        if (ValidationUtils.listHasItems(bots)) {
+            for (Bot bot : bots) {
                 if (bot.getId().equals(otherBotId)) {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    public boolean hasNetworkTypeOf(int networkType) {
-        return networkType == networkType;
     }
 
     public boolean isOwnedBy(String ownerId) {
@@ -112,23 +98,10 @@ public class Attack implements Parcelable {
         pushId = in.readString();
         website = in.readString();
         networkType = in.readInt();
-        botsList = in.createTypedArrayList(Bot.CREATOR);
+        bots = in.createTypedArrayList(Bot.CREATOR);
         owner = in.readParcelable(Bot.class.getClassLoader());
         timeMilli = in.readLong();
     }
-
-    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
-        @Override
-        public Attack createFromParcel(Parcel in) {
-            return new Attack(in);
-        }
-
-        @Override
-        public Attack[] newArray(int size) {
-            return new Attack[size];
-        }
-    };
-
 
     @Override
     public int describeContents() {
@@ -140,7 +113,7 @@ public class Attack implements Parcelable {
         parcel.writeString(pushId);
         parcel.writeString(website);
         parcel.writeInt(networkType);
-        parcel.writeTypedList(botsList);
+        parcel.writeTypedList(bots);
         parcel.writeParcelable(owner, i);
         parcel.writeLong(timeMilli);
     }
