@@ -89,4 +89,9 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     public void onOwnerAttackResponseReceived(boolean attackEnabled) {
 
     }
+
+    private void startJoinProcedure() {
+        attack.addBot(Bot.getLocalUser());
+        attackRepository.updateAttack(attack);
+    }
 }
