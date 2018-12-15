@@ -22,6 +22,7 @@ public abstract class JoinAttackManager {
     }
 
     public void joinAttack(Bot bot){
-        
+        attack.addBot(bot);
+        repo.updateAttack(attack);
     }
 }
