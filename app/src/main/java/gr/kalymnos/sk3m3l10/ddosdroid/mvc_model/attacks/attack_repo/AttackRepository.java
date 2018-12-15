@@ -13,7 +13,7 @@ public abstract class AttackRepository {
     protected static final String TAG = "AttackRepository";
 
     public interface OnAttacksFetchListener {
-        void attacksFetchedSuccess(List<Attack> attacks);
+        void attacksFetched(List<Attack> attacks);
 
         void attacksFetchedFail(String msg);
     }

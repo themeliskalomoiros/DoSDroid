@@ -3,20 +3,16 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
-
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Attack implements Parcelable {
 
     private String pushId, website;
-    int networkType;
-    private List<Bot> bots = new ArrayList<>();
-    private Bot owner;
+    private int networkType;
     private long timeMilli;
+    private Bot owner;
+    private Set<String> bots = new HashSet<>();
 
     public Attack() {
     }
@@ -26,6 +22,14 @@ public class Attack implements Parcelable {
         this.owner = owner;
         this.networkType = networkType;
         this.timeMilli = System.currentTimeMillis();
+    }
+
+    protected Attack(Parcel in) {
+        pushId = in.readString();
+        website = in.readString();
+        networkType = in.readInt();
+        timeMilli = in.readLong();
+        owner = in.readParcelable(Bot.class.getClassLoader());
     }
 
     public static final Creator<Attack> CREATOR = new Creator<Attack>() {
@@ -40,23 +44,20 @@ public class Attack implements Parcelable {
         }
     };
 
-    public int getBotCount() {
-        if (listHasItems(bots)) {
-            return bots.size();
-        }
-        return 0;
-    }
-
     public int getNetworkType() {
         return networkType;
     }
 
     public void addBot(Bot bot) {
-        bots.add(bot);
+        bots.add(bot.getId());
     }
 
     public void removeBot(Bot bot) {
-        bots.remove(bot);
+        bots.remove(bot.getId());
+    }
+
+    public int getBotCount() {
+        return bots.size();
     }
 
     public String getPushId() {
@@ -79,29 +80,14 @@ public class Attack implements Parcelable {
         return timeMilli;
     }
 
-    public boolean includes(String otherBotId) {
-        if (ValidationUtils.listHasItems(bots)) {
-            for (Bot bot : bots) {
-                if (bot.getId().equals(otherBotId)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean includes(String botId) {
+        return bots.contains(botId);
     }
 
     public boolean isOwnedBy(String ownerId) {
         return owner.getId().equals(ownerId);
     }
 
-    protected Attack(Parcel in) {
-        pushId = in.readString();
-        website = in.readString();
-        networkType = in.readInt();
-        bots = in.createTypedArrayList(Bot.CREATOR);
-        owner = in.readParcelable(Bot.class.getClassLoader());
-        timeMilli = in.readLong();
-    }
 
     @Override
     public int describeContents() {
@@ -113,8 +99,7 @@ public class Attack implements Parcelable {
         parcel.writeString(pushId);
         parcel.writeString(website);
         parcel.writeInt(networkType);
-        parcel.writeTypedList(bots);
-        parcel.writeParcelable(owner, i);
         parcel.writeLong(timeMilli);
+        parcel.writeParcelable(owner, i);
     }
 }

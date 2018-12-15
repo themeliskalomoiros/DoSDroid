@@ -73,7 +73,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void attacksFetchedSuccess(List<Attack> attacks) {
+    public void attacksFetched(List<Attack> attacks) {
         cachedAttacks = attacks;
         viewMvc.hideLoadingIndicator();
         viewMvc.bindAttacks(cachedAttacks);
