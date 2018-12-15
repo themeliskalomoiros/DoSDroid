@@ -71,7 +71,7 @@ public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.On
     private String createDateText() {
         Configuration configuration = getContext().getResources().getConfiguration();
         String datePrefix = getString(R.string.attack_date_prefix);
-        String date = DateFormatter.getDate(configuration, attack.getTimeMilli());
+        String date = DateFormatter.getDate(configuration, attack.getTimeMillis());
         return datePrefix + " " + date;
     }
 

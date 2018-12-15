@@ -17,6 +17,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
@@ -56,10 +57,10 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void bindAttackToUi() {
-        viewMvc.bindAttackForce(attack.getBotCount());
+        viewMvc.bindAttackForce(attack.getBotIds().size());
         viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
-        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMilli()));
+        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
     }
 
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -89,7 +90,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void startJoinProcedure() {
-        attack.addBot(Bot.getLocalUser());
+        Attacks.addBot(attack,Bot.getLocalUser());
         attackRepository.updateAttack(attack);
     }
 }

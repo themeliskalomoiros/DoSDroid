@@ -14,6 +14,7 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 
@@ -73,7 +74,7 @@ class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
         if (ValidationUtils.listHasItems(attackList)) {
 
             Attack attack = attackList.get(position);
-            if (attack.includes(Bot.getLocalUser().getId()))
+            if (Attacks.includes(attack,Bot.getLocalUser()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
             if (attack.getOwner().getId().equals(Bot.getLocalUser().getId())) {
@@ -120,7 +121,7 @@ class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
 
         void bind(Attack attack) {
             websiteTitle.setText(attack.getWebsite());
-            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotCount()));
+            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotIds().size()));
             //  TODO: if a website has a favicon.ico then display it in websiteIcon
         }
 

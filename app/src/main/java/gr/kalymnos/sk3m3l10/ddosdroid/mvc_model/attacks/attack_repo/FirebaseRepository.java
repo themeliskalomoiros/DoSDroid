@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
 
 public class FirebaseRepository extends AttackRepository {
@@ -160,7 +161,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected final boolean botJoinedAttack(Attack attack) {
-            return attack.includes(botId) && !attack.isOwnedBy(botId);
+            return Attacks.includes(attack, new Bot(botId)) && !Attacks.ownedBy(attack, new Bot(botId));
         }
     }
 
@@ -205,7 +206,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected final boolean botNotBelongTo(Attack attack) {
-            return !attack.includes(botId) && !attack.isOwnedBy(botId);
+            return !Attacks.includes(attack, new Bot(botId)) && !Attacks.ownedBy(attack, new Bot(botId));
         }
     }
 
