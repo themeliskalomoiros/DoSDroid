@@ -51,8 +51,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         if (!attackNetwork.isConnected()) {
             attackNetwork.connect();
         } else {
-            //  TODO: Join the attack directly
-            Toast.makeText(getContext(), "Joining the attack directly!", Toast.LENGTH_SHORT).show();
+            startJoinProcedure();
         }
     }
 
@@ -76,8 +75,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onAttackNetworkConnected() {
-        attack.addBot(Bot.getLocalUser());
-        attackRepository.uploadAttack(attack);
+        startJoinProcedure();
     }
 
     @Override
