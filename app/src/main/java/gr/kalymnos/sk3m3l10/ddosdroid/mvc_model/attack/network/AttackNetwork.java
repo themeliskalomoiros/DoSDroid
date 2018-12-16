@@ -13,17 +13,16 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
  * */
 
 public abstract class AttackNetwork {
+    protected Context context;
+    protected OnConnectionListener connectionListener;
+    protected BroadcastReceiver connectivityReceiver;
+    protected IntentFilter connectivityIntentFilter;
 
     public interface OnConnectionListener {
         void onAttackNetworkConnected();
 
         void onAttackNetworkDisconnected(CharSequence reason);
     }
-
-    protected Context context;
-    protected OnConnectionListener connectionListener;
-    protected BroadcastReceiver connectivityReceiver;
-    protected IntentFilter connectivityIntentFilter;
 
     protected AttackNetwork(@NonNull Context context, OnConnectionListener listener) {
         this.context = context;
@@ -38,6 +37,10 @@ public abstract class AttackNetwork {
 
     public abstract boolean isConnected();
 
+    protected abstract void initializeConnectivityReceiver();
+
+    protected abstract void initializeConnectivityIntentFilter();
+
     public final void registerConnectionReceiver() {
         context.registerReceiver(connectivityReceiver, connectivityIntentFilter);
     }
@@ -49,10 +52,6 @@ public abstract class AttackNetwork {
     public final void unregisterConnectionListener() {
         connectionListener = null;
     }
-
-    protected abstract void initializeConnectivityReceiver();
-
-    protected abstract void initializeConnectivityIntentFilter();
 
     public interface AttackNetworkFactory {
         AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType);

@@ -18,7 +18,6 @@ class Internet extends AttackNetwork {
 
     @Override
     public void connect() {
-        //  TODO: Consider wifi-scanning when user wants to connect
         connectionListener.onAttackNetworkConnected();
     }
 
@@ -30,7 +29,7 @@ class Internet extends AttackNetwork {
     @Override
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return NetworkManager.isConnectionEstablishedOverWifi(cm.getActiveNetworkInfo());
+        return InternetManager.isConnectionEstablishedOverWifi(cm.getActiveNetworkInfo());
     }
 
     @Override
@@ -40,7 +39,7 @@ class Internet extends AttackNetwork {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case ConnectivityManager.CONNECTIVITY_ACTION:
-                        if (NetworkManager.isConnectedToNetwork(getNetworkInfo(intent))) {
+                        if (InternetManager.isConnectedToNetwork(getNetworkInfo(intent))) {
                             connectionListener.onAttackNetworkConnected();
                         } else {
                             connectionListener.onAttackNetworkDisconnected(context.getString(R.string.internet_disconnected_msg));
@@ -61,7 +60,7 @@ class Internet extends AttackNetwork {
         connectivityIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
     }
 
-    private static class NetworkManager {
+    private static class InternetManager {
         static boolean isConnectionEstablishedOverWifi(NetworkInfo info) {
             return isConnectedToNetwork(info) && isWifi(info);
         }
