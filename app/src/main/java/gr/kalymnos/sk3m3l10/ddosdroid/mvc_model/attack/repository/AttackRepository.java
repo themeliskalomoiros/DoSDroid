@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attacks.attack_repo;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository;
 
 import java.util.List;
 

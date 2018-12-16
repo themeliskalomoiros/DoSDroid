@@ -25,7 +25,7 @@
         <activity android:name=".mvc_controllers.activities.JoinAttackActivity" />
 
         <service
-            android:name=".mvc_model.attacks.attack_service.AttackService"
+            android:name=".mvc_model.attack.service.AttackService"
             android:enabled="true"
             android:exported="false"></service>
     </application>
