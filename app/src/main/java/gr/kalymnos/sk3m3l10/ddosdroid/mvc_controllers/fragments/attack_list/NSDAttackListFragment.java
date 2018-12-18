@@ -1,6 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_ALL;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_JOINED;
@@ -21,13 +21,13 @@ public class NSDAttackListFragment extends AttackListFragment {
             case TYPE_FETCH_JOINED:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
                 //  String userId = Bot.getLocalUser().getId();
-                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUser().getId(), NSD);
+                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), NSD);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(NSD);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUser().getId(), NSD);
+                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), NSD);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

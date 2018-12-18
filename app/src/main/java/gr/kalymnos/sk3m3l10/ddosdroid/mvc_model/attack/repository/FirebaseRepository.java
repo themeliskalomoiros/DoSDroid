@@ -14,6 +14,7 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 
 public class FirebaseRepository extends AttackRepository {
     private static final String NODE_ATTACKS = "attacks";
@@ -247,7 +248,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected boolean belongsToLocalOwner(Attack attack) {
-            return attack.getOwner().getId().equals(Bot.getLocalUser());
+            return attack.getOwner().getId().equals(Bots.getLocalUser());
         }
     }
 

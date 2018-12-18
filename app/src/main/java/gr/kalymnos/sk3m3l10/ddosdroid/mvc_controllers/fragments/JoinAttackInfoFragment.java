@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
@@ -57,7 +57,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void startJoinProcedure() {
-        Attacks.addBot(attack,Bot.getLocalUser());
+        Attacks.addBot(attack,Bots.getLocalUser());
         attackRepository.updateAttack(attack);
     }
 

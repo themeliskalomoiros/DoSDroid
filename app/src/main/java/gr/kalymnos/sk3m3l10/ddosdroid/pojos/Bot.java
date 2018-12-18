@@ -3,8 +3,6 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id.FirebaseInstanceId;
-
 public class Bot implements Parcelable {
     private String id;
 
@@ -14,6 +12,14 @@ public class Bot implements Parcelable {
     public Bot(String instanceId) {
         this.id = instanceId;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Parcelable code
+     */
 
     protected Bot(Parcel in) {
         id = in.readString();
@@ -30,15 +36,6 @@ public class Bot implements Parcelable {
             return new Bot[size];
         }
     };
-
-    public String getId() {
-        return id;
-    }
-
-    public static Bot getLocalUser() {
-        //  TODO: Replace with real InstanceIdProvider
-        return new Bot(new FirebaseInstanceId().getInstanceId());
-    }
 
     @Override
     public int describeContents() {

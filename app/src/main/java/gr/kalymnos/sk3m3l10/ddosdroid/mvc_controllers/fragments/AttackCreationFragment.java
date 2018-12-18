@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseReposi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener, AttackRepository.OnAttackUploadedListener {
@@ -65,7 +65,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     public void onAttackCreationButtonClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
             viewMvc.showLoadingIndicator();
-            Attack attack = new Attack(website, viewMvc.getNetworkConf(), Bot.getLocalUser());
+            Attack attack = new Attack(website, viewMvc.getNetworkConf(), Bots.getLocalUser());
             attackRepo.uploadAttack(attack);
         } else {
             Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();

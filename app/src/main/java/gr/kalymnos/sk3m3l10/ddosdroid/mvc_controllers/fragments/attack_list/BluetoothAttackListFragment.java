@@ -1,6 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_ALL;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_JOINED;
@@ -19,13 +19,13 @@ public class BluetoothAttackListFragment extends AttackListFragment {
                 attackRepo.fetchAllAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_JOINED:
-                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUser().getId(), BLUETOOTH);
+                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), BLUETOOTH);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(BLUETOOTH);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUser().getId(), BLUETOOTH);
+                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), BLUETOOTH);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

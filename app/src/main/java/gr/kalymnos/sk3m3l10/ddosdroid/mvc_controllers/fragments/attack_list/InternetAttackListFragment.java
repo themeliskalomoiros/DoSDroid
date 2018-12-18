@@ -1,6 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_ALL;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_JOINED;
@@ -19,13 +19,13 @@ public class InternetAttackListFragment extends AttackListFragment {
                 attackRepo.fetchAllAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_JOINED:
-                attackRepo.fetchJoinedAttakcsOf(Bot.getLocalUser().getId(), INTERNET);
+                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), INTERNET);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bot.getLocalUser().getId(), INTERNET);
+                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), INTERNET);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

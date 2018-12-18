@@ -15,7 +15,7 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
@@ -74,10 +74,10 @@ class AttackAdapter extends RecyclerView.Adapter<AttackAdapter.AttackHolder> {
         if (ValidationUtils.listHasItems(attackList)) {
 
             Attack attack = attackList.get(position);
-            if (Attacks.includes(attack,Bot.getLocalUser()))
+            if (Attacks.includes(attack,Bots.getLocalUser()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
-            if (attack.getOwner().getId().equals(Bot.getLocalUser().getId())) {
+            if (attack.getOwner().getId().equals(Bots.getLocalUser().getId())) {
                 return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 
