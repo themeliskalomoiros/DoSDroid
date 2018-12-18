@@ -5,7 +5,7 @@ import android.os.Bundle;
 import java.util.List;
 import java.util.Map;
 
-public class ValidationUtils {
+public final class ValidationUtils {
 
     public static boolean listHasItems(List list) {
         if (list != null && list.size() > 0) {

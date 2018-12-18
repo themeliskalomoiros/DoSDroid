@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
-public class Attacks {
+public final class Attacks {
     private static final String TAG = "Attacks";
 
     public static void removeBot(Attack attack, Bot bot) {

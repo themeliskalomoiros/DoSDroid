@@ -5,7 +5,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TY
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_OWNER;
 
-public class LoggingUtils {
+public final class LoggingUtils {
 
     public static String getAttackTypeName(int type) {
         switch (type) {

@@ -1,6 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
 
-public class NetworkTypeTranslator {
+public final class NetworkTypeTranslator {
     private static final String TAG = "NetworkTypeTranslator";
 
     public static String translate(int networkType) {

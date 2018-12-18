@@ -7,7 +7,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateFormatter {
+public final class DateFormatter {
 
     public static String getDate(Configuration configuration, long timeMillis) {
         Date today = new Date(timeMillis);
