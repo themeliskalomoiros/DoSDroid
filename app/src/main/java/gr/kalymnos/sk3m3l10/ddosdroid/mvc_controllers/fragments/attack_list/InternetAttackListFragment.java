@@ -2,11 +2,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_ALL;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_OWNER;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.NetworkType.INTERNET;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_ALL;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 
 public class InternetAttackListFragment extends AttackListFragment {
 

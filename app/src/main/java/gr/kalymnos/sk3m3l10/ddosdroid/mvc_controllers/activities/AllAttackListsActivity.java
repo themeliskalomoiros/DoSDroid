@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackListsViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackListsViewMvcImpl;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.ATTACK_TYPE_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
 public class AllAttackListsActivity extends AppCompatActivity {

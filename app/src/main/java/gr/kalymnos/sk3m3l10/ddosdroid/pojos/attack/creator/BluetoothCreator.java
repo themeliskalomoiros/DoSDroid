@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class BluetoothCreator extends AttackCreator {
+final class BluetoothCreator extends AttackCreator {
    
     public BluetoothCreator() {
     }

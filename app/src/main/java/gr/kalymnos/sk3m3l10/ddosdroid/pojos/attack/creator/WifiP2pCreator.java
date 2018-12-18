@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class WifiP2pCreator extends AttackCreator {
+final class WifiP2pCreator extends AttackCreator {
 
     public WifiP2pCreator() {
     }

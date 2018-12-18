@@ -1,9 +1,9 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_ALL;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_ALL;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
 
 public final class LoggingUtils {
 

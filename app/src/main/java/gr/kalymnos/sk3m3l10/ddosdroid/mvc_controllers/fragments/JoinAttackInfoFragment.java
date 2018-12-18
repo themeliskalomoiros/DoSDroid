@@ -16,7 +16,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseReposi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -33,7 +33,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        attack = getArguments().getParcelable(AttackConstants.Extra.EXTRA_ATTACK);
+        attack = getArguments().getParcelable(Constants.Extra.EXTRA_ATTACK);
         attackRepository = new FirebaseRepository();
         attackNetwork = new AttackNetwork.AttackNetworkFactoryImp()
                 .makeAttackNetwork(getContext(), this, attack.getNetworkType());

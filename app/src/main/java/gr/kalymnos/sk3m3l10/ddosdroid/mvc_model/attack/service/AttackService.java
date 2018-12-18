@@ -13,7 +13,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 
@@ -36,7 +36,7 @@ public class AttackService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Attack attack = intent.getParcelableExtra(AttackConstants.Extra.EXTRA_ATTACK);
+        Attack attack = intent.getParcelableExtra(Constants.Extra.EXTRA_ATTACK);
         switch (intent.getAction()) {
             case ACTION_START_ATTACK:
                 handleStartAction(attack);
@@ -110,7 +110,7 @@ public class AttackService extends Service {
         private static Intent createIntent(Context context, Attack attack, String action) {
             Intent intent = new Intent(context, AttackService.class);
             intent.setAction(action);
-            intent.putExtra(AttackConstants.Extra.EXTRA_ATTACK, attack);
+            intent.putExtra(Constants.Extra.EXTRA_ATTACK, attack);
             return intent;
         }
     }

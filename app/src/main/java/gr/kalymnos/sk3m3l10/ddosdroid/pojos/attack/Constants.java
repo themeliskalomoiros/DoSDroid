@@ -1,7 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
-public interface AttackConstants {
-    String TAG = "AttackConstants";
+public interface Constants {
+    String TAG = "Constants";
 
     interface AttackType {
         String ATTACK_TYPE_KEY = TAG + "attack type key";

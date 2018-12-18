@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 /*
  * When an attack is created a network type is specified (internet, bluetooth, wifi p2p, etc...).
@@ -63,13 +63,13 @@ public abstract class AttackNetwork {
         @Override
         public AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType) {
             switch (attackNetworkType) {
-                case AttackConstants.NetworkType.INTERNET:
+                case Constants.NetworkType.INTERNET:
                     return new Internet(context, connectionListener);
-                case AttackConstants.NetworkType.WIFI_P2P:
+                case Constants.NetworkType.WIFI_P2P:
                     return new WifiP2p(context, connectionListener);
-                case AttackConstants.NetworkType.NSD:
+                case Constants.NetworkType.NSD:
                     return new Nsd(context, connectionListener);
-                case AttackConstants.NetworkType.BLUETOOTH:
+                case Constants.NetworkType.BLUETOOTH:
                     return new Bluetooth(context, connectionListener);
                 default:
                     throw new UnsupportedOperationException(TAG + ": unknown attack type");
