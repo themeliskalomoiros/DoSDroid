@@ -13,6 +13,8 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreator;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreators;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
@@ -269,6 +271,31 @@ public class FirebaseRepository extends AttackRepository {
                 }
             }
             return attacks;
+        }
+    }
+
+    private class AttackCreatorResolver {
+        private DataSnapshot snapshot;
+        private int networkType;
+
+        AttackCreatorResolver(DataSnapshot snapshot, int networkType) {
+            initializeSnapshot(snapshot);
+            this.networkType = networkType;
+        }
+
+        private void initializeSnapshot(DataSnapshot snapshot) {
+            if (invalidSnapshot(snapshot))
+                throw new IllegalArgumentException(TAG + ": wrong attack creator snapshot");
+            this.snapshot = snapshot;
+        }
+
+        private boolean invalidSnapshot(DataSnapshot snapshot) {
+            return !snapshot.getRef().getParent().getParent().getKey().equals(NODE_ATTACKS);
+        }
+
+        AttackCreator resolveInstance() {
+            Class<? extends AttackCreator> creatorClass = AttackCreators.getClassFrom(networkType);
+            return snapshot.getValue(creatorClass);
         }
     }
 }
