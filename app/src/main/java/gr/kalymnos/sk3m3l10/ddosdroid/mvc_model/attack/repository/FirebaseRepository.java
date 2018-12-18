@@ -274,11 +274,39 @@ public class FirebaseRepository extends AttackRepository {
         }
     }
 
+    private class AttackResolver {
+        private DataSnapshot snapshot;
+
+        AttackResolver(DataSnapshot snapshot) {
+            initializeSnapshot(snapshot);
+        }
+
+        private void initializeSnapshot(DataSnapshot snapshot) {
+            if (invalidSnapshot(snapshot))
+                throw new IllegalArgumentException(TAG + ": wrong attack snapshot");
+            this.snapshot = snapshot;
+        }
+
+        private boolean invalidSnapshot(DataSnapshot snapshot) {
+            return !snapshot.getRef().getParent().getKey().equals(NODE_ATTACKS);
+        }
+
+        Attack resolveInstance() {
+            String pushId = snapshot.getKey();
+            String website = snapshot.child("website").getValue(String.class);
+            long timeMillis = snapshot.child("timeMillis").getValue(Long.class);
+            int networkType = snapshot.child("networkType").getValue(Integer.class);
+            AttackCreator creator = new AttackCreatorResolver(snapshot.child("attackCreator"), networkType).resolveInstance();
+            List<String> botIds = snapshot.child("botIds").getValue(List.class);
+            return new Attack(pushId,website,networkType,timeMillis,creator,botIds);
+        }
+    }
+
     private class AttackCreatorResolver {
         private DataSnapshot snapshot;
         private int networkType;
 
-        AttackCreatorResolver(DataSnapshot snapshot, int networkType) {
+        private AttackCreatorResolver(DataSnapshot snapshot, int networkType) {
             initializeSnapshot(snapshot);
             this.networkType = networkType;
         }
@@ -293,7 +321,7 @@ public class FirebaseRepository extends AttackRepository {
             return !snapshot.getRef().getParent().getParent().getKey().equals(NODE_ATTACKS);
         }
 
-        AttackCreator resolveInstance() {
+        private AttackCreator resolveInstance() {
             Class<? extends AttackCreator> creatorClass = AttackCreators.getClassFrom(networkType);
             return snapshot.getValue(creatorClass);
         }
