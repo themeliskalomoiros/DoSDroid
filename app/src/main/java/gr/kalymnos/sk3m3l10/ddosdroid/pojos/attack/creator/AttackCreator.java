@@ -1,6 +1,9 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
 
-public abstract class AttackCreator {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public abstract class AttackCreator implements Parcelable {
     private String uuid;
 
     protected AttackCreator() {
@@ -13,5 +16,13 @@ public abstract class AttackCreator {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(uuid);
+    }
+
+    protected AttackCreator(Parcel in) {
+        uuid = in.readString();
     }
 }
