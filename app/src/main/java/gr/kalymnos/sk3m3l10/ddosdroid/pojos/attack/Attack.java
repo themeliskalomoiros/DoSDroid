@@ -23,6 +23,7 @@ public class Attack implements Parcelable {
         this.website = website;
         this.networkType = networkType;
         this.attackCreator = attackCreator;
+        this.timeMillis = System.currentTimeMillis();
     }
 
     public Attack(String pushId, String website, int networkType, long timeMillis, AttackCreator attackCreator, List<String> botIds) {
