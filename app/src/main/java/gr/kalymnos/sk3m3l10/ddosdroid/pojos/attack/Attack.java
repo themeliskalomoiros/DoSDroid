@@ -25,36 +25,62 @@ public class Attack implements Parcelable {
         this.attackCreator = attackCreator;
     }
 
+    public Attack(String pushId, String website, int networkType, long timeMillis, AttackCreator attackCreator, List<String> botIds) {
+        this.pushId = pushId;
+        this.website = website;
+        this.networkType = networkType;
+        this.timeMillis = timeMillis;
+        this.attackCreator = attackCreator;
+        if (botIds != null) // Maybe null because an attack can be created with zero bots.
+            this.botIds = botIds;
+    }
+
     public String getPushId() {
         return pushId;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public int getNetworkType() {
-        return networkType;
-    }
-
-    public long getTimeMillis() {
-        return timeMillis;
-    }
-
-    public AttackCreator getAttackCreator() {
-        return attackCreator;
-    }
-
-    public List<String> getBotIds() {
-        return botIds;
     }
 
     public void setPushId(String pushId) {
         this.pushId = pushId;
     }
 
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public int getNetworkType() {
+        return networkType;
+    }
+
+    public void setNetworkType(int networkType) {
+        this.networkType = networkType;
+    }
+
+    public long getTimeMillis() {
+        return timeMillis;
+    }
+
     public void setTimeMillis(long timeMillis) {
         this.timeMillis = timeMillis;
+    }
+
+    public AttackCreator getAttackCreator() {
+        return attackCreator;
+    }
+
+    public void setAttackCreator(AttackCreator attackCreator) {
+        this.attackCreator = attackCreator;
+    }
+
+    public List<String> getBotIds() {
+        return botIds;
+    }
+
+    public void setBotIds(List<String> botIds) {
+        this.botIds = botIds;
     }
 
     protected Attack(Parcel in) {
