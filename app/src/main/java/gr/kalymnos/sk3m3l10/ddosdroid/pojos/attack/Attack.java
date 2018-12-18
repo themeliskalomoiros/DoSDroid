@@ -6,25 +6,23 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreator;
 
 public class Attack implements Parcelable {
-
     private String pushId, website;
     private int networkType;
     private long timeMillis;
-    private Bot attackCreator;
-    // Ideally a Set is needed but Firebase accepts map/list.
-    private List<String> botIds = new ArrayList<>();
+    private AttackCreator attackCreator;
+    private List<String> botIds = new ArrayList<>(); // Ideally a Set but Firebase accepts map/list.
+
 
     public Attack() {
     }
 
-    public Attack(String website, int networkType, Bot attackCreator) {
+    public Attack(String website, int networkType, AttackCreator attackCreator) {
         this.website = website;
-        this.attackCreator = attackCreator;
         this.networkType = networkType;
-        this.timeMillis = System.currentTimeMillis();
+        this.attackCreator = attackCreator;
     }
 
     public String getPushId() {
@@ -43,7 +41,7 @@ public class Attack implements Parcelable {
         return timeMillis;
     }
 
-    public Bot getAttackCreator() {
+    public AttackCreator getAttackCreator() {
         return attackCreator;
     }
 
@@ -55,12 +53,16 @@ public class Attack implements Parcelable {
         this.pushId = pushId;
     }
 
+    public void setTimeMillis(long timeMillis) {
+        this.timeMillis = timeMillis;
+    }
+
     protected Attack(Parcel in) {
         pushId = in.readString();
         website = in.readString();
         networkType = in.readInt();
         timeMillis = in.readLong();
-        attackCreator = in.readParcelable(Bot.class.getClassLoader());
+        attackCreator = in.readParcelable(AttackCreator.class.getClassLoader());
         botIds = in.createStringArrayList();
     }
 

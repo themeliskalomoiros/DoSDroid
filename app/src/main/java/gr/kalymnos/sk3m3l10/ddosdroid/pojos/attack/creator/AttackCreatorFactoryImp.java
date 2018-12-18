@@ -5,7 +5,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
-public class AttackCreatorFactoryImp implements AttackCreatorFactory {
+class AttackCreatorFactoryImp implements AttackCreatorFactory {
     private static final String TAG = "AttackCreatorFactoryImp";
 
     @Override
