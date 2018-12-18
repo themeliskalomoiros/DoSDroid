@@ -18,8 +18,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackNetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
@@ -84,7 +84,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     private void bindAttackToUi() {
         viewMvc.bindAttackForce(attack.getBotIds().size());
-        viewMvc.bindNetworkConfiguration(AttackNetworkTypeTranslator.translate(attack.getNetworkType()));
+        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
         viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
     }

@@ -2,8 +2,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
 
-public final class AttackNetworkTypeTranslator {
-    private static final String TAG = "AttackNetworkTypeTranslator";
+public final class NetworkTypeTranslator {
+    private static final String TAG = "NetworkTypeTranslator";
 
     public static String translate(int networkType) {
         switch (networkType) {
