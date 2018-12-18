@@ -248,7 +248,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected boolean belongsToLocalOwner(Attack attack) {
-            return attack.getAttackCreator().getId().equals(Bots.getLocalUser());
+            return attack.getAttackCreator().getUuid().equals(Bots.getLocalUser());
         }
     }
 

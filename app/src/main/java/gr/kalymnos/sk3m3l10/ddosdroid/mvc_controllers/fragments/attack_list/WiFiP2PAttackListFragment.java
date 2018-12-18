@@ -20,14 +20,14 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
                 break;
             case TYPE_FETCH_JOINED:
                 //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-                //  String userId = Bot.getLocalUser().getId();
-                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), WIFI_P2P);
+                //  String userId = Bot.getLocalUser().getUuid();
+                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getUuid(), WIFI_P2P);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(WIFI_P2P);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), WIFI_P2P);
+                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getUuid(), WIFI_P2P);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");

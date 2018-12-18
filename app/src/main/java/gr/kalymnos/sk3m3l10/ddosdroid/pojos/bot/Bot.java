@@ -4,17 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Bot implements Parcelable {
-    private String id;
+    private String uuid;
 
     public Bot() {
     }
 
     public Bot(String instanceId) {
-        this.id = instanceId;
+        this.uuid = instanceId;
     }
 
-    public String getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Bot implements Parcelable {
      */
 
     protected Bot(Parcel in) {
-        id = in.readString();
+        uuid = in.readString();
     }
 
     public static final Creator<Bot> CREATOR = new Creator<Bot>() {
@@ -44,6 +44,6 @@ public class Bot implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
+        parcel.writeString(uuid);
     }
 }
