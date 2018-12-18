@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
 
 /*
  * When an attack is created a network type is specified (internet, bluetooth, wifi p2p, etc...).

@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackInfoViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.Extra.EXTRA_ATTACK;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.Extra.EXTRA_ATTACK;
 
 public class AttackInfoFragment extends Fragment implements AttackInfoViewMvc.OnBeginAttackButtonClickListener {
 

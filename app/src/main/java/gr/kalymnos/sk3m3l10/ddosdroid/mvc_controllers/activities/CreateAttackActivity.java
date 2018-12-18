@@ -1,19 +1,15 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackInfoFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class CreateAttackActivity extends AppCompatActivity implements AttackInfoFragment.OnBeginAttackButtonClickListener,
         AttackCreationFragment.OnAttackCreationListener {

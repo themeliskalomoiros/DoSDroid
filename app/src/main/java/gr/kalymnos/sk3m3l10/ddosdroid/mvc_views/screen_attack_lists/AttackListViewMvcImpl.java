@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class AttackListViewMvcImpl implements AttackListViewMvc {
 

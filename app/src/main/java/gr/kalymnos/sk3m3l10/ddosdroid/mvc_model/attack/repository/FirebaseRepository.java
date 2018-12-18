@@ -11,10 +11,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bot;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 public class FirebaseRepository extends AttackRepository {
     private static final String NODE_ATTACKS = "attacks";

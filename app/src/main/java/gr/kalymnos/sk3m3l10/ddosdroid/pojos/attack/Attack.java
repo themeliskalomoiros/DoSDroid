@@ -1,10 +1,12 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
+package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
 public class Attack implements Parcelable {
 

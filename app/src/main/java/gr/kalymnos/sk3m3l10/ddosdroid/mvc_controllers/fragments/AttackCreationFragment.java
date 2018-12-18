@@ -17,8 +17,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackReposito
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener, AttackRepository.OnAttackUploadedListener {

@@ -19,14 +19,14 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackReposito
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.ATTACK_TYPE_KEY;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.AttackType.TYPE_NONE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants.Extra.EXTRA_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 

@@ -1,8 +1,10 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
+package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 import android.util.Log;
 
 import java.util.List;
+
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
 public final class Attacks {
     private static final String TAG = "Attacks";

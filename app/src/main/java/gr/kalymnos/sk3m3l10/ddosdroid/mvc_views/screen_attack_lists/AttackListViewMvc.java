@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public interface AttackListViewMvc extends ViewMvc {
     interface OnAttackItemClickListener {

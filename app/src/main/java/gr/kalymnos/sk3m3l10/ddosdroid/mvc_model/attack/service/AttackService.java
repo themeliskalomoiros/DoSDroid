@@ -12,8 +12,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 

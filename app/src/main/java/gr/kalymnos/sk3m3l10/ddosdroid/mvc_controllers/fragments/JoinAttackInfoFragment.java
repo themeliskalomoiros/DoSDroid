@@ -15,11 +15,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackReposito
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.AttackConstants;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.Bots;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.NetworkTypeTranslator;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackConstants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.AttackNetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
@@ -84,7 +84,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     private void bindAttackToUi() {
         viewMvc.bindAttackForce(attack.getBotIds().size());
-        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
+        viewMvc.bindNetworkConfiguration(AttackNetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
         viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
     }

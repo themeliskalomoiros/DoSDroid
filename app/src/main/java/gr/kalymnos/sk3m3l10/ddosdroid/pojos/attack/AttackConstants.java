@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.pojos;
+package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 public interface AttackConstants {
     String TAG = "AttackConstants";
