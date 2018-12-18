@@ -13,16 +13,16 @@ public class Attack implements Parcelable {
     private String pushId, website;
     private int networkType;
     private long timeMillis;
-    private Bot owner;
+    private Bot attackCreator;
     // Ideally a Set is needed but Firebase accepts map/list.
     private List<String> botIds = new ArrayList<>();
 
     public Attack() {
     }
 
-    public Attack(String website, int networkType, Bot owner) {
+    public Attack(String website, int networkType, Bot attackCreator) {
         this.website = website;
-        this.owner = owner;
+        this.attackCreator = attackCreator;
         this.networkType = networkType;
         this.timeMillis = System.currentTimeMillis();
     }
@@ -43,8 +43,8 @@ public class Attack implements Parcelable {
         return timeMillis;
     }
 
-    public Bot getOwner() {
-        return owner;
+    public Bot getAttackCreator() {
+        return attackCreator;
     }
 
     public List<String> getBotIds() {
@@ -60,7 +60,7 @@ public class Attack implements Parcelable {
         website = in.readString();
         networkType = in.readInt();
         timeMillis = in.readLong();
-        owner = in.readParcelable(Bot.class.getClassLoader());
+        attackCreator = in.readParcelable(Bot.class.getClassLoader());
         botIds = in.createStringArrayList();
     }
 
@@ -87,7 +87,7 @@ public class Attack implements Parcelable {
         parcel.writeString(website);
         parcel.writeInt(networkType);
         parcel.writeLong(timeMillis);
-        parcel.writeParcelable(owner, i);
+        parcel.writeParcelable(attackCreator, i);
         parcel.writeStringList(botIds);
     }
 }
