@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-final class NsdCreator extends AttackCreator {
+final class NsdCreator extends HostInfo {
 
     public NsdCreator() {
     }

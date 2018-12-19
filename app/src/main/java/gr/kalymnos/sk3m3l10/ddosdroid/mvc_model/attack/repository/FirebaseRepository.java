@@ -13,8 +13,8 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreator;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreators;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfo;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfoHelper;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
@@ -250,7 +250,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected boolean belongsToLocalOwner(Attack attack) {
-            return attack.getAttackCreator().getUuid().equals(Bots.getLocalUser());
+            return attack.getHostInfo().getUuid().equals(Bots.getLocalUser());
         }
     }
 
@@ -296,17 +296,17 @@ public class FirebaseRepository extends AttackRepository {
             String website = snapshot.child("website").getValue(String.class);
             long timeMillis = snapshot.child("timeMillis").getValue(Long.class);
             int networkType = snapshot.child("networkType").getValue(Integer.class);
-            AttackCreator creator = new AttackCreatorResolver(snapshot.child("attackCreator"), networkType).resolveInstance();
+            HostInfo creator = new HostInfoResolver(snapshot.child("hostInfo"), networkType).resolveInstance();
             List<String> botIds = snapshot.child("botIds").getValue(List.class);
             return new Attack(pushId, website, networkType, timeMillis, creator, botIds);
         }
     }
 
-    private class AttackCreatorResolver {
+    private class HostInfoResolver {
         private DataSnapshot snapshot;
         private int networkType;
 
-        private AttackCreatorResolver(DataSnapshot snapshot, int networkType) {
+        private HostInfoResolver(DataSnapshot snapshot, int networkType) {
             initializeSnapshot(snapshot);
             this.networkType = networkType;
         }
@@ -321,8 +321,8 @@ public class FirebaseRepository extends AttackRepository {
             return !snapshot.getRef().getParent().getParent().getKey().equals(NODE_ATTACKS);
         }
 
-        private AttackCreator resolveInstance() {
-            Class<? extends AttackCreator> creatorClass = AttackCreators.getClassFrom(networkType);
+        private HostInfo resolveInstance() {
+            Class<? extends HostInfo> creatorClass = HostInfoHelper.getClassFrom(networkType);
             return snapshot.getValue(creatorClass);
         }
     }

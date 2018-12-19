@@ -1,11 +1,11 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreator;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfo;
 
 public abstract class Server {
-    private AttackCreator attackCreator;
+    private HostInfo hostInfo;
 
-    public Server(AttackCreator attackCreator) {
-        this.attackCreator = attackCreator;
+    public Server(HostInfo hostInfo) {
+        this.hostInfo = hostInfo;
     }
 }

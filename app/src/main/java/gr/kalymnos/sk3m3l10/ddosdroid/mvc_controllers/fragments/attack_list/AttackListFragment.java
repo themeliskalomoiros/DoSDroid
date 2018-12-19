@@ -181,13 +181,13 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         private AttackListFragment getAttackListFragmentImplFromTabTitle(String tabTitle) {
             switch (tabTitle) {
                 // Titles were copied from R.arrays.network_technologies_titles
-                case "InternetClient":
+                case "Internet":
                     return new InternetAttackListFragment();
                 case "WiFi P2P":
                     return new WiFiP2PAttackListFragment();
                 case "NSD":
                     return new NSDAttackListFragment();
-                case "BluetoothClient":
+                case "Bluetooth":
                     return new BluetoothAttackListFragment();
                 default:
                     throw new UnsupportedOperationException(TAG + " " + tabTitle + " is not a valid tab title");

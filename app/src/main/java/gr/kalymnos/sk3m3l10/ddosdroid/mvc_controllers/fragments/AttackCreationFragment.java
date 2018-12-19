@@ -18,8 +18,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseReposi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreator;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreators;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfo;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfoHelper;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener, AttackRepository.OnAttackUploadedListener {
@@ -66,7 +66,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     public void onAttackCreationButtonClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
             viewMvc.showLoadingIndicator();
-            AttackCreator creator = AttackCreators.getLocalAttackCreatorInstance(viewMvc.getNetworkConf());
+            HostInfo creator = HostInfoHelper.getLocalHostInfo(viewMvc.getNetworkConf());
             Attack attack = new Attack(website, viewMvc.getNetworkConf(), creator);
             attackRepo.uploadAttack(attack);
         } else {

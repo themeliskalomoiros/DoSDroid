@@ -5,11 +5,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
-class AttackCreatorFactoryImp implements AttackCreatorFactory {
-    private static final String TAG = "AttackCreatorFactoryImp";
+class HostInfoFactoryImp implements HostInfoFactory {
+    private static final String TAG = "HostInfoFactoryImp";
 
     @Override
-    public AttackCreator build(int networkType, String uuid) {
+    public HostInfo build(int networkType, String uuid) {
         switch (networkType) {
             case INTERNET:
                 return new InternetCreator(uuid);

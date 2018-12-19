@@ -8,16 +8,16 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
-public final class AttackCreators {
-    private static final String TAG = "AttackCreators";
+public final class HostInfoHelper {
+    private static final String TAG = "HostInfoHelper";
 
-    public static AttackCreator getLocalAttackCreatorInstance(int networkType) {
+    public static HostInfo getLocalHostInfo(int networkType) {
         InstanceIdProvider idProvider = new FirebaseInstanceId();
         String uuid = idProvider.getInstanceId();
-        return new AttackCreatorFactoryImp().build(networkType, uuid);
+        return new HostInfoFactoryImp().build(networkType, uuid);
     }
 
-    public static Class<? extends AttackCreator> getClassFrom(int networkType) {
+    public static Class<? extends HostInfo> getClassFrom(int networkType) {
         switch (networkType) {
             case INTERNET:
                 return InternetCreator.class;

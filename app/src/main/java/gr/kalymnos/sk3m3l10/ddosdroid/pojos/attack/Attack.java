@@ -6,32 +6,32 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.AttackCreator;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfo;
 
 public class Attack implements Parcelable {
     private String pushId, website;
     private int networkType;
     private long timeMillis;
-    private AttackCreator attackCreator;
+    private HostInfo hostInfo;
     private List<String> botIds = new ArrayList<>(); // Ideally a Set but Firebase accepts map/list.
 
 
     public Attack() {
     }
 
-    public Attack(String website, int networkType, AttackCreator attackCreator) {
+    public Attack(String website, int networkType, HostInfo hostInfo) {
         this.website = website;
         this.networkType = networkType;
-        this.attackCreator = attackCreator;
+        this.hostInfo = hostInfo;
         this.timeMillis = System.currentTimeMillis();
     }
 
-    public Attack(String pushId, String website, int networkType, long timeMillis, AttackCreator attackCreator, List<String> botIds) {
+    public Attack(String pushId, String website, int networkType, long timeMillis, HostInfo hostInfo, List<String> botIds) {
         this.pushId = pushId;
         this.website = website;
         this.networkType = networkType;
         this.timeMillis = timeMillis;
-        this.attackCreator = attackCreator;
+        this.hostInfo = hostInfo;
         if (botIds != null) // Maybe null because an attack can be created with zero bots.
             this.botIds = botIds;
     }
@@ -68,12 +68,12 @@ public class Attack implements Parcelable {
         this.timeMillis = timeMillis;
     }
 
-    public AttackCreator getAttackCreator() {
-        return attackCreator;
+    public HostInfo getHostInfo() {
+        return hostInfo;
     }
 
-    public void setAttackCreator(AttackCreator attackCreator) {
-        this.attackCreator = attackCreator;
+    public void setHostInfo(HostInfo hostInfo) {
+        this.hostInfo = hostInfo;
     }
 
     public List<String> getBotIds() {
@@ -89,7 +89,7 @@ public class Attack implements Parcelable {
         website = in.readString();
         networkType = in.readInt();
         timeMillis = in.readLong();
-        attackCreator = in.readParcelable(AttackCreator.class.getClassLoader());
+        hostInfo = in.readParcelable(HostInfo.class.getClassLoader());
         botIds = in.createStringArrayList();
     }
 
@@ -116,7 +116,7 @@ public class Attack implements Parcelable {
         parcel.writeString(website);
         parcel.writeInt(networkType);
         parcel.writeLong(timeMillis);
-        parcel.writeParcelable(attackCreator, i);
+        parcel.writeParcelable(hostInfo, i);
         parcel.writeStringList(botIds);
     }
 }
