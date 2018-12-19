@@ -1,11 +1,11 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-class NsdClient extends Client {
+class WifiP2pClient extends Client {
 
-    protected NsdClient(@NonNull Context context, OnConnectionListener listener) {
+    protected WifiP2pClient(@NonNull Context context, OnConnectionListener listener) {
         super(context, listener);
     }
 

@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.Client;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.OnOwnerAttackResponseReceiveListener;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.OnOwnerAttackResponseReceiveListener;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
