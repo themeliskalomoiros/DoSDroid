@@ -35,8 +35,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         super.onCreate(savedInstanceState);
         attack = getArguments().getParcelable(Constants.Extra.EXTRA_ATTACK);
         attackRepository = new FirebaseRepository();
-        client = new Client.AttackNetworkFactoryImp()
-                .makeAttackNetwork(getContext(), this, attack.getNetworkType());
+        client = new Client.ClientFactoryImp()
+                .createClient(getContext(), this, attack.getNetworkType());
     }
 
     @Nullable

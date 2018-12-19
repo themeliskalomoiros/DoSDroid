@@ -53,15 +53,15 @@ public abstract class Client {
         connectionListener = null;
     }
 
-    public interface AttackNetworkFactory {
-        Client makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType);
+    public interface ClientFactory {
+        Client createClient(Context context, OnConnectionListener connectionListener, int attackNetworkType);
     }
 
-    public static class AttackNetworkFactoryImp implements AttackNetworkFactory {
-        private static final String TAG = "AttackNetworkFactoryImp";
+    public static class ClientFactoryImp implements ClientFactory {
+        private static final String TAG = "ClientFactoryImp";
 
         @Override
-        public Client makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType) {
+        public Client createClient(Context context, OnConnectionListener connectionListener, int attackNetworkType) {
             switch (attackNetworkType) {
                 case Constants.NetworkType.INTERNET:
                     return new InternetClient(context, connectionListener);
