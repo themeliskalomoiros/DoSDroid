@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.network.AttackNetwork;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.network.OnOwnerAttackResponseReceiveListener;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.Client;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.OnOwnerAttackResponseReceiveListener;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
@@ -23,11 +23,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
-        AttackNetwork.OnConnectionListener, OnOwnerAttackResponseReceiveListener {
+        Client.OnConnectionListener, OnOwnerAttackResponseReceiveListener {
 
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
-    private AttackNetwork attackNetwork;
+    private Client client;
     private AttackRepository attackRepository;
 
     @Override
@@ -35,7 +35,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         super.onCreate(savedInstanceState);
         attack = getArguments().getParcelable(Constants.Extra.EXTRA_ATTACK);
         attackRepository = new FirebaseRepository();
-        attackNetwork = new AttackNetwork.AttackNetworkFactoryImp()
+        client = new Client.AttackNetworkFactoryImp()
                 .makeAttackNetwork(getContext(), this, attack.getNetworkType());
     }
 
@@ -49,8 +49,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onJoinAttackButtonClicked() {
-        if (!attackNetwork.isConnected()) {
-            attackNetwork.connect();
+        if (!client.isConnected()) {
+            client.connect();
         } else {
             startJoinProcedure();
         }
@@ -74,7 +74,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onAttackNetworkDisconnected(CharSequence reason) {
-        Toast.makeText(getContext(), "AttackNetwork disconnected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Client disconnected", Toast.LENGTH_SHORT).show();
     }
 
     @Override

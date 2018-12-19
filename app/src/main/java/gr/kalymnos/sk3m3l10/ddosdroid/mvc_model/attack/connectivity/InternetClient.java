@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.network;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.support.annotation.NonNull;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-class Internet extends AttackNetwork {
+class InternetClient extends Client {
 
-    public Internet(@NonNull Context context, @NonNull OnConnectionListener listener) {
+    public InternetClient(@NonNull Context context, @NonNull OnConnectionListener listener) {
         super(context, listener);
     }
 

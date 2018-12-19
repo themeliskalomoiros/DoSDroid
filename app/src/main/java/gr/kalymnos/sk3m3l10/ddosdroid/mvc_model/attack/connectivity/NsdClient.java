@@ -1,11 +1,11 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.network;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-class Nsd extends AttackNetwork {
+class NsdClient extends Client {
 
-    protected Nsd(@NonNull Context context, OnConnectionListener listener) {
+    protected NsdClient(@NonNull Context context, OnConnectionListener listener) {
         super(context, listener);
     }
 

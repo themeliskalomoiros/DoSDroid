@@ -6,9 +6,9 @@ public final class NetworkTypeTranslator {
     public static String translate(int networkType) {
         switch (networkType) {
             case Constants.NetworkType.BLUETOOTH:
-                return "Bluetooth";
+                return "BluetoothClient";
             case Constants.NetworkType.INTERNET:
-                return "Internet";
+                return "InternetClient";
             case Constants.NetworkType.WIFI_P2P:
                 return "Wifi Peer to Peer";
             case Constants.NetworkType.NSD:

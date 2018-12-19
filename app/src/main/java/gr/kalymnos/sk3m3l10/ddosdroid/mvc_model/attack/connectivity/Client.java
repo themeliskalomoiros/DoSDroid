@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.network;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +12,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
  * The ddos botnet must be connected to this network type in order to follow that attack.
  * */
 
-public abstract class AttackNetwork {
+public abstract class Client {
     protected Context context;
     protected OnConnectionListener connectionListener;
     protected BroadcastReceiver connectivityReceiver;
@@ -24,7 +24,7 @@ public abstract class AttackNetwork {
         void onAttackNetworkDisconnected(CharSequence reason);
     }
 
-    protected AttackNetwork(@NonNull Context context, OnConnectionListener listener) {
+    protected Client(@NonNull Context context, OnConnectionListener listener) {
         this.context = context;
         this.connectionListener = listener;
         this.initializeConnectivityReceiver();
@@ -54,23 +54,23 @@ public abstract class AttackNetwork {
     }
 
     public interface AttackNetworkFactory {
-        AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType);
+        Client makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType);
     }
 
     public static class AttackNetworkFactoryImp implements AttackNetworkFactory {
         private static final String TAG = "AttackNetworkFactoryImp";
 
         @Override
-        public AttackNetwork makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType) {
+        public Client makeAttackNetwork(Context context, OnConnectionListener connectionListener, int attackNetworkType) {
             switch (attackNetworkType) {
                 case Constants.NetworkType.INTERNET:
-                    return new Internet(context, connectionListener);
+                    return new InternetClient(context, connectionListener);
                 case Constants.NetworkType.WIFI_P2P:
-                    return new WifiP2p(context, connectionListener);
+                    return new WifiP2pClient(context, connectionListener);
                 case Constants.NetworkType.NSD:
-                    return new Nsd(context, connectionListener);
+                    return new NsdClient(context, connectionListener);
                 case Constants.NetworkType.BLUETOOTH:
-                    return new Bluetooth(context, connectionListener);
+                    return new BluetoothClient(context, connectionListener);
                 default:
                     throw new UnsupportedOperationException(TAG + ": unknown attack type");
             }

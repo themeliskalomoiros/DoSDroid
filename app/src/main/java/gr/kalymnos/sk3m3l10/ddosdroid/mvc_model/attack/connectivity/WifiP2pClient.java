@@ -1,11 +1,11 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.network;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-class Bluetooth extends AttackNetwork {
+class WifiP2pClient extends Client {
 
-    protected Bluetooth(@NonNull Context context, OnConnectionListener listener) {
+    protected WifiP2pClient(@NonNull Context context, OnConnectionListener listener) {
         super(context, listener);
     }
 
