@@ -250,7 +250,9 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected boolean belongsToLocalOwner(Attack attack) {
-            return attack.getHostInfo().getUuid().equals(Bots.getLocalUser());
+            String hostInfo = attack.getHostInfo().getUuid();
+            String localUser = Bots.getLocalUser().getUuid();
+            return hostInfo.equals(localUser);
         }
     }
 
