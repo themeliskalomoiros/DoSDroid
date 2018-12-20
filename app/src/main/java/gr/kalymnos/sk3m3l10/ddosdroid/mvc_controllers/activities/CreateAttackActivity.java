@@ -28,7 +28,8 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
 
     @Override
     public void onBeginAttackButtonClick(Attack attack) {
-
+        ServersHost.Action.startServer(this,attack);
+        finish();
     }
 
     @Override
