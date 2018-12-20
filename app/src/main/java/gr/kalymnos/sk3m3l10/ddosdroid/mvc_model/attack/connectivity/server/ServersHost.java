@@ -4,8 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -15,10 +15,10 @@ public class ServersHost extends Service {
     private static final String TAG = "ServersHost";
     public static final String ACTION_START_SERVER = TAG + "start server action";
 
-    private Map<String, Server> serversMap;
+    private Set<Server> servers;
 
     public ServersHost() {
-        serversMap = new HashMap<>();
+        servers = new HashSet<>();
     }
 
     @Override
@@ -34,7 +34,10 @@ public class ServersHost extends Service {
 
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
-        serversMap.put(server.getId(),server);
+        boolean serverAdded = servers.add(server);
+        if (serverAdded) {
+            server.start();
+        }
     }
 
     private Server createServerFrom(Intent intent) {
