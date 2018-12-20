@@ -30,6 +30,8 @@ public class ServersHost extends Service {
         switch (intent.getAction()) {
             case ACTION_START_SERVER:
                 handleStartServerAction(intent);
+                startForeground(ForegroundNotification.NOTIFICATION_ID,
+                        new ForegroundNotification().createNotification());
                 return START_STICKY;
             case ACTION_STOP_SERVER:
                 handleStopServerAction(intent);
@@ -72,6 +74,7 @@ public class ServersHost extends Service {
 
     private class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
+        static final int NOTIFICATION_ID = 191919;
 
         Notification createNotification() {
             return createNotificationBuilder().build();
