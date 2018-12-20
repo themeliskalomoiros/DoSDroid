@@ -30,7 +30,7 @@
             android:exported="false" />
         <service
             android:name=".mvc_model.attack.connectivity.server.ServersHost"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="false"></service>
     </application>
 
