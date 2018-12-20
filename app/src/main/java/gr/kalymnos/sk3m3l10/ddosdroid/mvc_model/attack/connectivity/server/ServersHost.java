@@ -14,6 +14,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 public class ServersHost extends Service {
     private static final String TAG = "ServersHost";
     public static final String ACTION_START_SERVER = TAG + "start server action";
+    public static final String ACTION_STOP_SERVER = TAG + "stop server action";
 
     private Set<Server> servers;
 
@@ -27,6 +28,8 @@ public class ServersHost extends Service {
             case ACTION_START_SERVER:
                 handleStartServerAction(intent);
                 return START_STICKY;
+            case ACTION_STOP_SERVER:
+                handleStopServerAction(intent);
             default:
                 return super.onStartCommand(intent, flags, startId);
         }
@@ -38,6 +41,10 @@ public class ServersHost extends Service {
         if (serverAdded) {
             server.start();
         }
+    }
+
+    private void handleStopServerAction(Intent intent) {
+        // TODO: needs implementation
     }
 
     private Server createServerFrom(Intent intent) {
