@@ -23,6 +23,26 @@ public abstract class Server {
         Server build(Attack attack);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Server))
+            return false;
+
+        Server server = (Server) obj;
+        return this.getId().equals(server.getId());
+    }
+
+    //  This technique is taken from the book Effective Java, Second Edition, Item 9
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + getId().hashCode();
+        return result;
+    }
+
     public static class BuilderImp implements Server.Builder {
 
         @Override
