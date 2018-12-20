@@ -47,6 +47,13 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         return viewMvc.getRootView();
     }
 
+    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        viewMvc = new AttackListViewMvcImpl(inflater, container);
+        viewMvc.setOnAttackItemClickListener(this);
+        viewMvc.setOnJoinSwitchCheckedStateListener(this);
+        viewMvc.setOnActivateSwitchCheckedStateListener(this);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -93,13 +100,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             }
         }
         return false;
-    }
-
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        viewMvc = new AttackListViewMvcImpl(inflater, container);
-        viewMvc.setOnAttackItemClickListener(this);
-        viewMvc.setOnJoinSwitchCheckedStateListener(this);
-        viewMvc.setOnActivateSwitchCheckedStateListener(this);
     }
 
     protected abstract void fetchAttacksAccordingToType();
@@ -157,7 +157,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
      * which was checking the text and returning a specific AttackListFragment subclass.
      *
      * Now AllAttackListsViewMvcImpl.MyPagerAdapter.getItemId() just creates an instance of
-     * AttackListFragmentBuilder and call build() to return that specific AttackListFragment subclass
+     * Builder and call build() to return that specific AttackListFragment subclass
      * instance.
      *
      * This technique was used to clean the code. The justification lies in Uncled Bob's book
@@ -165,11 +165,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
      *
      * */
 
-    public interface AttackListFragmentBuilder {
+    public interface Builder {
         AttackListFragment build(String tabTitle, int attackType);
     }
 
-    public static class AttackListFragmentBuilderImpl implements AttackListFragmentBuilder {
+    public static class BuilderImp implements Builder {
 
         @Override
         public AttackListFragment build(String tabTitle, int attackType) {

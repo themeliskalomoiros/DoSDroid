@@ -28,7 +28,7 @@ public class InternetAttackListFragment extends AttackListFragment {
                 attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getUuid(), INTERNET);
                 break;
             default:
-                throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
+                throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified. Type is "+getAttacksType(getArguments()));
         }
     }
 }

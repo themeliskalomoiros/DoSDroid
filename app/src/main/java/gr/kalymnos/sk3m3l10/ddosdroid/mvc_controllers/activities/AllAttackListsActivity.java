@@ -59,10 +59,6 @@ public class AllAttackListsActivity extends AppCompatActivity {
             context.startActivity(createIntent(context,TYPE_FETCH_NOT_JOINED,R.string.join_attack_label));
         }
 
-        public static void startForUserAttacks(Context context){
-            context.startActivity(createIntent(context,TYPE_FETCH_OWNER,R.string.your_attacks_label));
-        }
-
         @NonNull
         private static Intent createIntent(Context context, int attackType, int titleRes) {
             Intent intent = new Intent(context, AllAttackListsActivity.class);

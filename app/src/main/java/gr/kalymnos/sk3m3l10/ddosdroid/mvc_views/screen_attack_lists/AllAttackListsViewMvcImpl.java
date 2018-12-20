@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.LoggingUtils;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment.AttackListFragmentBuilderImpl;
 
 public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
@@ -81,12 +81,11 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
             super(fm);
             this.titles = titles;
             this.attackType = attackType;
-            Log.d(TAG,"Attack type is "+LoggingUtils.getAttackTypeName(attackType));
         }
 
         @Override
         public Fragment getItem(int position) {
-            AttackListFragmentBuilderImpl builder = new AttackListFragmentBuilderImpl();
+            AttackListFragment.Builder builder = new AttackListFragment.BuilderImp();
             return builder.build(titles[position], attackType);
         }
 
