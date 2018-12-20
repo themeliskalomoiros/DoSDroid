@@ -9,6 +9,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 public abstract class Server {
     private static final String TAG = "Server";
+    public static final String EXTRA_ID = TAG + "extra id";
     private Attack attack;
 
     public Server(Attack attack) {
@@ -20,6 +21,8 @@ public abstract class Server {
     }
 
     public abstract void start();
+
+    public abstract void stop();
 
     public interface Builder {
         Server build(Attack attack);

@@ -43,17 +43,29 @@ public class ServersHost extends Service {
         }
     }
 
-    private void handleStopServerAction(Intent intent) {
-        // TODO: needs implementation
-    }
-
     private Server createServerFrom(Intent intent) {
         Attack attack = intent.getParcelableExtra(EXTRA_ATTACK);
         return new Server.BuilderImp().build(attack);
+    }
+
+    private void handleStopServerAction(Intent intent) {
+        String serverId = intent.getStringExtra(Server.EXTRA_ID);
+        stopAndRemoveServerFromCollection(serverId);
+    }
+
+    private void stopAndRemoveServerFromCollection(String serverId) {
+        for (Server server : servers) {
+            if (server.getId().equals(serverId)) {
+                server.stop();
+                servers.remove(server);
+            }
+        }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+
 }
