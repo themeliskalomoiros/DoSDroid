@@ -45,6 +45,7 @@
     <string name="server_notification_big_text">Your device is a server which hosts attacks to websites.
         If you wish others to join and strengthen your attacks then current server must be up and running.
         Your device can accept connection requests from other devices.</string>
+    <string name="your_attacks_label">Your attacks</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

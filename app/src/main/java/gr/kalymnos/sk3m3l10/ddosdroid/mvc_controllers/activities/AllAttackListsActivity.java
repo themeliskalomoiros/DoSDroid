@@ -1,13 +1,20 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackListsViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackListsViewMvcImpl;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
@@ -36,9 +43,39 @@ public class AllAttackListsActivity extends AppCompatActivity {
     }
 
     private int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, ATTACK_TYPE_KEY)) {
-            return bundle.getInt(ATTACK_TYPE_KEY);
+        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
+            return bundle.getInt(EXTRA_TYPE);
         }
         return TYPE_NONE;
+    }
+
+    public static class Action{
+
+        public static void startForJoinedAttacks(Context context){
+            context.startActivity(createIntent(context,TYPE_FETCH_JOINED,R.string.contributions_label));
+        }
+
+        public static void startForNonJoinedAttacks(Context context){
+            context.startActivity(createIntent(context,TYPE_FETCH_NOT_JOINED,R.string.join_attack_label));
+        }
+
+        public static void startForUserAttacks(Context context){
+            context.startActivity(createIntent(context,TYPE_FETCH_OWNER,R.string.your_attacks_label));
+        }
+
+        @NonNull
+        private static Intent createIntent(Context context, int attackType, int titleRes) {
+            Intent intent = new Intent(context, AllAttackListsActivity.class);
+            intent.putExtras(createBundle(attackType, context.getString(titleRes)));
+            return intent;
+        }
+
+        @NonNull
+        private static Bundle createBundle(int attackType, String title) {
+            Bundle extras = new Bundle();
+            extras.putInt(EXTRA_TYPE, attackType);
+            extras.putString(AllAttackListsActivity.EXTRA_TITLE, title);
+            return extras;
+        }
     }
 }
