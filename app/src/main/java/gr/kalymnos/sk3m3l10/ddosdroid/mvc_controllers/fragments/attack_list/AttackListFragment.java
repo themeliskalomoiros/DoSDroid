@@ -22,7 +22,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListVi
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.ATTACK_TYPE_KEY;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
@@ -110,8 +110,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, ATTACK_TYPE_KEY)) {
-            return bundle.getInt(ATTACK_TYPE_KEY);
+        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
+            return bundle.getInt(EXTRA_TYPE);
         }
         return TYPE_NONE;
     }
@@ -197,7 +197,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         @NonNull
         protected static Bundle createFragmentArgs(int attacksType) {
             Bundle args = new Bundle();
-            args.putInt(ATTACK_TYPE_KEY, attacksType);
+            args.putInt(EXTRA_TYPE, attacksType);
             return args;
         }
     }

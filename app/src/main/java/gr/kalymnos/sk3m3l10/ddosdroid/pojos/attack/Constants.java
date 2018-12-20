@@ -4,7 +4,6 @@ public interface Constants {
     String TAG = "Constants";
 
     interface AttackType {
-        String ATTACK_TYPE_KEY = TAG + "attack type key";
         int TYPE_FETCH_ALL = 101;
         int TYPE_FETCH_JOINED = 102;
         int TYPE_FETCH_NOT_JOINED = 103;
@@ -22,5 +21,6 @@ public interface Constants {
     interface Extra {
         String EXTRA_ATTACK = TAG + "extra attacks";
         String EXTRA_ATTACKS = TAG + "caching attacks key";
+        String EXTRA_TYPE = TAG + "attack type key";
     }
 }
