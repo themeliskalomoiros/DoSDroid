@@ -7,13 +7,13 @@ import android.os.IBinder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServersContainer extends Service {
-    private static final String TAG = "ServersContainer";
+public class ServersHost extends Service {
+    private static final String TAG = "ServersHost";
     public static final String ACTION_START_SERVER = TAG + "start server action";
 
     private Map<String, Server> serversMap;
 
-    public ServersContainer() {
+    public ServersHost() {
         serversMap = new HashMap<>();
     }
 
