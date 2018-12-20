@@ -7,6 +7,10 @@ import android.os.IBinder;
 import java.util.HashMap;
 import java.util.Map;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
+
 public class ServersHost extends Service {
     private static final String TAG = "ServersHost";
     public static final String ACTION_START_SERVER = TAG + "start server action";
@@ -29,7 +33,13 @@ public class ServersHost extends Service {
     }
 
     private void handleStartServerAction(Intent intent) {
-        // TODO: implementation needed
+        Server server = createServerFrom(intent);
+        serversMap.put(server.getId(),server);
+    }
+
+    private Server createServerFrom(Intent intent) {
+        Attack attack = intent.getParcelableExtra(EXTRA_ATTACK);
+        return new Server.BuilderImp().build(attack);
     }
 
     @Override
