@@ -6,4 +6,9 @@ public class WifiP2pServer extends Server {
     public WifiP2pServer(Attack attack) {
         super(attack);
     }
+
+    @Override
+    public void start() {
+        // TODO: needs implementation
+    }
 }

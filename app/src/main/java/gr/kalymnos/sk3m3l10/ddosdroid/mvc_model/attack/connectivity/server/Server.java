@@ -19,6 +19,8 @@ public abstract class Server {
         return attack.getPushId();
     }
 
+    public abstract void start();
+
     public interface Builder {
         Server build(Attack attack);
     }

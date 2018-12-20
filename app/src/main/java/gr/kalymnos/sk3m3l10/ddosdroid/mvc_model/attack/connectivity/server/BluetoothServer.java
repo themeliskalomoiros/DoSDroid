@@ -6,4 +6,9 @@ public class BluetoothServer extends Server {
     public BluetoothServer(Attack attack) {
         super(attack);
     }
+
+    @Override
+    public void start() {
+        // TODO: needs implementation
+    }
 }
