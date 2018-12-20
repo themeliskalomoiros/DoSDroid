@@ -21,7 +21,9 @@ public class ServersHost extends Service {
 
     private Set<Server> servers;
 
-    public ServersHost() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
         servers = new HashSet<>();
     }
 
