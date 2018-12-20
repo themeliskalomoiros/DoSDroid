@@ -27,7 +27,7 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
 
     @Override
     public void onBeginAttackButtonClick() {
-        Toast.makeText(this, "attack begin", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

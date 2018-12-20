@@ -98,7 +98,7 @@ public class AttackService extends Service {
         return null;
     }
 
-    public static class AttackServiceManager {
+    public static class Action {
         public static void startAttack(Attack attack, Context context) {
             context.startService(createIntent(context, attack, ACTION_START_ATTACK));
         }
