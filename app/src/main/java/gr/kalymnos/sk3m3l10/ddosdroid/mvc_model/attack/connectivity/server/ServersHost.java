@@ -2,8 +2,10 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
 import android.app.Notification;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.HashSet;
@@ -16,8 +18,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 
 public class ServersHost extends Service {
     private static final String TAG = "ServersHost";
-    public static final String ACTION_START_SERVER = TAG + "start server action";
-    public static final String ACTION_STOP_SERVER = TAG + "stop server action";
+    private static final String ACTION_START_SERVER = TAG + "start server action";
+    private static final String ACTION_STOP_SERVER = TAG + "stop server action";
 
     private Set<Server> servers;
 
@@ -92,6 +94,34 @@ public class ServersHost extends Service {
                     .setContentText(getString(R.string.server_notification_small_text))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.server_notification_big_text)))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        }
+    }
+
+    public static class Action {
+        public static void startServer(Context context, Attack attack) {
+            Intent intent = createStartServerIntent(context, attack);
+            context.startService(intent);
+        }
+
+        @NonNull
+        private static Intent createStartServerIntent(Context context, Attack attack) {
+            Intent intent = new Intent(context, ServersHost.class);
+            intent.putExtra(EXTRA_ATTACK, attack);
+            intent.setAction(ACTION_START_SERVER);
+            return intent;
+        }
+
+        public static void stopServer(Context context, String serverId) {
+            Intent intent = createStopServerIntent(context, serverId);
+            context.startService(intent);
+        }
+
+        @NonNull
+        private static Intent createStopServerIntent(Context context, String serverId) {
+            Intent intent = new Intent(context, ServersHost.class);
+            intent.putExtra(Server.EXTRA_ID, serverId);
+            intent.setAction(ACTION_STOP_SERVER);
+            return intent;
         }
     }
 }
