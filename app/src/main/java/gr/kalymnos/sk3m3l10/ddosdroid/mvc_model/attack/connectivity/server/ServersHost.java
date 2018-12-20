@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +13,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
 public class ServersHost extends Service {
@@ -74,14 +78,10 @@ public class ServersHost extends Service {
         }
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
     private class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 191919;
+        static final int PENDING_INTENT_REQUEST_CODE = 1932;
 
         Notification createNotification() {
             return createNotificationBuilder().build();
@@ -93,7 +93,13 @@ public class ServersHost extends Service {
                     .setContentTitle(getString(R.string.server_notification_title))
                     .setContentText(getString(R.string.server_notification_small_text))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.server_notification_big_text)))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(createPendingIntent());
+        }
+
+        PendingIntent createPendingIntent(){
+            Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this,TYPE_FETCH_OWNER,R.string.your_attacks_label);
+            return PendingIntent.getActivity(ServersHost.this,PENDING_INTENT_REQUEST_CODE,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
@@ -123,5 +129,10 @@ public class ServersHost extends Service {
             intent.setAction(ACTION_STOP_SERVER);
             return intent;
         }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

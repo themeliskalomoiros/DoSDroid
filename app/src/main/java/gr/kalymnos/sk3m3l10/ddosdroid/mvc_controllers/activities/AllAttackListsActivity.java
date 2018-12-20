@@ -60,7 +60,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
         }
 
         @NonNull
-        private static Intent createIntent(Context context, int attackType, int titleRes) {
+        public static Intent createIntent(Context context, int attackType, int titleRes) {
             Intent intent = new Intent(context, AllAttackListsActivity.class);
             intent.putExtras(createBundle(attackType, context.getString(titleRes)));
             return intent;
