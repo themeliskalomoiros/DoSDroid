@@ -56,6 +56,9 @@ public class ServersHost extends Service {
     private void handleStopServerAction(Intent intent) {
         String serverId = intent.getStringExtra(Server.EXTRA_ID);
         stopAndRemoveServerFromCollection(serverId);
+        if (servers.size() == 0) {
+            stopSelf();
+        }
     }
 
     private void stopAndRemoveServerFromCollection(String serverId) {
