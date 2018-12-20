@@ -297,7 +297,7 @@ public class FirebaseRepository extends AttackRepository {
             long timeMillis = snapshot.child("timeMillis").getValue(Long.class);
             int networkType = snapshot.child("networkType").getValue(Integer.class);
             HostInfo creator = new HostInfoResolver(snapshot.child("hostInfo"), networkType).resolveInstance();
-            List<String> botIds = snapshot.child("botIds").getValue(List.class);
+            List<String> botIds = (List<String>) snapshot.child("botIds").getValue();
             return new Attack(pushId, website, networkType, timeMillis, creator, botIds);
         }
     }
