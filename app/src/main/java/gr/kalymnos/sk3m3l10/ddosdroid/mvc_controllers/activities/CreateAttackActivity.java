@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackInfoFragment;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -26,7 +27,7 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackInf
     }
 
     @Override
-    public void onBeginAttackButtonClick() {
+    public void onBeginAttackButtonClick(Attack attack) {
 
     }
 
