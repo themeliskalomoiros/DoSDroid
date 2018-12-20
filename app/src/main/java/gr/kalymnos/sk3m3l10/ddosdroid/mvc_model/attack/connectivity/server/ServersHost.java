@@ -1,12 +1,15 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
@@ -67,5 +70,20 @@ public class ServersHost extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    private class ForegroundNotification {
+        static final String CHANNEL_ID = TAG + "channel id";
 
+        Notification createNotification() {
+            return createNotificationBuilder().build();
+        }
+
+        NotificationCompat.Builder createNotificationBuilder() {
+            return new NotificationCompat.Builder(ServersHost.this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_swords)
+                    .setContentTitle(getString(R.string.server_notification_title))
+                    .setContentText(getString(R.string.server_notification_small_text))
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.server_notification_big_text)))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        }
+    }
 }

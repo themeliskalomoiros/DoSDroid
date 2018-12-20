@@ -40,6 +40,11 @@
     <string name="against_label">Against</string>
     <string name="people_joined_this_attack">People joined this atack:</string>
     <string name="attack_date_prefix">Created on</string>
+    <string name="server_notification_title">Server up</string>
+    <string name="server_notification_small_text">Your device is a server which hosts attacks to websites.</string>
+    <string name="server_notification_big_text">Your device is a server which hosts attacks to websites.
+        If you wish others to join and strengthen your attacks then current server must be up and running.
+        Your device can accept connection requests from other devices.</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
