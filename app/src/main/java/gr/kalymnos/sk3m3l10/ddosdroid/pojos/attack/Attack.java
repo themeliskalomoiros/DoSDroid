@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfo;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfo;
 
 public class Attack implements Parcelable {
     private String pushId, website;

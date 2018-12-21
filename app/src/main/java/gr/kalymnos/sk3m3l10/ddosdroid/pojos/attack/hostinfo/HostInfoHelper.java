@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
+package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id.FirebaseInstanceId;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id.InstanceIdProvider;
@@ -20,13 +20,13 @@ public final class HostInfoHelper {
     public static Class<? extends HostInfo> getClassFrom(int networkType) {
         switch (networkType) {
             case INTERNET:
-                return InternetCreator.class;
+                return InternetHostInfo.class;
             case BLUETOOTH:
-                return BluetoothCreator.class;
+                return BluetoothHostInfo.class;
             case WIFI_P2P:
-                return WifiP2pCreator.class;
+                return WifiP2pHostInfo.class;
             case NSD:
-                return NsdCreator.class;
+                return NsdHostInfo.class;
             default:
                 throw new IllegalArgumentException(TAG + ": Unknown attack network type");
         }

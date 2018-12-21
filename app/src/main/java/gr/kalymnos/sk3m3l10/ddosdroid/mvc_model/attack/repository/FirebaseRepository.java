@@ -13,8 +13,8 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfo;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator.HostInfoHelper;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfo;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfoHelper;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
@@ -242,14 +242,14 @@ public class FirebaseRepository extends AttackRepository {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 Attack attack = new AttackResolver(snapshot).resolveInstance();
-                if (belongsToLocalOwner(attack)) {
+                if (createdByLocalUser(attack)) {
                     attacks.add(attack);
                 }
             }
             return attacks;
         }
 
-        protected boolean belongsToLocalOwner(Attack attack) {
+        protected boolean createdByLocalUser(Attack attack) {
             String hostInfo = attack.getHostInfo().getUuid();
             String localUser = Bots.getLocalUser().getUuid();
             return hostInfo.equals(localUser);
@@ -268,7 +268,7 @@ public class FirebaseRepository extends AttackRepository {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 Attack attack = new AttackResolver(snapshot).resolveInstance();
-                if (belongsToLocalOwner(attack) && attack.getNetworkType() == networkType) {
+                if (createdByLocalUser(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
             }

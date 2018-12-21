@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
+package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
@@ -12,13 +12,13 @@ class HostInfoFactoryImp implements HostInfoFactory {
     public HostInfo build(int networkType, String uuid) {
         switch (networkType) {
             case INTERNET:
-                return new InternetCreator(uuid);
+                return new InternetHostInfo(uuid);
             case BLUETOOTH:
-                return new BluetoothCreator(uuid);
+                return new BluetoothHostInfo(uuid);
             case WIFI_P2P:
-                return new WifiP2pCreator(uuid);
+                return new WifiP2pHostInfo(uuid);
             case NSD:
-                return new NsdCreator(uuid);
+                return new NsdHostInfo(uuid);
             default:
                 throw new UnsupportedOperationException(TAG + ": Unknown network type");
         }

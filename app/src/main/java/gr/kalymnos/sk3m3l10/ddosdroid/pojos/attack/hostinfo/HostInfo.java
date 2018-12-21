@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.creator;
+package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
