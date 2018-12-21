@@ -46,6 +46,7 @@
         If you wish others to join and strengthen your attacks then current server must be up and running.
         Your device can accept connection requests from other devices.</string>
     <string name="your_attacks_label">Your attacks</string>
+    <string name="shutdown_label">Shutdown</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

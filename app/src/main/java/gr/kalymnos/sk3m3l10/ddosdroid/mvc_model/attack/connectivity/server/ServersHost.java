@@ -96,7 +96,8 @@ public class ServersHost extends Service {
     private class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 191919;
-        static final int PENDING_INTENT_REQUEST_CODE = 1932;
+        static final int CONTENT_INTENT_REQUEST_CODE = 1932;
+        static final int STOP_INTENT_REQUEST_CODE = 1933;
 
         Notification createNotification() {
             return createNotificationBuilder().build();
@@ -109,12 +110,19 @@ public class ServersHost extends Service {
                     .setContentText(getString(R.string.server_notification_small_text))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.server_notification_big_text)))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(createPendingIntent());
+                    .setContentIntent(createContentPendingIntent())
+                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), createStopServicePendingIntent());
         }
 
-        PendingIntent createPendingIntent() {
+        PendingIntent createContentPendingIntent() {
             Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this, TYPE_FETCH_OWNER, R.string.your_attacks_label);
-            return PendingIntent.getActivity(ServersHost.this, PENDING_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            return PendingIntent.getActivity(ServersHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+
+        PendingIntent createStopServicePendingIntent() {
+            Intent intent = new Intent(ServersHost.this, ServersHost.class);
+            intent.setAction(ACTION_STOP_SERVICE);
+            return PendingIntent.getService(ServersHost.this, STOP_INTENT_REQUEST_CODE, intent, 0);
         }
     }
 

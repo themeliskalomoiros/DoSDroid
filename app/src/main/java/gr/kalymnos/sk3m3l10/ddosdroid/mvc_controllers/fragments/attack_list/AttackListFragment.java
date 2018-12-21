@@ -22,11 +22,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListVi
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -152,16 +152,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     /*
-     *
-     * I broke a switch statement that was exists in AllAttackListsViewMvcImpl.MyPagerAdapter
-     * which was checking the text and returning a specific AttackListFragment subclass.
-     *
-     * Now AllAttackListsViewMvcImpl.MyPagerAdapter.getItemId() just creates an instance of
-     * Builder and call build() to return that specific AttackListFragment subclass
-     * instance.
-     *
-     * This technique was used to clean the code. The justification lies in Uncled Bob's book
-     * "Clean Code", chapter 3, page 39.
+     * Baring down a switch statement. Technique used to clean the code. Justification lies in
+     * Uncle Bob's "Clean Code", chapter 3, page 39.
      *
      * */
 
