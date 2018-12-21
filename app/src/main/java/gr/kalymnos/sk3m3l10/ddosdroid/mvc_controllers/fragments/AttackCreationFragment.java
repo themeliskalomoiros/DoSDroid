@@ -60,6 +60,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     public void onDestroy() {
         super.onDestroy();
         attackRepo.removeOnAttacksFetchListener();
+        attackRepo.removeOnAttackUploadedListener();
     }
 
     @Override
