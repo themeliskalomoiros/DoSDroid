@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
@@ -148,7 +149,12 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
-        Toast.makeText(getContext(), "Item at position" + (position) + " switch set to " + isChecked, Toast.LENGTH_SHORT).show();
+        Attack attack = cachedAttacks.get(position);
+        if (isChecked){
+            ServersHost.Action.startServer(getContext(),attack);
+        }else{
+            ServersHost.Action.stopServer(getContext(),attack.getPushId());
+        }
     }
 
     /*
