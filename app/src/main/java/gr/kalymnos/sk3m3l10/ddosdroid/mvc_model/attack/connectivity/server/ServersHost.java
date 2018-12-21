@@ -34,6 +34,14 @@ public class ServersHost extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (Server server : servers){
+            server.stop();
+        }
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         switch (intent.getAction()) {
             case ACTION_START_SERVER:
