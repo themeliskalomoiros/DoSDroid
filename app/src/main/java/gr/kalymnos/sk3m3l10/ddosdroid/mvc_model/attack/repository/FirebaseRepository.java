@@ -94,6 +94,12 @@ public class FirebaseRepository extends AttackRepository {
         });
     }
 
+    @Override
+    public void deleteAttack(String pushId) {
+        DatabaseReference attackRef = attacksRef.child(pushId);
+        attackRef.removeValue();
+    }
+
     private abstract class AbstractValueEventListener implements ValueEventListener {
 
         @Override

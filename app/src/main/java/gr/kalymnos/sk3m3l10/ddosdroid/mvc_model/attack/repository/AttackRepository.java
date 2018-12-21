@@ -45,6 +45,8 @@ public abstract class AttackRepository {
 
     public abstract void updateAttack(Attack attack);
 
+    public abstract void deleteAttack(String pushId);
+
     public final void addOnAttacksFetchListener(OnAttacksFetchListener listener) {
         onAttacksFetchListener = listener;
     }
