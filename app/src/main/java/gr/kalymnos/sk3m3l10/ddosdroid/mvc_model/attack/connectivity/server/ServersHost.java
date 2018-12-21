@@ -14,6 +14,8 @@ import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
@@ -26,17 +28,20 @@ public class ServersHost extends Service {
     private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
     private Set<Server> servers;
+    private AttackRepository repo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         servers = new HashSet<>();
+        repo = new FirebaseRepository();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         stopServers();
+        deleteAttacks();
     }
 
     private void stopServers() {
@@ -44,6 +49,14 @@ public class ServersHost extends Service {
             server.stop();
         }
     }
+
+    private void deleteAttacks() {
+        for (Server server : servers) {
+            String attackId = server.getAttackId();
+            repo.deleteAttack(attackId);
+        }
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
