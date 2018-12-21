@@ -15,7 +15,6 @@ import java.util.Set;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
@@ -24,6 +23,7 @@ public class ServersHost extends Service {
     private static final String TAG = "ServersHost";
     private static final String ACTION_START_SERVER = TAG + "start server action";
     private static final String ACTION_STOP_SERVER = TAG + "stop server action";
+    private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
     private Set<Server> servers;
 
@@ -36,7 +36,11 @@ public class ServersHost extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for (Server server : servers){
+        stopServers();
+    }
+
+    private void stopServers() {
+        for (Server server : servers) {
             server.stop();
         }
     }
@@ -51,6 +55,9 @@ public class ServersHost extends Service {
                 return START_STICKY;
             case ACTION_STOP_SERVER:
                 handleStopServerAction(intent);
+            case ACTION_STOP_SERVICE:
+                stopSelf();
+                return START_NOT_STICKY;
             default:
                 return super.onStartCommand(intent, flags, startId);
         }
@@ -105,9 +112,9 @@ public class ServersHost extends Service {
                     .setContentIntent(createPendingIntent());
         }
 
-        PendingIntent createPendingIntent(){
-            Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this,TYPE_FETCH_OWNER,R.string.your_attacks_label);
-            return PendingIntent.getActivity(ServersHost.this,PENDING_INTENT_REQUEST_CODE,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent createPendingIntent() {
+            Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this, TYPE_FETCH_OWNER, R.string.your_attacks_label);
+            return PendingIntent.getActivity(ServersHost.this, PENDING_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
