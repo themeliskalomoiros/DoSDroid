@@ -57,7 +57,6 @@ public class ServersHost extends Service {
         }
     }
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         switch (intent.getAction()) {
@@ -68,6 +67,7 @@ public class ServersHost extends Service {
                 return START_STICKY;
             case ACTION_STOP_SERVER:
                 handleStopServerAction(intent);
+                return START_STICKY;
             case ACTION_STOP_SERVICE:
                 stopSelf();
                 return START_NOT_STICKY;
@@ -93,6 +93,7 @@ public class ServersHost extends Service {
         String serverId = intent.getStringExtra(Server.EXTRA_ID);
         Server server = extractServerFrom(servers, serverId);
         server.stop();
+        servers.remove(server);
         if (servers.size() == 0) {
             stopSelf();
         }
