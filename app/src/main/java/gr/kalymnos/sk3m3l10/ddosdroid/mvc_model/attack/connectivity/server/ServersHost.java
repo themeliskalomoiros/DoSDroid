@@ -14,10 +14,10 @@ import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository.ServerStatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository.SharedPrefsRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackStatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.SharedPrefsRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
@@ -31,7 +31,7 @@ public class ServersHost extends Service {
 
     private Set<Server> servers;
     private AttackRepository attackRepo;
-    private AttackStatusRepository statusRepo;
+    private ServerStatusRepository statusRepo;
 
     @Override
     public void onCreate() {
@@ -63,9 +63,10 @@ public class ServersHost extends Service {
         boolean serverAdded = servers.add(server);
         if (serverAdded) {
             server.start();
+            statusRepo.setToActive(server.getId());
+            startForeground(ForegroundNotification.NOTIFICATION_ID,
+                    new ForegroundNotification().createNotification());
         }
-        startForeground(ForegroundNotification.NOTIFICATION_ID,
-                new ForegroundNotification().createNotification());
     }
 
     private Server createServerFrom(Intent intent) {
@@ -77,6 +78,7 @@ public class ServersHost extends Service {
         String serverId = intent.getStringExtra(Server.EXTRA_ID);
         Server server = extractServerFrom(servers, serverId);
         server.stop();
+        statusRepo.setToInActive(server.getId());
         servers.remove(server);
         if (servers.size() == 0) {
             stopSelf();
