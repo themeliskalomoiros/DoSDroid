@@ -13,6 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository.ServerStatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository.SharedPrefsRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -74,7 +76,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         if (ValidationUtils.listHasItems(attackList)) {
 
             Attack attack = attackList.get(position);
-            if (Attacks.includes(attack,Bots.getLocalUser()))
+            if (Attacks.includes(attack, Bots.getLocalUser()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
             if (attack.getHostInfo().getUuid().equals(Bots.getLocalUser().getUuid())) {
@@ -162,12 +164,28 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
         OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
+            initializeActivationSwitch(itemView);
+        }
+
+        private void initializeActivationSwitch(@NonNull View itemView) {
             activateSwitch = itemView.findViewById(R.id.activation_switch);
+            setCheckedListener();
+            setCheckedFromServerRepository();
+        }
+
+        private void setCheckedListener() {
             activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
                 if (activateSwitchCheckedStateListener != null) {
                     activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
                 }
             });
+        }
+
+        private void setCheckedFromServerRepository() {
+            String serverId = attackList.get(getAdapterPosition()).getPushId();
+            ServerStatusRepository repo = new SharedPrefsRepository(context);
+            boolean serverActive = repo.isStarted(serverId);
+            activateSwitch.setChecked(serverActive);
         }
     }
 
