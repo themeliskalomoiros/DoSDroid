@@ -15,7 +15,9 @@ import java.util.Set;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackStatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.SharedPrefsRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
@@ -28,13 +30,15 @@ public class ServersHost extends Service {
     private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
     private Set<Server> servers;
-    private AttackRepository repo;
+    private AttackRepository attackRepo;
+    private AttackStatusRepository statusRepo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         servers = new HashSet<>();
-        repo = new FirebaseRepository();
+        attackRepo = new FirebaseRepository();
+        statusRepo = new SharedPrefsRepository(this);
     }
 
     @Override
