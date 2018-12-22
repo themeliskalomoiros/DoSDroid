@@ -19,11 +19,13 @@ public class SharedPrefsRepository implements ServerStatusRepository {
     public void setToActive(String attackId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(attackId, true);
+        editor.apply();
     }
 
     @Override
     public void setToInActive(String attackId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(attackId, false);
+        editor.apply();
     }
 }
