@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -76,12 +77,20 @@ public class ServersHost extends Service {
 
     private void handleStopServerAction(Intent intent) {
         String serverId = intent.getStringExtra(Server.EXTRA_ID);
-        Server server = extractServerFrom(servers, serverId);
-        server.stop();
-        statusRepo.setToStopped(server.getId());
-        servers.remove(server);
+        executeStopProcedure(serverId);
         if (servers.size() == 0) {
             stopSelf();
+        }
+    }
+
+    private void executeStopProcedure(String serverId) {
+        try {
+            Server server = extractServerFrom(servers, serverId);
+            server.stop();
+            statusRepo.setToStopped(server.getId());
+            servers.remove(server);
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -90,7 +99,7 @@ public class ServersHost extends Service {
             if (serverId.equals(server.getId()))
                 return server;
         }
-        throw new UnsupportedOperationException(TAG + ": No server with " + serverId + " id exists in " + servers);
+        throw new IllegalArgumentException(TAG + ": No server with " + serverId + " id exists in " + servers);
     }
 
     @Override
