@@ -16,9 +16,14 @@ public class SharedPrefsRepository implements AttackStatusRepository {
     }
 
     @Override
-    public void setStatusOf(String attackId, boolean isActive) {
+    public void setToActive(String attackId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(attackId, isActive);
-        editor.apply();
+        editor.putBoolean(attackId, true);
+    }
+
+    @Override
+    public void setToInActive(String attackId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(attackId, false);
     }
 }

@@ -5,5 +5,7 @@ public interface AttackStatusRepository {
 
     boolean isActive(String attackid);
 
-    void setStatusOf(String attackId, boolean isActive);
+    void setToActive(String attackId);
+
+    void setToInActive(String attackId);
 }
