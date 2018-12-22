@@ -20,6 +20,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackReposito
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
@@ -64,8 +65,7 @@ public class ServersHost extends Service {
         if (serverAdded) {
             server.start();
             statusRepo.setToStarted(server.getId());
-            startForeground(ForegroundNotification.NOTIFICATION_ID,
-                    new ForegroundNotification().createNotification());
+            startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
         }
     }
 
@@ -104,7 +104,7 @@ public class ServersHost extends Service {
             server.stop();
     }
 
-    private class ForegroundNotification {
+    class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 191919;
         static final int CONTENT_INTENT_REQUEST_CODE = 1932;

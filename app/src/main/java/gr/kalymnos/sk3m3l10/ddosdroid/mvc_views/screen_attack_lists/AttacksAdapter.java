@@ -58,6 +58,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
         if (listHasItems(attackList)) {
             attackHolder.bind(attackList.get(position));
+            attackHolder.itemView.setTag(String.valueOf(position));
         }
     }
 
@@ -165,10 +166,22 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             initializeActivationSwitch(itemView);
         }
 
+        @Override
+        void bind(Attack attack) {
+            super.bind(attack);
+            setCheckedState();
+        }
+
+        private void setCheckedState() {
+            String serverId = attackList.get(getLayoutPosition()).getPushId();
+            ServerStatusRepository repo = new SharedPrefsRepository(context);
+            boolean serverActive = repo.isStarted(serverId);
+            activateSwitch.setChecked(serverActive);
+        }
+
         private void initializeActivationSwitch(@NonNull View itemView) {
             activateSwitch = itemView.findViewById(R.id.activation_switch);
             setCheckedListener();
-            startThreadToUpdateCheckedValue();
         }
 
         private void setCheckedListener() {
@@ -177,53 +190,6 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                     activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
                 }
             });
-        }
-
-        /* Unfortunately I had to conclude to this "hacky" solution because the
-         * when you call this.getAdapterPosition() it returns RecyclerView.NO_POSITION.
-         * As a result I cannot obtain an attack from attackList and thus search the
-         * ServerStatusRepository to check if a server of a particular attack is started
-         * or stopped.
-         *
-         * This inconsistency is also stated in the docs: "This inconsistency is not
-         * importa since it will be less than 16ms but it might be a problem if you want
-         * to use ViewHolder position to access the adapter."*/
-        private void startThreadToUpdateCheckedValue() {
-            AsyncTask<Void, Void, Integer> task = new AsyncTask<Void, Void, Integer>() {
-                private static final int SLEEP_LIMIT = 10;
-                private static final long SLEEP_TIME = 10;
-
-                @Override
-                protected Integer doInBackground(Void... voids) {
-                    for (int i = 0; i < SLEEP_LIMIT; i++) {
-                        sleep();
-                        if (getAdapterPosition() != RecyclerView.NO_POSITION)
-                            break;
-                    }
-                    return getAdapterPosition();
-                }
-
-                private void sleep() {
-                    try {
-                        Thread.sleep(SLEEP_TIME);
-                    } catch (InterruptedException e) {
-                        Log.d(TAG, "Error while Thread.sleep()", e);
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(Integer adapterPosition) {
-                    if (adapterPosition != RecyclerView.NO_POSITION) {
-                        String serverId = attackList.get(getAdapterPosition()).getPushId();
-                        ServerStatusRepository repo = new SharedPrefsRepository(context);
-                        boolean serverActive = repo.isStarted(serverId);
-                        activateSwitch.setChecked(serverActive);
-                    } else {
-                        activateSwitch.setVisibility(View.INVISIBLE);
-                    }
-                }
-            };
-            task.execute();
         }
     }
 
