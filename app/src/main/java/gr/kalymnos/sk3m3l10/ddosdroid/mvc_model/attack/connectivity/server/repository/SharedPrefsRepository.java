@@ -1,9 +1,9 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SharedPrefsRepository implements AttackStatusRepository {
+public class SharedPrefsRepository implements ServerStatusRepository {
     private SharedPreferences sharedPreferences;
 
     public SharedPrefsRepository(Context context) {
