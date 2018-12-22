@@ -52,10 +52,6 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         return new AttackHolderBuilderImpl().build(viewType, parent);
     }
 
-    private View createViewFrom(int layoutRes, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(layoutRes, parent, false);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
         if (listHasItems(attackList)) {
@@ -207,6 +203,10 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                 default:
                     throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
             }
+        }
+
+        private View createViewFrom(int layoutRes, ViewGroup parent) {
+            return LayoutInflater.from(context).inflate(layoutRes, parent, false);
         }
     }
 }
