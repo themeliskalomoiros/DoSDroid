@@ -38,32 +38,10 @@ public class ServersHost extends Service {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopServers();
-        deleteAttacks();
-    }
-
-    private void stopServers() {
-        for (Server server : servers) {
-            server.stop();
-        }
-    }
-
-    private void deleteAttacks() {
-        for (Server server : servers) {
-            String attackId = server.getAttackId();
-            repo.deleteAttack(attackId);
-        }
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         switch (intent.getAction()) {
             case ACTION_START_SERVER:
                 handleStartServerAction(intent);
-                startForeground(ForegroundNotification.NOTIFICATION_ID,
-                        new ForegroundNotification().createNotification());
                 return START_STICKY;
             case ACTION_STOP_SERVER:
                 handleStopServerAction(intent);
@@ -82,6 +60,8 @@ public class ServersHost extends Service {
         if (serverAdded) {
             server.start();
         }
+        startForeground(ForegroundNotification.NOTIFICATION_ID,
+                new ForegroundNotification().createNotification());
     }
 
     private Server createServerFrom(Intent intent) {
@@ -105,6 +85,17 @@ public class ServersHost extends Service {
                 return server;
         }
         throw new UnsupportedOperationException(TAG + ": No server with " + serverId + " id exists in " + servers);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopServers();
+    }
+
+    private void stopServers() {
+        for (Server server : servers)
+            server.stop();
     }
 
     private class ForegroundNotification {
