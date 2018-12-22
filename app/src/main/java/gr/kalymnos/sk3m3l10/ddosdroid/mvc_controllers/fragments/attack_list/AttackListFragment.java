@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
         AttackRepository.OnAttacksFetchListener {
-
-    private static final String TAG = AttackListFragment.class.getSimpleName();
+    private static final String TAG = "AttackListFragment";
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
@@ -152,8 +152,10 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         Attack attack = cachedAttacks.get(position);
         if (isChecked){
             ServersHost.Action.startServer(getContext(),attack);
+            Log.d(TAG,"Started a server");
         }else{
             ServersHost.Action.stopServer(getContext(),attack.getPushId());
+            Log.d(TAG,"Stopped a server");
         }
     }
 
