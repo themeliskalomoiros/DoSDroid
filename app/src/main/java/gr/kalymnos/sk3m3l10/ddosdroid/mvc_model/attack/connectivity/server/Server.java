@@ -8,7 +8,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
 public abstract class Server {
-    private static final String TAG = "Server";
+    protected static final String TAG = "Server";
     public static final String EXTRA_ID = TAG + "extra id";
     private Attack attack;
 
