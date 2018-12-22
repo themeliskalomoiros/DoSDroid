@@ -63,7 +63,7 @@ public class ServersHost extends Service {
         boolean serverAdded = servers.add(server);
         if (serverAdded) {
             server.start();
-            statusRepo.setToActive(server.getId());
+            statusRepo.setToStarted(server.getId());
             startForeground(ForegroundNotification.NOTIFICATION_ID,
                     new ForegroundNotification().createNotification());
         }
@@ -78,7 +78,7 @@ public class ServersHost extends Service {
         String serverId = intent.getStringExtra(Server.EXTRA_ID);
         Server server = extractServerFrom(servers, serverId);
         server.stop();
-        statusRepo.setToInActive(server.getId());
+        statusRepo.setToStopped(server.getId());
         servers.remove(server);
         if (servers.size() == 0) {
             stopSelf();
