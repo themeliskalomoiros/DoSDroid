@@ -11,7 +11,7 @@ public class SharedPrefsRepository implements ServerStatusRepository {
     }
 
     @Override
-    public boolean started(String serverId) {
+    public boolean isStarted(String serverId) {
         return sharedPreferences.getBoolean(serverId, false);
     }
 
