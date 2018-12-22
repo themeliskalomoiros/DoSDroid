@@ -106,6 +106,13 @@ public class ServersHost extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopServers();
+        setServersToStoppedStatus();
+
+    }
+
+    private void setServersToStoppedStatus() {
+        for (Server server : servers)
+            statusRepo.setToStopped(server.getId());
     }
 
     private void stopServers() {
@@ -142,7 +149,7 @@ public class ServersHost extends Service {
         PendingIntent createStopServicePendingIntent() {
             Intent intent = new Intent(ServersHost.this, ServersHost.class);
             intent.setAction(ACTION_STOP_SERVICE);
-            return PendingIntent.getService(ServersHost.this, STOP_INTENT_REQUEST_CODE, intent, 0);
+            return PendingIntent.getService(ServersHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
