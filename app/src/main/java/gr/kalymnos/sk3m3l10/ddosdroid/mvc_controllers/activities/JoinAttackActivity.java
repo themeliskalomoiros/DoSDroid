@@ -54,7 +54,11 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
 
     @Override
     public void onAttackNetworkConnected() {
-
+        if (!client.isConnected()) {
+            client.connect();
+        } else {
+            startJoinProcedure();
+        }
     }
 
     @Override
