@@ -57,6 +57,8 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
 
     @Override
     public void onAttackNetworkConnected() {
+        Snackbar.make(viewMvc.getRootView(), R.string.server_connection_msg, Snackbar.LENGTH_SHORT)
+                .show();
         startJoinProcedure();
     }
 
