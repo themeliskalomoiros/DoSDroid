@@ -16,13 +16,14 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseReposi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
-public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
+public class JoinAttackInfoFragment extends Fragment
+        implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
         Client.OnConnectionListener, OnOwnerAttackResponseReceiveListener {
 
     private JoinAttackInfoViewMvc viewMvc;
@@ -33,6 +34,10 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeFieldsExceptViewMvc();
+    }
+
+    private void initializeFieldsExceptViewMvc() {
         attack = getArguments().getParcelable(Constants.Extra.EXTRA_ATTACK);
         attackRepository = new FirebaseRepository();
         client = new Client.ClientFactoryImp()
@@ -47,6 +52,18 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         return viewMvc.getRootView();
     }
 
+    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        viewMvc = new JoinAttackInfoViewMvcImp(inflater, container);
+        viewMvc.setOnJoinAttackClickListener(this);
+    }
+
+    private void bindAttackToUi() {
+        viewMvc.bindAttackForce(attack.getBotIds().size());
+        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
+        viewMvc.bindWebsite(attack.getWebsite());
+        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
+    }
+
     @Override
     public void onJoinAttackButtonClicked() {
         if (!client.isConnected()) {
@@ -57,14 +74,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void startJoinProcedure() {
-        Attacks.addBot(attack,Bots.getLocalUser());
+        Attacks.addBot(attack, Bots.getLocalUser());
         attackRepository.updateAttack(attack);
-    }
-
-    public static JoinAttackInfoFragment getInstance(Bundle args) {
-        JoinAttackInfoFragment instance = new JoinAttackInfoFragment();
-        instance.setArguments(args);
-        return instance;
     }
 
     @Override
@@ -82,15 +93,9 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     }
 
-    private void bindAttackToUi() {
-        viewMvc.bindAttackForce(attack.getBotIds().size());
-        viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
-        viewMvc.bindWebsite(attack.getWebsite());
-        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
-    }
-
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        viewMvc = new JoinAttackInfoViewMvcImp(inflater, container);
-        viewMvc.setOnJoinAttackClickListener(this);
+    public static JoinAttackInfoFragment getInstance(Bundle args) {
+        JoinAttackInfoFragment instance = new JoinAttackInfoFragment();
+        instance.setArguments(args);
+        return instance;
     }
 }
