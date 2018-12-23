@@ -9,10 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.OnOwnerAttackResponseReceiveListener;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -22,26 +18,15 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
-public class JoinAttackInfoFragment extends Fragment
-        implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener,
-        Client.OnConnectionListener, OnOwnerAttackResponseReceiveListener {
+public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener {
 
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
-    private Client client;
-    private AttackRepository attackRepository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeFieldsExceptViewMvc();
-    }
-
-    private void initializeFieldsExceptViewMvc() {
         attack = getArguments().getParcelable(Constants.Extra.EXTRA_ATTACK);
-        attackRepository = new FirebaseRepository();
-        client = new Client.ClientFactoryImp()
-                .createClient(getContext(), this, attack.getNetworkType());
     }
 
     @Nullable
@@ -65,37 +50,7 @@ public class JoinAttackInfoFragment extends Fragment
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        client.unregisterConnectionListener();
-    }
-
-    @Override
     public void onJoinAttackButtonClicked() {
-        if (!client.isConnected()) {
-            client.connect();
-        } else {
-            startJoinProcedure();
-        }
-    }
-
-    private void startJoinProcedure() {
-        Attacks.addBot(attack, Bots.getLocalUser());
-        attackRepository.updateAttack(attack);
-    }
-
-    @Override
-    public void onAttackNetworkConnected() {
-        startJoinProcedure();
-    }
-
-    @Override
-    public void onAttackNetworkDisconnected(CharSequence reason) {
-        Toast.makeText(getContext(), "Client disconnected", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onOwnerAttackResponseReceived(boolean attackEnabled) {
 
     }
 
