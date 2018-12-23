@@ -16,7 +16,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
-public class JoinAttackActivity extends AppCompatActivity implements Client.OnConnectionListener {
+public class JoinAttackActivity extends AppCompatActivity implements Client.OnConnectionListener,
+        JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
     private JoinAttackViewMvc viewMvc;
     private AttackRepository repo;
     private Client client;
@@ -54,16 +55,21 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
 
     @Override
     public void onAttackNetworkConnected() {
-        if (!client.isConnected()) {
-            client.connect();
-        } else {
-            startJoinProcedure();
-        }
+
     }
 
     @Override
     public void onAttackNetworkDisconnected(CharSequence reason) {
 
+    }
+
+    @Override
+    public void onJoinAttackButtonClicked() {
+        if (!client.isConnected()) {
+            client.connect();
+        } else {
+            startJoinProcedure();
+        }
     }
 
     private void startJoinProcedure() {
