@@ -47,6 +47,7 @@
         Your device can accept connection requests from other devices.</string>
     <string name="your_attacks_label">Your attacks</string>
     <string name="shutdown_label">Shutdown</string>
+    <string name="server_disconnection_msg">You were disconnected with the server.</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
