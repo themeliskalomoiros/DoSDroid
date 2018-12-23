@@ -65,6 +65,12 @@ public class JoinAttackInfoFragment extends Fragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        client.unregisterConnectionListener();
+    }
+
+    @Override
     public void onJoinAttackButtonClicked() {
         if (!client.isConnected()) {
             client.connect();
