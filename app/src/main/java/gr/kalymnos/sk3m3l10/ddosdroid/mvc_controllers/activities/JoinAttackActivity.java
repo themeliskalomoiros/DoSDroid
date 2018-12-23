@@ -6,20 +6,32 @@ import android.view.LayoutInflater;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.JoinAttackInfoFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvcImp;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
 public class JoinAttackActivity extends AppCompatActivity implements Client.OnConnectionListener {
-
     private JoinAttackViewMvc viewMvc;
+    private AttackRepository repo;
     private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeFieldsExceptViewMvc();
         setupUi();
-        client = new Client.ClientFactoryImp().createClient(this, this, 0);
         showJoinAttackInfoFragment();
+    }
+
+    private void initializeFieldsExceptViewMvc() {
+        client = new Client.ClientFactoryImp().createClient(this, this, 0);
+        repo = new FirebaseRepository();
     }
 
     private void setupUi() {
@@ -42,5 +54,14 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
     @Override
     public void onAttackNetworkDisconnected(CharSequence reason) {
 
+    }
+
+    private void startJoinProcedure() {
+        Attacks.addBot(getAttack(), Bots.getLocalUser());
+        repo.updateAttack(getAttack());
+    }
+
+    private Attack getAttack() {
+        return getIntent().getParcelableExtra(EXTRA_ATTACK);
     }
 }
