@@ -47,6 +47,12 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        client.unregisterConnectionListener();
+    }
+
+    @Override
     public void onAttackNetworkConnected() {
 
     }
