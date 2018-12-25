@@ -1,7 +1,8 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet;
 
 import android.util.Log;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class InternetServer extends Server {
