@@ -20,7 +20,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 public class AttackService extends Service {
     private static final String TAG = "AttackService";
 
-    public static final int ATTACK_LIMIT = 10;
+    public static final int THREAD_POOL_SIZE = 10;
     private static final String ACTION_START_ATTACK = TAG + "start attack action";
     private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
 
@@ -30,7 +30,7 @@ public class AttackService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        executor = Executors.newFixedThreadPool(ATTACK_LIMIT);
+        executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         tasks = new HashMap<>();
     }
 
