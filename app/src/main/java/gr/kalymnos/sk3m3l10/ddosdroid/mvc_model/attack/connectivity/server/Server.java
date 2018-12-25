@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -16,11 +17,11 @@ public abstract class Server {
     protected static final int THREAD_POOL_SIZE = 10;
 
     private Attack attack;
-    private ExecutorService executorService;
+    private ExecutorService executor;
 
     public Server(Attack attack) {
         this.attack = attack;
-        this.executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
     public final String getId() {
@@ -29,10 +30,20 @@ public abstract class Server {
 
     public abstract void start();
 
-    public abstract void stop();
+    public void stop() {
+        shutdownThreadPool();
+    }
 
-    public interface Builder {
-        Server build(Attack attack);
+    private void shutdownThreadPool() {
+        // https://www.baeldung.com/java-executor-service-tutorial
+        executor.shutdown();
+        try {
+            if (executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+        }
     }
 
     @Override
@@ -53,6 +64,10 @@ public abstract class Server {
         int result = 17;
         result = 31 * result + getId().hashCode();
         return result;
+    }
+
+    public interface Builder {
+        Server build(Attack attack);
     }
 
     public static class BuilderImp implements Server.Builder {

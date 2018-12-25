@@ -17,7 +17,7 @@ public class InternetServer extends Server {
 
     @Override
     public void stop() {
-        // TODO: needs implementation
+        super.stop();
         Log.d(TAG, "Server stoped");
     }
 }
