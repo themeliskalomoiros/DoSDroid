@@ -1,5 +1,8 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -10,10 +13,14 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 public abstract class Server {
     protected static final String TAG = "Server";
     public static final String EXTRA_ID = TAG + "extra id";
+    protected static final int THREAD_POOL_SIZE = 10;
+
     private Attack attack;
+    private ExecutorService executorService;
 
     public Server(Attack attack) {
         this.attack = attack;
+        this.executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
     public final String getId() {
