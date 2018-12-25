@@ -15,8 +15,8 @@ import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository.ServerStatusRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.repository.SharedPrefsRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.ServerStatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.SharedPrefsRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
