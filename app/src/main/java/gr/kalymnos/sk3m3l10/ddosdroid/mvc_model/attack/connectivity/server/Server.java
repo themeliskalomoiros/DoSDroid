@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
+import android.content.Context;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,11 +19,13 @@ public abstract class Server {
     public static final String EXTRA_ID = TAG + "extra id";
     protected static final int THREAD_POOL_SIZE = 10;
 
-    private Attack attack;
-    private ExecutorService executor;
+    protected final Attack attack;
+    protected final ExecutorService executor;
+    protected final Context context;
 
-    public Server(Attack attack) {
+    public Server(Context context, Attack attack) {
         this.attack = attack;
+        this.context = context;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
@@ -68,22 +72,22 @@ public abstract class Server {
     }
 
     public interface Builder {
-        Server build(Attack attack);
+        Server build(Context context, Attack attack);
     }
 
     public static class BuilderImp implements Server.Builder {
 
         @Override
-        public Server build(Attack attack) {
+        public Server build(Context context, Attack attack) {
             switch (attack.getNetworkType()) {
                 case INTERNET:
-                    return new InternetServer(attack);
+                    return new InternetServer(context, attack);
                 case BLUETOOTH:
-                    return new BluetoothServer(attack);
+                    return new BluetoothServer(context, attack);
                 case WIFI_P2P:
-                    return new WifiP2pServer(attack);
+                    return new WifiP2pServer(context, attack);
                 case NSD:
-                    return new NsdServer(attack);
+                    return new NsdServer(context, attack);
                 default:
                     throw new IllegalArgumentException(TAG + ": Unknown attack network type");
             }

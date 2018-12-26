@@ -72,7 +72,7 @@ public class ServersHost extends Service {
 
     private Server createServerFrom(Intent intent) {
         Attack attack = intent.getParcelableExtra(EXTRA_ATTACK);
-        return new Server.BuilderImp().build(attack);
+        return new Server.BuilderImp().build(this, attack);
     }
 
     private void handleStopServerAction(Intent intent) {
