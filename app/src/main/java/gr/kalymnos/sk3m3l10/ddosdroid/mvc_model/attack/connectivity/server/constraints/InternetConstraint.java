@@ -5,16 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+
+import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
 class InternetConstraint extends NetworkConstraint {
     private BroadcastReceiver wifiScanReceiver = null;
+    private WifiManager wifiManager = null;
 
     @Override
     public void resolve(Context context) {
         if (!isResolved(context)) {
+            wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             initializeWifiScanReceiver();
             registeWifiScanReceiver(context);
         }
@@ -26,10 +31,18 @@ class InternetConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
                 if (success) {
-                    // TODO: Handle scan success
+                    handleScanSucces();
                 } else {
-                    // TODO: Handle scan failure
+                    handleScanFailure();
                 }
+            }
+
+            private void handleScanSucces() {
+                List<ScanResult> results = wifiManager.getScanResults();
+
+            }
+
+            private void handleScanFailure() {
             }
         };
     }
@@ -47,7 +60,8 @@ class InternetConstraint extends NetworkConstraint {
 
     @Override
     public void clearResources(Context context) {
-
+        if (wifiScanReceiver != null)
+            context.unregisterReceiver(wifiScanReceiver);
     }
 
     private boolean isConnected(Context context) {
