@@ -25,9 +25,4 @@ public class InternetServer extends Server {
         super.stop();
         Log.d(TAG, "Server stoped");
     }
-
-    private boolean isConnected() {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return InternetConnectivity.isConnectionEstablishedOverWifi(cm.getActiveNetworkInfo());
-    }
 }
