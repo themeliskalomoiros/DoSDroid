@@ -24,6 +24,10 @@ public class NetworkConstraintsResolver {
             constraints.poll().resolve(context);
     }
 
+    protected void addConstraint(NetworkConstraint constraint) {
+        constraints.add(constraint);
+    }
+
     public interface Builder {
         NetworkConstraintsResolver build(int networkType);
     }
@@ -48,7 +52,9 @@ public class NetworkConstraintsResolver {
     }
 
     private static class InternetConstraintResolver extends NetworkConstraintsResolver {
-        // TODO: set the NetworkConstraint's in the queue
+        public InternetConstraintResolver() {
+            addConstraint(new InternetConstraint());
+        }
     }
 
     private static class BluetoothConstraintResolver extends NetworkConstraintsResolver {
