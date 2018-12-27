@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +16,19 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_wifi_scan_list.WifiScanVi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_wifi_scan_list.WifiScanViewMvcImp;
 
 public class WifiScanResultsActivity extends AppCompatActivity implements WifiScanViewMvc.OnWifiScanItemClickListener {
-    public static final String EXTRA_WIFI_SCAN_RESULTS = "extra wifi scan results";
+    private static final String EXTRA_WIFI_SCAN_RESULTS = "extra wifi scan results";
     public static final String ACTION_SCAN_RESULT_CHOSEN = "action scan result chosen from user";
     public static final String ACTION_SCAN_RESULT_CANCELLED = "action scan result cancelled from user";
     public static final String ACTION_SCAN_RESULT_CONNECTION_ERROR = "action scan result connection error";
 
     private WifiScanViewMvc viewMvc;
     private List<ScanResult> scanResults;
+
+    public static void startInstance(Context context, List<String> scanResults) {
+        Intent intent = new Intent(context, WifiScanResultsActivity.class);
+        intent.putStringArrayListExtra(EXTRA_WIFI_SCAN_RESULTS, (ArrayList<String>) scanResults);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
