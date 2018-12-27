@@ -8,7 +8,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 class InternetConstraint extends NetworkConstraint {
 
     @Override
-    public boolean resolve(Context context) {
+    public void resolve(Context context) {
+
+    }
+
+    @Override
+    public boolean isResolved(Context context) {
         return isConnected(context);
     }
 
