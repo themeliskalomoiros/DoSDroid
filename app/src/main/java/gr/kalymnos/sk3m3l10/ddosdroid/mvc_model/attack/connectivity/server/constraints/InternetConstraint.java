@@ -7,10 +7,12 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import java.util.List;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
 import static android.net.wifi.WifiManager.SCAN_RESULTS_AVAILABLE_ACTION;
@@ -77,6 +79,21 @@ class InternetConstraint extends NetworkConstraint {
                 }
             }
         };
+    }
+
+    private void registerWifiConnectionReceiver(Context context) {
+        IntentFilter filter = createWifiConnectionReceiverIntentFilter();
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
+        manager.registerReceiver(wifiConnectionReceiver, filter);
+    }
+
+    @NonNull
+    private IntentFilter createWifiConnectionReceiverIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CHOSEN);
+        filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CANCELLED);
+        filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CONNECTION_ERROR);
+        return filter;
     }
 
     @Override
