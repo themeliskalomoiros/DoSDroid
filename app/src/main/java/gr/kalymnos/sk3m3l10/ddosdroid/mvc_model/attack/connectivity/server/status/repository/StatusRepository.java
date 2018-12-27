@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository;
 
 public interface StatusRepository {
     String TAG = "StatusRepository";

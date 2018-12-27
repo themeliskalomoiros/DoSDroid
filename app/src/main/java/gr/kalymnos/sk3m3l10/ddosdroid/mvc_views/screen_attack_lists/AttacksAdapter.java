@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.StatusRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.SharedPrefsStatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.StatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.SharedPrefsStatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
