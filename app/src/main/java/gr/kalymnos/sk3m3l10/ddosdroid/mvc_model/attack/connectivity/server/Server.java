@@ -22,11 +22,9 @@ public abstract class Server {
 
     private final Attack attack;
     private final ExecutorService executor;
-    private final Context context;
 
-    public Server(Context context, Attack attack) {
+    public Server(Attack attack) {
         this.attack = attack;
-        this.context = context;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     }
 
@@ -87,13 +85,13 @@ public abstract class Server {
         public Server build(Context context, Attack attack) {
             switch (attack.getNetworkType()) {
                 case INTERNET:
-                    return new InternetServer(context, attack);
+                    return new InternetServer(attack, context);
                 case BLUETOOTH:
-                    return new BluetoothServer(context, attack);
+                    return new BluetoothServer(attack, context);
                 case WIFI_P2P:
-                    return new WifiP2pServer(context, attack);
+                    return new WifiP2pServer(attack, context);
                 case NSD:
-                    return new NsdServer(context, attack);
+                    return new NsdServer(attack, context);
                 default:
                     throw new IllegalArgumentException(TAG + ": Unknown attack network type");
             }

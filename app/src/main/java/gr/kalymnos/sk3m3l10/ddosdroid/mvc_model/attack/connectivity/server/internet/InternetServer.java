@@ -9,9 +9,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
 public class InternetServer extends Server {
+    private Context context;
 
-    public InternetServer(Context context, Attack attack) {
-        super(context, attack);
+    public InternetServer(Attack attack, Context context) {
+        super(attack);
+        this.context = context;
     }
 
     @Override
