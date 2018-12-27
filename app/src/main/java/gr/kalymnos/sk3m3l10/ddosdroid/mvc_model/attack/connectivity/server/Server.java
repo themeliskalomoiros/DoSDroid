@@ -34,11 +34,6 @@ public abstract class Server {
         return attack.getPushId();
     }
 
-    protected NetworkConstraintsResolver getNetworkConstraintsResolver() {
-        NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
-        return builder.build(attack.getNetworkType());
-    }
-
     public abstract void start();
 
     public void stop() {
