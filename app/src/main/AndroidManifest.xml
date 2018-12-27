@@ -31,7 +31,9 @@
         <service
             android:name=".mvc_model.attack.connectivity.server.ServersHost"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".mvc_controllers.activities.WifiScanResultsActivity"></activity>
     </application>
 
 </manifest>
