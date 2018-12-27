@@ -6,12 +6,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 
 public class ServerStatusBroadcaster {
-    public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
-    public static final String EXTRA_SERVER_STATUS = "extra server status";
 
     public static void broadcastStatus(int status, String serverId, LocalBroadcastManager manager) {
-        Intent intent = new Intent(ACTION_SERVER_STATUS);
-        intent.putExtra(EXTRA_SERVER_STATUS, status);
+        Intent intent = new Intent(Server.ACTION_SERVER_STATUS);
+        intent.putExtra(Server.EXTRA_SERVER_STATUS, status);
         intent.putExtra(Server.EXTRA_ID, serverId);
         manager.sendBroadcast(intent);
     }

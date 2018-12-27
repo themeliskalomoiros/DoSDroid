@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster.ACTION_SERVER_STATUS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server.ACTION_SERVER_STATUS;
 
 public abstract class ServerStatusReceiver extends BroadcastReceiver {
     private static final String TAG = "ServerStatusReceiver";
