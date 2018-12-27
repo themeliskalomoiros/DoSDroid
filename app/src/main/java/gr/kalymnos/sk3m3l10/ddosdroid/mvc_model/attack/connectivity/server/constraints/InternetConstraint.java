@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.cons
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 
@@ -14,7 +15,8 @@ class InternetConstraint extends NetworkConstraint {
     @Override
     public void resolve(Context context) {
         if (!isResolved(context)) {
-
+            initializeWifiScanReceiver();
+            registeWifiScanReceiver(context);
         }
     }
 
@@ -30,6 +32,12 @@ class InternetConstraint extends NetworkConstraint {
                 }
             }
         };
+    }
+
+    private void registeWifiScanReceiver(Context context) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        context.registerReceiver(wifiScanReceiver, filter);
     }
 
     @Override
