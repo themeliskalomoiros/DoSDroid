@@ -52,6 +52,7 @@ public class ServersHost extends Service {
                         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         break;
                     case Server.Status.STOPPED:
+                        executeStopProcedure(getServerIdFrom(intent));
                         break;
                     case Server.Status.ERROR:
                         break;
@@ -93,9 +94,6 @@ public class ServersHost extends Service {
     private void handleStopServerAction(Intent intent) {
         String serverId = intent.getStringExtra(Server.EXTRA_ID);
         executeStopProcedure(serverId);
-        if (servers.size() == 0) {
-            stopSelf();
-        }
     }
 
     private void executeStopProcedure(String serverId) {
@@ -104,6 +102,9 @@ public class ServersHost extends Service {
             server.stop();
             statusRepo.setToStopped(server.getId());
             servers.remove(server);
+            if (servers.size() == 0) {
+                stopSelf();
+            }
         } catch (IllegalArgumentException e) {
             Log.e(TAG, e.getMessage());
         }
