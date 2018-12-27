@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -17,11 +18,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 public abstract class Server {
     protected static final String TAG = "Server";
     public static final String EXTRA_ID = TAG + "extra id";
-    protected static final int THREAD_POOL_SIZE = 10;
+    private static final int THREAD_POOL_SIZE = 10;
 
-    protected final Attack attack;
-    protected final ExecutorService executor;
-    protected final Context context;
+    private final Attack attack;
+    private final ExecutorService executor;
+    private final Context context;
 
     public Server(Context context, Attack attack) {
         this.attack = attack;
@@ -49,6 +50,11 @@ public abstract class Server {
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    protected NetworkConstraintsResolver getNetworkConstraintsResolver() {
+        NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
+        return builder.build(attack.getNetworkType());
     }
 
     @Override
