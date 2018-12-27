@@ -48,6 +48,8 @@ public class ServersHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
+                        statusRepo.setToStarted(getServerIdFrom(intent));
+                        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         break;
                     case Server.Status.STOPPED:
                         break;
@@ -80,8 +82,6 @@ public class ServersHost extends Service {
         boolean serverAdded = servers.add(server);
         if (serverAdded) {
             server.start();
-            statusRepo.setToStarted(server.getId());
-            startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
         }
     }
 
@@ -122,7 +122,7 @@ public class ServersHost extends Service {
         super.onDestroy();
         stopServers();
         setServersToStoppedStatus();
-
+        // TODO: unregister receiver
     }
 
     private void setServersToStoppedStatus() {
