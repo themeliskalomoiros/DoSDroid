@@ -13,8 +13,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.ServerStatusRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.SharedPrefsRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.StatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status_repository.SharedPrefsStatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -172,7 +172,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
         private void setCheckedState() {
             String serverId = attackList.get(getLayoutPosition()).getPushId();
-            ServerStatusRepository repo = new SharedPrefsRepository(context);
+            StatusRepository repo = new SharedPrefsStatusRepository(context);
             boolean serverActive = repo.isStarted(serverId);
             activateSwitch.setChecked(serverActive);
         }

@@ -3,10 +3,10 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.stat
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SharedPrefsRepository implements ServerStatusRepository {
+public class SharedPrefsStatusRepository implements StatusRepository {
     private SharedPreferences sharedPreferences;
 
-    public SharedPrefsRepository(Context context) {
+    public SharedPrefsStatusRepository(Context context) {
         sharedPreferences = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
     }
 
