@@ -29,6 +29,11 @@ class InternetConstraint extends NetworkConstraint {
     @Override
     public void resolve(Context context) {
         if (!isResolved(context)) {
+            /**
+             * The scenario of the user getting here without internet is unlikely.
+             * When an attack is created (requires internet) if the internet after
+             * is lost while the server is being started then we are getting here.
+             * */
             wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             initializeWifiScanReceiver();
             registeWifiScanReceiver(context);
@@ -60,10 +65,13 @@ class InternetConstraint extends NetworkConstraint {
                     public void onReceive(Context context, Intent intent) {
                         switch (intent.getAction()) {
                             case ACTION_SCAN_RESULT_CHOSEN:
+                                // TODO: implementation needed
                                 break;
                             case ACTION_SCAN_RESULT_CANCELLED:
+                                // TODO: implementation needed
                                 break;
                             case ACTION_SCAN_RESULT_CONNECTION_ERROR:
+                                // TODO: implementation needed
                                 break;
                             default:
                                 throw new IllegalArgumentException(TAG + ": unknown action " + intent.getAction());

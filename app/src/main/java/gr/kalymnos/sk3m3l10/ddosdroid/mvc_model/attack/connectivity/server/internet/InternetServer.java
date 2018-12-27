@@ -18,7 +18,6 @@ public class InternetServer extends Server {
 
     @Override
     public void start() {
-        // TODO: needs implementation
-        Log.d(TAG, "Server started");
+        constraintsResolver.resolveConstraints(context);
     }
 }

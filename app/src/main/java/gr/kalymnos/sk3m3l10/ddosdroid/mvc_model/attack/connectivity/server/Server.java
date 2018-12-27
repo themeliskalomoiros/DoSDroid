@@ -24,7 +24,7 @@ public abstract class Server {
 
     private final Attack attack;
     private final ExecutorService executor;
-    private NetworkConstraintsResolver constraintsResolver;
+    protected NetworkConstraintsResolver constraintsResolver;
 
     public Server(Attack attack) {
         this.attack = attack;
