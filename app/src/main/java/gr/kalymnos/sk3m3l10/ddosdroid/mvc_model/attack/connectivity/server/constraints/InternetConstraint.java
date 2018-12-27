@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.support.v4.content.LocalBroadcastManager;
 
 import java.util.List;
 
@@ -85,8 +86,17 @@ class InternetConstraint extends NetworkConstraint {
 
     @Override
     public void clearResources(Context context) {
+        unregisterReceivers(context);
+    }
+
+    private void unregisterReceivers(Context context) {
         if (wifiScanReceiver != null)
             context.unregisterReceiver(wifiScanReceiver);
+
+        if (wifiConnectionReceiver != null) {
+            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
+            manager.unregisterReceiver(wifiConnectionReceiver);
+        }
     }
 
     private boolean isConnected(Context context) {
