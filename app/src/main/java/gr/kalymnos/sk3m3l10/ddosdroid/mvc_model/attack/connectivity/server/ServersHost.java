@@ -15,8 +15,9 @@ import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.StatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusReceiver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.SharedPrefsStatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.StatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -34,6 +35,7 @@ public class ServersHost extends Service {
     private Set<Server> servers;
     private AttackRepository attackRepo;
     private StatusRepository statusRepo;
+    private ServerStatusReceiver statusReceiver;
 
     @Override
     public void onCreate() {
@@ -41,6 +43,19 @@ public class ServersHost extends Service {
         servers = new HashSet<>();
         attackRepo = new FirebaseRepository();
         statusRepo = new SharedPrefsStatusRepository(this);
+        statusReceiver = new ServerStatusReceiver() {
+            @Override
+            protected void handleServerStatusAction(Intent intent) {
+                switch (getServerStatusFrom(intent)) {
+                    case Server.Status.RUNNING:
+                        break;
+                    case Server.Status.STOPPED:
+                        break;
+                    case Server.Status.ERROR:
+                        break;
+                }
+            }
+        };
     }
 
     @Override
