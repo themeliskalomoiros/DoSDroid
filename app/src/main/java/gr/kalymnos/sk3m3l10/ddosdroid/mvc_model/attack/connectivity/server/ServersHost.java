@@ -5,9 +5,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.HashSet;
@@ -41,6 +43,7 @@ public class ServersHost extends Service {
     public void onCreate() {
         super.onCreate();
         initializeFields();
+        registerStatusReceiver();
     }
 
     private void initializeFields() {
@@ -67,6 +70,13 @@ public class ServersHost extends Service {
                 }
             }
         };
+    }
+
+    private void registerStatusReceiver() {
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Server.ACTION_SERVER_STATUS);
+        manager.registerReceiver(statusReceiver, filter);
     }
 
     @Override
@@ -131,7 +141,12 @@ public class ServersHost extends Service {
         super.onDestroy();
         stopServers();
         setServersToStoppedStatus();
-        // TODO: unregister receiver
+        unregisterStatusReceiver();
+    }
+
+    private void unregisterStatusReceiver() {
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.unregisterReceiver(statusReceiver);
     }
 
     private void setServersToStoppedStatus() {
