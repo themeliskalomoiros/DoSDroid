@@ -16,10 +16,4 @@ public class NsdServer extends Server {
         // TODO: needs implementation
         Log.d(TAG, "Server started");
     }
-
-    @Override
-    public void stop() {
-        super.stop();
-        Log.d(TAG, "Server stoped");
-    }
 }
