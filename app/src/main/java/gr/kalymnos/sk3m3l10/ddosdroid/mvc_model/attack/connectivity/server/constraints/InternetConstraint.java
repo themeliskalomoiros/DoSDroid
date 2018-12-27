@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity;
@@ -40,16 +41,50 @@ class InternetConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
                 if (success) {
-                    handleScanSucces();
+                    handleScanSuccess(context);
                 } else {
                     handleScanFailure();
                 }
-
             }
 
-            private void handleScanSucces() {
-                List<ScanResult> results = wifiManager.getScanResults();
+            private void handleScanSuccess(Context context) {
+                initializeWifiConnectionReceiver();
+                registerWifiConnectionReceiver(context);
+                List<String> SSIDs = createSSIDsFrom(wifiManager.getScanResults());
+                WifiScanResultsActivity.startInstance(context, SSIDs);
+            }
 
+            private void initializeWifiConnectionReceiver() {
+                wifiConnectionReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        switch (intent.getAction()) {
+                            case ACTION_SCAN_RESULT_CHOSEN:
+                                break;
+                            case ACTION_SCAN_RESULT_CANCELLED:
+                                break;
+                            case ACTION_SCAN_RESULT_CONNECTION_ERROR:
+                                break;
+                            default:
+                                throw new IllegalArgumentException(TAG + ": unknown action " + intent.getAction());
+                        }
+                    }
+                };
+            }
+
+            private void registerWifiConnectionReceiver(Context context) {
+                IntentFilter filter = createWifiConnectionReceiverIntentFilter();
+                LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
+                manager.registerReceiver(wifiConnectionReceiver, filter);
+            }
+
+            @NonNull
+            private List<String> createSSIDsFrom(List<ScanResult> results) {
+                List<String> SSIDs = new ArrayList<>();
+                for (ScanResult result : results) {
+                    SSIDs.add(result.SSID);
+                }
+                return SSIDs;
             }
 
             private void handleScanFailure() {
@@ -61,30 +96,6 @@ class InternetConstraint extends NetworkConstraint {
         IntentFilter filter = new IntentFilter();
         filter.addAction(SCAN_RESULTS_AVAILABLE_ACTION);
         context.registerReceiver(wifiScanReceiver, filter);
-    }
-
-    private void initializeWifiConnectionReceiver() {
-        wifiConnectionReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                switch (intent.getAction()) {
-                    case ACTION_SCAN_RESULT_CHOSEN:
-                        break;
-                    case ACTION_SCAN_RESULT_CANCELLED:
-                        break;
-                    case ACTION_SCAN_RESULT_CONNECTION_ERROR:
-                        break;
-                    default:
-                        throw new IllegalArgumentException(TAG + ": unknown action " + intent.getAction());
-                }
-            }
-        };
-    }
-
-    private void registerWifiConnectionReceiver(Context context) {
-        IntentFilter filter = createWifiConnectionReceiverIntentFilter();
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
-        manager.registerReceiver(wifiConnectionReceiver, filter);
     }
 
     @NonNull
