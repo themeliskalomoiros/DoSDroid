@@ -7,6 +7,8 @@ public abstract class NetworkConstraint {
 
     public abstract boolean isResolved(Context context);
 
+    public abstract void clearResources(Context context);
+
     public static class UnresolvedNetworkConstraintException extends Exception {
         public UnresolvedNetworkConstraintException(String message) {
             super(message);
