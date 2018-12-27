@@ -97,4 +97,8 @@ public abstract class Server {
             }
         }
     }
+
+    public enum Status {
+        RUNNING, STOPPED, ERROR
+    }
 }
