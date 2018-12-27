@@ -9,9 +9,10 @@ public class ServerStatusBroadcaster {
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
     public static final String EXTRA_SERVER_STATUS = "extra server status";
 
-    public static void broadcastStatus(Server.Status status, LocalBroadcastManager manager) {
+    public static void broadcastStatus(Server.Status status, String serverId, LocalBroadcastManager manager) {
         Intent intent = new Intent(ACTION_SERVER_STATUS);
         intent.putExtra(EXTRA_SERVER_STATUS, status);
+        intent.putExtra(Server.EXTRA_ID, serverId);
         manager.sendBroadcast(intent);
     }
 }
