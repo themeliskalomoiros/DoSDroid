@@ -3,13 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.cons
 import android.content.Context;
 
 public abstract class NetworkConstraint {
-    protected Context context;
-
-    public NetworkConstraint(Context context) {
-        this.context = context;
-    }
-
-    public abstract boolean resolve();
+    public abstract boolean resolve(Context context);
 
     public static class UnresolvedNetworkConstraintException extends Exception {
         public UnresolvedNetworkConstraintException(String message) {
