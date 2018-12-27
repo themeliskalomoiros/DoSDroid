@@ -40,9 +40,17 @@ public class ServersHost extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        initializeFields();
+    }
+
+    private void initializeFields() {
         servers = new HashSet<>();
         attackRepo = new FirebaseRepository();
         statusRepo = new SharedPrefsStatusRepository(this);
+        initializeStatusReceiver();
+    }
+
+    private void initializeStatusReceiver() {
         statusReceiver = new ServerStatusReceiver() {
             @Override
             protected void handleServerStatusAction(Intent intent) {
