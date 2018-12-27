@@ -98,7 +98,9 @@ public abstract class Server {
         }
     }
 
-    public enum Status {
-        RUNNING, STOPPED, ERROR
+    public interface Status {
+        int RUNNING = 10;
+        int STOPPED = 11;
+        int ERROR = 12;
     }
 }
