@@ -10,4 +10,10 @@ public abstract class NetworkConstraint {
     }
 
     public abstract boolean resolve();
+
+    public static class UnresolvedNetworkConstraintException extends Exception {
+        public UnresolvedNetworkConstraintException(String message) {
+            super(message);
+        }
+    }
 }
