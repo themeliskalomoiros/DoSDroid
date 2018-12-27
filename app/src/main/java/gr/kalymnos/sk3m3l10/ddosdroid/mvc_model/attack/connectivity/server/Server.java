@@ -24,10 +24,13 @@ public abstract class Server {
 
     private final Attack attack;
     private final ExecutorService executor;
+    private NetworkConstraintsResolver constraintsResolver;
 
     public Server(Attack attack) {
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
+        constraintsResolver = builder.build(attack.getNetworkType());
     }
 
     public final String getId() {
@@ -52,24 +55,10 @@ public abstract class Server {
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-
-        if (!(obj instanceof Server))
-            return false;
-
-        Server server = (Server) obj;
-        return this.getId().equals(server.getId());
-    }
-
-    //  This technique is taken from the book Effective Java, Second Edition, Item 9
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + getId().hashCode();
-        return result;
+    public interface Status {
+        int RUNNING = 10;
+        int STOPPED = 11;
+        int ERROR = 12;
     }
 
     public interface Builder {
@@ -95,9 +84,23 @@ public abstract class Server {
         }
     }
 
-    public interface Status {
-        int RUNNING = 10;
-        int STOPPED = 11;
-        int ERROR = 12;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Server))
+            return false;
+
+        Server server = (Server) obj;
+        return this.getId().equals(server.getId());
+    }
+
+    //  This technique is taken from the book Effective Java, Second Edition, Item 9
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + getId().hashCode();
+        return result;
     }
 }
