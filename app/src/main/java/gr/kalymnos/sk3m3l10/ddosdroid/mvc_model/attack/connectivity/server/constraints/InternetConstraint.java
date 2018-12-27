@@ -12,8 +12,14 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
+import static android.net.wifi.WifiManager.SCAN_RESULTS_AVAILABLE_ACTION;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity.ACTION_SCAN_RESULT_CANCELLED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity.ACTION_SCAN_RESULT_CHOSEN;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity.ACTION_SCAN_RESULT_CONNECTION_ERROR;
+
 class InternetConstraint extends NetworkConstraint {
-    private BroadcastReceiver wifiScanReceiver = null;
+    private static final String TAG = "InternetConstraint";
+    private BroadcastReceiver wifiScanReceiver = null, wifiConnectionReceiver = null;
     private WifiManager wifiManager = null;
 
     @Override
@@ -35,6 +41,7 @@ class InternetConstraint extends NetworkConstraint {
                 } else {
                     handleScanFailure();
                 }
+
             }
 
             private void handleScanSucces() {
@@ -49,8 +56,26 @@ class InternetConstraint extends NetworkConstraint {
 
     private void registeWifiScanReceiver(Context context) {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        filter.addAction(SCAN_RESULTS_AVAILABLE_ACTION);
         context.registerReceiver(wifiScanReceiver, filter);
+    }
+
+    private void initializeWifiConnectionReceiver() {
+        wifiConnectionReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case ACTION_SCAN_RESULT_CHOSEN:
+                        break;
+                    case ACTION_SCAN_RESULT_CANCELLED:
+                        break;
+                    case ACTION_SCAN_RESULT_CONNECTION_ERROR:
+                        break;
+                    default:
+                        throw new IllegalArgumentException(TAG + ": unknown action " + intent.getAction());
+                }
+            }
+        };
     }
 
     @Override
