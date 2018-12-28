@@ -10,7 +10,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
-public class NetworkConstraintsResolver {
+public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveConstraintListener{
     private static final String TAG = "NetworkConstraintsResol";
 
     private Queue<NetworkConstraint> constraints;
@@ -26,6 +26,16 @@ public class NetworkConstraintsResolver {
 
     protected void addConstraint(NetworkConstraint constraint) {
         constraints.add(constraint);
+    }
+
+    @Override
+    public void onConstraintResolved(NetworkConstraint constraint) {
+
+    }
+
+    @Override
+    public void onConstraintResolveFailed(NetworkConstraint constraint) {
+
     }
 
     public interface Builder {
