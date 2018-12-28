@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +64,10 @@ public class WifiScanResultsActivity extends AppCompatActivity implements WifiSc
 
     @Override
     public void onWifiScanItemClick(int position) {
-        Toast.makeText(this, "Item " + position + " clicked.", Toast.LENGTH_SHORT).show();
+        // TODO must implement to connect to the network
+        // For mocking we will just assume that is connected
+        Intent intent = new Intent(ACTION_SCAN_RESULT_CHOSEN);
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.sendBroadcast(intent);
     }
 }
