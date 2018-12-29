@@ -15,4 +15,14 @@ public class InternetServer extends Server {
     public void start() {
         constraintsResolver.resolveConstraints();
     }
+
+    @Override
+    public void onConstraintsResolved() {
+
+    }
+
+    @Override
+    public void onConstraintResolveFailure() {
+
+    }
 }

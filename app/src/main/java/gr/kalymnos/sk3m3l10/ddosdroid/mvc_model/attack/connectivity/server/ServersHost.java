@@ -43,7 +43,7 @@ public class ServersHost extends Service {
     public void onCreate() {
         super.onCreate();
         initializeFields();
-        registerStatusReceiver();
+        registerServerStatusReceiver();
     }
 
     private void initializeFields() {
@@ -72,7 +72,7 @@ public class ServersHost extends Service {
         };
     }
 
-    private void registerStatusReceiver() {
+    private void registerServerStatusReceiver() {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction(Server.ACTION_SERVER_STATUS);

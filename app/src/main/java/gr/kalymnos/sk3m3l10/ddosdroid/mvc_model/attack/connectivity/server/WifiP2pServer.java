@@ -16,4 +16,14 @@ public class WifiP2pServer extends Server {
         // TODO: needs implementation
         Log.d(TAG, "Server started");
     }
+
+    @Override
+    public void onConstraintsResolved() {
+
+    }
+
+    @Override
+    public void onConstraintResolveFailure() {
+
+    }
 }

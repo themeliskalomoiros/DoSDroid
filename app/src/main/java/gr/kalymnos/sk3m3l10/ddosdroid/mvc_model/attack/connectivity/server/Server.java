@@ -15,7 +15,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
-public abstract class Server {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     protected static final String TAG = "Server";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
@@ -37,6 +37,7 @@ public abstract class Server {
     private void initializeConstraintsResolver(Context context, Attack attack) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
         constraintsResolver = builder.build(context, attack.getNetworkType());
+        constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
     public final String getId() {
