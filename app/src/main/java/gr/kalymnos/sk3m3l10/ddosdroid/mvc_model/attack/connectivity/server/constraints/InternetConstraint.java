@@ -23,26 +23,18 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScan
 
 class InternetConstraint extends NetworkConstraint {
     private static final String TAG = "InternetConstraint";
-    private BroadcastReceiver wifiScanReceiver = null, wifiConnectionReceiver = null;
-    private WifiManager wifiManager = null;
+    private BroadcastReceiver wifiScanReceiver, wifiConnectionReceiver;
+    private WifiManager wifiManager;
 
     public InternetConstraint(Context context) {
         super(context);
+        initializeFields();
     }
 
-    @Override
-    public void resolve() {
-        if (isResolved()) {
-            callback.onConstraintResolved(context, this);
-        } else {
-            scanForWifiNetworks();
-        }
-    }
-
-    private void scanForWifiNetworks() {
+    private void initializeFields() {
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         initializeWifiScanReceiver();
-        registeWifiScanReceiver();
+        initializeWifiConnectionReceiver();
     }
 
     private void initializeWifiScanReceiver() {
@@ -58,31 +50,10 @@ class InternetConstraint extends NetworkConstraint {
             }
 
             private void handleScanSuccess() {
-                initializeWifiConnectionReceiver();
                 registerWifiConnectionReceiver(context);
                 List<String> SSIDs = createSSIDsFrom(wifiManager.getScanResults());
                 WifiScanResultsActivity.startInstance(context, SSIDs);
-            }
-
-            private void initializeWifiConnectionReceiver() {
-                wifiConnectionReceiver = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        switch (intent.getAction()) {
-                            case ACTION_SCAN_RESULT_CHOSEN:
-                                callback.onConstraintResolved(context, InternetConstraint.this);
-                                break;
-                            case ACTION_SCAN_RESULT_CANCELLED:
-                                // TODO: implementation needed
-                                break;
-                            case ACTION_SCAN_RESULT_CONNECTION_ERROR:
-                                // TODO: implementation needed
-                                break;
-                            default:
-                                throw new IllegalArgumentException(TAG + ": unknown action " + intent.getAction());
-                        }
-                    }
-                };
+                context.unregisterReceiver(this); // It's work is done
             }
 
             private void registerWifiConnectionReceiver(Context context) {
@@ -103,6 +74,37 @@ class InternetConstraint extends NetworkConstraint {
             private void handleScanFailure() {
             }
         };
+    }
+
+    private void initializeWifiConnectionReceiver() {
+        wifiConnectionReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case ACTION_SCAN_RESULT_CHOSEN:
+                        callback.onConstraintResolved(context, InternetConstraint.this);
+                        break;
+                    case ACTION_SCAN_RESULT_CANCELLED:
+                        // TODO: implementation needed
+                        callback.onConstraintResolveFailed(context, InternetConstraint.this);
+                        break;
+                    case ACTION_SCAN_RESULT_CONNECTION_ERROR:
+                        // TODO: implementation needed
+                        break;
+                    default:
+                        throw new IllegalArgumentException(TAG + ": unknown action " + intent.getAction());
+                }
+            }
+        };
+    }
+
+    @Override
+    public void resolve() {
+        if (isResolved()) {
+            callback.onConstraintResolved(context, this);
+        } else {
+            registeWifiScanReceiver();
+        }
     }
 
     private void registeWifiScanReceiver() {
