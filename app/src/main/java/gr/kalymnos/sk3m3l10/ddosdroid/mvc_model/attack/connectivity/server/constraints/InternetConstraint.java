@@ -31,10 +31,14 @@ class InternetConstraint extends NetworkConstraint {
         if (isResolved(context)) {
             callback.onConstraintResolved(context, this);
         } else {
-            wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            initializeWifiScanReceiver();
-            registeWifiScanReceiver(context);
+            scanForWifiNetworks(context);
         }
+    }
+
+    private void scanForWifiNetworks(Context context) {
+        wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        initializeWifiScanReceiver();
+        registeWifiScanReceiver(context);
     }
 
     private void initializeWifiScanReceiver() {
