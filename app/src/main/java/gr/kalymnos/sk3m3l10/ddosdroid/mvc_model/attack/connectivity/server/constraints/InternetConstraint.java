@@ -23,6 +23,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScan
 
 class InternetConstraint extends NetworkConstraint {
     private static final String TAG = "InternetConstraint";
+
     private BroadcastReceiver wifiScanReceiver, wifiConnectionReceiver;
     private WifiManager wifiManager;
 
@@ -53,13 +54,22 @@ class InternetConstraint extends NetworkConstraint {
                 registerWifiConnectionReceiver(context);
                 List<String> SSIDs = createSSIDsFrom(wifiManager.getScanResults());
                 WifiScanResultsActivity.startInstance(context, SSIDs);
-                context.unregisterReceiver(this); // It's work is done
+                unregisterWifiScanReceiver();
             }
 
             private void registerWifiConnectionReceiver(Context context) {
                 IntentFilter filter = createWifiConnectionReceiverIntentFilter();
                 LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
                 manager.registerReceiver(wifiConnectionReceiver, filter);
+            }
+
+            @NonNull
+            private IntentFilter createWifiConnectionReceiverIntentFilter() {
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CHOSEN);
+                filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CANCELLED);
+                filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CONNECTION_ERROR);
+                return filter;
             }
 
             @NonNull
@@ -113,22 +123,13 @@ class InternetConstraint extends NetworkConstraint {
         context.registerReceiver(wifiScanReceiver, filter);
     }
 
-    @NonNull
-    private IntentFilter createWifiConnectionReceiverIntentFilter() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CHOSEN);
-        filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CANCELLED);
-        filter.addAction(WifiScanResultsActivity.ACTION_SCAN_RESULT_CONNECTION_ERROR);
-        return filter;
-    }
-
     @Override
     public boolean isResolved() {
         return isConnected();
     }
 
     @Override
-    public void clearResources() {
+    public void cleanResources() {
         unregisterReceivers();
     }
 

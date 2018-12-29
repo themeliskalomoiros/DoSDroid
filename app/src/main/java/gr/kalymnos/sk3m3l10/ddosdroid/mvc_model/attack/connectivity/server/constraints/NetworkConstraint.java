@@ -14,7 +14,7 @@ public abstract class NetworkConstraint {
 
     public abstract boolean isResolved();
 
-    public abstract void clearResources();
+    public abstract void cleanResources();
 
     public interface OnResolveConstraintListener {
         void onConstraintResolved(Context context, NetworkConstraint constraint);
