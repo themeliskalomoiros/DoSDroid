@@ -55,7 +55,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
     @Override
     public void onConstraintResolved(Context context, NetworkConstraint constraint) {
-
+        resolveNextConstraint();
     }
 
     @Override
