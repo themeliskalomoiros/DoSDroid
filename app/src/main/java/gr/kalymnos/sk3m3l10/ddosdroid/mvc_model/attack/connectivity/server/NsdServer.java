@@ -6,11 +6,9 @@ import android.util.Log;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class NsdServer extends Server {
-    private Context context;
 
-    public NsdServer(Attack attack, Context context) {
-        super(attack);
-        this.context = context;
+    public NsdServer(Context context, Attack attack) {
+        super(context, attack);
     }
 
     @Override

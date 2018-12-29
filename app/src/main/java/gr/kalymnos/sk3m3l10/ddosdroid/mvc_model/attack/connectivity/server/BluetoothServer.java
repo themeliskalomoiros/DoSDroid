@@ -6,11 +6,9 @@ import android.util.Log;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class BluetoothServer extends Server {
-    private Context context;
 
-    public BluetoothServer(Attack attack, Context context) {
-        super(attack);
-        this.context = context;
+    public BluetoothServer(Context context, Attack attack) {
+        super(context, attack);
     }
 
     @Override

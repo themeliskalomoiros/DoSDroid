@@ -22,15 +22,21 @@ public abstract class Server {
     public static final String EXTRA_SERVER_STATUS = "extra server status";
     public static final String EXTRA_ID = TAG + "extra id";
 
+    protected final Context context;
     private final Attack attack;
     private final ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
 
-    public Server(Attack attack) {
+    public Server(Context context, Attack attack) {
+        this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        initializeConstraintsResolver(context, attack);
+    }
+
+    private void initializeConstraintsResolver(Context context, Attack attack) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
-        constraintsResolver = builder.build(attack.getNetworkType());
+        constraintsResolver = builder.build(context, attack.getNetworkType());
     }
 
     public final String getId() {
@@ -71,13 +77,13 @@ public abstract class Server {
         public Server build(Context context, Attack attack) {
             switch (attack.getNetworkType()) {
                 case INTERNET:
-                    return new InternetServer(attack, context);
+                    return new InternetServer(context,attack);
                 case BLUETOOTH:
-                    return new BluetoothServer(attack, context);
+                    return new BluetoothServer(context,attack);
                 case WIFI_P2P:
-                    return new WifiP2pServer(attack, context);
+                    return new WifiP2pServer(context,attack);
                 case NSD:
-                    return new NsdServer(attack, context);
+                    return new NsdServer(context,attack);
                 default:
                     throw new IllegalArgumentException(TAG + ": Unknown attack network type");
             }
