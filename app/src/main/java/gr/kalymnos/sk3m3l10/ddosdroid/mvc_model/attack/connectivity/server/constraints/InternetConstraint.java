@@ -133,12 +133,22 @@ class InternetConstraint extends NetworkConstraint {
     }
 
     private void unregisterReceivers() {
-        if (wifiScanReceiver != null)
-            context.unregisterReceiver(wifiScanReceiver);
+        unregisterWifiScanReceiver();
+        unregisterWifiConnectionReceiver();
+    }
 
+    private void unregisterWifiScanReceiver() {
+        if (wifiScanReceiver != null) {
+            context.unregisterReceiver(wifiScanReceiver);
+            wifiScanReceiver = null;
+        }
+    }
+
+    private void unregisterWifiConnectionReceiver() {
         if (wifiConnectionReceiver != null) {
             LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
             manager.unregisterReceiver(wifiConnectionReceiver);
+            wifiConnectionReceiver = null;
         }
     }
 
