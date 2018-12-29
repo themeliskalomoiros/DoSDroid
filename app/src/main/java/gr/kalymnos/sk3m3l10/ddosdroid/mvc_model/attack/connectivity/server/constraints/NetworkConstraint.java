@@ -6,9 +6,9 @@ public abstract class NetworkConstraint {
     protected OnResolveConstraintListener callback;
 
     public interface OnResolveConstraintListener {
-        void onConstraintResolved(NetworkConstraint constraint);
+        void onConstraintResolved(Context context, NetworkConstraint constraint);
 
-        void onConstraintResolveFailed(NetworkConstraint constraint);
+        void onConstraintResolveFailed(Context context, NetworkConstraint constraint);
     }
 
     public void setOnResolveConstraintListener(OnResolveConstraintListener listener) {

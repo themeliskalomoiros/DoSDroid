@@ -29,12 +29,12 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     @Override
-    public void onConstraintResolved(NetworkConstraint constraint) {
+    public void onConstraintResolved(Context context, NetworkConstraint constraint) {
 
     }
 
     @Override
-    public void onConstraintResolveFailed(NetworkConstraint constraint) {
+    public void onConstraintResolveFailed(Context context, NetworkConstraint constraint) {
 
     }
 

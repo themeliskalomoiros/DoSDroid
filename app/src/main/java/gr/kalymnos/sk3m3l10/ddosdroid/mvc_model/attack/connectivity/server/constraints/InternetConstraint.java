@@ -29,7 +29,7 @@ class InternetConstraint extends NetworkConstraint {
     @Override
     public void resolve(Context context) {
         if (isResolved(context)) {
-            callback.onConstraintResolved(this);
+            callback.onConstraintResolved(context, this);
         } else {
             wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             initializeWifiScanReceiver();
@@ -62,7 +62,7 @@ class InternetConstraint extends NetworkConstraint {
                     public void onReceive(Context context, Intent intent) {
                         switch (intent.getAction()) {
                             case ACTION_SCAN_RESULT_CHOSEN:
-                                callback.onConstraintResolved(InternetConstraint.this);
+                                callback.onConstraintResolved(context, InternetConstraint.this);
                                 break;
                             case ACTION_SCAN_RESULT_CANCELLED:
                                 // TODO: implementation needed
