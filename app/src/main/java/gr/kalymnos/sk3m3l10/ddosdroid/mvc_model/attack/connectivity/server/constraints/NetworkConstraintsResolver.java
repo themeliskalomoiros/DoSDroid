@@ -38,12 +38,19 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     public void resolveConstraints() {
-        while (!constraints.isEmpty())
-            constraints.poll().resolve();
+        resolveNextConstraint();
     }
 
-    protected void addConstraint(NetworkConstraint constraint) {
-        constraints.add(constraint);
+    private void resolveNextConstraint() {
+        if (!constraintFailed) {
+            if (!constraints.isEmpty()) {
+                constraints.poll().resolve();
+            } else {
+                callback.onConstraintsResolved();
+            }
+        } else {
+            callback.onConstraintResolveFailure();
+        }
     }
 
     @Override
@@ -54,6 +61,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     @Override
     public void onConstraintResolveFailed(Context context, NetworkConstraint constraint) {
 
+    }
+
+    protected void addConstraint(NetworkConstraint constraint) {
+        constraints.add(constraint);
     }
 
     public void setOnConstraintsResolveListener(OnConstraintsResolveListener listener) {
