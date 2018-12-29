@@ -25,6 +25,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
     private Queue<NetworkConstraint> constraints;
     protected OnConstraintsResolveListener callback;
+    private boolean constraintFailed;
 
     public interface OnConstraintsResolveListener {
         void onConstraintsResolved();
