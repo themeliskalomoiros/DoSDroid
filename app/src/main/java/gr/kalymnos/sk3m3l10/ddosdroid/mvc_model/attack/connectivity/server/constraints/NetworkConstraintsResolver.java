@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.constraints;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -43,10 +44,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
     private void resolveNextConstraint() {
         if (!constraintFailed) {
-            if (!constraints.isEmpty()) {
-                constraints.poll().resolve();
-            } else {
+            if (constraints.isEmpty()) {
                 callback.onConstraintsResolved();
+            } else {
+                constraints.poll().resolve();
             }
         } else {
             callback.onConstraintResolveFailure();
@@ -97,7 +98,14 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
     private static class InternetConstraintResolver extends NetworkConstraintsResolver {
         public InternetConstraintResolver(Context context) {
-            addConstraint(new InternetConstraint(context));
+            addConstraint(createInternetConstraint(context));
+        }
+
+        @NonNull
+        private InternetConstraint createInternetConstraint(Context context) {
+            InternetConstraint constraint = new InternetConstraint(context);
+            constraint.setOnResolveConstraintListener(this);
+            return constraint;
         }
     }
 
