@@ -10,6 +10,16 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
+/*
+ * Resolving Mechanism:
+ *
+ * Resolves the next constraint the queue. The step is repeated until all constraints in the queue
+ * are met and then the Server is notified.
+ *
+ * On the other hand it takes just one failure and the process stops immediately. Server is also
+ * notified about the failure.
+ */
+
 public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveConstraintListener {
     private static final String TAG = "NetworkConstraintsResol";
 
