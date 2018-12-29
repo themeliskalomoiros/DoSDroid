@@ -24,6 +24,13 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     private static final String TAG = "NetworkConstraintsResol";
 
     private Queue<NetworkConstraint> constraints;
+    protected OnConstraintsResolveListener callback;
+
+    public interface OnConstraintsResolveListener {
+        void onConstraintsResolved();
+
+        void onConstraintResolveFailure();
+    }
 
     private NetworkConstraintsResolver() {
         constraints = new LinkedList<>();
@@ -46,6 +53,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     @Override
     public void onConstraintResolveFailed(Context context, NetworkConstraint constraint) {
 
+    }
+
+    public void setOnConstraintsResolveListener(OnConstraintsResolveListener listener) {
+        callback = listener;
     }
 
     public interface Builder {
