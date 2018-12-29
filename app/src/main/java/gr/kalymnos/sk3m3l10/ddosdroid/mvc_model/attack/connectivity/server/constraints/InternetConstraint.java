@@ -26,19 +26,23 @@ class InternetConstraint extends NetworkConstraint {
     private BroadcastReceiver wifiScanReceiver = null, wifiConnectionReceiver = null;
     private WifiManager wifiManager = null;
 
+    public InternetConstraint(Context context) {
+        super(context);
+    }
+
     @Override
-    public void resolve(Context context) {
-        if (isResolved(context)) {
+    public void resolve() {
+        if (isResolved()) {
             callback.onConstraintResolved(context, this);
         } else {
-            scanForWifiNetworks(context);
+            scanForWifiNetworks();
         }
     }
 
-    private void scanForWifiNetworks(Context context) {
+    private void scanForWifiNetworks() {
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         initializeWifiScanReceiver();
-        registeWifiScanReceiver(context);
+        registeWifiScanReceiver();
     }
 
     private void initializeWifiScanReceiver() {
@@ -47,13 +51,13 @@ class InternetConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
                 if (success) {
-                    handleScanSuccess(context);
+                    handleScanSuccess();
                 } else {
                     handleScanFailure();
                 }
             }
 
-            private void handleScanSuccess(Context context) {
+            private void handleScanSuccess() {
                 initializeWifiConnectionReceiver();
                 registerWifiConnectionReceiver(context);
                 List<String> SSIDs = createSSIDsFrom(wifiManager.getScanResults());
@@ -101,7 +105,7 @@ class InternetConstraint extends NetworkConstraint {
         };
     }
 
-    private void registeWifiScanReceiver(Context context) {
+    private void registeWifiScanReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(SCAN_RESULTS_AVAILABLE_ACTION);
         context.registerReceiver(wifiScanReceiver, filter);
@@ -117,16 +121,16 @@ class InternetConstraint extends NetworkConstraint {
     }
 
     @Override
-    public boolean isResolved(Context context) {
-        return isConnected(context);
+    public boolean isResolved() {
+        return isConnected();
     }
 
     @Override
-    public void clearResources(Context context) {
-        unregisterReceivers(context);
+    public void clearResources() {
+        unregisterReceivers();
     }
 
-    private void unregisterReceivers(Context context) {
+    private void unregisterReceivers() {
         if (wifiScanReceiver != null)
             context.unregisterReceiver(wifiScanReceiver);
 
@@ -136,7 +140,7 @@ class InternetConstraint extends NetworkConstraint {
         }
     }
 
-    private boolean isConnected(Context context) {
+    private boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return InternetConnectivity.isConnectionEstablishedOverWifi(cm.getActiveNetworkInfo());
     }

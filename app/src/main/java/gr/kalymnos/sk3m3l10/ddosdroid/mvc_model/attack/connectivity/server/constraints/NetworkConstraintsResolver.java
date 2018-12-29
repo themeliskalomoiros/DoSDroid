@@ -10,7 +10,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
-public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveConstraintListener{
+public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveConstraintListener {
     private static final String TAG = "NetworkConstraintsResol";
 
     private Queue<NetworkConstraint> constraints;
@@ -19,9 +19,9 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         constraints = new LinkedList<>();
     }
 
-    public void resolveConstraints(Context context) {
+    public void resolveConstraints() {
         while (!constraints.isEmpty())
-            constraints.poll().resolve(context);
+            constraints.poll().resolve();
     }
 
     protected void addConstraint(NetworkConstraint constraint) {
@@ -39,16 +39,16 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     public interface Builder {
-        NetworkConstraintsResolver build(int networkType);
+        NetworkConstraintsResolver build(Context context, int networkType);
     }
 
     public static class BuilderImp implements Builder {
 
         @Override
-        public NetworkConstraintsResolver build(int networkType) {
+        public NetworkConstraintsResolver build(Context context, int networkType) {
             switch (networkType) {
                 case INTERNET:
-                    return new InternetConstraintResolver();
+                    return new InternetConstraintResolver(context);
                 case BLUETOOTH:
                     return new BluetoothConstraintResolver();
                 case WIFI_P2P:
@@ -62,8 +62,8 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     private static class InternetConstraintResolver extends NetworkConstraintsResolver {
-        public InternetConstraintResolver() {
-            addConstraint(new InternetConstraint());
+        public InternetConstraintResolver(Context context) {
+            addConstraint(new InternetConstraint(context));
         }
     }
 

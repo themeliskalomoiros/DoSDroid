@@ -4,6 +4,17 @@ import android.content.Context;
 
 public abstract class NetworkConstraint {
     protected OnResolveConstraintListener callback;
+    protected Context context;
+
+    public NetworkConstraint(Context context) {
+        this.context = context;
+    }
+
+    public abstract void resolve();
+
+    public abstract boolean isResolved();
+
+    public abstract void clearResources();
 
     public interface OnResolveConstraintListener {
         void onConstraintResolved(Context context, NetworkConstraint constraint);
@@ -14,10 +25,4 @@ public abstract class NetworkConstraint {
     public void setOnResolveConstraintListener(OnResolveConstraintListener listener) {
         callback = listener;
     }
-
-    public abstract void resolve(Context context);
-
-    public abstract boolean isResolved(Context context);
-
-    public abstract void clearResources(Context context);
 }
