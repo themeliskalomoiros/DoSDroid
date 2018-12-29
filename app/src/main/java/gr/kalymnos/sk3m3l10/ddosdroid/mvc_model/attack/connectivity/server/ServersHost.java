@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -66,6 +67,7 @@ public class ServersHost extends Service {
                         executeStopProcedure(getServerIdFrom(intent));
                         break;
                     case Server.Status.ERROR:
+                        Toast.makeText(ServersHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
                         break;
                 }
             }
