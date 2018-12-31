@@ -21,7 +21,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScan
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity.ACTION_SCAN_RESULT_CHOSEN;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScanResultsActivity.ACTION_SCAN_RESULT_CONNECTION_ERROR;
 
-class InternetConstraint extends NetworkConstraint {
+public class InternetConstraint extends NetworkConstraint {
     private static final String TAG = "InternetConstraint";
 
     private BroadcastReceiver wifiScanReceiver, wifiConnectionReceiver;
