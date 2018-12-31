@@ -1,13 +1,14 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p;
 
 import android.content.Context;
 import android.util.Log;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class NsdServer extends Server {
+public class WifiP2pServer extends Server {
 
-    public NsdServer(Context context, Attack attack) {
+    public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
     }
 
