@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.constraints.NetworkConstraintsResolver;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
