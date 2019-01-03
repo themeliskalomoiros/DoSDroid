@@ -83,6 +83,7 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
     private Intent createEnableBluetoothIntent() {
         Intent enableIntent = new Intent(context,EnableBluetoothActivity.class);
         enableIntent.setAction(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        enableIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return enableIntent;
     }
 
