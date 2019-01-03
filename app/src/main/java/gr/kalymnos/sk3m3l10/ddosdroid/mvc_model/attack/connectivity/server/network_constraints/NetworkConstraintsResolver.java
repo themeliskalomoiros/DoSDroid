@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetConstraint;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -87,7 +88,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
                 case INTERNET:
                     return new InternetConstraintResolver(context);
                 case BLUETOOTH:
-                    return new BluetoothConstraintResolver();
+                    return new BluetoothConstraintResolver(context);
                 case WIFI_P2P:
                     return new WifiP2pConstraintResolver();
                 case NSD:
@@ -112,7 +113,15 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     private static class BluetoothConstraintResolver extends NetworkConstraintsResolver {
-        // TODO: set the NetworkConstraint's in the queue
+        public BluetoothConstraintResolver(Context context) {
+            addConstraint(createSetupConstraint(context));
+        }
+
+        private BluetoothSetupConstraint createSetupConstraint(Context context){
+            BluetoothSetupConstraint constraint = new BluetoothSetupConstraint(context);
+            constraint.setOnResolveConstraintListener(this);
+            return constraint;
+        }
     }
 
     private static class WifiP2pConstraintResolver extends NetworkConstraintsResolver {
