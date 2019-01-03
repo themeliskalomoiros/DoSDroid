@@ -33,6 +33,7 @@ public class EnableBluetoothActivity extends AppCompatActivity {
             if (resultCode == RESULT_CANCELED){
                 sendDisableBroadcast();
             }
+            finish();
         }
     }
 
