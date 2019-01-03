@@ -36,7 +36,6 @@ public class ServersHost extends Service {
     private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
     private Set<Server> servers;
-    private AttackRepository attackRepo;
     private StatusRepository statusRepo;
     private ServerStatusReceiver statusReceiver;
 
@@ -49,7 +48,6 @@ public class ServersHost extends Service {
 
     private void initializeFields() {
         servers = new HashSet<>();
-        attackRepo = new FirebaseRepository();
         statusRepo = new SharedPrefsStatusRepository(this);
         initializeStatusReceiver();
     }
