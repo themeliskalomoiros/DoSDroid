@@ -12,8 +12,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.netwo
 
 public class BluetoothEnableConstraint extends NetworkConstraint {
     private static final String TAG = "BluetoothEnableConstrai";
-    private static final String ACTION_BLUETOOTH_ENABLED = "action bluetooth enabled";
-    private static final String ACTION_BLUETOOTH_DISABLED = "action bluetooth disabled";
+    public static final String ACTION_BLUETOOTH_ENABLED = "action bluetooth enabled";
+    public static final String ACTION_BLUETOOTH_DISABLED = "action bluetooth disabled";
 
     private BluetoothAdapter bluetoothAdapter;
     private BroadcastReceiver bluetoothEnableReceiver;
@@ -72,6 +72,10 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
         if (isResolved()){
             callback.onConstraintResolved(context,this);
         }else{
+            /*Hacky solution. We start a new activity that will
+            * call startActivityForResult() to enable the Bluetooth.
+            * Unfortunately there is no other way to start an activity
+            * for result except an Activity.*/
             context.startActivity(createEnableBluetoothIntent());
         }
     }
