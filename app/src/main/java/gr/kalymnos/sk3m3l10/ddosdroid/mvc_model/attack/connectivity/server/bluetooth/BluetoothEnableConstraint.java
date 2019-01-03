@@ -1,17 +1,61 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraint;
 
 public class BluetoothEnableConstraint extends NetworkConstraint {
+    private static final String TAG = "BluetoothEnableConstrai";
+    private static final String ACTION_BLUETOOTH_ENABLED = "action bluetooth enabled";
+    private static final String ACTION_BLUETOOTH_DISABLED = "action bluetooth disabled";
+
     private BluetoothAdapter bluetoothAdapter;
+    private BroadcastReceiver bluetoothEnableReceiver;
 
     public BluetoothEnableConstraint(Context context) {
         super(context);
+        initializeFields();
+        registerBluetoothEnableReceiver(context);
+    }
+
+    private void initializeFields() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        initializeBluetoothEnableReceiver();
+    }
+
+    private void initializeBluetoothEnableReceiver() {
+        bluetoothEnableReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()){
+                    case ACTION_BLUETOOTH_ENABLED:
+                        break;
+                    case ACTION_BLUETOOTH_DISABLED:
+                        break;
+                    default:
+                        throw new IllegalArgumentException(TAG + "Unknown action");
+                }
+            }
+        };
+    }
+
+    private void registerBluetoothEnableReceiver(Context context) {
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+        localBroadcastManager.registerReceiver(bluetoothEnableReceiver,getIntentFilter());
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_BLUETOOTH_ENABLED);
+        filter.addAction(ACTION_BLUETOOTH_DISABLED);
+        return filter;
     }
 
     @Override
