@@ -35,12 +35,21 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()){
                     case ACTION_BLUETOOTH_ENABLED:
+                        unregisterBluetoothEnableReceiver(context);
+                        callback.onConstraintResolved(context,BluetoothEnableConstraint.this);
                         break;
                     case ACTION_BLUETOOTH_DISABLED:
+                        unregisterBluetoothEnableReceiver(context);
+                        callback.onConstraintResolveFailed(context,BluetoothEnableConstraint.this);
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + "Unknown action");
                 }
+            }
+
+            private void unregisterBluetoothEnableReceiver(Context context) {
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+                localBroadcastManager.unregisterReceiver(bluetoothEnableReceiver);
             }
         };
     }
