@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.BluetoothEnableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetConstraint;
 
@@ -115,10 +116,17 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     private static class BluetoothConstraintResolver extends NetworkConstraintsResolver {
         public BluetoothConstraintResolver(Context context) {
             addConstraint(createSetupConstraint(context));
+            addConstraint(createBluetoothEnableConstraint(context));
         }
 
         private BluetoothSetupConstraint createSetupConstraint(Context context){
             BluetoothSetupConstraint constraint = new BluetoothSetupConstraint(context);
+            constraint.setOnResolveConstraintListener(this);
+            return constraint;
+        }
+
+        private BluetoothEnableConstraint createBluetoothEnableConstraint(Context context) {
+            BluetoothEnableConstraint constraint = new BluetoothEnableConstraint(context);
             constraint.setOnResolveConstraintListener(this);
             return constraint;
         }
