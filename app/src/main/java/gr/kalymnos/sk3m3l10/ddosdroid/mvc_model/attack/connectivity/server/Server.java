@@ -18,6 +18,12 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
+/*Scenario to eliminate duplication:
+*
+* Server is not abstract anymore since all the subclasses are implementing
+* the abstract methods the same way.
+* */
+
 public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     protected static final String TAG = "Server";
     private static final int THREAD_POOL_SIZE = 10;
