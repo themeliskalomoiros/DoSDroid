@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -33,9 +34,22 @@ public class BluetoothDiscoverabilityActivity extends AppCompatActivity {
         boolean discoverabilityEnabled = requestCode == DISCOVERABILITY_REQUEST_CODE &&
                 resultCode == DISCOVERABILITY_REQUEST_CODE;
         if (discoverabilityEnabled){
-
+            broadcastDiscoverability();
         }else if (resultCode==RESULT_CANCELED){
-
+            broadcastDiscoverabilityFailure();
         }
+        finish();
+    }
+
+    private void broadcastDiscoverability() {
+        Intent intent = new Intent(BluetoothDiscoverabilityConstraint.ACTION_DISCOVERABILITY_ENABLED);
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.sendBroadcast(intent);
+    }
+
+    private void broadcastDiscoverabilityFailure() {
+        Intent intent = new Intent(BluetoothDiscoverabilityConstraint.ACTION_DISCOVERABILITY_DISABLED);
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.sendBroadcast(intent);
     }
 }
