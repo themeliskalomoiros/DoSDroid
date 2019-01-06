@@ -37,7 +37,7 @@
             android:exported="false" />
 
         <activity android:name=".mvc_controllers.activities.WifiScanResultsActivity" />
-        <activity android:name=".mvc_model.attack.connectivity.server.bluetooth.EnableBluetoothActivity"></activity>
+        <activity android:name=".mvc_model.attack.connectivity.server.bluetooth.constraints.EnableBluetoothActivity"></activity>
     </application>
 
 </manifest>
