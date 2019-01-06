@@ -53,6 +53,12 @@ public class BluetoothServer extends Server {
     }
 
     @Override
+    public void stop() {
+        context.unregisterReceiver(bluetoothStateReceiver);
+        super.stop();
+    }
+
+    @Override
     public void onConstraintsResolved() {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
     }
