@@ -2,11 +2,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.blue
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 public class BluetoothDiscoverabilityActivity extends AppCompatActivity {
     private static final int DISCOVERABILITY_REQUEST_CODE = 1313;
@@ -19,7 +19,7 @@ public class BluetoothDiscoverabilityActivity extends AppCompatActivity {
     }
 
     private void requestDiscoverability() {
-        startActivityForResult(getDiscoverabilityIntent(),DISCOVERABILITY_REQUEST_CODE);
+        startActivityForResult(getDiscoverabilityIntent(), DISCOVERABILITY_REQUEST_CODE);
     }
 
     @NonNull
@@ -33,9 +33,9 @@ public class BluetoothDiscoverabilityActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         boolean discoverabilityEnabled = requestCode == DISCOVERABILITY_REQUEST_CODE &&
                 resultCode == DISCOVERABILITY_REQUEST_CODE;
-        if (discoverabilityEnabled){
+        if (discoverabilityEnabled) {
             broadcastDiscoverability();
-        }else if (resultCode==RESULT_CANCELED){
+        } else if (resultCode == RESULT_CANCELED) {
             broadcastDiscoverabilityFailure();
         }
         finish();

@@ -7,8 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.BluetoothServer;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetServer;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd.NsdServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -19,10 +19,10 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
 /*Scenario to eliminate duplication:
-*
-* Server is not abstract anymore since all the subclasses are implementing
-* the abstract methods the same way.
-* */
+ *
+ * Server is not abstract anymore since all the subclasses are implementing
+ * the abstract methods the same way.
+ * */
 
 public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     protected static final String TAG = "Server";
