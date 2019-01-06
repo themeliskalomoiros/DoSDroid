@@ -17,7 +17,7 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
 
     @Override
     public boolean isResolved() {
-        return false;
+        return true;
     }
 
     @Override
