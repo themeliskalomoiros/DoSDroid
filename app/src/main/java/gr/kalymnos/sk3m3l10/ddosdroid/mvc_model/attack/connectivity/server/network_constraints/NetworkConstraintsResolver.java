@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothDiscoverabilityConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothEnableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetConstraint;
@@ -117,9 +118,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         public BluetoothConstraintResolver(Context context) {
             addConstraint(createSetupConstraint(context));
             addConstraint(createBluetoothEnableConstraint(context));
+            addConstraint(getBluetoothDiscoverabilityConstraint(context));
         }
 
-        private BluetoothSetupConstraint createSetupConstraint(Context context){
+        private BluetoothSetupConstraint createSetupConstraint(Context context) {
             BluetoothSetupConstraint constraint = new BluetoothSetupConstraint(context);
             constraint.setOnResolveConstraintListener(this);
             return constraint;
@@ -127,6 +129,13 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private BluetoothEnableConstraint createBluetoothEnableConstraint(Context context) {
             BluetoothEnableConstraint constraint = new BluetoothEnableConstraint(context);
+            constraint.setOnResolveConstraintListener(this);
+            return constraint;
+        }
+
+        @NonNull
+        private BluetoothDiscoverabilityConstraint getBluetoothDiscoverabilityConstraint(Context context) {
+            BluetoothDiscoverabilityConstraint constraint = new BluetoothDiscoverabilityConstraint(context);
             constraint.setOnResolveConstraintListener(this);
             return constraint;
         }
