@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraint;
 
@@ -18,6 +19,7 @@ public class WifiP2pSetupConstraint extends NetworkConstraint {
     public WifiP2pSetupConstraint(Context context) {
         super(context);
         initializeWifiStateReceiver();
+        registerWifiStateReceiver(context);
     }
 
     private void initializeWifiStateReceiver() {
@@ -42,6 +44,12 @@ public class WifiP2pSetupConstraint extends NetworkConstraint {
                 }
             }
         };
+    }
+
+    private void registerWifiStateReceiver(Context context) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
+        context.registerReceiver(wifiStateReceiver,filter);
     }
 
     @Override
