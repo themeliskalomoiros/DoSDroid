@@ -10,6 +10,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluet
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothEnableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetConstraint;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.constraints.WifiP2pSetupConstraint;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
@@ -86,7 +87,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
                 case BLUETOOTH:
                     return new BluetoothConstraintResolver(context);
                 case WIFI_P2P:
-                    return new WifiP2pConstraintResolver();
+                    return new WifiP2pConstraintResolver(context);
                 case NSD:
                     return new NsdConstraintResolver();
                 default:
@@ -112,7 +113,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         public BluetoothConstraintResolver(Context context) {
             addConstraint(createSetupConstraint(context));
             addConstraint(createBluetoothEnableConstraint(context));
-            addConstraint(getBluetoothDiscoverabilityConstraint(context));
+            addConstraint(createBluetoothDiscoverabilityConstraint(context));
         }
 
         private BluetoothSetupConstraint createSetupConstraint(Context context) {
@@ -128,7 +129,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         }
 
         @NonNull
-        private BluetoothDiscoverabilityConstraint getBluetoothDiscoverabilityConstraint(Context context) {
+        private BluetoothDiscoverabilityConstraint createBluetoothDiscoverabilityConstraint(Context context) {
             BluetoothDiscoverabilityConstraint constraint = new BluetoothDiscoverabilityConstraint(context);
             constraint.setOnResolveConstraintListener(this);
             return constraint;
@@ -136,7 +137,16 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     private static class WifiP2pConstraintResolver extends NetworkConstraintsResolver {
-        // TODO: set the NetworkConstraint's in the queue
+        public WifiP2pConstraintResolver(Context context) {
+            addConstraint(createWifiP2pSetupConstraint(context));
+        }
+
+        @NonNull
+        private WifiP2pSetupConstraint createWifiP2pSetupConstraint(Context context) {
+            WifiP2pSetupConstraint constraint = new WifiP2pSetupConstraint(context);
+            constraint.setOnResolveConstraintListener(this);
+            return constraint;
+        }
     }
 
     private static class NsdConstraintResolver extends NetworkConstraintsResolver {
