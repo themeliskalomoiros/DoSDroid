@@ -31,7 +31,6 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
     private Queue<NetworkConstraint> constraints;
     protected OnConstraintsResolveListener callback;
-    private boolean constraintFailed;
 
     public interface OnConstraintsResolveListener {
         void onConstraintsResolved();
@@ -48,14 +47,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     private void resolveNextConstraint() {
-        if (!constraintFailed) {
-            if (constraints.isEmpty()) {
-                callback.onConstraintsResolved();
-            } else {
-                constraints.poll().resolve();
-            }
+        if (constraints.isEmpty()) {
+            callback.onConstraintsResolved();
         } else {
-            callback.onConstraintResolveFailure();
+            constraints.poll().resolve();
         }
     }
 
@@ -66,8 +61,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
     @Override
     public void onConstraintResolveFailed(Context context, NetworkConstraint constraint) {
-        constraintFailed = true;
-        resolveNextConstraint();
+        callback.onConstraintResolveFailure();
     }
 
     protected void addConstraint(NetworkConstraint constraint) {
