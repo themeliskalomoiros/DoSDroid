@@ -19,7 +19,6 @@ public class WifiP2pSetupConstraint extends NetworkConstraint {
     public WifiP2pSetupConstraint(Context context) {
         super(context);
         initializeWifiStateReceiver();
-        registerWifiStateReceiver(context);
     }
 
     private void initializeWifiStateReceiver() {
@@ -34,6 +33,7 @@ public class WifiP2pSetupConstraint extends NetworkConstraint {
                     default:
                         throw new IllegalArgumentException(TAG + ": unknown action");
                 }
+                context.unregisterReceiver(wifiStateReceiver);
             }
 
             private void handleWifiState(Context context, int state) {
@@ -46,15 +46,15 @@ public class WifiP2pSetupConstraint extends NetworkConstraint {
         };
     }
 
+    @Override
+    public void resolve() {
+        registerWifiStateReceiver(context);
+    }
+
     private void registerWifiStateReceiver(Context context) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
-        context.registerReceiver(wifiStateReceiver,filter);
-    }
-
-    @Override
-    public void resolve() {
-
+        context.registerReceiver(wifiStateReceiver, filter);
     }
 
     @Override
