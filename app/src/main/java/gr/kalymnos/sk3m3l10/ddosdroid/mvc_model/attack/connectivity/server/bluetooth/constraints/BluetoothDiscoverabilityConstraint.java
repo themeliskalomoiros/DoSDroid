@@ -3,6 +3,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.blue
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraint;
@@ -17,6 +19,7 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
     public BluetoothDiscoverabilityConstraint(Context context) {
         super(context);
         initializeDiscoverabilityReceiver();
+        registerDiscoverabilityReceiver(context);
     }
 
     private void initializeDiscoverabilityReceiver() {
@@ -37,6 +40,19 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
                 context.unregisterReceiver(this);
             }
         };
+    }
+
+    private void registerDiscoverabilityReceiver(Context context) {
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+        localBroadcastManager.registerReceiver(discoverabilityReceiver, getIntentFilter());
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_DISCOVERABILITY_ENABLED);
+        filter.addAction(ACTION_DISCOVERABILITY_DISABLED);
+        return filter;
     }
 
     @Override
