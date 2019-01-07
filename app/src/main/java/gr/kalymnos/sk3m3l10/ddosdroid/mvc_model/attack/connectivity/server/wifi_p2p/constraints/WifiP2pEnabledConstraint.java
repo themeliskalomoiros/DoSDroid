@@ -11,12 +11,12 @@ import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
 
-public class WifiP2pSetupConstraint extends NetworkConstraint {
-    private static final String TAG = "WifiP2pSetupConstraint";
+public class WifiP2pEnabledConstraint extends NetworkConstraint {
+    private static final String TAG = "WifiP2pEnabledConstraint";
 
     private BroadcastReceiver wifiStateReceiver;
 
-    public WifiP2pSetupConstraint(Context context) {
+    public WifiP2pEnabledConstraint(Context context) {
         super(context);
         initializeWifiStateReceiver();
     }
@@ -38,9 +38,9 @@ public class WifiP2pSetupConstraint extends NetworkConstraint {
 
             private void handleWifiState(Context context, int state) {
                 if (state == WIFI_P2P_STATE_ENABLED) {
-                    callback.onConstraintResolved(context, WifiP2pSetupConstraint.this);
+                    callback.onConstraintResolved(context, WifiP2pEnabledConstraint.this);
                 } else {
-                    callback.onConstraintResolveFailed(context, WifiP2pSetupConstraint.this);
+                    callback.onConstraintResolveFailed(context, WifiP2pEnabledConstraint.this);
                 }
             }
         };

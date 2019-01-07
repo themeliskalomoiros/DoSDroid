@@ -10,7 +10,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluet
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothEnableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetConstraint;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.constraints.WifiP2pSetupConstraint;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.constraints.WifiP2pEnabledConstraint;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
@@ -142,8 +142,8 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         }
 
         @NonNull
-        private WifiP2pSetupConstraint createWifiP2pSetupConstraint(Context context) {
-            WifiP2pSetupConstraint constraint = new WifiP2pSetupConstraint(context);
+        private WifiP2pEnabledConstraint createWifiP2pSetupConstraint(Context context) {
+            WifiP2pEnabledConstraint constraint = new WifiP2pEnabledConstraint(context);
             constraint.setOnResolveConstraintListener(this);
             return constraint;
         }
