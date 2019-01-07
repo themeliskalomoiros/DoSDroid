@@ -57,7 +57,14 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
 
     @Override
     public void resolve() {
+        context.startActivity(getDiscoverabilityIntent());
+    }
 
+    @NonNull
+    private Intent getDiscoverabilityIntent() {
+        Intent intent = new Intent(context, BluetoothDiscoverabilityActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
     }
 
     @Override
