@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraint;
 
@@ -36,8 +37,7 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
                     default:
                         throw new IllegalArgumentException(TAG + "Unknown action");
                 }
-
-                context.unregisterReceiver(this);
+                LocalBroadcastManager.getInstance(context).unregisterReceiver(this);
             }
         };
     }
