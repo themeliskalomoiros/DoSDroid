@@ -13,6 +13,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Serve
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
+import static android.content.Context.NSD_SERVICE;
+
 public class NsdServer extends Server {
     private static final String SERVICE_NAME = "DdosDroid";
     private static final String SERVICE_TYPE = String.format("_%s._%s.", SERVICE_NAME, "tcp");
@@ -70,7 +72,20 @@ public class NsdServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        registerService();
+    }
+
+    private void registerService() {
+        NsdManager manager = (NsdManager) context.getSystemService(NSD_SERVICE);
+        manager.registerService(getNsdServiceInfo(), NsdManager.PROTOCOL_DNS_SD, registrationListener);
+    }
+
+    private NsdServiceInfo getNsdServiceInfo() {
+        NsdServiceInfo serviceInfo = new NsdServiceInfo();
+        serviceInfo.setServiceName(SERVICE_NAME);
+        serviceInfo.setServiceType(SERVICE_TYPE);
+        serviceInfo.setPort(localPort);
+        return serviceInfo;
     }
 
     @Override
