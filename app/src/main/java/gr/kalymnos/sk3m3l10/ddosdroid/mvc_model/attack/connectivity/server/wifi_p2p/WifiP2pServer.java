@@ -3,8 +3,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
@@ -28,6 +28,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
+        channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
     }
 
