@@ -2,13 +2,19 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+
+import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
 
 public class WifiP2pServer extends Server {
     //  TODO: must implement a receiver that listens when the wifi is disabled
@@ -19,6 +25,27 @@ public class WifiP2pServer extends Server {
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
+        initializeWifiDirectReceiver();
+    }
+
+    private void initializeWifiDirectReceiver() {
+        wifiDirectReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case WIFI_P2P_STATE_CHANGED_ACTION:
+                        if (isStateDisabled(intent))
+                            ServersHost.Action.stopServer(context, getId());
+                        break;
+                    default:
+                        throw new IllegalArgumentException(TAG + ": unknown action");
+                }
+            }
+
+            private boolean isStateDisabled(Intent intent) {
+                return intent.getIntExtra(EXTRA_WIFI_STATE, -1) == WIFI_P2P_STATE_DISABLED;
+            }
+        };
     }
 
     @Override
