@@ -19,7 +19,9 @@ public class NsdServer extends Server {
 
     private ServerSocket serverSocket;
     private int localPort;
+
     private NsdManager.RegistrationListener registrationListener;
+    private String serviceName;
 
     public NsdServer(Context context, Attack attack) {
         super(context, attack);
@@ -50,6 +52,7 @@ public class NsdServer extends Server {
 
             @Override
             public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
+                serviceName = nsdServiceInfo.getServiceName();
                 ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
             }
 
