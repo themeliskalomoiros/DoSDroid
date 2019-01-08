@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
+import android.net.nsd.NsdServiceInfo;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd.constraints.NsdRegistrationConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -24,6 +24,7 @@ public class NsdServer extends Server {
     public NsdServer(Context context, Attack attack) {
         super(context, attack);
         initializeServerSocket();
+        initializeRegistrationManager(context);
     }
 
     private void initializeServerSocket() {
@@ -31,8 +32,32 @@ public class NsdServer extends Server {
             serverSocket = new ServerSocket(0); // system chooses an available port
             localPort = serverSocket.getLocalPort();
         } catch (IOException e) {
-            Log.e(TAG,"Error initializing server socket");
+            Log.e(TAG, "Error initializing server socket");
         }
+    }
+
+    private void initializeRegistrationManager(Context context) {
+        registrationListener = new NsdManager.RegistrationListener() {
+            @Override
+            public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
+                Log.e(TAG, "Nsd registration failed");
+            }
+
+            @Override
+            public void onUnregistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
+                Log.e(TAG, "Nsd unregistration failed");
+            }
+
+            @Override
+            public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
+                ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+            }
+
+            @Override
+            public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
+                ServerStatusBroadcaster.broadcastStopped(getId(), LocalBroadcastManager.getInstance(context));
+            }
+        };
     }
 
     @Override
