@@ -18,6 +18,7 @@ public class WifiP2pServer extends Server {
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
+        wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
     }
 
     @Override
