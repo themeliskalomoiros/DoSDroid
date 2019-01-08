@@ -19,7 +19,6 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
 
 public class WifiP2pServer extends Server {
-    //  TODO: must implement a receiver that listens when the wifi is disabled
     private WifiP2pManager wifiP2pManager;
     private WifiP2pManager.Channel channel;
     private BroadcastReceiver wifiDirectReceiver;
@@ -53,6 +52,12 @@ public class WifiP2pServer extends Server {
     @Override
     public void start() {
         constraintsResolver.resolveConstraints();
+    }
+
+    @Override
+    public void stop() {
+        context.unregisterReceiver(wifiDirectReceiver);
+        super.stop();
     }
 
     @Override
