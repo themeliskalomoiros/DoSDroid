@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 final class BluetoothHostInfo extends HostInfo {
-   
+
     public BluetoothHostInfo() {
     }
 
@@ -29,7 +29,7 @@ final class BluetoothHostInfo extends HostInfo {
         return 0;
     }
 
-    private BluetoothHostInfo(Parcel in){
+    private BluetoothHostInfo(Parcel in) {
         super(in);
     }
 

@@ -68,7 +68,7 @@ public class WifiP2pServer extends Server {
     }
 
     private void registerWifiDirectReceiver() {
-        context.registerReceiver(wifiDirectReceiver,getIntentFilter());
+        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
     }
 
     @NonNull

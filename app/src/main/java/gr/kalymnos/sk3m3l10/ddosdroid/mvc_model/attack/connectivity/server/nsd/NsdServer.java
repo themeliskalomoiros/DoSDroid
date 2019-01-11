@@ -36,7 +36,7 @@ public class NsdServer extends Server {
             serverSocket = new ServerSocket(0); // system chooses an available port
             localPort = serverSocket.getLocalPort();
         } catch (IOException e) {
-            Log.e(TAG, "Error initializing server socket");
+            Log.e(TAG, "Error initializing server socket",e);
         }
     }
 

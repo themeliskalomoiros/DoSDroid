@@ -15,7 +15,7 @@ public final class DateFormatter {
         return dateFormatter.format(today);
     }
 
-    private static Locale getCurrentLocale(Configuration configuration){
+    private static Locale getCurrentLocale(Configuration configuration) {
         return ConfigurationCompat.getLocales(configuration).get(0);
     }
 }

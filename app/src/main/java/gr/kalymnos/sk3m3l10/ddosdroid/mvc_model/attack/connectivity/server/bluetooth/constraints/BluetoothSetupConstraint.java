@@ -15,10 +15,10 @@ public class BluetoothSetupConstraint extends NetworkConstraint {
 
     @Override
     public void resolve() {
-        if (isResolved()){
-            callback.onConstraintResolved(context,this);
-        }else{
-            callback.onConstraintResolveFailed(context,this);
+        if (isResolved()) {
+            callback.onConstraintResolved(context, this);
+        } else {
+            callback.onConstraintResolveFailed(context, this);
         }
     }
 
@@ -28,7 +28,7 @@ public class BluetoothSetupConstraint extends NetworkConstraint {
     }
 
     private boolean isBluetoothSupported() {
-        if (bluetoothAdapter==null){
+        if (bluetoothAdapter == null) {
             return false;
         }
         return true;

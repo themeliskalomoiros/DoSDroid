@@ -150,12 +150,12 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         Attack attack = cachedAttacks.get(position);
-        if (isChecked){
-            ServersHost.Action.startServer(getContext(),attack);
-            Log.d(TAG,"Started a server");
-        }else{
-            ServersHost.Action.stopServer(getContext(),attack.getPushId());
-            Log.d(TAG,"Stopped a server");
+        if (isChecked) {
+            ServersHost.Action.startServer(getContext(), attack);
+            Log.d(TAG, "Started a server");
+        } else {
+            ServersHost.Action.stopServer(getContext(), attack.getPushId());
+            Log.d(TAG, "Stopped a server");
         }
     }
 

@@ -13,9 +13,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackLis
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
 public class AllAttackListsActivity extends AppCompatActivity {
@@ -49,14 +48,14 @@ public class AllAttackListsActivity extends AppCompatActivity {
         return TYPE_NONE;
     }
 
-    public static class Action{
+    public static class Action {
 
-        public static void startForJoinedAttacks(Context context){
-            context.startActivity(createIntent(context,TYPE_FETCH_JOINED,R.string.contributions_label));
+        public static void startForJoinedAttacks(Context context) {
+            context.startActivity(createIntent(context, TYPE_FETCH_JOINED, R.string.contributions_label));
         }
 
-        public static void startForNonJoinedAttacks(Context context){
-            context.startActivity(createIntent(context,TYPE_FETCH_NOT_JOINED,R.string.join_attack_label));
+        public static void startForNonJoinedAttacks(Context context) {
+            context.startActivity(createIntent(context, TYPE_FETCH_NOT_JOINED, R.string.join_attack_label));
         }
 
         @NonNull

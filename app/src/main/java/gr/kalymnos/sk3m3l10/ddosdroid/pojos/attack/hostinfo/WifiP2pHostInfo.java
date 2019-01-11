@@ -29,7 +29,7 @@ final class WifiP2pHostInfo extends HostInfo {
         return 0;
     }
 
-    private WifiP2pHostInfo(Parcel in){
+    private WifiP2pHostInfo(Parcel in) {
         super(in);
     }
 

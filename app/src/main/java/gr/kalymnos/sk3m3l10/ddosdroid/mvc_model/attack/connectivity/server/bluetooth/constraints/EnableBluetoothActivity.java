@@ -2,10 +2,10 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.blue
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
@@ -21,16 +21,16 @@ public class EnableBluetoothActivity extends AppCompatActivity {
 
     private void requestBluetoothEnable() {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(intent,REQUEST_CODE_ENABLE_BLUETOOTH);
+        startActivityForResult(intent, REQUEST_CODE_ENABLE_BLUETOOTH);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE_ENABLE_BLUETOOTH){
-            if (resultCode == RESULT_OK){
+        if (requestCode == REQUEST_CODE_ENABLE_BLUETOOTH) {
+            if (resultCode == RESULT_OK) {
                 sendEnableBroadcast();
             }
-            if (resultCode == RESULT_CANCELED){
+            if (resultCode == RESULT_CANCELED) {
                 sendDisableBroadcast();
             }
             finish();
@@ -47,7 +47,7 @@ public class EnableBluetoothActivity extends AppCompatActivity {
         getLocalBroadcastManager().sendBroadcast(intent);
     }
 
-    private LocalBroadcastManager getLocalBroadcastManager(){
+    private LocalBroadcastManager getLocalBroadcastManager() {
         return LocalBroadcastManager.getInstance(this);
     }
 }

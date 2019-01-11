@@ -29,7 +29,7 @@ final class InternetHostInfo extends HostInfo {
         return 0;
     }
 
-    private InternetHostInfo(Parcel in){
+    private InternetHostInfo(Parcel in) {
         super(in);
     }
 
