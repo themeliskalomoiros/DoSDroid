@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -36,7 +37,7 @@ public class NsdServer extends Server {
             serverSocket = new ServerSocket(0); // system chooses an available port
             localPort = serverSocket.getLocalPort();
         } catch (IOException e) {
-            Log.e(TAG, "Error initializing server socket",e);
+            Log.e(TAG, "Error initializing server socket", e);
         }
     }
 
@@ -45,6 +46,7 @@ public class NsdServer extends Server {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd registration failed");
+                ServersHost.Action.stopServer(context, getId());
             }
 
             @Override
