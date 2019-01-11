@@ -32,11 +32,15 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public static final String EXTRA_ID = TAG + "extra id";
 
     protected Context context;
-    private final Attack attack;
-    private final ExecutorService executor;
+    private Attack attack;
+    private ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
 
     public Server(Context context, Attack attack) {
+        initializeFields(context, attack);
+    }
+
+    private void initializeFields(Context context, Attack attack) {
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
