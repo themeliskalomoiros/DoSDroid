@@ -73,6 +73,17 @@ public class NsdServer extends Server {
     }
 
     @Override
+    public void stop() {
+        unregisterService();
+        super.stop();
+    }
+
+    private void unregisterService() {
+        NsdManager manager = (NsdManager) context.getSystemService(NSD_SERVICE);
+        manager.unregisterService(registrationListener);
+    }
+
+    @Override
     public void onConstraintsResolved() {
         registerService();
     }
