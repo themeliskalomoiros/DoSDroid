@@ -3,7 +3,9 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.inte
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
@@ -30,7 +32,7 @@ public class InternetServer extends Server {
             }
 
             private boolean disconnectionHappened(Intent intent) {
-                return intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION) && intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, true);
+                return intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION) && intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
             }
         };
     }
@@ -43,6 +45,18 @@ public class InternetServer extends Server {
     @Override
     public void onConstraintsResolved() {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        registerReceiver();
+    }
+
+    private void registerReceiver() {
+        context.registerReceiver(connectivityReceiver, getIntentFilter());
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        return filter;
     }
 
     @Override
