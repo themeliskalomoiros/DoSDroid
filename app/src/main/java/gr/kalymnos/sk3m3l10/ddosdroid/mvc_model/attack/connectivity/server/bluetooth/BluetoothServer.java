@@ -94,6 +94,7 @@ public class BluetoothServer extends Server {
     public void onConstraintsResolved() {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
         initializeServerSocket();
+        acceptSocketThread.start(); // start accepting clients
     }
 
     private void initializeServerSocket() {
