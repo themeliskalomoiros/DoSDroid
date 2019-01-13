@@ -11,6 +11,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.inter
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd.NsdServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -35,6 +37,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     private Attack attack;
     private ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
+    protected AttackRepository attackRepo;
 
     public Server(Context context, Attack attack) {
         initializeFields(context, attack);
@@ -44,6 +47,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        this.attackRepo = new FirebaseRepository();
         initializeConstraintsResolver(context, attack);
     }
 
