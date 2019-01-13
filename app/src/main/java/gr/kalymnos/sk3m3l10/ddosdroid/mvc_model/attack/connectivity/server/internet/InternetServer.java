@@ -12,6 +12,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Serve
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
 
 public class InternetServer extends Server {
     private BroadcastReceiver connectivityReceiver;
@@ -45,7 +48,13 @@ public class InternetServer extends Server {
     @Override
     public void onConstraintsResolved() {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        uploadAttack();
         registerReceiver();
+    }
+
+    private void uploadAttack() {
+        attack.addSingleHostInfo(EXTRA_UUID,Bots.getLocalUser().getUuid());
+        attackRepo.uploadAttack(attack);
     }
 
     private void registerReceiver() {
