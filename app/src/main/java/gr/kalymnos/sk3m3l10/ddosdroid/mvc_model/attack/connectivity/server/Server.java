@@ -1,11 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.BluetoothServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraintsResolver;
@@ -26,7 +28,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
  * the abstract methods the same way.
  * */
 
-public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener,AttackRepository.OnAttackUploadedListener {
     protected static final String TAG = "Server";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
@@ -48,6 +50,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         this.attackRepo = new FirebaseRepository();
+        this.attackRepo.addOnAttackUploadedListener(this);
         initializeConstraintsResolver(context, attack);
     }
 
@@ -66,6 +69,11 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public void stop() {
         shutdownThreadPool();
         context = null;
+    }
+
+    @Override
+    public void onAttackUploaded(Attack attack) {
+        Toast.makeText(context, R.string.attack_published_label, Toast.LENGTH_SHORT).show();
     }
 
     private void shutdownThreadPool() {

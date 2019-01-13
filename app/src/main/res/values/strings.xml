@@ -51,6 +51,7 @@
     <string name="server_connection_msg">Connected to server.</string>
     <string name="connect_to_wifi_label">Connect to wifi</string>
     <string name="server_error_msg">The server was not started due to an error!</string>
+    <string name="attack_published_label">Attack published</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
