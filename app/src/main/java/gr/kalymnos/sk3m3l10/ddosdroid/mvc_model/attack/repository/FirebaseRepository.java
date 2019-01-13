@@ -70,9 +70,7 @@ public class FirebaseRepository extends AttackRepository {
 
     @Override
     public void uploadAttack(Attack attack) {
-        String pushId = attacksRef.push().getKey();
-        attack.setPushId(pushId);
-        attacksRef.child(pushId).setValue(attack, (error, ref) -> onAttackUploadedListener.onAttackUploaded(attack));
+        attacksRef.child(attack.getPushId()).setValue(attack, (error, ref) -> onAttackUploadedListener.onAttackUploaded(attack));
     }
 
     @Override
