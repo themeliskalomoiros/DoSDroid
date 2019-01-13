@@ -10,6 +10,8 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+
 public final class Attacks {
     private static final String TAG = "Attacks";
 
@@ -34,7 +36,7 @@ public final class Attacks {
     }
 
     public static boolean ownedBy(Attack attack, Bot bot) {
-        return attack.getHostInfo().getUuid().equals(bot.getUuid());
+        return attack.getHostInfo().getString(EXTRA_UUID).equals(bot.getUuid());
     }
 
     public static String createPushId() {

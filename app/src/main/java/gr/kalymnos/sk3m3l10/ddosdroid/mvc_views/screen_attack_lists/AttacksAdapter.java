@@ -23,6 +23,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackItemClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
@@ -76,7 +77,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             if (Attacks.includes(attack, Bots.getLocalUser()))
                 return ITEM_VIEW_TYPE_JOINED_ATTACK;
 
-            if (attack.getHostInfo().getUuid().equals(Bots.getLocalUser().getUuid())) {
+            if (attack.getHostInfo().getString(EXTRA_UUID).equals(Bots.getLocalUser().getUuid())) {
                 return ITEM_VIEW_TYPE_OWNER_ATTACK;
             }
 
