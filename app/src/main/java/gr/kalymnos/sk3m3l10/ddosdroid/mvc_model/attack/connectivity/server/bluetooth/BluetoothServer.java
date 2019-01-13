@@ -61,7 +61,16 @@ public class BluetoothServer extends Server {
     @Override
     public void stop() {
         context.unregisterReceiver(bluetoothStateReceiver);
+        closeServerSocket();
         super.stop();
+    }
+
+    private void closeServerSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG,"Error while closing BluetoothServerSocket",e);
+        }
     }
 
     @Override
