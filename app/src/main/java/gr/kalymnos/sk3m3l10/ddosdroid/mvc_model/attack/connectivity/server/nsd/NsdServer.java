@@ -3,6 +3,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -13,12 +15,16 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Serve
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static android.content.Context.NSD_SERVICE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_SERVICE_NAME;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_SERVICE_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
 
 public class NsdServer extends Server {
-    private static final String SERVICE_NAME = "DdosDroid";
-    private static final String SERVICE_TYPE = String.format("_%s._%s.", SERVICE_NAME, "tcp");
+    private static final String INITIAL_SERVICE_NAME = "DdosDroid"; // It can be change due to colisions
+    private static final String SERVICE_TYPE = String.format("_%s._%s.", INITIAL_SERVICE_NAME, "tcp");
 
     private ServerSocket serverSocket;
     private int localPort;
@@ -58,6 +64,18 @@ public class NsdServer extends Server {
             public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
                 serviceName = nsdServiceInfo.getServiceName();
                 ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+                uploadAttack();
+            }
+
+            private void uploadAttack() {
+                addHostInfoToAttack();
+                attackRepo.uploadAttack(attack);
+            }
+
+            private void addHostInfoToAttack() {
+                attack.addSingleHostInfo(EXTRA_SERVICE_NAME, serviceName);
+                attack.addSingleHostInfo(EXTRA_SERVICE_TYPE, SERVICE_TYPE);
+                attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getUuid());
             }
 
             @Override
@@ -95,7 +113,7 @@ public class NsdServer extends Server {
 
     private NsdServiceInfo getNsdServiceInfo() {
         NsdServiceInfo serviceInfo = new NsdServiceInfo();
-        serviceInfo.setServiceName(SERVICE_NAME);
+        serviceInfo.setServiceName(INITIAL_SERVICE_NAME);
         serviceInfo.setServiceType(SERVICE_TYPE);
         serviceInfo.setPort(localPort);
         return serviceInfo;

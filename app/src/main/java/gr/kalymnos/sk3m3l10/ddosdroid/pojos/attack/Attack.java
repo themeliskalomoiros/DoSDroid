@@ -1,11 +1,12 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Attack implements Parcelable {
     public static final Creator<Attack> CREATOR = new Creator<Attack>() {
@@ -23,7 +24,7 @@ public class Attack implements Parcelable {
     private String pushId, website;
     private int networkType;
     private long timeMillis;
-    private Bundle hostInfo;
+    private Map<String, String> hostInfo = new HashMap<>();
     private List<String> botIds = new ArrayList<>(); // Ideally a Set but Firebase accepts map/list.
 
     public Attack() {
@@ -75,12 +76,12 @@ public class Attack implements Parcelable {
         this.botIds = botIds;
     }
 
-    public Bundle getHostInfo() {
+    public Map<String, String> getHostInfo() {
         return hostInfo;
     }
 
-    public void setHostInfo(Bundle hostInfo) {
-        this.hostInfo = hostInfo;
+    public void addSingleHostInfo(String key, String value) {
+        hostInfo.put(key, value);
     }
 
     protected Attack(Parcel in) {
@@ -88,7 +89,6 @@ public class Attack implements Parcelable {
         website = in.readString();
         networkType = in.readInt();
         timeMillis = in.readLong();
-        hostInfo = in.readBundle();
         botIds = in.createStringArrayList();
     }
 
@@ -98,7 +98,6 @@ public class Attack implements Parcelable {
         parcel.writeString(website);
         parcel.writeInt(networkType);
         parcel.writeLong(timeMillis);
-        parcel.writeBundle(hostInfo);
         parcel.writeStringList(botIds);
     }
 

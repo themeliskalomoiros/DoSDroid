@@ -1,7 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 public interface Constants {
-    String TAG = "Constants";
 
     interface AttackType {
         int TYPE_FETCH_ALL = 101;
@@ -19,11 +18,11 @@ public interface Constants {
     }
 
     interface Extra {
-        String EXTRA_ATTACK = TAG + "extra attacks";
-        String EXTRA_ATTACKS = TAG + "caching attacks key";
-        String EXTRA_TYPE = TAG + "attack type key";
-        String EXTRA_UUID = TAG + "extra uuid";
-        String EXTRA_SERVICE_NAME = TAG + "extra service name";
-        String EXTRA_SERVICE_TYPE = TAG + "extra service type";
+        String EXTRA_ATTACK = "extra_attacks";
+        String EXTRA_ATTACKS = "extra_attacks_key";
+        String EXTRA_TYPE = "extra_attack type_key";
+        String EXTRA_UUID = "extra_uuid";
+        String EXTRA_SERVICE_NAME = "extra_service_name";
+        String EXTRA_SERVICE_TYPE = "extra_service_type";
     }
 }
