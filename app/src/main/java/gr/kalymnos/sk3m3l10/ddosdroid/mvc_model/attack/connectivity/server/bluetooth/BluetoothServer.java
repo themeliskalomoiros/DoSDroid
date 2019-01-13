@@ -37,7 +37,7 @@ public class BluetoothServer extends Server {
 
     private void initializeAcceptSocketThread() {
         acceptSocketThread = new Thread(() -> {
-            while (!Thread.interrupted()) {
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     BluetoothSocket socket = serverSocket.accept();
                     executor.execute(new BluetoothServerTask(socket));

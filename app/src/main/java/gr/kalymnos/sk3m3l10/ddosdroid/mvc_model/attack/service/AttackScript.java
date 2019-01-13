@@ -19,7 +19,7 @@ public class AttackScript implements Runnable {
     public void run() {
         URL url = createUrl();
         if (url != null) {
-            while (!Thread.interrupted()) {
+            while (!Thread.currentThread().isInterrupted()) {
                 readFromUrl(url);
             }
         }
