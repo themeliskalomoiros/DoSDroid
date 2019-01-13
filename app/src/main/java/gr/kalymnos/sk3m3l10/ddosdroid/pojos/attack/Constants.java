@@ -23,5 +23,7 @@ public interface Constants {
         String EXTRA_ATTACKS = TAG + "caching attacks key";
         String EXTRA_TYPE = TAG + "attack type key";
         String EXTRA_UUID = TAG + "extra uuid";
+        String EXTRA_SERVICE_NAME = TAG + "extra service name";
+        String EXTRA_SERVICE_TYPE = TAG + "extra service type";
     }
 }
