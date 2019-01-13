@@ -13,16 +13,15 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfo;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfoHelper;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
-        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener{
+        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
 
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
@@ -51,12 +50,19 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     @Override
     public void onAttackCreationButtonClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
-            HostInfo creator = HostInfoHelper.getLocalHostInfo(viewMvc.getNetworkConf());
-            Attack attack = new Attack(website, viewMvc.getNetworkConf(), creator);
+            Attack attack = createAttack(website);
             callback.onAttackCreated(attack);
         } else {
             Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    @NonNull
+    private Attack createAttack(String website) {
+        HostInfo creator = HostInfoHelper.getLocalHostInfo(viewMvc.getNetworkConf());
+        Attack attack = new Attack(website, viewMvc.getNetworkConf(), creator);
+        attack.setPushId(Attacks.createPushId());
+        return attack;
     }
 
     @Override
