@@ -67,8 +67,9 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public abstract void start();
 
     public void stop() {
-        shutdownThreadPool();
         context = null;
+        shutdownThreadPool();
+        attackRepo.deleteAttack(attack.getPushId());
     }
 
     @Override
