@@ -307,29 +307,4 @@ public class FirebaseRepository extends AttackRepository {
             return new Attack(pushId, website, networkType, timeMillis, creator, botIds);
         }
     }
-
-    private class HostInfoResolver {
-        private DataSnapshot snapshot;
-        private int networkType;
-
-        private HostInfoResolver(DataSnapshot snapshot, int networkType) {
-            initializeSnapshot(snapshot);
-            this.networkType = networkType;
-        }
-
-        private void initializeSnapshot(DataSnapshot snapshot) {
-            if (invalidSnapshot(snapshot))
-                throw new IllegalArgumentException(TAG + ": wrong attack creator snapshot");
-            this.snapshot = snapshot;
-        }
-
-        private boolean invalidSnapshot(DataSnapshot snapshot) {
-            return !snapshot.getRef().getParent().getParent().getKey().equals(NODE_ATTACKS);
-        }
-
-        private HostInfo resolveInstance() {
-            Class<? extends HostInfo> creatorClass = HostInfoHelper.getClassFrom(networkType);
-            return snapshot.getValue(creatorClass);
-        }
-    }
 }
