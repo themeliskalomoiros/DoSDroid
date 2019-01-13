@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
@@ -25,6 +26,7 @@ public class NsdServer extends Server {
     private static final String SERVICE_TYPE = String.format("_%s._%s.", INITIAL_SERVICE_NAME, "tcp");
 
     private ServerSocket serverSocket;
+    private Thread acceptSocketThread;
     private int localPort;
 
     private String serviceName;
@@ -32,7 +34,12 @@ public class NsdServer extends Server {
 
     public NsdServer(Context context, Attack attack) {
         super(context, attack);
+        initializeFields(context);
+    }
+
+    private void initializeFields(Context context) {
         initializeServerSocket();
+        initializeAcceptSocketThread();
         initializeRegistrationListener(context);
     }
 
@@ -43,6 +50,20 @@ public class NsdServer extends Server {
         } catch (IOException e) {
             Log.e(TAG, "Error initializing server socket", e);
         }
+    }
+
+    private void initializeAcceptSocketThread() {
+        acceptSocketThread = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    executor.execute(new NsdServerThread(socket));
+                } catch (IOException e) {
+                    Log.e(TAG, "Error creating ServerSocket", e);
+                }
+            }
+            closeServerSocket();
+        });
     }
 
     private void initializeRegistrationListener(Context context) {
@@ -83,15 +104,15 @@ public class NsdServer extends Server {
                 closeServerSocket();
                 ServerStatusBroadcaster.broadcastStopped(getId(), LocalBroadcastManager.getInstance(context));
             }
-
-            private void closeServerSocket() {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "Error closing server socket", e);
-                }
-            }
         };
+    }
+
+    private void closeServerSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error closing server socket", e);
+        }
     }
 
     @Override
