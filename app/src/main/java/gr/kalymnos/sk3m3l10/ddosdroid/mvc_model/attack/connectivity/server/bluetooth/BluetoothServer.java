@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.blue
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,11 +26,26 @@ import static android.bluetooth.BluetoothAdapter.STATE_OFF;
 public class BluetoothServer extends Server {
     private BroadcastReceiver bluetoothStateReceiver;
     private BluetoothServerSocket serverSocket;
+    private Thread acceptSocketThread;
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
+        initializeAcceptSocketThread();
         initializeBluetoothReceiver();
         registerBluetoothStateReceiver(context);
+    }
+
+    private void initializeAcceptSocketThread() {
+        acceptSocketThread = new Thread(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    BluetoothSocket socket = serverSocket.accept();
+                    executor.execute(new BluetoothServerTask(socket));
+                } catch (IOException e) {
+                    Log.e(TAG, "Error creating BluetoothSocket", e);
+                }
+            }
+        });
     }
 
     private void initializeBluetoothReceiver() {
@@ -69,7 +85,7 @@ public class BluetoothServer extends Server {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            Log.e(TAG,"Error while closing BluetoothServerSocket",e);
+            Log.e(TAG, "Error while closing BluetoothServerSocket", e);
         }
     }
 
