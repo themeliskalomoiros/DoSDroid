@@ -9,13 +9,13 @@ import java.io.OutputStream;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ATTACK_STARTED;
 
-class BluetoothServerTask implements Runnable {
-    private static final String TAG = "BluetoothServerTask";
+class BluetoothServerThread implements Runnable {
+    private static final String TAG = "BluetoothServerThread";
 
     private BluetoothSocket socket;
     private OutputStream out;
 
-    BluetoothServerTask(@NonNull BluetoothSocket socket) {
+    BluetoothServerThread(@NonNull BluetoothSocket socket) {
         initializeFields(socket);
     }
 

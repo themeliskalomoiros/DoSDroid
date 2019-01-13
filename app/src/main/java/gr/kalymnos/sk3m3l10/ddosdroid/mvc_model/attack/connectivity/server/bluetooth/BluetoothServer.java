@@ -40,7 +40,7 @@ public class BluetoothServer extends Server {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     BluetoothSocket socket = serverSocket.accept();
-                    executor.execute(new BluetoothServerTask(socket));
+                    executor.execute(new BluetoothServerThread(socket));
                 } catch (IOException e) {
                     Log.e(TAG, "Error creating BluetoothSocket", e);
                 }
