@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
@@ -36,9 +37,13 @@ public final class Attacks {
         return attack.getHostInfo().getUuid().equals(bot.getUuid());
     }
 
-    public static String createPushId(){
+    public static String createPushId() {
+        return getAttackDatabaseReference().push().getKey();
+    }
+
+    @NonNull
+    private static DatabaseReference getAttackDatabaseReference() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference attacks = database.getReference().child("attacks");
-        return attacks.push().toString();
+        return database.getReference().child("attacks");
     }
 }
