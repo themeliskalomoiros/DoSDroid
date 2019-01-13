@@ -22,21 +22,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfo;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfoHelper;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
-        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener, AttackRepository.OnAttackUploadedListener {
+        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener{
 
     private AttackCreationViewMvc viewMvc;
-    private AttackRepository attackRepo;
     private OnAttackCreationListener callback;
 
     public interface OnAttackCreationListener {
         void onAttackCreated(Attack attack);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        attackRepo = new FirebaseRepository();
-        attackRepo.addOnAttackUploadedListener(this);
     }
 
     @Nullable
@@ -57,29 +49,14 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        attackRepo.removeOnAttacksFetchListener();
-        attackRepo.removeOnAttackUploadedListener();
-    }
-
-    @Override
     public void onAttackCreationButtonClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
-            viewMvc.showLoadingIndicator();
             HostInfo creator = HostInfoHelper.getLocalHostInfo(viewMvc.getNetworkConf());
             Attack attack = new Attack(website, viewMvc.getNetworkConf(), creator);
-            attackRepo.uploadAttack(attack);
+            callback.onAttackCreated(attack);
         } else {
             Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
         }
-    }
-
-
-    @Override
-    public void onAttackUploaded(Attack attack) {
-        viewMvc.hideLoadingIndicator();
-        callback.onAttackCreated(attack);
     }
 
     @Override

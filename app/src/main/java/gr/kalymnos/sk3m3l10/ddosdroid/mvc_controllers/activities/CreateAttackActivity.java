@@ -24,14 +24,14 @@ public class CreateAttackActivity extends AppCompatActivity implements
                 .commit();
     }
 
+    private void setupUi() {
+        viewMvc = new CreateAttackViewMvcImpl(LayoutInflater.from(this), null);
+        setContentView(viewMvc.getRootView());
+    }
+
     @Override
     public void onAttackCreated(Attack attack) {
         ServersHost.Action.startServer(this, attack);
         finish();
-    }
-
-    private void setupUi() {
-        viewMvc = new CreateAttackViewMvcImpl(LayoutInflater.from(this), null);
-        setContentView(viewMvc.getRootView());
     }
 }
