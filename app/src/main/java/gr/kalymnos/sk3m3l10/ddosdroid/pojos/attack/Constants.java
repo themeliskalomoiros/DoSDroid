@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 public interface Constants {
+    int ATTACK_STARTED = 1010;
 
     interface AttackType {
         int TYPE_FETCH_ALL = 101;
