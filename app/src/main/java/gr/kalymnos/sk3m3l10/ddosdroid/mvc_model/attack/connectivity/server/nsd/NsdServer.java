@@ -3,8 +3,6 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -29,13 +27,13 @@ public class NsdServer extends Server {
     private ServerSocket serverSocket;
     private int localPort;
 
-    private NsdManager.RegistrationListener registrationListener;
     private String serviceName;
+    private NsdManager.RegistrationListener registrationListener;
 
     public NsdServer(Context context, Attack attack) {
         super(context, attack);
         initializeServerSocket();
-        initializeRegistrationManager(context);
+        initializeRegistrationListener(context);
     }
 
     private void initializeServerSocket() {
@@ -47,7 +45,7 @@ public class NsdServer extends Server {
         }
     }
 
-    private void initializeRegistrationManager(Context context) {
+    private void initializeRegistrationListener(Context context) {
         registrationListener = new NsdManager.RegistrationListener() {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
