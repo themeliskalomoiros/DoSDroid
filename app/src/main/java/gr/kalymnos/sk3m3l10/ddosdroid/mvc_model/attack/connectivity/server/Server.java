@@ -33,11 +33,11 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public static final String EXTRA_SERVER_STATUS = "extra server status";
     public static final String EXTRA_ID = TAG + "extra id";
 
-    protected Context context;
-    private Attack attack;
-    private ExecutorService executor;
-    protected NetworkConstraintsResolver constraintsResolver;
+    protected Attack attack;
     protected AttackRepository attackRepo;
+    protected Context context;
+    protected NetworkConstraintsResolver constraintsResolver;
+    private ExecutorService executor;
 
     public Server(Context context, Attack attack) {
         initializeFields(context, attack);
