@@ -17,8 +17,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreati
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfo;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfoHelper;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
@@ -59,8 +57,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @NonNull
     private Attack createAttack(String website) {
-        HostInfo creator = HostInfoHelper.getLocalHostInfo(viewMvc.getNetworkConf());
-        Attack attack = new Attack(website, viewMvc.getNetworkConf(), creator);
+        Attack attack = new Attack(website, viewMvc.getNetworkConf());
         attack.setPushId(Attacks.createPushId());
         return attack;
     }
