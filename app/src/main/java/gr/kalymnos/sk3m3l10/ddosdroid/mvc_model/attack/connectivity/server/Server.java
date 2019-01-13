@@ -39,7 +39,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected AttackRepository attackRepo;
     protected Context context;
     protected NetworkConstraintsResolver constraintsResolver;
-    private ExecutorService executor;
+    protected ExecutorService executor;
 
     public Server(Context context, Attack attack) {
         initializeFields(context, attack);
