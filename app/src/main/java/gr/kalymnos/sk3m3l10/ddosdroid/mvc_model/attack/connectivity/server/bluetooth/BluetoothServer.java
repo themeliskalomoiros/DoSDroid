@@ -45,7 +45,16 @@ public class BluetoothServer extends Server {
                     Log.e(TAG, "Error creating BluetoothSocket", e);
                 }
             }
+            closeServerSocket();
         });
+    }
+
+    private void closeServerSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error while closing BluetoothServerSocket", e);
+        }
     }
 
     private void initializeBluetoothReceiver() {
@@ -76,17 +85,9 @@ public class BluetoothServer extends Server {
 
     @Override
     public void stop() {
+        acceptSocketThread.interrupt();
         context.unregisterReceiver(bluetoothStateReceiver);
-        closeServerSocket();
         super.stop();
-    }
-
-    private void closeServerSocket() {
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error while closing BluetoothServerSocket", e);
-        }
     }
 
     @Override
