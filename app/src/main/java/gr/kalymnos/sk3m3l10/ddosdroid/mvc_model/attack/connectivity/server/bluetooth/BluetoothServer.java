@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth;
 
+import android.bluetooth.BluetoothServerSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import static android.bluetooth.BluetoothAdapter.STATE_OFF;
 
 public class BluetoothServer extends Server {
     private BroadcastReceiver bluetoothStateReceiver;
+    private BluetoothServerSocket serverSocket;
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
