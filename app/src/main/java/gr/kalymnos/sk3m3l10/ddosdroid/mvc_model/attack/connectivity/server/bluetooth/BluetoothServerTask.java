@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ATTACK_STARTED;
@@ -14,7 +13,6 @@ class BluetoothServerTask implements Runnable {
     private static final String TAG = "BluetoothServerTask";
 
     private BluetoothSocket socket;
-    private InputStream in;
     private OutputStream out;
 
     BluetoothServerTask(@NonNull BluetoothSocket socket) {
@@ -23,16 +21,7 @@ class BluetoothServerTask implements Runnable {
 
     private void initializeFields(@NonNull BluetoothSocket socket) {
         this.socket = socket;
-        initializeInputStream(socket);
         initializeOutputStream(socket);
-    }
-
-    private void initializeInputStream(@NonNull BluetoothSocket socket) {
-        try {
-            in = socket.getInputStream();
-        } catch (IOException e) {
-            Log.e(TAG, "Error obtaining inputStream from socket", e);
-        }
     }
 
     private void initializeOutputStream(@NonNull BluetoothSocket socket) {
@@ -46,6 +35,7 @@ class BluetoothServerTask implements Runnable {
     @Override
     public void run() {
         writeAttackStarted();
+        releaseResources();
     }
 
     private void writeAttackStarted() {
@@ -53,6 +43,27 @@ class BluetoothServerTask implements Runnable {
             out.write(ATTACK_STARTED);
         } catch (IOException e) {
             Log.e(TAG, "Error writing to output stream", e);
+        }
+    }
+
+    private void releaseResources() {
+        closeOutputStream();
+        closeSocket(socket); // has no effect if the stream is closed
+    }
+
+    private void closeOutputStream() {
+        try {
+            out.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error closing output stream");
+        }
+    }
+
+    private void closeSocket(@NonNull BluetoothSocket socket) {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
