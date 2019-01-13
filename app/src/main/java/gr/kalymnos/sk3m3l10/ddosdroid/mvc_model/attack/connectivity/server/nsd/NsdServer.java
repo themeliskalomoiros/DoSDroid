@@ -50,12 +50,14 @@ public class NsdServer extends Server {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd registration failed");
+                closeServerSocket();
                 ServersHost.Action.stopServer(context, getId());
             }
 
             @Override
             public void onUnregistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd unregistration failed");
+                closeServerSocket();
             }
 
             @Override
@@ -78,7 +80,16 @@ public class NsdServer extends Server {
 
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
+                closeServerSocket();
                 ServerStatusBroadcaster.broadcastStopped(getId(), LocalBroadcastManager.getInstance(context));
+            }
+
+            private void closeServerSocket() {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "Error closing server socket", e);
+                }
             }
         };
     }
