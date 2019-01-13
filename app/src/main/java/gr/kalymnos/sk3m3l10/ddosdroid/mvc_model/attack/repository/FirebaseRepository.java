@@ -13,10 +13,10 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfo;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.hostinfo.HostInfoHelper;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
 
 public class FirebaseRepository extends AttackRepository {
     private static final String NODE_ATTACKS = "attacks";
@@ -120,7 +120,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                attacks.add(new AttackResolver(child).resolveInstance());
+                attacks.add(child.getValue(Attack.class));
             }
             return attacks;
         }
@@ -138,7 +138,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(child).resolveInstance();
+                Attack attack = child.getValue(Attack.class);
                 if (attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
@@ -159,7 +159,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(child).resolveInstance();
+                Attack attack = child.getValue(Attack.class);
                 if (botJoinedAttack(attack)) {
                     attacks.add(attack);
                 }
@@ -185,7 +185,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(child).resolveInstance();
+                Attack attack = child.getValue(Attack.class);
                 if (botJoinedAttack(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
@@ -204,7 +204,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(child).resolveInstance();
+                Attack attack = child.getValue(Attack.class);
                 if (botNotBelongTo(attack)) {
                     attacks.add(attack);
                 }
@@ -230,7 +230,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot child : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(child).resolveInstance();
+                Attack attack = child.getValue(Attack.class);
                 if (botNotBelongTo(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
@@ -245,7 +245,7 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(snapshot).resolveInstance();
+                Attack attack = snapshot.getValue(Attack.class);
                 if (createdByLocalUser(attack)) {
                     attacks.add(attack);
                 }
@@ -254,9 +254,9 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected boolean createdByLocalUser(Attack attack) {
-            String hostInfo = attack.getHostInfo().getUuid();
-            String localUser = Bots.getLocalUser().getUuid();
-            return hostInfo.equals(localUser);
+            String attackUuid = attack.getHostInfo().getString(EXTRA_UUID);
+            String localUuid = Bots.getLocalUser().getUuid();
+            return attackUuid.equals(localUuid);
         }
     }
 
@@ -271,40 +271,12 @@ public class FirebaseRepository extends AttackRepository {
         protected List<Attack> extractAttacksFrom(DataSnapshot dataSnapshot) {
             List<Attack> attacks = new ArrayList<>();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Attack attack = new AttackResolver(snapshot).resolveInstance();
+                Attack attack = snapshot.getValue(Attack.class);
                 if (createdByLocalUser(attack) && attack.getNetworkType() == networkType) {
                     attacks.add(attack);
                 }
             }
             return attacks;
-        }
-    }
-
-    private class AttackResolver {
-        private DataSnapshot snapshot;
-
-        AttackResolver(DataSnapshot snapshot) {
-            initializeSnapshot(snapshot);
-        }
-
-        private void initializeSnapshot(DataSnapshot snapshot) {
-            if (invalidSnapshot(snapshot))
-                throw new IllegalArgumentException(TAG + ": wrong attack snapshot");
-            this.snapshot = snapshot;
-        }
-
-        private boolean invalidSnapshot(DataSnapshot snapshot) {
-            return !snapshot.getRef().getParent().getKey().equals(NODE_ATTACKS);
-        }
-
-        Attack resolveInstance() {
-            String pushId = snapshot.getKey();
-            String website = snapshot.child("website").getValue(String.class);
-            long timeMillis = snapshot.child("timeMillis").getValue(Long.class);
-            int networkType = snapshot.child("networkType").getValue(Integer.class);
-            HostInfo creator = new HostInfoResolver(snapshot.child("hostInfo"), networkType).resolveInstance();
-            List<String> botIds = (List<String>) snapshot.child("botIds").getValue();
-            return new Attack(pushId, website, networkType, timeMillis, creator, botIds);
         }
     }
 }
