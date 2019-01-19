@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.statu
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
 
@@ -25,6 +27,7 @@ public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
     private WifiP2pManager.Channel channel;
     private BroadcastReceiver wifiDirectReceiver;
+    private WifiP2pManager.ConnectionInfoListener connectionInfoListener;
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
@@ -36,6 +39,7 @@ public class WifiP2pServer extends Server {
         initializeWifiDirectReceiver();
         registerWifiDirectReceiver();
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
+        initializeConnectionInfoListener();
     }
 
     private void initializeWifiDirectReceiver() {
@@ -46,6 +50,13 @@ public class WifiP2pServer extends Server {
                     case WIFI_P2P_STATE_CHANGED_ACTION:
                         if (isStateDisabled(intent))
                             ServersHost.Action.stopServer(context, getId());
+                        break;
+                    case WIFI_P2P_CONNECTION_CHANGED_ACTION:
+                        NetworkInfo networkInfo = intent
+                                .getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+                        if (networkInfo.isConnected()) {
+                            wifiP2pManager.requestConnectionInfo(channel, connectionInfoListener);
+                        }
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": unknown action");
@@ -69,6 +80,13 @@ public class WifiP2pServer extends Server {
         return filter;
     }
 
+    private void initializeConnectionInfoListener() {
+        connectionInfoListener = info -> {
+            if (info.groupFormed && info.isGroupOwner)
+                ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        };
+    }
+
     @Override
     public void start() {
         constraintsResolver.resolveConstraints();
@@ -82,7 +100,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+//        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
     }
 
     @Override
