@@ -6,23 +6,23 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_P2P_DEVICE;
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
-import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_DEVICE_ADDRESS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_DEVICE_NAME;
 
 // TODO: Server must publish its WipP2pConfig in the Attack.hostInfo so that
 // the client should know which device to pick to connect automatically (not choose by the user).
@@ -99,10 +99,18 @@ public class WifiP2pServer extends Server {
 
     private void initializeGroupInfoListener() {
         groupInfoListener = group -> {
-          if (group.isGroupOwner()){
-              ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
-          }
+            if (group.isGroupOwner()) {
+                uploadAttack(group);
+                ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+            }
         };
+    }
+
+    private void uploadAttack(WifiP2pGroup group) {
+        WifiP2pDevice thisDevice = group.getOwner();
+        attack.addSingleHostInfo(EXTRA_DEVICE_NAME, thisDevice.deviceName);
+        attack.addSingleHostInfo(EXTRA_DEVICE_ADDRESS, thisDevice.deviceAddress);
+        attackRepo.uploadAttack(attack);
     }
 
     @Override
