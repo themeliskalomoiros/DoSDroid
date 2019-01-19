@@ -5,6 +5,8 @@ import android.content.Context;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
 
+// Resolves when the group is created successfully.
+
 public class WifiP2pGroupConstraint extends NetworkConstraint {
     private WifiP2pServer server;
 

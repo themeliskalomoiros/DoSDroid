@@ -28,8 +28,14 @@ public class WifiP2pServer extends Server {
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
+        setup();
+    }
+
+    private void setup() {
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         initializeWifiDirectReceiver();
+        registerWifiDirectReceiver();
+        channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
     }
 
     private void initializeWifiDirectReceiver() {
@@ -52,6 +58,17 @@ public class WifiP2pServer extends Server {
         };
     }
 
+    private void registerWifiDirectReceiver() {
+        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
+        return filter;
+    }
+
     @Override
     public void start() {
         constraintsResolver.resolveConstraints();
@@ -65,20 +82,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        registerWifiDirectReceiver();
-        channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
-    }
-
-    private void registerWifiDirectReceiver() {
-        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
-    }
-
-    @NonNull
-    private IntentFilter getIntentFilter() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
-        return filter;
     }
 
     @Override
