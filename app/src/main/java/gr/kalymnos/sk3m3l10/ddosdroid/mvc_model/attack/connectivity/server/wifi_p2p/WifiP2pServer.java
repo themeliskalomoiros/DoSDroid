@@ -32,7 +32,6 @@ public class WifiP2pServer extends Server {
     private WifiP2pManager.Channel channel;
     private BroadcastReceiver wifiDirectReceiver;
     private WifiP2pManager.GroupInfoListener groupInfoListener;
-    private WifiP2pDevice thisDevice;
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
@@ -57,9 +56,6 @@ public class WifiP2pServer extends Server {
                         break;
                     case WIFI_P2P_CONNECTION_CHANGED_ACTION:
                         handleConnectionChangedAction(intent);
-                        break;
-                    case WIFI_P2P_THIS_DEVICE_CHANGED_ACTION:
-                        handleThisDeviceChangedAction(intent);
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": unknown action");
@@ -87,11 +83,6 @@ public class WifiP2pServer extends Server {
             private NetworkInfo getNetworkInfoFrom(Intent intent) {
                 return intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
             }
-
-            private void handleThisDeviceChangedAction(Intent intent) {
-                thisDevice = intent.getParcelableExtra(EXTRA_WIFI_P2P_DEVICE);
-                Log.d(TAG, "Device name is " + thisDevice.deviceName);
-            }
         };
     }
 
@@ -102,7 +93,6 @@ public class WifiP2pServer extends Server {
     @NonNull
     private IntentFilter getIntentFilter() {
         IntentFilter filter = new IntentFilter();
-        // TODO: Fix bug, add all the actions
         filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
         return filter;
     }
