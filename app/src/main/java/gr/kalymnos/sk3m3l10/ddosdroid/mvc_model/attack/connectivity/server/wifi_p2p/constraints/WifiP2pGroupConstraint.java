@@ -12,6 +12,7 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
 
     public WifiP2pGroupConstraint(Context context, WifiP2pServer server) {
         super(context);
+        this.server = server;
     }
 
     @Override
@@ -26,6 +27,6 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
 
     @Override
     public void cleanResources() {
-
+        server = null;
     }
 }
