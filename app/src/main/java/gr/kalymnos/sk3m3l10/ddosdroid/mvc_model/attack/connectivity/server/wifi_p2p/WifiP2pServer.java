@@ -89,4 +89,12 @@ public class WifiP2pServer extends Server {
     public void onConstraintResolveFailure() {
         ServerStatusBroadcaster.broadcastError(getId(), LocalBroadcastManager.getInstance(context));
     }
+
+    public WifiP2pManager getWifiP2pManager() {
+        return wifiP2pManager;
+    }
+
+    public WifiP2pManager.Channel getChannel() {
+        return channel;
+    }
 }
