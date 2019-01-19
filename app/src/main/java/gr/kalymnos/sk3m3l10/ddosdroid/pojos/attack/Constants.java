@@ -25,5 +25,7 @@ public interface Constants {
         String EXTRA_UUID = "extra_uuid";
         String EXTRA_SERVICE_NAME = "extra_service_name";
         String EXTRA_SERVICE_TYPE = "extra_service_type";
+        String EXTRA_DEVICE_NAME = "extra_device_name";
+        String EXTRA_DEVICE_ADDRESS = "extra_device_address";
     }
 }
