@@ -94,6 +94,7 @@ public class WifiP2pServer extends Server {
     private IntentFilter getIntentFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
+        filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
         return filter;
     }
 
