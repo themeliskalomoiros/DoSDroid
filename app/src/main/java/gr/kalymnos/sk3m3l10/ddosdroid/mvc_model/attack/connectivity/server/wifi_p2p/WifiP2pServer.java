@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
+import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_P2P_DEVICE;
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
@@ -29,6 +32,7 @@ public class WifiP2pServer extends Server {
     private WifiP2pManager.Channel channel;
     private BroadcastReceiver wifiDirectReceiver;
     private WifiP2pManager.ConnectionInfoListener connectionInfoListener;
+    private WifiP2pDevice thisDevice;
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
@@ -54,8 +58,8 @@ public class WifiP2pServer extends Server {
                     case WIFI_P2P_CONNECTION_CHANGED_ACTION:
                         handleConnectionChangedAction(intent);
                         break;
-
                     case WIFI_P2P_THIS_DEVICE_CHANGED_ACTION:
+                        handleThisDeviceChangedAction(intent);
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": unknown action");
@@ -82,6 +86,11 @@ public class WifiP2pServer extends Server {
 
             private NetworkInfo getNetworkInfoFrom(Intent intent) {
                 return intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+            }
+
+            private void handleThisDeviceChangedAction(Intent intent) {
+                thisDevice = intent.getParcelableExtra(EXTRA_WIFI_P2P_DEVICE);
+                Log.d(TAG, "Device name is " + thisDevice.deviceName);
             }
         };
     }
