@@ -6,11 +6,14 @@ import android.support.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothDiscoverabilityConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothEnableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetConstraint;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.constraints.WifiP2pEnabledConstraint;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.constraints.WifiP2pGroupConstraint;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
@@ -74,20 +77,20 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     public interface Builder {
-        NetworkConstraintsResolver build(Context context, int networkType);
+        NetworkConstraintsResolver build(Context context, int networkType, Server server);
     }
 
     public static class BuilderImp implements Builder {
 
         @Override
-        public NetworkConstraintsResolver build(Context context, int networkType) {
+        public NetworkConstraintsResolver build(Context context, int networkType, Server server) {
             switch (networkType) {
                 case INTERNET:
                     return new InternetConstraintResolver(context);
                 case BLUETOOTH:
                     return new BluetoothConstraintResolver(context);
                 case WIFI_P2P:
-                    return new WifiP2pConstraintResolver(context);
+                    return new WifiP2pConstraintResolver(context, server);
                 case NSD:
                     return new NsdConstraintResolver();
                 default:
@@ -137,8 +140,9 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     private static class WifiP2pConstraintResolver extends NetworkConstraintsResolver {
-        public WifiP2pConstraintResolver(Context context) {
+        public WifiP2pConstraintResolver(Context context, Server server) {
             addConstraint(createWifiP2pSetupConstraint(context));
+            WifiP2pGroupConstraint constraint = new WifiP2pGroupConstraint(context, (WifiP2pServer) server);
         }
 
         @NonNull

@@ -56,7 +56,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
 
     private void initializeConstraintsResolver(Context context, Attack attack) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
-        constraintsResolver = builder.build(context, attack.getNetworkType());
+        constraintsResolver = builder.build(context, attack.getNetworkType(),this);
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
