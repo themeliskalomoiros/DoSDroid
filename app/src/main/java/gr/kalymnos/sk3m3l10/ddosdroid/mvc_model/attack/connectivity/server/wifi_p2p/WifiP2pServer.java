@@ -31,7 +31,7 @@ public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
     private WifiP2pManager.Channel channel;
     private BroadcastReceiver wifiDirectReceiver;
-    private WifiP2pManager.ConnectionInfoListener connectionInfoListener;
+    private WifiP2pManager.GroupInfoListener groupInfoListener;
     private WifiP2pDevice thisDevice;
 
     public WifiP2pServer(Context context, Attack attack) {
@@ -44,7 +44,7 @@ public class WifiP2pServer extends Server {
         initializeWifiDirectReceiver();
         registerWifiDirectReceiver();
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
-        initializeConnectionInfoListener();
+        initializeGroupInfoListener();
     }
 
     private void initializeWifiDirectReceiver() {
@@ -79,7 +79,7 @@ public class WifiP2pServer extends Server {
             private void handleConnectionChangedAction(Intent intent) {
                 boolean isConnected = getNetworkInfoFrom(intent).isConnected();
                 if (isConnected) {
-                    wifiP2pManager.requestConnectionInfo(channel, connectionInfoListener);
+                    wifiP2pManager.requestGroupInfo(channel, groupInfoListener);
                 }
                 return;
             }
@@ -102,15 +102,16 @@ public class WifiP2pServer extends Server {
     @NonNull
     private IntentFilter getIntentFilter() {
         IntentFilter filter = new IntentFilter();
+        // TODO: Fix bug, add all the actions
         filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
         return filter;
     }
 
-    private void initializeConnectionInfoListener() {
-        connectionInfoListener = info -> {
-            if (info.groupFormed && info.isGroupOwner) {
-                ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
-            }
+    private void initializeGroupInfoListener() {
+        groupInfoListener = group -> {
+          if (group.isGroupOwner()){
+              ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+          }
         };
     }
 
