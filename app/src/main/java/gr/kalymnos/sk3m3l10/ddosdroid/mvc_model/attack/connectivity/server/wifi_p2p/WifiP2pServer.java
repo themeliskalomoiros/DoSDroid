@@ -19,6 +19,7 @@ import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION;
 
 // TODO: Server must publish its WipP2pConfig in the Attack.hostInfo so that
 // the client should know which device to pick to connect automatically (not choose by the user).
@@ -48,23 +49,39 @@ public class WifiP2pServer extends Server {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case WIFI_P2P_STATE_CHANGED_ACTION:
-                        if (isStateDisabled(intent))
-                            ServersHost.Action.stopServer(context, getId());
+                        handleStateChangedAction(context, intent);
                         break;
                     case WIFI_P2P_CONNECTION_CHANGED_ACTION:
-                        NetworkInfo networkInfo = intent
-                                .getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
-                        if (networkInfo.isConnected()) {
-                            wifiP2pManager.requestConnectionInfo(channel, connectionInfoListener);
-                        }
+                        handleConnectionChangedAction(intent);
+                        break;
+
+                    case WIFI_P2P_THIS_DEVICE_CHANGED_ACTION:
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": unknown action");
                 }
             }
 
+            private void handleStateChangedAction(Context context, Intent intent) {
+                if (isStateDisabled(intent))
+                    ServersHost.Action.stopServer(context, getId());
+                return;
+            }
+
             private boolean isStateDisabled(Intent intent) {
                 return intent.getIntExtra(EXTRA_WIFI_STATE, -1) == WIFI_P2P_STATE_DISABLED;
+            }
+
+            private void handleConnectionChangedAction(Intent intent) {
+                boolean isConnected = getNetworkInfoFrom(intent).isConnected();
+                if (isConnected) {
+                    wifiP2pManager.requestConnectionInfo(channel, connectionInfoListener);
+                }
+                return;
+            }
+
+            private NetworkInfo getNetworkInfoFrom(Intent intent) {
+                return intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
             }
         };
     }
@@ -82,8 +99,9 @@ public class WifiP2pServer extends Server {
 
     private void initializeConnectionInfoListener() {
         connectionInfoListener = info -> {
-            if (info.groupFormed && info.isGroupOwner)
+            if (info.groupFormed && info.isGroupOwner) {
                 ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+            }
         };
     }
 
