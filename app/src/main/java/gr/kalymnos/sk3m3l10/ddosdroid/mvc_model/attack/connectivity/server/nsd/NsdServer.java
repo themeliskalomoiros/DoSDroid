@@ -29,7 +29,7 @@ public class NsdServer extends Server {
     private Thread acceptSocketThread;
     private int localPort;
 
-    private String serviceName;
+    private String nsdServiceName;
     private NsdManager.RegistrationListener registrationListener;
 
     public NsdServer(Context context, Attack attack) {
@@ -83,7 +83,7 @@ public class NsdServer extends Server {
 
             @Override
             public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
-                serviceName = nsdServiceInfo.getServiceName();
+                nsdServiceName = nsdServiceInfo.getServiceName();
                 ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
                 uploadAttack();
             }
@@ -94,7 +94,7 @@ public class NsdServer extends Server {
             }
 
             private void addHostInfoToAttack() {
-                attack.addSingleHostInfo(EXTRA_SERVICE_NAME, serviceName);
+                attack.addSingleHostInfo(EXTRA_SERVICE_NAME, nsdServiceName);
                 attack.addSingleHostInfo(EXTRA_SERVICE_TYPE, SERVICE_TYPE);
                 attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getId());
             }
