@@ -11,6 +11,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
@@ -119,7 +120,22 @@ public class WifiP2pServer extends Server {
     @Override
     public void stop() {
         context.unregisterReceiver(wifiDirectReceiver);
+        removeGroup();
         super.stop();
+    }
+
+    private void removeGroup() {
+        wifiP2pManager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Wifi peer to peer group removed.");
+            }
+
+            @Override
+            public void onFailure(int i) {
+                Log.d(TAG, "Failed to remove wifi peer to peer group.");
+            }
+        });
     }
 
     @Override
