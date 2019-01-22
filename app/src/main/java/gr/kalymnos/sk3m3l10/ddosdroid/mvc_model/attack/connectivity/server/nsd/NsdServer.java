@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -60,10 +59,10 @@ public class NsdServer extends Server {
                     Socket socket = serverSocket.accept();
                     executor.execute(new NsdServerThread(socket));
                 } catch (SocketException e) {
-                    Log.d(TAG, "Error on serverSocket.accept().", e);
+                    Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed.", e);
                     break;
                 } catch (IOException e) {
-                    Log.d(TAG, "Error on serverSocket.accept().", e);
+                    Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
                     break;
                 }
             }
@@ -77,6 +76,7 @@ public class NsdServer extends Server {
             public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
                 nsdServiceName = nsdServiceInfo.getServiceName();
                 uploadAttack();
+                acceptSocketThread.start();
                 ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
             }
 
@@ -94,7 +94,7 @@ public class NsdServer extends Server {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd registration failed");
-                ServerStatusBroadcaster.broadcastError(getId(),LocalBroadcastManager.getInstance(context));
+                ServerStatusBroadcaster.broadcastError(getId(), LocalBroadcastManager.getInstance(context));
             }
 
             @Override
