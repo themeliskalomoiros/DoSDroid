@@ -111,14 +111,6 @@ public class NsdServer extends Server {
         };
     }
 
-    private void closeServerSocket() {
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error closing server socket", e);
-        }
-    }
-
     @Override
     public void start() {
         constraintsResolver.resolveConstraints();
@@ -127,7 +119,16 @@ public class NsdServer extends Server {
     @Override
     public void stop() {
         unregisterService();
+        closeServerSocket();
         super.stop();
+    }
+
+    private void closeServerSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error closing server socket", e);
+        }
     }
 
     private void unregisterService() {
