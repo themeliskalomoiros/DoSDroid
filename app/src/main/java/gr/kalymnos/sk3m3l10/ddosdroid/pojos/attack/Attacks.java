@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
@@ -47,5 +48,10 @@ public final class Attacks {
     private static DatabaseReference getAttackDatabaseReference() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         return database.getReference().child("attacks");
+    }
+
+    public static UUID getUUID(Attack attack){
+        String uuidString = attack.getHostInfo().get(EXTRA_UUID);
+        return UUID.fromString(uuidString);
     }
 }
