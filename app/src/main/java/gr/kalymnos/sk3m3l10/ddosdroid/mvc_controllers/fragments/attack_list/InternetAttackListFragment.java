@@ -19,13 +19,13 @@ public class InternetAttackListFragment extends AttackListFragment {
                 attackRepo.fetchAllAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_JOINED:
-                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getUuid(), INTERNET);
+                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), INTERNET);
                 break;
             case TYPE_FETCH_OWNER:
                 attackRepo.fetchLocalOwnerAttacksOf(INTERNET);
                 break;
             case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getUuid(), INTERNET);
+                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), INTERNET);
                 break;
             default:
                 throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified. Type is " + getAttacksType(getArguments()));

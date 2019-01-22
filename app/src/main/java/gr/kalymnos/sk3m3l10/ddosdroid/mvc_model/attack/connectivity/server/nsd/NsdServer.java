@@ -96,7 +96,7 @@ public class NsdServer extends Server {
             private void addHostInfoToAttack() {
                 attack.addSingleHostInfo(EXTRA_SERVICE_NAME, serviceName);
                 attack.addSingleHostInfo(EXTRA_SERVICE_TYPE, SERVICE_TYPE);
-                attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getUuid());
+                attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getId());
             }
 
             @Override

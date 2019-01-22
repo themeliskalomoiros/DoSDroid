@@ -53,7 +53,7 @@ public class InternetServer extends Server {
     }
 
     private void uploadAttack() {
-        attack.addSingleHostInfo(EXTRA_UUID,Bots.getLocalUser().getUuid());
+        attack.addSingleHostInfo(EXTRA_UUID,Bots.getLocalUser().getId());
         attackRepo.uploadAttack(attack);
     }
 

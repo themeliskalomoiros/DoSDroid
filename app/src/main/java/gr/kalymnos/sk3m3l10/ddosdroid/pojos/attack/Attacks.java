@@ -16,12 +16,12 @@ public final class Attacks {
     private static final String TAG = "Attacks";
 
     public static void removeBot(Attack attack, Bot bot) {
-        attack.getBotIds().remove(bot.getUuid());
+        attack.getBotIds().remove(bot.getId());
     }
 
     public static void addBot(Attack attack, Bot bot) {
-        if (!attack.getBotIds().contains(bot.getUuid()))
-            attack.getBotIds().add(bot.getUuid());
+        if (!attack.getBotIds().contains(bot.getId()))
+            attack.getBotIds().add(bot.getId());
     }
 
     public static void addBotIds(Attack attack, List<String> botIds) {
@@ -31,12 +31,12 @@ public final class Attacks {
     }
 
     public static boolean includes(Attack attack, Bot bot) {
-        Log.d(TAG, "Attacks.inclures returns " + attack.getBotIds().contains(bot.getUuid()));
-        return attack.getBotIds().contains(bot.getUuid());
+        Log.d(TAG, "Attacks.inclures returns " + attack.getBotIds().contains(bot.getId()));
+        return attack.getBotIds().contains(bot.getId());
     }
 
     public static boolean ownedBy(Attack attack, Bot bot) {
-        return attack.getHostInfo().get(EXTRA_UUID).equals(bot.getUuid());
+        return attack.getHostInfo().get(EXTRA_UUID).equals(bot.getId());
     }
 
     public static String createPushId() {

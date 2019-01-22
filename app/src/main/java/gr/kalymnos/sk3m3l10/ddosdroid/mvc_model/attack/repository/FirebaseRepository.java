@@ -255,7 +255,7 @@ public class FirebaseRepository extends AttackRepository {
 
         protected boolean createdByLocalUser(Attack attack) {
             String attackUuid = attack.getHostInfo().get(EXTRA_UUID);
-            String localUuid = Bots.getLocalUser().getUuid();
+            String localUuid = Bots.getLocalUser().getId();
             return attackUuid.equals(localUuid);
         }
     }
