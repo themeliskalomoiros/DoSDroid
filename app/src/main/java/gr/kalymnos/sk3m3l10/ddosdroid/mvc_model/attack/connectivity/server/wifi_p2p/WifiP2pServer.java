@@ -32,14 +32,14 @@ public class WifiP2pServer extends Server {
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
-        setup();
+        initializeFields();
+        registerWifiDirectReceiver();
     }
 
-    private void setup() {
+    private void initializeFields() {
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
-        initializeWifiDirectReceiver();
-        registerWifiDirectReceiver();
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
+        initializeWifiDirectReceiver();
         initializeGroupInfoListener();
     }
 
@@ -83,18 +83,6 @@ public class WifiP2pServer extends Server {
         };
     }
 
-    private void registerWifiDirectReceiver() {
-        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
-    }
-
-    @NonNull
-    private IntentFilter getIntentFilter() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
-        filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        return filter;
-    }
-
     private void initializeGroupInfoListener() {
         groupInfoListener = group -> {
             if (group.isGroupOwner()) {
@@ -111,6 +99,18 @@ public class WifiP2pServer extends Server {
         attackRepo.uploadAttack(attack);
     }
 
+    private void registerWifiDirectReceiver() {
+        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
+        filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
+        return filter;
+    }
+
     @Override
     public void start() {
         constraintsResolver.resolveConstraints();
@@ -124,7 +124,8 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-//        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        //  No code needed here. When constraints are resolved the wifiDirectReceiver
+        //  will receive its actions and act accordingly.
     }
 
     @Override
