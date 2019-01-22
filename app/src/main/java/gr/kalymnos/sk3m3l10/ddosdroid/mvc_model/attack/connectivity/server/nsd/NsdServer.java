@@ -9,6 +9,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
@@ -54,15 +55,18 @@ public class NsdServer extends Server {
 
     private void initializeAcceptSocketThread() {
         acceptSocketThread = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
+            while (true) {
                 try {
                     Socket socket = serverSocket.accept();
                     executor.execute(new NsdServerThread(socket));
+                } catch (SocketException e) {
+                    Log.d(TAG, "Error on serverSocket.accept().", e);
+                    break;
                 } catch (IOException e) {
-                    Log.e(TAG, "Error creating ServerSocket", e);
+                    Log.d(TAG, "Error on serverSocket.accept().", e);
+                    break;
                 }
             }
-            closeServerSocket();
         });
     }
 
