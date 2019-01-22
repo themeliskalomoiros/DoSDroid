@@ -19,6 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Serve
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
@@ -98,16 +99,21 @@ public class BluetoothServer extends Server {
     @Override
     public void onConstraintsResolved() {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        uploadAttack();
         initializeServerSocket();
         acceptSocketThread.start(); // start accepting clients
     }
 
+    private void uploadAttack(){
+        UUID uuid = UUID.randomUUID();
+        attack.addSingleHostInfo(EXTRA_UUID, uuid.toString());
+        attackRepo.uploadAttack(attack);
+    }
+
     private void initializeServerSocket() {
         try {
-            UUID uuid = UUID.randomUUID();
-            attack.addSingleHostInfo(EXTRA_UUID, uuid.toString());
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-            serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, uuid);
+            serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getUUID(attack));
         } catch (IOException e) {
             Log.e(TAG, "Error creating BluetoothServerSocket", e);
             ServersHost.Action.stopServer(context, getId());

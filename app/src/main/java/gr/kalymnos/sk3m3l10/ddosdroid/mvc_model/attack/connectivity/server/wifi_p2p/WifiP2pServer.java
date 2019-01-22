@@ -24,9 +24,6 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_DEVICE_ADDRESS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_DEVICE_NAME;
 
-// TODO: Server must publish its WipP2pConfig in the Attack.hostInfo so that
-// the client should know which device to pick to connect automatically (not choose by the user).
-
 public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
     private WifiP2pManager.Channel channel;
