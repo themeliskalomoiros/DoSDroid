@@ -72,24 +72,12 @@ public class NsdServer extends Server {
 
     private void initializeRegistrationListener(Context context) {
         registrationListener = new NsdManager.RegistrationListener() {
-            @Override
-            public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
-                Log.e(TAG, "Nsd registration failed");
-                closeServerSocket();
-                ServersHost.Action.stopServer(context, getId());
-            }
-
-            @Override
-            public void onUnregistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
-                Log.e(TAG, "Nsd unregistration failed");
-                closeServerSocket();
-            }
 
             @Override
             public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
                 nsdServiceName = nsdServiceInfo.getServiceName();
-                ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
                 uploadAttack();
+                ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
             }
 
             private void uploadAttack() {
@@ -104,9 +92,19 @@ public class NsdServer extends Server {
             }
 
             @Override
+            public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
+                Log.e(TAG, "Nsd registration failed");
+                ServerStatusBroadcaster.broadcastError(getId(),LocalBroadcastManager.getInstance(context));
+            }
+
+            @Override
+            public void onUnregistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
+                Log.e(TAG, "Nsd unregistration failed");
+            }
+
+            @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
-                closeServerSocket();
-                ServerStatusBroadcaster.broadcastStopped(getId(), LocalBroadcastManager.getInstance(context));
+
             }
         };
     }
@@ -118,8 +116,8 @@ public class NsdServer extends Server {
 
     @Override
     public void stop() {
-        unregisterService();
         closeServerSocket();
+        unregisterService();
         super.stop();
     }
 
