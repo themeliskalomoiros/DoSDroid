@@ -44,18 +44,14 @@ public class BluetoothServer extends Server {
                     BluetoothSocket socket = serverSocket.accept();
                     executor.execute(new BluetoothServerThread(socket));
                 } catch (SocketException e) {
-                    logBluetoothServerSocketException(e);
+                    Log.e(TAG, "BluetoothServerSocket probably closed.", e);
                     break;
                 } catch (IOException e) {
-                    logBluetoothServerSocketException(e);
+                    Log.e(TAG, "BluetoothServerSocket probably closed.", e);
                     break;
                 }
             }
         });
-    }
-
-    private void logBluetoothServerSocketException(Exception e) {
-        Log.e(TAG, "BluetoothServerSocket probably closed.", e);
     }
 
     private void initializeBluetoothReceiver() {

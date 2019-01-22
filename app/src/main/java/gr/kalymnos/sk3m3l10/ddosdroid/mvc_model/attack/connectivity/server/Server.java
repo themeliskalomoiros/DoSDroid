@@ -28,7 +28,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
  * the abstract methods the same way.
  * */
 
-public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener,AttackRepository.OnAttackUploadedListener {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener, AttackRepository.OnAttackUploadedListener {
     protected static final String TAG = "MyServer";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
@@ -56,7 +56,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
 
     private void initializeConstraintsResolver(Context context, Attack attack) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
-        constraintsResolver = builder.build(context, attack.getNetworkType(),this);
+        constraintsResolver = builder.build(context, attack.getNetworkType(), this);
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 

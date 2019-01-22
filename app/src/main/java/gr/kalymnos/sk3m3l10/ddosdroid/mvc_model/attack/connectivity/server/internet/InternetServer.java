@@ -46,6 +46,12 @@ public class InternetServer extends Server {
     }
 
     @Override
+    public void stop() {
+        context.unregisterReceiver(connectivityReceiver);
+        super.stop();
+    }
+
+    @Override
     public void onConstraintsResolved() {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
         uploadAttack();
