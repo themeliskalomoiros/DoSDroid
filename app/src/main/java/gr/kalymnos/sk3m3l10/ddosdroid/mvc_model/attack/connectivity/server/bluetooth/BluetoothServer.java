@@ -110,7 +110,7 @@ public class BluetoothServer extends Server {
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, uuid);
         } catch (IOException e) {
             Log.e(TAG, "Error creating BluetoothServerSocket", e);
-            ServerStatusBroadcaster.broadcastStopped(getId(), LocalBroadcastManager.getInstance(context));
+            ServersHost.Action.stopServer(context, getId());
         }
     }
 
