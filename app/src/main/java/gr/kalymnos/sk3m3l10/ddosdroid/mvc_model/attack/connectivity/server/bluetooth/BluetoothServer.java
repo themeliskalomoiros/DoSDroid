@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.BuildConfig;
@@ -37,24 +38,19 @@ public class BluetoothServer extends Server {
 
     private void initializeAcceptSocketThread() {
         acceptSocketThread = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
+            while (true) {
                 try {
                     BluetoothSocket socket = serverSocket.accept();
                     executor.execute(new BluetoothServerThread(socket));
+                } catch (SocketException e) {
+                    Log.d(TAG, "BluetoothServerSocket probably stopped.", e);
+                    break;
                 } catch (IOException e) {
                     Log.e(TAG, "Error creating BluetoothSocket", e);
+                    break;
                 }
             }
-            closeServerSocket();
         });
-    }
-
-    private void closeServerSocket() {
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error while closing BluetoothServerSocket", e);
-        }
     }
 
     private void initializeBluetoothReceiver() {
@@ -85,9 +81,17 @@ public class BluetoothServer extends Server {
 
     @Override
     public void stop() {
-        acceptSocketThread.interrupt();
+        closeServerSocket();
         context.unregisterReceiver(bluetoothStateReceiver);
         super.stop();
+    }
+
+    private void closeServerSocket() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error while closing BluetoothServerSocket", e);
+        }
     }
 
     @Override
