@@ -61,7 +61,8 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
     }
 
     @Override
-    public void cleanResources() {
+    public void releaseResources() {
+        super.releaseResources();
         server = null;
     }
 }

@@ -66,7 +66,7 @@ public class WifiP2pEnabledConstraint extends NetworkConstraint {
     }
 
     @Override
-    public void cleanResources() {
-
+    public void releaseResources() {
+        super.releaseResources();
     }
 }

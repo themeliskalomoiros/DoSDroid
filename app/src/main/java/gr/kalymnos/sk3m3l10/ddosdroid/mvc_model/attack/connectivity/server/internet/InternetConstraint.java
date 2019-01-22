@@ -130,7 +130,8 @@ public class InternetConstraint extends NetworkConstraint {
     }
 
     @Override
-    public void cleanResources() {
+    public void releaseResources() {
+        super.releaseResources();
         unregisterReceivers();
     }
 

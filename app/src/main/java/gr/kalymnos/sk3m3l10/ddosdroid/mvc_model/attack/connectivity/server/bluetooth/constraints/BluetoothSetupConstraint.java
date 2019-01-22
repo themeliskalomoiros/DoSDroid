@@ -35,7 +35,7 @@ public class BluetoothSetupConstraint extends NetworkConstraint {
     }
 
     @Override
-    public void cleanResources() {
-
+    public void releaseResources() {
+        super.releaseResources();
     }
 }

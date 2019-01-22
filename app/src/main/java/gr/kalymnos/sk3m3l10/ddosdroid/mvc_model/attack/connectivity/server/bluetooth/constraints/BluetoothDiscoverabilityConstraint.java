@@ -72,7 +72,7 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
     }
 
     @Override
-    public void cleanResources() {
-
+    public void releaseResources() {
+        super.releaseResources();
     }
 }
