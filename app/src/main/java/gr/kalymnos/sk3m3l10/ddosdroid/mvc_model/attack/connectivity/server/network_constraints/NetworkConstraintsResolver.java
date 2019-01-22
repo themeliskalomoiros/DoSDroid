@@ -58,6 +58,12 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         }
     }
 
+    public void releaseResources() {
+        for (NetworkConstraint constraint : constraints) {
+            constraint.releaseResources();
+        }
+    }
+
     @Override
     public void onConstraintResolved(Context context, NetworkConstraint constraint) {
         resolveNextConstraint();
