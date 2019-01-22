@@ -23,6 +23,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
 import static android.bluetooth.BluetoothAdapter.STATE_OFF;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
 
 public class BluetoothServer extends Server {
     private BroadcastReceiver bluetoothStateReceiver;
@@ -43,14 +44,18 @@ public class BluetoothServer extends Server {
                     BluetoothSocket socket = serverSocket.accept();
                     executor.execute(new BluetoothServerThread(socket));
                 } catch (SocketException e) {
-                    Log.d(TAG, "BluetoothServerSocket probably stopped.", e);
+                    logBluetoothServerSocketException(e);
                     break;
                 } catch (IOException e) {
-                    Log.e(TAG, "Error creating BluetoothSocket", e);
+                    logBluetoothServerSocketException(e);
                     break;
                 }
             }
         });
+    }
+
+    private void logBluetoothServerSocketException(Exception e) {
+        Log.e(TAG, "BluetoothServerSocket probably closed.", e);
     }
 
     private void initializeBluetoothReceiver() {
@@ -103,7 +108,8 @@ public class BluetoothServer extends Server {
 
     private void initializeServerSocket() {
         try {
-            UUID uuid = UUID.fromString(attack.getPushId());
+            UUID uuid = UUID.randomUUID();
+            attack.addSingleHostInfo(EXTRA_UUID, uuid.toString());
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, uuid);
         } catch (IOException e) {
