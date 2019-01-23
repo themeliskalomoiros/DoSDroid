@@ -31,6 +31,8 @@ public class WifiP2pServer extends Server {
     private BroadcastReceiver wifiDirectReceiver;
     private WifiP2pManager.GroupInfoListener groupInfoListener;
 
+    private AcceptClientThread acceptClientThread;
+
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
         initializeFields();
@@ -40,6 +42,7 @@ public class WifiP2pServer extends Server {
     private void initializeFields() {
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
+        acceptClientThread = new AcceptClientThread(attack, executor, attackRepo);
         initializeWifiDirectReceiver();
         initializeGroupInfoListener();
     }
