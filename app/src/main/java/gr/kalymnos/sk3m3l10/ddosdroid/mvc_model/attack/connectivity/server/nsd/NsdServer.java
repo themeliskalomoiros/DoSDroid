@@ -26,7 +26,7 @@ public class NsdServer extends Server {
     private static final String SERVICE_TYPE = String.format("_%s._%s.", INITIAL_SERVICE_NAME, "tcp");
 
     private ServerSocket serverSocket;
-    private Thread acceptSocketThread;
+    private Thread acceptClientThread;
     private int localPort;
 
     private String nsdServiceName;
@@ -39,7 +39,7 @@ public class NsdServer extends Server {
 
     private void initializeFields(Context context) {
         initializeServerSocket();
-        initializeAcceptSocketThread();
+        initializeAcceptClientThread();
         initializeRegistrationListener(context);
     }
 
@@ -52,8 +52,8 @@ public class NsdServer extends Server {
         }
     }
 
-    private void initializeAcceptSocketThread() {
-        acceptSocketThread = new Thread(() -> {
+    private void initializeAcceptClientThread() {
+        acceptClientThread = new Thread(() -> {
             while (true) {
                 try {
                     Socket socket = serverSocket.accept();
@@ -76,7 +76,7 @@ public class NsdServer extends Server {
             public void onServiceRegistered(NsdServiceInfo nsdServiceInfo) {
                 nsdServiceName = nsdServiceInfo.getServiceName();
                 uploadAttack();
-                acceptSocketThread.start();
+                acceptClientThread.start();
                 ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
             }
 

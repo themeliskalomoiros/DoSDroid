@@ -29,17 +29,17 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 public class BluetoothServer extends Server {
     private BroadcastReceiver bluetoothStateReceiver;
     private BluetoothServerSocket serverSocket;
-    private Thread acceptSocketThread;
+    private Thread acceptClientThread;
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
-        initializeAcceptSocketThread();
+        initializeAcceptClientThread();
         initializeBluetoothReceiver();
         registerBluetoothStateReceiver(context);
     }
 
-    private void initializeAcceptSocketThread() {
-        acceptSocketThread = new Thread(() -> {
+    private void initializeAcceptClientThread() {
+        acceptClientThread = new Thread(() -> {
             while (true) {
                 try {
                     BluetoothSocket socket = serverSocket.accept();
@@ -101,10 +101,10 @@ public class BluetoothServer extends Server {
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
         uploadAttack();
         initializeServerSocket();
-        acceptSocketThread.start(); // start accepting clients
+        acceptClientThread.start(); // start accepting clients
     }
 
-    private void uploadAttack(){
+    private void uploadAttack() {
         UUID uuid = UUID.randomUUID();
         attack.addSingleHostInfo(EXTRA_UUID, uuid.toString());
         attackRepo.uploadAttack(attack);
