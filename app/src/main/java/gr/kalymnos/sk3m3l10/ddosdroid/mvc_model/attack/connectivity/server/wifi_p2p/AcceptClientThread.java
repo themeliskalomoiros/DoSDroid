@@ -18,7 +18,6 @@ class AcceptClientThread extends Thread {
     private final Attack attack;
     private final AttackRepository attackRepo;
     private final ExecutorService executor;
-    private boolean started;
 
     private ServerSocket serverSocket;
     private int localPort;
@@ -45,9 +44,16 @@ class AcceptClientThread extends Thread {
         attackRepo.updateAttack(attack);
     }
 
+    public void close(){
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG,"Error when closing server socket");
+        }
+    }
+
     @Override
     public void run() {
-        started = true;
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
@@ -60,9 +66,5 @@ class AcceptClientThread extends Thread {
                 break;
             }
         }
-    }
-
-    public boolean hasStarted() {
-        return started;
     }
 }
