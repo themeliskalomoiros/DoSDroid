@@ -4,16 +4,20 @@ import android.bluetooth.BluetoothSocket;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ATTACK_STARTED;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 class BluetoothServerThread implements Runnable {
     private static final String TAG = "BluetoothServerThread";
 
     private BluetoothSocket socket;
-    private OutputStream out;
+    private PrintWriter out;
 
     BluetoothServerThread(@NonNull BluetoothSocket socket) {
         initializeFields(socket);
@@ -21,45 +25,26 @@ class BluetoothServerThread implements Runnable {
 
     private void initializeFields(@NonNull BluetoothSocket socket) {
         this.socket = socket;
-        initializeOutputStream(socket);
+        out = new PrintWriter(getOutputStreamFrom(socket), true);
     }
 
-    private void initializeOutputStream(@NonNull BluetoothSocket socket) {
+    private OutputStream getOutputStreamFrom(@NonNull BluetoothSocket socket) {
+        OutputStream outputStream = null;
         try {
-            out = socket.getOutputStream();
+            outputStream = socket.getOutputStream();
         } catch (IOException e) {
             Log.e(TAG, "Error obtaining outStream from socket", e);
         }
+        return outputStream;
     }
 
     @Override
     public void run() {
-        writeAttackStarted();
-        releaseResources();
+        out.println(Attack.STARTED_PASS);
+        closeSocket();
     }
 
-    private void writeAttackStarted() {
-        try {
-            out.write(ATTACK_STARTED);
-        } catch (IOException e) {
-            Log.e(TAG, "Error writing to output stream", e);
-        }
-    }
-
-    private void releaseResources() {
-        closeOutputStream();
-        closeSocket(socket); // has no effect if the stream is closed
-    }
-
-    private void closeOutputStream() {
-        try {
-            out.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error closing output stream");
-        }
-    }
-
-    private void closeSocket(@NonNull BluetoothSocket socket) {
+    private void closeSocket() {
         try {
             socket.close();
         } catch (IOException e) {
