@@ -78,6 +78,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         Toast.makeText(context, R.string.attack_published_label, Toast.LENGTH_SHORT).show();
     }
 
+    public final void deleteAttack() {
+        attackRepo.deleteAttack(attack.getPushId());
+    }
+
     private void shutdownThreadPool() {
         // https://www.baeldung.com/java-executor-service-tutorial
         executor.shutdown();
