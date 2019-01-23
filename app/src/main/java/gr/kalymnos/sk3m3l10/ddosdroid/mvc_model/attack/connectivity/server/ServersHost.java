@@ -116,6 +116,7 @@ public class ServersHost extends Service {
         try {
             Server server = extractServerFrom(servers, serverId);
             server.stop();
+            server.deleteAttack();
             statusRepo.setToStopped(server.getId());
             servers.remove(server);
             if (servers.size() == 0) {
