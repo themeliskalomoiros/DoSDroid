@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Attack implements Parcelable {
+    public static final String STARTED_PASS = "this_attack_has_started";
+    public static final String STOPPED_PASS = "this_attack_has_stopped";
     public static final Creator<Attack> CREATOR = new Creator<Attack>() {
         @Override
         public Attack createFromParcel(Parcel in) {
@@ -20,7 +22,6 @@ public class Attack implements Parcelable {
             return new Attack[size];
         }
     };
-    public static final String STARTED_PASS = "this_attack_has_started";
 
     private String pushId, website;
     private int networkType;
