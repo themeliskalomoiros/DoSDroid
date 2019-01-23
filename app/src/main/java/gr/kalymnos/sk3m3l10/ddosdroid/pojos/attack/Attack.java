@@ -20,6 +20,7 @@ public class Attack implements Parcelable {
             return new Attack[size];
         }
     };
+    public static final String STARTED_PASS = "this_attack_has_started";
 
     private String pushId, website;
     private int networkType;
