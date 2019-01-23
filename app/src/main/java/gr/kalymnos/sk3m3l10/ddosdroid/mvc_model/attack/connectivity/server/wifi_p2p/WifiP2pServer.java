@@ -130,6 +130,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void stop() {
+        acceptClientThread.close();
         context.unregisterReceiver(wifiDirectReceiver);
         removeGroup();
         super.stop();
