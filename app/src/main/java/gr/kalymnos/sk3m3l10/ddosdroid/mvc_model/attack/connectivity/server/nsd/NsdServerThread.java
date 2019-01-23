@@ -5,57 +5,39 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ATTACK_STARTED;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class NsdServerThread implements Runnable {
     private static final String TAG = "NsdServerThread";
 
     private Socket socket;
-    private OutputStream out;
+    private PrintWriter out;
 
     public NsdServerThread(@NonNull Socket socket) {
         this.socket = socket;
-        initializeOutputStream(socket);
+        out = new PrintWriter(getOutputStreamFrom(socket), true);
     }
 
-    private void initializeOutputStream(@NonNull Socket socket) {
+    private OutputStream getOutputStreamFrom(@NonNull Socket socket) {
+        OutputStream outputStream = null;
         try {
-            out = socket.getOutputStream();
+            outputStream = socket.getOutputStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error obtaining outStream from socket", e);
         }
+        return outputStream;
     }
 
     @Override
     public void run() {
-        writeAttackStarted();
-        releaseResources();
+        out.println(Attack.STARTED_PASS);
+        closeSocket();
     }
 
-    private void writeAttackStarted() {
-        try {
-            out.write(ATTACK_STARTED);
-        } catch (IOException e) {
-            Log.e(TAG, "Error writing to output stream", e);
-        }
-    }
-
-    private void releaseResources() {
-        closeOutputStream();
-        closeSocket(socket); // has no effect if the stream is closed
-    }
-
-    private void closeOutputStream() {
-        try {
-            out.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error closing output stream");
-        }
-    }
-
-    private void closeSocket(@NonNull Socket socket) {
+    private void closeSocket() {
         try {
             socket.close();
         } catch (IOException e) {
