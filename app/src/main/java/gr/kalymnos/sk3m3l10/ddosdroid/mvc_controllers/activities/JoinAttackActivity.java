@@ -27,20 +27,20 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeFieldsExceptViewMvc();
+        initializeFields();
         setupUi();
-        showJoinAttackInfoFragment();
     }
 
-    private void initializeFieldsExceptViewMvc() {
+    private void initializeFields() {
         client = new Client.ClientFactoryImp().createClient(this, this, 0);
         repo = new FirebaseRepository();
+        viewMvc = new JoinAttackViewMvcImp(LayoutInflater.from(this), null);
     }
 
     private void setupUi() {
-        viewMvc = new JoinAttackViewMvcImp(LayoutInflater.from(this), null);
         setSupportActionBar(viewMvc.getToolbar());
         setContentView(viewMvc.getRootView());
+        showJoinAttackInfoFragment();
     }
 
     private void showJoinAttackInfoFragment() {
