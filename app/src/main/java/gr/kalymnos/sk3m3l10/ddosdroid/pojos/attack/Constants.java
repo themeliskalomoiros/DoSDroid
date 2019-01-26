@@ -22,7 +22,7 @@ public interface Constants {
         String EXTRA_ATTACK = "extra_attacks";
         String EXTRA_ATTACKS = "extra_attacks_key";
         String EXTRA_TYPE = "extra_attack type_key";
-        String EXTRA_UUID = "extra_uuid";
+        String EXTRA_ATTACK_HOST_UUID = "extra_attack_host_uuid";
         String EXTRA_SERVICE_NAME = "extra_service_name";
         String EXTRA_SERVICE_TYPE = "extra_service_type";
         String EXTRA_DEVICE_NAME = "extra_device_name";

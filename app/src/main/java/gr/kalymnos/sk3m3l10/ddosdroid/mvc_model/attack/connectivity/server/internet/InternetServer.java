@@ -15,7 +15,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_STARTED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public class InternetServer extends Server {
     private BroadcastReceiver connectivityReceiver;
@@ -60,7 +60,7 @@ public class InternetServer extends Server {
     }
 
     private void uploadAttack() {
-        attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getId());
+        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
         attack.addSingleHostInfo(EXTRA_ATTACK_STARTED, Attack.STARTED_PASS);
         attackRepo.uploadAttack(attack);
     }

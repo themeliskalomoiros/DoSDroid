@@ -25,7 +25,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_DEVICE_ADDRESS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_DEVICE_NAME;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
@@ -100,7 +100,7 @@ public class WifiP2pServer extends Server {
 
     private void uploadAttack(WifiP2pGroup group) {
         WifiP2pDevice thisDevice = group.getOwner();
-        attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getId());
+        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
         attack.addSingleHostInfo(EXTRA_DEVICE_NAME, thisDevice.deviceName);
         attack.addSingleHostInfo(EXTRA_DEVICE_ADDRESS, thisDevice.deviceAddress);
         attackRepo.uploadAttack(attack);

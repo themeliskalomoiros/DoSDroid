@@ -19,7 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static android.content.Context.NSD_SERVICE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_SERVICE_NAME;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_SERVICE_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public class NsdServer extends Server {
     private static final String INITIAL_SERVICE_NAME = "DdosDroid"; // It can be change due to colisions
@@ -88,7 +88,7 @@ public class NsdServer extends Server {
             private void addHostInfoToAttack() {
                 attack.addSingleHostInfo(EXTRA_SERVICE_NAME, nsdServiceName);
                 attack.addSingleHostInfo(EXTRA_SERVICE_TYPE, SERVICE_TYPE);
-                attack.addSingleHostInfo(EXTRA_UUID, Bots.getLocalUser().getId());
+                attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
             }
 
             @Override

@@ -16,7 +16,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public class FirebaseRepository extends AttackRepository {
     private static final String NODE_ATTACKS = "attacks";
@@ -254,9 +254,9 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected boolean createdByLocalUser(Attack attack) {
-            String attackUuid = attack.getHostInfo().get(EXTRA_UUID);
-            String localUuid = Bots.getLocalUser().getId();
-            return attackUuid.equals(localUuid);
+            String attackHostUUID = attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
+            String localHostUUID = Bots.getLocalUser().getId();
+            return attackHostUUID.equals(localHostUUID);
         }
     }
 
