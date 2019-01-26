@@ -69,7 +69,7 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
     }
 
     @Override
-    public void onJoinAttackButtonClicked() {
+    public void onJoinAttackButtonClicked(Attack attack) {
         client.connect();
     }
 

@@ -9,7 +9,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 /*
  * When an attack is created a network type is specified (internet, bluetooth, wifi p2p, etc...).
- * The ddos botnet must be connected to this network type in order to follow that attack.
+ * The ddos bot must be connected to this network type in order to follow that attack.
  * */
 
 public abstract class Client {
@@ -31,15 +31,15 @@ public abstract class Client {
         this.initializeConnectivityIntentFilter();
     }
 
+    protected abstract void initializeConnectivityReceiver();
+
+    protected abstract void initializeConnectivityIntentFilter();
+
     public abstract void connect();
 
     public abstract void dissconnect();
 
     public abstract boolean isConnected();
-
-    protected abstract void initializeConnectivityReceiver();
-
-    protected abstract void initializeConnectivityIntentFilter();
 
     public final void registerConnectionReceiver() {
         context.registerReceiver(connectivityReceiver, connectivityIntentFilter);

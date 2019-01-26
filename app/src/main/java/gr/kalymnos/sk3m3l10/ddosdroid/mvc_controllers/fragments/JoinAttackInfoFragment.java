@@ -23,7 +23,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     private OnJoinAttackButtonClickListener callback;
 
     public interface OnJoinAttackButtonClickListener {
-        void onJoinAttackButtonClicked();
+        void onJoinAttackButtonClicked(Attack attack);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
 
     @Override
     public void onJoinAttackButtonClicked() {
-        callback.onJoinAttackButtonClicked();
+        callback.onJoinAttackButtonClicked(attack);
     }
 
     public static JoinAttackInfoFragment getInstance(Bundle args) {
