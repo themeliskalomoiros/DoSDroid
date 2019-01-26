@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.JoinAttackInfoFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvc;
@@ -18,11 +17,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
-public class JoinAttackActivity extends AppCompatActivity implements Client.OnConnectionListener,
+public class JoinAttackActivity extends AppCompatActivity implements
         JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
     private JoinAttackViewMvc viewMvc;
     private AttackRepository repo;
-    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,6 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
     }
 
     private void initializeFields() {
-        client = new Client.ClientFactoryImp().createClient(this, this, 0);
         repo = new FirebaseRepository();
         viewMvc = new JoinAttackViewMvcImp(LayoutInflater.from(this), null);
     }
@@ -50,30 +47,12 @@ public class JoinAttackActivity extends AppCompatActivity implements Client.OnCo
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        client.unregisterConnectionListener();
-    }
-
-    @Override
-    public void onAttackNetworkConnected() {
-        Snackbar.make(viewMvc.getRootView(), R.string.server_connection_msg, Snackbar.LENGTH_SHORT)
-                .show();
-        startJoinProcedure();
-    }
-
-    @Override
-    public void onAttackNetworkDisconnected(CharSequence reason) {
-        Snackbar.make(viewMvc.getRootView(), R.string.server_disconnection_msg, Snackbar.LENGTH_LONG)
-                .show();
-    }
-
-    @Override
     public void onJoinAttackButtonClicked(Attack attack) {
-        client.connect();
+        // TODO: Needs implementation
     }
 
     private void startJoinProcedure() {
+        // TODO: Use this when the client is connected
         Attacks.addBot(getAttack(), Bots.getLocalUser());
         repo.updateAttack(getAttack());
     }
