@@ -37,7 +37,9 @@ public final class Attacks {
     }
 
     public static boolean ownedBy(Attack attack, Bot bot) {
-        return attack.getHostInfo().get(EXTRA_UUID).equals(bot.getId());
+        String attackId = attack.getHostInfo().get(EXTRA_UUID);
+        String botId = bot.getId();
+        return attackId.equals(botId);
     }
 
     public static String createPushId() {
@@ -50,7 +52,7 @@ public final class Attacks {
         return database.getReference().child("attacks");
     }
 
-    public static UUID getUUID(Attack attack){
+    public static UUID getUUID(Attack attack) {
         String uuidString = attack.getHostInfo().get(EXTRA_UUID);
         return UUID.fromString(uuidString);
     }
