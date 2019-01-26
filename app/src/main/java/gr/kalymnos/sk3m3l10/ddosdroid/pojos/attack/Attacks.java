@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public final class Attacks {
     private static final String TAG = "Attacks";
@@ -37,7 +37,7 @@ public final class Attacks {
     }
 
     public static boolean ownedBy(Attack attack, Bot bot) {
-        return attack.getHostInfo().get(EXTRA_UUID).equals(bot.getId());
+        return attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID).equals(bot.getId());
     }
 
     public static String createPushId() {
@@ -51,7 +51,7 @@ public final class Attacks {
     }
 
     public static UUID getUUID(Attack attack){
-        String uuidString = attack.getHostInfo().get(EXTRA_UUID);
+        String uuidString = attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
         return UUID.fromString(uuidString);
     }
 }

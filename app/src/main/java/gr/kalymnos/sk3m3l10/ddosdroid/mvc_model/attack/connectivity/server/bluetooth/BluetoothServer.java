@@ -24,7 +24,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
 import static android.bluetooth.BluetoothAdapter.STATE_OFF;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public class BluetoothServer extends Server {
     private BroadcastReceiver bluetoothStateReceiver;
@@ -106,7 +106,7 @@ public class BluetoothServer extends Server {
 
     private void uploadAttack() {
         UUID uuid = UUID.randomUUID();
-        attack.addSingleHostInfo(EXTRA_UUID, uuid.toString());
+        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
         attackRepo.uploadAttack(attack);
     }
 
