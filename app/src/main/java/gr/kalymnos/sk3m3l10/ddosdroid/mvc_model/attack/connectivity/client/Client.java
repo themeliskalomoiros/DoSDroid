@@ -16,7 +16,7 @@ public class Client implements ClientConnection.ConnectionListener {
         void onClientDisconnected();
     }
 
-    public void setCallback(ClientConnectionListener listener) {
+    public void setClientConnectionListener(ClientConnectionListener listener) {
         this.callback = listener;
     }
 
