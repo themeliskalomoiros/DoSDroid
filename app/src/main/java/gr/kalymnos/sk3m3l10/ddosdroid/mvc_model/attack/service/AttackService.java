@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
@@ -26,12 +27,14 @@ public class AttackService extends Service {
 
     private ExecutorService executor;
     private Map<String, Future> tasks;
+    private Map<String, Client> clients;
 
     @Override
     public void onCreate() {
         super.onCreate();
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         tasks = new HashMap<>();
+        clients = new HashMap<>();
     }
 
     @Override
