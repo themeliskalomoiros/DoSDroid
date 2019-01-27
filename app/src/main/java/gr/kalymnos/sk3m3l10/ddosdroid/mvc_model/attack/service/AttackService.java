@@ -122,6 +122,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onClientConnectionError() {
         Toast.makeText(this, R.string.client_connection_error_msg, Toast.LENGTH_SHORT).show();
+        if (clients.isEmpty() && tasks.isEmpty())
+            stopSelf();
     }
 
     @Override
