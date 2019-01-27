@@ -1,19 +1,21 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.content.Context;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class Client implements ClientConnection.ConnectionListener {
     private ClientConnection clientConnection;
 
-    public void connect(Attack attack) {
-        initializeClientConnectionIfNotNull(attack);
+    public void connect(Context context, Attack attack) {
+        initializeClientConnectionIfNotNull(context, attack);
         clientConnection.connect();
     }
 
-    private void initializeClientConnectionIfNotNull(Attack attack) {
+    private void initializeClientConnectionIfNotNull(Context context, Attack attack) {
         if (clientConnection == null) {
             ClientConnection.Factory factory = new ClientConnection.FactoryImp();
-            clientConnection = factory.create(attack);
+            clientConnection = factory.create(context, attack);
             clientConnection.setConnectionListener(this);
         }
     }
