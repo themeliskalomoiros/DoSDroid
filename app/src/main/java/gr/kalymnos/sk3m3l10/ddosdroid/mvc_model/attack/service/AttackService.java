@@ -128,7 +128,15 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
+        cancelAttackScript(attack);
+        clients.remove(thisClient);
         Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void cancelAttackScript(Attack attack) {
+        Future attackScript = tasks.get(attack.getPushId());
+        attackScript.cancel(true);
+        tasks.remove(attackScript);
     }
 
     @Override
