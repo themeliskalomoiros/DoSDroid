@@ -127,17 +127,20 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onClientConnectionError() {
         Toast.makeText(this, R.string.client_connection_error_msg, Toast.LENGTH_SHORT).show();
-        if (clients.isEmpty() && tasks.isEmpty())
-            stopSelf();
+        stopIfLastClientDisconnect();
     }
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
         cancelAttackScript(attack);
         clients.remove(thisClient);
+        stopIfLastClientDisconnect();
+        Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void stopIfLastClientDisconnect() {
         if (clients.isEmpty() && tasks.isEmpty())
             stopSelf();
-        Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
     }
 
     private void cancelAttackScript(Attack attack) {
