@@ -55,6 +55,7 @@
     <string name="client_connected_msg">You joined the attack!</string>
     <string name="client_connection_error_msg">There was a connection error, try again!</string>
     <string name="client_disconnected_msg">You were disconnected.</string>
+    <string name="already_attacking_label">Already attacking...</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

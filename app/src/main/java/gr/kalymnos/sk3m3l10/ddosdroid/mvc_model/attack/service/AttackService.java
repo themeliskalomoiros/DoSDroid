@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +14,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 
-public class AttackService extends Service implements Client.ClientConnectionListener{
+public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
 
     public static final int THREAD_POOL_SIZE = 10;
@@ -62,11 +65,22 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStartAction(Attack attack) {
-        boolean firstTimeExecutingAnAttack = !mapHasItems(tasks) || !tasks.containsKey(attack.getPushId());
-        if (firstTimeExecutingAnAttack) {
-            Future future = executor.submit(new AttackScript(attack.getWebsite()));
-            tasks.put(attack.getPushId(), future);
+        boolean clientForAttackExists = clients.containsKey(attack.getPushId());
+        if (!clientForAttackExists) {
+            Client client = createClient();
+            client.connect(this, attack);
+        } else {
+            Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         }
+//        Future future = executor.submit(new AttackScript(attack.getWebsite()));
+//        tasks.put(attack.getPushId(), future);
+    }
+
+    @NonNull
+    private Client createClient() {
+        Client client = new Client();
+        client.setClientConnectionListener(this);
+        return client;
     }
 
     private void handleStopAttack(Attack attack) {
@@ -81,6 +95,21 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private boolean isLastAttack(Attack attack) {
         return tasks.containsKey(attack.getPushId()) && tasks.size() == 1;
+    }
+
+    @Override
+    public void onClientConnected(Attack attack) {
+
+    }
+
+    @Override
+    public void onClientConnectionError() {
+
+    }
+
+    @Override
+    public void onClientDisconnected(Attack attack) {
+
     }
 
     @Override
@@ -99,21 +128,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
-    }
-
-    @Override
-    public void onClientConnected(Attack attack) {
-
-    }
-
-    @Override
-    public void onClientConnectionError() {
-
-    }
-
-    @Override
-    public void onClientDisconnected(Attack attack) {
-
     }
 
     public static class Action {
