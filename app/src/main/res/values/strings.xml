@@ -56,6 +56,9 @@
     <string name="client_connection_error_msg">There was a connection error, try again!</string>
     <string name="client_disconnected_msg">You were disconnected.</string>
     <string name="already_attacking_label">Already attacking...</string>
+    <string name="client_notification_title">Joined attacks in progress</string>
+    <string name="client_notification_small_text">Your device is taking part at DDOS attacks on specific websites.</string>
+    <string name="client_notification_big_text">Your device is taking part at DDOS  (Denial-of-services) attacks on specific websites. TDenial of service is typically accomplished by flooding the targeted machine or resource with superfluous requests in an attempt to overfload the system.</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

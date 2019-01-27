@@ -1,10 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -154,6 +157,38 @@ public class AttackService extends Service implements Client.ClientConnectionLis
             }
         } catch (InterruptedException e) {
             executor.shutdownNow();
+        }
+    }
+
+    class ForegroundNotification {
+        static final String CHANNEL_ID = TAG + "channel id";
+        static final int NOTIFICATION_ID = 291919;
+        static final int CONTENT_INTENT_REQUEST_CODE = 2932;
+        static final int STOP_INTENT_REQUEST_CODE = 2933;
+
+        Notification createNotification() {
+            return createNotificationBuilder().build();
+        }
+
+        NotificationCompat.Builder createNotificationBuilder() {
+            return new NotificationCompat.Builder(AttackService.this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_fist)
+                    .setContentTitle(getString(R.string.client_notification_title))
+                    .setContentText(getString(R.string.client_notification_small_text))
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.client_notification_big_text)))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(createContentPendingIntent())
+                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), createStopServicePendingIntent());
+        }
+
+        PendingIntent createContentPendingIntent() {
+            //  TODO: needs implementation
+            return null;
+        }
+
+        PendingIntent createStopServicePendingIntent() {
+            //  TODO: needs implementation
+            return null;
         }
     }
 
