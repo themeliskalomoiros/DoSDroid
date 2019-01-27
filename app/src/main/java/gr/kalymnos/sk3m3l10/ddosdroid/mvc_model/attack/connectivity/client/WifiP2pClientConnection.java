@@ -1,10 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.content.Context;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 class WifiP2pClientConnection extends ClientConnection {
-    public WifiP2pClientConnection(Attack attack) {
-        super(attack);
+
+    WifiP2pClientConnection(Context context, Attack attack) {
+        super(context, attack);
     }
 
     @Override

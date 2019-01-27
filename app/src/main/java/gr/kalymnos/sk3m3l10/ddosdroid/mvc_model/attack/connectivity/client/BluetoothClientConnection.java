@@ -1,10 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.content.Context;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 class BluetoothClientConnection extends ClientConnection {
-    public BluetoothClientConnection(Attack attack) {
-        super(attack);
+
+    BluetoothClientConnection(Context context, Attack attack) {
+        super(context, attack);
     }
 
     @Override

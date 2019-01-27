@@ -1,10 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.content.Context;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 class InternetClientConnection extends ClientConnection {
-    public InternetClientConnection(Attack attack) {
-        super(attack);
+
+    InternetClientConnection(Context context, Attack attack) {
+        super(context, attack);
     }
 
     @Override

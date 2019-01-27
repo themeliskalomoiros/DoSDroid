@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.content.Context;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -10,8 +12,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 abstract class ClientConnection {
     private static final String TAG = "ClientConnection";
 
-    private Attack attack;
-    private ConnectionListener connectionListener;
+    protected Attack attack;
+    protected Context context;
+    protected ConnectionListener connectionListener;
 
     interface ConnectionListener {
         void onConnected();
@@ -22,7 +25,8 @@ abstract class ClientConnection {
 
     }
 
-    ClientConnection(Attack attack) {
+    ClientConnection(Context context, Attack attack) {
+        this.context = context;
         this.attack = attack;
     }
 
@@ -37,22 +41,22 @@ abstract class ClientConnection {
     protected abstract void releaseResources();
 
     interface Factory {
-        ClientConnection create(Attack attack);
+        ClientConnection create(Context context, Attack attack);
     }
 
     static class FactoryImp implements Factory {
 
         @Override
-        public ClientConnection create(Attack attack) {
+        public ClientConnection create(Context context, Attack attack) {
             switch (attack.getNetworkType()) {
                 case INTERNET:
-                    return new InternetClientConnection(attack);
+                    return new InternetClientConnection(context, attack);
                 case BLUETOOTH:
-                    return new BluetoothClientConnection(attack);
+                    return new BluetoothClientConnection(context, attack);
                 case WIFI_P2P:
-                    return new WifiP2pClientConnection(attack);
+                    return new WifiP2pClientConnection(context, attack);
                 case NSD:
-                    return new NsdClientConnection(attack);
+                    return new NsdClientConnection(context, attack);
                 default:
                     throw new IllegalArgumentException(TAG + "Unknown attack network type");
             }

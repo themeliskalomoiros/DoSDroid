@@ -1,10 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.content.Context;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 class NsdClientConnection extends ClientConnection {
-    public NsdClientConnection(Attack attack) {
-        super(attack);
+
+    NsdClientConnection(Context context, Attack attack) {
+        super(context, attack);
     }
 
     @Override
