@@ -4,6 +4,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class InternetConnectivity {
+
+    public static boolean hasInternetConnection(ConnectivityManager manager) {
+        // Determine and monitor the connectivitty status, developer.android.com.
+        NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     public static boolean isConnectionEstablishedOverWifi(NetworkInfo info) {
         return isConnectedToNetwork(info) && isWifi(info);
     }
