@@ -19,7 +19,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Clien
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 
@@ -104,8 +106,13 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         clients.put(attack.getPushId(), thisClient);
         Future future = executor.submit(new AttackScript(attack.getWebsite()));
         tasks.put(attack.getPushId(), future);
-
+        addLocalBotAndUpdate(attack);
         Toast.makeText(this, R.string.client_connected_msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private void addLocalBotAndUpdate(Attack attack) {
+        Attacks.addBot(attack, Bots.getLocalUser());
+        repo.updateAttack(attack);
     }
 
     @Override
