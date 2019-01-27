@@ -48,6 +48,7 @@ public class JoinAttackActivity extends AppCompatActivity implements
     @Override
     public void onJoinAttackButtonClicked(Attack attack) {
         AttackService.Action.startAttack(attack, this);
+        finish();
     }
 
     private void startJoinProcedure() {
