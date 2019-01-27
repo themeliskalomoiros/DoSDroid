@@ -6,6 +6,19 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class Client implements ClientConnection.ConnectionListener {
     private ClientConnection clientConnection;
+    private ClientConnectionListener callback;
+
+    public interface ClientConnectionListener {
+        void onClientConnected();
+
+        void onClientConnectionError();
+
+        void onClientDisconnected();
+    }
+
+    public void setCallback(ClientConnectionListener listener) {
+        this.callback = listener;
+    }
 
     public void connect(Context context, Attack attack) {
         initializeClientConnectionIfNotNull(context, attack);
@@ -26,16 +39,16 @@ public class Client implements ClientConnection.ConnectionListener {
 
     @Override
     public void onConnected() {
-
+        callback.onClientConnected();
     }
 
     @Override
     public void onConnectionError() {
-
+        callback.onClientConnectionError();
     }
 
     @Override
     public void onDisconnected() {
-
+        callback.onClientDisconnected();
     }
 }

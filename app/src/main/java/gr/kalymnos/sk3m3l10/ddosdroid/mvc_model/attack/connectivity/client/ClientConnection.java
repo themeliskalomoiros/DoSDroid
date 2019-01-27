@@ -9,6 +9,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
+/*  This class offloads the connection implementations from Client class.*/
+
 abstract class ClientConnection {
     private static final String TAG = "ClientConnection";
 
