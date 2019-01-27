@@ -22,12 +22,11 @@ abstract class ClientConnection implements AttackDeletionReporter.AttackDeletion
     protected AttackDeletionReporter attackDeletionReporter;
 
     interface ConnectionListener {
-        void onConnected();
+        void onConnected(Attack attack);
 
         void onConnectionError();
 
-        void onDisconnected();
-
+        void onDisconnected(Attack attack);
     }
 
     ClientConnection(Context context, Attack attack) {
@@ -45,7 +44,7 @@ abstract class ClientConnection implements AttackDeletionReporter.AttackDeletion
 
     abstract void disconnect();
 
-    protected void releaseResources(){
+    protected void releaseResources() {
         context = null;
         connectionListener = null;
         attackDeletionReporter.detach();

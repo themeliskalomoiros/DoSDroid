@@ -38,7 +38,7 @@ public class Client implements ClientConnection.ConnectionListener {
     }
 
     @Override
-    public void onConnected() {
+    public void onConnected(Attack attack) {
         callback.onClientConnected();
     }
 
@@ -48,7 +48,7 @@ public class Client implements ClientConnection.ConnectionListener {
     }
 
     @Override
-    public void onDisconnected() {
+    public void onDisconnected(Attack attack) {
         callback.onClientDisconnected();
     }
 }
