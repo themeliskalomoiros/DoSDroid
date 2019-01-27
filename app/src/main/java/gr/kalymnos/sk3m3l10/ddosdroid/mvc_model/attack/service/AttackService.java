@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
@@ -31,6 +33,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     private ExecutorService executor;
     private Map<String, Future> tasks;
     private Map<String, Client> clients;
+    private AttackRepository repo;
 
     @Override
     public void onCreate() {
@@ -38,6 +41,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         tasks = new HashMap<>();
         clients = new HashMap<>();
+        repo = new FirebaseRepository();
     }
 
     @Override
@@ -100,6 +104,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         clients.put(attack.getPushId(), thisClient);
         Future future = executor.submit(new AttackScript(attack.getWebsite()));
         tasks.put(attack.getPushId(), future);
+
         Toast.makeText(this, R.string.client_connected_msg, Toast.LENGTH_SHORT).show();
     }
 
