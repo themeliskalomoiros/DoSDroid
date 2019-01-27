@@ -104,15 +104,19 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
         clients.put(attack.getPushId(), thisClient);
-        Future future = executor.submit(new AttackScript(attack.getWebsite()));
-        tasks.put(attack.getPushId(), future);
         addLocalBotAndUpdate(attack);
+        attackWebsiteOf(attack);
         Toast.makeText(this, R.string.client_connected_msg, Toast.LENGTH_SHORT).show();
     }
 
     private void addLocalBotAndUpdate(Attack attack) {
         Attacks.addBot(attack, Bots.getLocalUser());
         repo.updateAttack(attack);
+    }
+
+    private void attackWebsiteOf(Attack attack) {
+        Future future = executor.submit(new AttackScript(attack.getWebsite()));
+        tasks.put(attack.getPushId(), future);
     }
 
     @Override
