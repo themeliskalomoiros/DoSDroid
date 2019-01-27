@@ -22,6 +22,6 @@ class WifiP2pClientConnection extends ClientConnection {
 
     @Override
     protected void releaseResources() {
-
+        super.releaseResources();
     }
 }

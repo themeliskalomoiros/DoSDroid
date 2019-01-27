@@ -22,6 +22,6 @@ class NsdClientConnection extends ClientConnection {
 
     @Override
     protected void releaseResources() {
-
+        super.releaseResources();
     }
 }

@@ -22,6 +22,6 @@ class BluetoothClientConnection extends ClientConnection {
 
     @Override
     protected void releaseResources() {
-
+        super.releaseResources();
     }
 }

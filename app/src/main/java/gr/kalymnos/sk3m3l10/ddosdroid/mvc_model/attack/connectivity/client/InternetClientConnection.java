@@ -33,6 +33,6 @@ class InternetClientConnection extends ClientConnection {
 
     @Override
     protected void releaseResources() {
-
+        super.releaseResources();
     }
 }

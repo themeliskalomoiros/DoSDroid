@@ -45,7 +45,11 @@ abstract class ClientConnection implements AttackDeletionReporter.AttackDeletion
 
     abstract void disconnect();
 
-    protected abstract void releaseResources();
+    protected void releaseResources(){
+        context = null;
+        connectionListener = null;
+        attackDeletionReporter.detach();
+    }
 
     @Override
     public void onAttackDeleted(Attack attack) {
