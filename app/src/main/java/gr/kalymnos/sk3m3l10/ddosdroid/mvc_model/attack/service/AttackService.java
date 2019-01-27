@@ -26,6 +26,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
@@ -109,6 +110,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         clients.put(attack.getPushId(), thisClient);
         addLocalBotAndUpdate(attack);
         attackWebsiteOf(attack);
+        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
         Toast.makeText(this, R.string.client_connected_msg, Toast.LENGTH_SHORT).show();
     }
 
