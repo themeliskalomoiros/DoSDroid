@@ -35,6 +35,11 @@ public class AttackService extends Service {
     }
 
     @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Attack attack = intent.getParcelableExtra(Constants.Extra.EXTRA_ATTACK);
         switch (intent.getAction()) {
@@ -93,12 +98,8 @@ public class AttackService extends Service {
         }
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
     public static class Action {
+
         public static void startAttack(Attack attack, Context context) {
             context.startService(createIntent(context, attack, ACTION_START_ATTACK));
         }
@@ -113,5 +114,6 @@ public class AttackService extends Service {
             intent.putExtra(Constants.Extra.EXTRA_ATTACK, attack);
             return intent;
         }
+
     }
 }

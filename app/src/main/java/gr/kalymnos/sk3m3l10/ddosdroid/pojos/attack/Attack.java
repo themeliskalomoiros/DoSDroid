@@ -91,6 +91,7 @@ public class Attack implements Parcelable {
         networkType = in.readInt();
         timeMillis = in.readLong();
         botIds = in.createStringArrayList();
+        in.readMap(hostInfo, Map.class.getClassLoader());
     }
 
     @Override
@@ -100,6 +101,7 @@ public class Attack implements Parcelable {
         parcel.writeInt(networkType);
         parcel.writeLong(timeMillis);
         parcel.writeStringList(botIds);
+        parcel.writeMap(hostInfo);
     }
 
     @Override
