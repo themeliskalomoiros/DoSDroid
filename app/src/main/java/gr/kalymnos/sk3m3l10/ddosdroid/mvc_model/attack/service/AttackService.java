@@ -135,6 +135,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     public void onClientDisconnected(Client thisClient, Attack attack) {
         cancelAttackScript(attack);
         clients.remove(thisClient);
+        if (clients.isEmpty() && tasks.isEmpty())
+            stopSelf();
         Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
     }
 
