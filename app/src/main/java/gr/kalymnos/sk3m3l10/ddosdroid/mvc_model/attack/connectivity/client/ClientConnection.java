@@ -2,6 +2,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.content.Context;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackDeletionReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackDeletionReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -11,12 +13,13 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 /*  This class offloads the connection implementations from Client class.*/
 
-abstract class ClientConnection {
+abstract class ClientConnection implements AttackDeletionReporter.AttackDeletionListener {
     private static final String TAG = "ClientConnection";
 
     protected Attack attack;
     protected Context context;
     protected ConnectionListener connectionListener;
+    protected AttackDeletionReporter attackDeletionReporter;
 
     interface ConnectionListener {
         void onConnected();
@@ -30,6 +33,8 @@ abstract class ClientConnection {
     ClientConnection(Context context, Attack attack) {
         this.context = context;
         this.attack = attack;
+        this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
+        this.attackDeletionReporter.setAttackDeletionListener(this);
     }
 
     void setConnectionListener(ConnectionListener connectionListener) {
