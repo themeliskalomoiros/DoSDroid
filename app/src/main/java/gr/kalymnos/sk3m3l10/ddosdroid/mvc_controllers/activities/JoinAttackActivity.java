@@ -3,12 +3,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.JoinAttackInfoFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -18,7 +17,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
 public class JoinAttackActivity extends AppCompatActivity implements
-        JoinAttackInfoFragment.OnJoinAttackButtonClickListener{
+        JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
     private JoinAttackViewMvc viewMvc;
     private AttackRepository repo;
 
@@ -48,7 +47,7 @@ public class JoinAttackActivity extends AppCompatActivity implements
 
     @Override
     public void onJoinAttackButtonClicked(Attack attack) {
-        // TODO: Needs implementation
+        AttackService.Action.startAttack(attack, this);
     }
 
     private void startJoinProcedure() {
