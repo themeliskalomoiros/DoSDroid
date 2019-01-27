@@ -50,14 +50,4 @@ public class JoinAttackActivity extends AppCompatActivity implements
         AttackService.Action.startAttack(attack, this);
         finish();
     }
-
-    private void startJoinProcedure() {
-        // TODO: Use this when the client is connected
-        Attacks.addBot(getAttack(), Bots.getLocalUser());
-        repo.updateAttack(getAttack());
-    }
-
-    private Attack getAttack() {
-        return getIntent().getParcelableExtra(EXTRA_ATTACK);
-    }
 }
