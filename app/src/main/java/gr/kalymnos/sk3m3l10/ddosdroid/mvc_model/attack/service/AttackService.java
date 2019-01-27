@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 
-public class AttackService extends Service {
+public class AttackService extends Service implements Client.ClientConnectionListener{
     private static final String TAG = "AttackService";
 
     public static final int THREAD_POOL_SIZE = 10;
@@ -62,8 +62,8 @@ public class AttackService extends Service {
     }
 
     private void handleStartAction(Attack attack) {
-        boolean firstTimeExecutingAttack = !mapHasItems(tasks) || !tasks.containsKey(attack.getPushId());
-        if (firstTimeExecutingAttack) {
+        boolean firstTimeExecutingAnAttack = !mapHasItems(tasks) || !tasks.containsKey(attack.getPushId());
+        if (firstTimeExecutingAnAttack) {
             Future future = executor.submit(new AttackScript(attack.getWebsite()));
             tasks.put(attack.getPushId(), future);
         }
@@ -99,6 +99,21 @@ public class AttackService extends Service {
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    @Override
+    public void onClientConnected(Attack attack) {
+
+    }
+
+    @Override
+    public void onClientConnectionError() {
+
+    }
+
+    @Override
+    public void onClientDisconnected(Attack attack) {
+
     }
 
     public static class Action {
