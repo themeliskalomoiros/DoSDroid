@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.JoinAttackInfoFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
@@ -51,6 +52,7 @@ public class JoinAttackActivity extends AppCompatActivity implements
     @Override
     public void onJoinAttackButtonClicked(Attack attack) {
         // TODO: Needs implementation
+        client.connect(this,attack);
     }
 
     private void startJoinProcedure() {
@@ -65,16 +67,16 @@ public class JoinAttackActivity extends AppCompatActivity implements
 
     @Override
     public void onClientConnected() {
-
+        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClientConnectionError() {
-
+        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClientDisconnected() {
-
+        Toast.makeText(this, "Dissconected", Toast.LENGTH_SHORT).show();
     }
 }
