@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public abstract class AttackDeletionReporter {
-    private AttackDeletionListener callback;
+    protected AttackDeletionListener callback;
 
     public interface AttackDeletionListener {
         void onAttackDeleted(Attack attack);
@@ -15,5 +15,5 @@ public abstract class AttackDeletionReporter {
 
     public abstract void attach();
 
-    public abstract void dettach();
+    public abstract void detach();
 }

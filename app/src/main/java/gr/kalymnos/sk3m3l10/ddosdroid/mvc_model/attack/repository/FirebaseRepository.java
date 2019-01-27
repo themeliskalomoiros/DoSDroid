@@ -19,7 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 
 public class FirebaseRepository extends AttackRepository {
-    private static final String NODE_ATTACKS = "attacks";
+    public static final String NODE_ATTACKS = "attacks";
 
     private DatabaseReference rootRef, attacksRef;
 
