@@ -18,10 +18,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
 public class JoinAttackActivity extends AppCompatActivity implements
-        JoinAttackInfoFragment.OnJoinAttackButtonClickListener, Client.ClientConnectionListener {
+        JoinAttackInfoFragment.OnJoinAttackButtonClickListener{
     private JoinAttackViewMvc viewMvc;
     private AttackRepository repo;
-    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +32,6 @@ public class JoinAttackActivity extends AppCompatActivity implements
     private void initializeFields() {
         repo = new FirebaseRepository();
         viewMvc = new JoinAttackViewMvcImp(LayoutInflater.from(this), null);
-        client = new Client();
-        client.setClientConnectionListener(this);
     }
 
     private void setupUi() {
@@ -52,7 +49,6 @@ public class JoinAttackActivity extends AppCompatActivity implements
     @Override
     public void onJoinAttackButtonClicked(Attack attack) {
         // TODO: Needs implementation
-        client.connect(this,attack);
     }
 
     private void startJoinProcedure() {
@@ -63,20 +59,5 @@ public class JoinAttackActivity extends AppCompatActivity implements
 
     private Attack getAttack() {
         return getIntent().getParcelableExtra(EXTRA_ATTACK);
-    }
-
-    @Override
-    public void onClientConnected() {
-        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClientConnectionError() {
-        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClientDisconnected() {
-        Toast.makeText(this, "Dissconected", Toast.LENGTH_SHORT).show();
     }
 }
