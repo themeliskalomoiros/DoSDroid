@@ -27,4 +27,16 @@ abstract class ClientConnection {
 
     abstract void disconnect();
 
+    interface Factory{
+        ClientConnection create(Attack attack);
+    }
+
+    private class FactoryImp implements Factory{
+
+        @Override
+        public ClientConnection create(Attack attack) {
+            return null;
+        }
+    }
+
 }
