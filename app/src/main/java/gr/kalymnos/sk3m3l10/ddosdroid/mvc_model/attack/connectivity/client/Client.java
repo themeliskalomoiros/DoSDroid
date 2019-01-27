@@ -9,11 +9,11 @@ public class Client implements ClientConnection.ConnectionListener {
     private ClientConnectionListener callback;
 
     public interface ClientConnectionListener {
-        void onClientConnected(Attack attack);
+        void onClientConnected(Client thisClient, Attack attack);
 
         void onClientConnectionError();
 
-        void onClientDisconnected(Attack attack);
+        void onClientDisconnected(Client thisClient, Attack attack);
     }
 
     public void setClientConnectionListener(ClientConnectionListener listener) {
@@ -39,7 +39,7 @@ public class Client implements ClientConnection.ConnectionListener {
 
     @Override
     public void onConnected(Attack attack) {
-        callback.onClientConnected(attack);
+        callback.onClientConnected(this, attack);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class Client implements ClientConnection.ConnectionListener {
 
     @Override
     public void onDisconnected(Attack attack) {
-        callback.onClientDisconnected(attack);
+        callback.onClientDisconnected(this, attack);
     }
 }

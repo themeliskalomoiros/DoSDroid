@@ -98,7 +98,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     @Override
-    public void onClientConnected(Attack attack) {
+    public void onClientConnected(Client thisClient, Attack attack) {
 
     }
 
@@ -108,7 +108,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     @Override
-    public void onClientDisconnected(Attack attack) {
+    public void onClientDisconnected(Client thisClient, Attack attack) {
 
     }
 
