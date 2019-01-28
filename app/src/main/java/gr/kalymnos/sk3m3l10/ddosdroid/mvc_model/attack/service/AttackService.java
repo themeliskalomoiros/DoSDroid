@@ -67,10 +67,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_ATTACK:
                 handleStopAttack(attack);
-                if (isLastAttack(attack)) {
-                    stopSelf();
-                    return START_NOT_STICKY;
-                }
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_SERVICE:
                 stopSelf();
@@ -100,6 +96,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     private void handleStopAttack(Attack attack) {
         cancelTaskExecutionOf(attack);
         disconnectClientOf(attack);
+        if (isLastAttack(attack)) {
+            Action.stopService(this);
+        }
     }
 
     private void cancelTaskExecutionOf(Attack attack) {
