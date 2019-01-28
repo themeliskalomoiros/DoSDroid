@@ -23,7 +23,7 @@ public class AttackScript implements Runnable {
                 Log.d(TAG, "Requesting " + website);
                 readFromUrl(url);
             }
-            Log.d(TAG, "Stop sending requests to " + website + " server.");
+            Log.d(TAG, "Stopped requesting from " + website + " server.");
         }
     }
 

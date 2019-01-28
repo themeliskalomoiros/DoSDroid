@@ -158,8 +158,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelAllTasks();
         shutdownThreadPool();
         disconnectClients();
+    }
+
+    private void cancelAllTasks() {
+        for (Map.Entry<String, Future> futureEntry : tasks.entrySet())
+            futureEntry.getValue().cancel(true);
     }
 
     private void shutdownThreadPool() {
