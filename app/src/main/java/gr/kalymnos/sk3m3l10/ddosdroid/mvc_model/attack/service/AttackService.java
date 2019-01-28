@@ -33,6 +33,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     public static final int THREAD_POOL_SIZE = 10;
     private static final String ACTION_START_ATTACK = TAG + "start attack action";
     private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
+    private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
     private Map<String, Client> clients;
     private Map<String, Future> tasks;
@@ -67,6 +68,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
                     return START_NOT_STICKY;
                 }
                 return START_REDELIVER_INTENT;
+            case ACTION_STOP_SERVICE:
+                stopSelf();
+                return START_NOT_STICKY;
             default:
                 return super.onStartCommand(intent, flags, startId);
         }
