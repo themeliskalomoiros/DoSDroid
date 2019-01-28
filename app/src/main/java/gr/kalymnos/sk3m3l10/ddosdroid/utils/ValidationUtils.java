@@ -14,13 +14,6 @@ public final class ValidationUtils {
         return false;
     }
 
-    public static boolean mapHasItems(Map map) {
-        if (map != null && map.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
     public static boolean bundleIsValidAndContainsKey(Bundle bundle, String key) {
         if (bundle != null && bundle.containsKey(key)) {
             return true;

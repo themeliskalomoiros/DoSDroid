@@ -27,7 +27,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.mapHasItems;
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
@@ -92,10 +91,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStopAttack(Attack attack) {
-        if (mapHasItems(tasks) && tasks.containsKey(attack.getPushId())) {
-            Future attackFuture = tasks.get(attack.getPushId());
-            attackFuture.cancel(true);
-            if (attackFuture.isDone()) {
+        if (tasks.containsKey(attack.getPushId())) {
+            Future attackScriptFuture = tasks.get(attack.getPushId());
+            attackScriptFuture.cancel(true);
+            if (attackScriptFuture.isDone()) {
                 tasks.remove(attack.getPushId());
             }
         }
@@ -138,15 +137,15 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void stopIfLastClientDisconnect() {
-        if (clients.isEmpty() && tasks.isEmpty())
-            stopSelf();
-    }
-
     private void cancelAttackScript(Attack attack) {
         Future attackScript = tasks.get(attack.getPushId());
         attackScript.cancel(true);
         tasks.remove(attackScript);
+    }
+
+    private void stopIfLastClientDisconnect() {
+        if (clients.isEmpty() && tasks.isEmpty())
+            stopSelf();
     }
 
     @Override
