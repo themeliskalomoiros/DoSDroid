@@ -63,10 +63,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         Attack attack = intent.getParcelableExtra(Constants.Extra.EXTRA_ATTACK);
         switch (intent.getAction()) {
             case ACTION_START_ATTACK:
-                handleStartAction(attack);
+                handleStartAttackAction(attack);
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_ATTACK:
-                handleStopAttack(attack);
+                handleStopAttackAction(attack);
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_SERVICE:
                 stopSelf();
@@ -76,7 +76,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
     }
 
-    private void handleStartAction(Attack attack) {
+    private void handleStartAttackAction(Attack attack) {
         boolean clientForAttackExists = clients.containsKey(attack.getPushId());
         if (!clientForAttackExists) {
             Client client = createClient();
@@ -93,7 +93,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         return client;
     }
 
-    private void handleStopAttack(Attack attack) {
+    private void handleStopAttackAction(Attack attack) {
         cancelTaskExecutionOf(attack);
         disconnectClientOf(attack);
         if (isLastAttack(attack)) {
@@ -145,20 +145,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onClientConnectionError() {
         Toast.makeText(this, R.string.client_connection_error_msg, Toast.LENGTH_SHORT).show();
-        stopIfLastClientDisconnect();
+        if (clients.isEmpty() && tasks.isEmpty())
+            stopSelf();
     }
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
         Action.stopAttack(attack, this);
-        clients.remove(thisClient);
-        stopIfLastClientDisconnect();
         Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void stopIfLastClientDisconnect() {
-        if (clients.isEmpty() && tasks.isEmpty())
-            stopSelf();
     }
 
     @Override
