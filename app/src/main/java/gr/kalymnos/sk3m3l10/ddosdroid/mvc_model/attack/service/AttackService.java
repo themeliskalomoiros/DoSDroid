@@ -207,8 +207,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
 
         PendingIntent createStopServicePendingIntent() {
-            //  TODO: needs implementation
-            return null;
+            Intent intent = new Intent(AttackService.this, AttackService.class);
+            intent.setAction(ACTION_STOP_SERVICE);
+            return PendingIntent.getService(AttackService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
