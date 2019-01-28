@@ -153,6 +153,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     public void onDestroy() {
         super.onDestroy();
         shutdownThreadPool();
+        disconnectClients();
     }
 
     private void shutdownThreadPool() {
@@ -164,6 +165,12 @@ public class AttackService extends Service implements Client.ClientConnectionLis
             }
         } catch (InterruptedException e) {
             executor.shutdownNow();
+        }
+    }
+
+    private void disconnectClients() {
+        for (Map.Entry<String, Client> clientEntry : clients.entrySet()) {
+            clientEntry.getValue().disconnect();
         }
     }
 
