@@ -12,32 +12,29 @@ public class AttackScript implements Runnable {
     private URL url;
 
     public AttackScript(String website) {
-        this.url = createUrl(website);
+        initializeUrl(website);
     }
 
-    private URL createUrl(String website) {
-        URL url = null;
+    private void initializeUrl(String website) {
         try {
             url = new URL(website);
         } catch (MalformedURLException e) {
             Log.e(TAG, "Wrong url?", e);
         }
-        return url;
     }
 
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
-            read(url);
+            readUrl();
         }
         Log.d(TAG, "Stopped requesting from " + url + " server.");
     }
 
-    private void read(URL url) {
+    private void readUrl() {
         InputStream in = null;
         try {
             in = url.openStream();
-            Log.d(TAG, "Read from " + url);
         } catch (IOException e) {
             Log.e(TAG, "openStream() error.", e);
         } finally {
