@@ -236,5 +236,16 @@ public class AttackService extends Service implements Client.ClientConnectionLis
             return intent;
         }
 
+        public static void stopService(Context context) {
+            context.startService(createStopServiceIntent(context));
+        }
+
+        @NonNull
+        private static Intent createStopServiceIntent(Context context) {
+            Intent intent = new Intent(context, AttackService.class);
+            intent.setAction(ACTION_STOP_SERVICE);
+            return intent;
+        }
+
     }
 }
