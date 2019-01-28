@@ -43,6 +43,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onCreate() {
         super.onCreate();
+        initializeFields();
+    }
+
+    private void initializeFields() {
         executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         tasks = new HashMap<>();
         clients = new HashMap<>();
