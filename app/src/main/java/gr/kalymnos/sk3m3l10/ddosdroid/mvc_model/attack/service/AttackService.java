@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -125,11 +126,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
-        clients.put(attack.getPushId(), thisClient);
+        Future future = executor.submit(new AttackScript(attack.getWebsite()));
         addLocalBotAndUpdate(attack);
-        attackWebsiteOf(attack);
+        saveReferences(thisClient, attack, future);
         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
-        Toast.makeText(this, R.string.client_connected_msg, Toast.LENGTH_SHORT).show();
     }
 
     private void addLocalBotAndUpdate(Attack attack) {
@@ -137,8 +137,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         repo.updateAttack(attack);
     }
 
-    private void attackWebsiteOf(Attack attack) {
-        Future future = executor.submit(new AttackScript(attack.getWebsite()));
+    private void saveReferences(Client thisClient, Attack attack, Future future) {
+        clients.put(attack.getPushId(), thisClient);
         tasks.put(attack.getPushId(), future);
     }
 
@@ -164,17 +164,18 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void cancelAllTasks() {
-        for (Map.Entry<String, Future> futureEntry : tasks.entrySet())
-            futureEntry.getValue().cancel(true);
+        for (Map.Entry<String, Future> futureEntry : tasks.entrySet()) {
+            boolean canceled = futureEntry.getValue().cancel(true);
+            Log.d(TAG, canceled ? "A task was canceled" : "A task was NOT canceled");
+        }
     }
 
     private void shutdownThreadPool() {
         // https://www.baeldung.com/java-executor-service-tutorial
         executor.shutdown();
         try {
-            if (executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+            if (executor.awaitTermination(800, TimeUnit.MILLISECONDS))
                 executor.shutdownNow();
-            }
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }

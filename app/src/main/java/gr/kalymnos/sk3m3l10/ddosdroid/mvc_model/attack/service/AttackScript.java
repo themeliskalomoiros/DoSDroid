@@ -27,6 +27,16 @@ public class AttackScript implements Runnable {
         }
     }
 
+    private URL createUrl() {
+        URL url = null;
+        try {
+            url = new URL(website);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Wrong url?", e);
+        }
+        return url;
+    }
+
     private void readFromUrl(URL url) {
         InputStream in = null;
         try {
@@ -44,15 +54,5 @@ public class AttackScript implements Runnable {
         } catch (IOException e) {
             Log.e(TAG, "Error while closing the input stream.", e);
         }
-    }
-
-    private URL createUrl() {
-        URL url = null;
-        try {
-            url = new URL(website);
-        } catch (MalformedURLException e) {
-            Log.e(TAG, "Wrong url?", e);
-        }
-        return url;
     }
 }
