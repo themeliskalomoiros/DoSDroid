@@ -30,14 +30,13 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackServ
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
-
     public static final int THREAD_POOL_SIZE = 10;
     private static final String ACTION_START_ATTACK = TAG + "start attack action";
     private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
 
-    private ExecutorService executor;
-    private Map<String, Future> tasks;
     private Map<String, Client> clients;
+    private Map<String, Future> tasks;
+    private ExecutorService executor;
     private AttackRepository repo;
 
     @Override
@@ -131,16 +130,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
-        cancelAttackScript(attack);
+        Action.stopAttack(attack, this);
         clients.remove(thisClient);
         stopIfLastClientDisconnect();
         Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void cancelAttackScript(Attack attack) {
-        Future attackScript = tasks.get(attack.getPushId());
-        attackScript.cancel(true);
-        tasks.remove(attackScript);
     }
 
     private void stopIfLastClientDisconnect() {
