@@ -105,7 +105,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         if (tasks.containsKey(attack.getPushId())) {
             Future attackScriptFuture = tasks.get(attack.getPushId());
             attackScriptFuture.cancel(true);
-            if (attackScriptFuture.isDone()) {
+            if (attackScriptFuture.isCancelled()) {
                 tasks.remove(attack.getPushId());
             }
         }
