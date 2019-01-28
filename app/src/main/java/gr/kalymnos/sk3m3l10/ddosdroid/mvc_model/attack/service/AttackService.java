@@ -222,14 +222,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     public static class Action {
 
         public static void startAttack(Attack attack, Context context) {
-            context.startService(createIntent(context, attack, ACTION_START_ATTACK));
+            context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
         }
 
         public static void stopAttack(Attack attack, Context context) {
-            context.startService(createIntent(context, attack, ACTION_STOP_ATTACK));
+            context.startService(createIntentWithAttackExtra(context, attack, ACTION_STOP_ATTACK));
         }
 
-        private static Intent createIntent(Context context, Attack attack, String action) {
+        private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
             Intent intent = new Intent(context, AttackService.class);
             intent.setAction(action);
             intent.putExtra(Constants.Extra.EXTRA_ATTACK, attack);
