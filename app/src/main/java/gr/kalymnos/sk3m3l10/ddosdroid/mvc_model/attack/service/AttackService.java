@@ -90,12 +90,25 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStopAttack(Attack attack) {
+        cancelTaskExecutionOf(attack);
+        disconnectClientOf(attack);
+    }
+
+    private void cancelTaskExecutionOf(Attack attack) {
         if (tasks.containsKey(attack.getPushId())) {
             Future attackScriptFuture = tasks.get(attack.getPushId());
             attackScriptFuture.cancel(true);
             if (attackScriptFuture.isDone()) {
                 tasks.remove(attack.getPushId());
             }
+        }
+    }
+
+    private void disconnectClientOf(Attack attack) {
+        if (clients.containsKey(attack.getPushId())) {
+            Client client = clients.get(attack.getPushId());
+            client.disconnect();
+            clients.remove(client);
         }
     }
 
