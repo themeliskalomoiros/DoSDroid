@@ -33,9 +33,13 @@ public class BluetoothServer extends Server {
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
+        initializeFields();
+        registerBluetoothStateReceiver(context);
+    }
+
+    private void initializeFields() {
         initializeAcceptClientThread();
         initializeBluetoothReceiver();
-        registerBluetoothStateReceiver(context);
     }
 
     private void initializeAcceptClientThread() {
