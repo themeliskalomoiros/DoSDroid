@@ -19,6 +19,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
@@ -28,6 +29,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
@@ -209,8 +212,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
 
         PendingIntent createContentPendingIntent() {
-            //  TODO: needs implementation
-            return null;
+            Intent intent = AllAttackListsActivity.Action.createIntent(AttackService.this, TYPE_FETCH_JOINED, R.string.joined_attacks_label);
+            return PendingIntent.getActivity(AttackService.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         PendingIntent createStopServicePendingIntent() {
