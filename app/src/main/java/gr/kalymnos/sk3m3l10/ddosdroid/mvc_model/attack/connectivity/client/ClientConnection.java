@@ -30,6 +30,10 @@ abstract class ClientConnection implements AttackDeletionReporter.AttackDeletion
     }
 
     ClientConnection(Context context, Attack attack) {
+        initializeFields(context, attack);
+    }
+
+    private void initializeFields(Context context, Attack attack) {
         this.context = context;
         this.attack = attack;
         this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
