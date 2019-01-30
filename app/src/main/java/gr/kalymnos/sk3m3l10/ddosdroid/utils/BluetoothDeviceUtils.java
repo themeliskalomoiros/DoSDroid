@@ -34,7 +34,7 @@ public class BluetoothDeviceUtils {
         return bluetoothAdapter.getBondedDevices();
     }
 
-    private static String getLocalMacAddress() {
+    public static String getLocalMacAddress() {
         //  Workaround from https://stackoverflow.com/questions/33103798/how-to-get-wi-fi-mac-address-in-android-marshmallow
         //  Reason at https://developer.android.com/about/versions/marshmallow/android-6.0-changes#behavior-hardware-id
         try {
