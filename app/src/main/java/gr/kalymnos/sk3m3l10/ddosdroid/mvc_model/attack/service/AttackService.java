@@ -30,14 +30,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
-    public static final int THREAD_POOL_SIZE = 10;
     private static final String ACTION_START_ATTACK = TAG + "start attack action";
     private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
     private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
+    public static final int THREAD_POOL_SIZE = 10;
 
     private Map<String, Client> clients;
     private Map<String, Future> tasks;

@@ -21,16 +21,17 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
 
     @Override
     void connect() {
-
+        constraintsResolver.resolveConstraints();
     }
 
     @Override
     void disconnect() {
-
+        releaseResources();
     }
 
     @Override
     protected void releaseResources() {
+        constraintsResolver.releaseResources();
         super.releaseResources();
     }
 
