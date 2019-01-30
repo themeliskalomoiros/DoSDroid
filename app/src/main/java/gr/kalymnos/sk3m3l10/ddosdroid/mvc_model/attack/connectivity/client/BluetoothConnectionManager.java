@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
@@ -20,18 +22,21 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     private NetworkConstraintsResolver constraintsResolver;
     private Thread discoveryTask;
-    private BroadcastReceiver deviceDiscoveryReceiver;
+    private BroadcastReceiver deviceDiscoveryReceiver, permissionReceiver;
 
     BluetoothConnectionManager(Context context, Attack attack) {
         super(context, attack);
         initializeFields(context, attack);
         registerDiscoveryReceiver(context);
+        registerPermissionReceiver(context);
+
     }
 
     private void initializeFields(Context context, Attack attack) {
         initializeResolver(context);
         initializeDiscoveryTask();
         initializeDiscoveryReceiver(attack);
+        initializePermissionReceiver();
     }
 
     private void initializeResolver(Context context) {
@@ -79,11 +84,46 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
         };
     }
 
+    private void initializePermissionReceiver() {
+        permissionReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED:
+                        startDeviceDiscovery();
+                        break;
+                    case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
+                        connectionListener.onConnectionError();
+                        break;
+                    default:
+                        throw new IllegalArgumentException(TAG + ": Unknown action");
+                }
+            }
+
+            private void startDeviceDiscovery() {
+                new Thread(() -> BluetoothAdapter.getDefaultAdapter().startDiscovery()).start();
+            }
+        };
+    }
+
     private void registerDiscoveryReceiver(Context context) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_FOUND);
         context.registerReceiver(deviceDiscoveryReceiver, filter);
         Log.d(TAG, "Receiver registered");
+    }
+
+    private void registerPermissionReceiver(Context context) {
+        IntentFilter filter = getIntentFilter();
+        LocalBroadcastManager.getInstance(context).registerReceiver(permissionReceiver, filter);
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED);
+        filter.addAction(RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED);
+        return filter;
     }
 
     @Override
@@ -113,7 +153,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                     Attacks.getUUID(attack), this);
         } else {
             Log.d(TAG, "Server device was not paired with local device, proceeding to discovery");
-            discoveryTask.start();
+            RequestLocationPermissionForBluetoothActivity.requestUserPermission(context);
         }
     }
 
