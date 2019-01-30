@@ -90,8 +90,7 @@ class BluetoothConnectionThread extends Thread {
         try {
             return new BufferedReader(new InputStreamReader(bluetoothSocket.getInputStream()));
         } catch (IOException e) {
-            Log.e(TAG, "Error getting InputStream from bluetoothSocket", e);
-            return null;
+            throw new UnsupportedOperationException(TAG + "Error getting InputStream from bluetoothSocket", e);
         }
     }
 
@@ -104,8 +103,7 @@ class BluetoothConnectionThread extends Thread {
             }
             return response.toString();
         } catch (IOException e) {
-            Log.e(TAG, "Error reading line from BufferedReader", e);
-            return null;
+            throw new UnsupportedOperationException(TAG + "Error reading line from BufferedReader", e);
         }
     }
 
