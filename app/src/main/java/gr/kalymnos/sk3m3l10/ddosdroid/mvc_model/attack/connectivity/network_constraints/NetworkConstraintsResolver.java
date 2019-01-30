@@ -92,21 +92,21 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         public NetworkConstraintsResolver build(Context context, int networkType, Server server) {
             switch (networkType) {
                 case INTERNET:
-                    return new InternetConstraintResolver(context);
+                    return new InternetServerResolver(context);
                 case BLUETOOTH:
-                    return new BluetoothConstraintResolver(context);
+                    return new BluetoothServerResolver(context);
                 case WIFI_P2P:
-                    return new WifiP2pConstraintResolver(context, server);
+                    return new WifiP2pServerResolver(context, server);
                 case NSD:
-                    return new NsdConstraintResolver();
+                    return new NsdServerResolver();
                 default:
                     throw new IllegalArgumentException(TAG + ": Unknown attack network type");
             }
         }
     }
 
-    private static class InternetConstraintResolver extends NetworkConstraintsResolver {
-        public InternetConstraintResolver(Context context) {
+    private static class InternetServerResolver extends NetworkConstraintsResolver {
+        public InternetServerResolver(Context context) {
             addConstraint(createInternetConstraint(context));
         }
 
@@ -118,8 +118,8 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         }
     }
 
-    private static class BluetoothConstraintResolver extends NetworkConstraintsResolver {
-        public BluetoothConstraintResolver(Context context) {
+    private static class BluetoothServerResolver extends NetworkConstraintsResolver {
+        public BluetoothServerResolver(Context context) {
             addConstraint(createSetupConstraint(context));
             addConstraint(createBluetoothEnableConstraint(context));
             addConstraint(createBluetoothDiscoverabilityConstraint(context));
@@ -145,8 +145,8 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         }
     }
 
-    private static class WifiP2pConstraintResolver extends NetworkConstraintsResolver {
-        public WifiP2pConstraintResolver(Context context, Server server) {
+    private static class WifiP2pServerResolver extends NetworkConstraintsResolver {
+        public WifiP2pServerResolver(Context context, Server server) {
             addConstraint(createWifiP2pSetupConstraint(context));
             addConstraint(createWifiP2pGroupConstraint(context, (WifiP2pServer) server));
         }
@@ -166,7 +166,7 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         }
     }
 
-    private static class NsdConstraintResolver extends NetworkConstraintsResolver {
+    private static class NsdServerResolver extends NetworkConstraintsResolver {
         // TODO: set the NetworkConstraint's in the queue
     }
 }
