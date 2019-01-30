@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
@@ -11,7 +12,7 @@ class BluetoothConnectionThread extends Thread {
     private static final String TAG = "BluetoothConnectionThre";
 
     private BluetoothSocket bluetoothSocket;
-    private OnBluetoothConnectionListener onBluetoothConnectionListener;
+    private OnBluetoothConnectionListener callback;
 
     interface OnBluetoothConnectionListener {
         void onBluetoothConnectionSuccess();
@@ -32,15 +33,18 @@ class BluetoothConnectionThread extends Thread {
     }
 
     public void setOnBluetoothConnectionListener(OnBluetoothConnectionListener onBluetoothConnectionListener) {
-        this.onBluetoothConnectionListener = onBluetoothConnectionListener;
+        this.callback = onBluetoothConnectionListener;
     }
 
     @Override
     public void run() {
+        //  First cancel device discovery because it slows down the connection
+        BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+
         if (connectedToServer()) {
 
         } else {
-
+            callback.onBluetoothConnectionFailure();
         }
     }
 
