@@ -45,14 +45,36 @@ class BluetoothConnectionThread extends Thread {
         //  First cancel device discovery because it slows down the connection
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 
-        if (connectedToServer()) {
-            String serverResponse = readServerResponse(getBufferedReader());
-            boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
-            if (isValidResponse) {
-                callback.onBluetoothConnectionSuccess();
-            } else {
-                callback.onBluetoothConnectionFailure();
-            }
+        boolean connectionSuccess = connectToServer();
+        handleConnectionResult(connectionSuccess);
+
+        closeBluetoothSocket();
+    }
+
+    private boolean connectToServer() {
+        try {
+            bluetoothSocket.connect();
+            return true;
+        } catch (IOException e) {
+            Log.e(TAG, "Error when bluetoothSocket.connect()", e);
+            return false;
+        }
+    }
+
+    private void handleConnectionResult(boolean connectionSuccess) {
+        if (connectionSuccess) {
+            handleConnectionSuccess();
+        } else {
+            callback.onBluetoothConnectionFailure();
+        }
+    }
+
+    private void handleConnectionSuccess() {
+        BufferedReader reader = getBufferedReader();
+        String serverResponse = readServerResponse(reader);
+        boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
+        if (isValidResponse) {
+            callback.onBluetoothConnectionSuccess();
         } else {
             callback.onBluetoothConnectionFailure();
         }
@@ -81,13 +103,11 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private boolean connectedToServer() {
+    private void closeBluetoothSocket() {
         try {
-            bluetoothSocket.connect();
-            return true;
+            bluetoothSocket.close();
         } catch (IOException e) {
-            Log.e(TAG, "Error when bluetoothSocket.connect()", e);
-            return false;
+            Log.e(TAG, "Error closing bluetoothSocket", e);
         }
     }
 }
