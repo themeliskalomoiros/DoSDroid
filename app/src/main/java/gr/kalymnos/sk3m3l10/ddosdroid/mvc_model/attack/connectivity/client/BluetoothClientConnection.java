@@ -42,6 +42,7 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
 
     @Override
     public void onConstraintResolveFailure() {
-
+        connectionListener.onConnectionError();
+        releaseResources();
     }
 }
