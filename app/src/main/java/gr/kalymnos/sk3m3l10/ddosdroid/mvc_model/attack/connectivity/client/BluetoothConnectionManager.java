@@ -11,8 +11,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_cons
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
-
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothUtils.isThisDevicePairedWith;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothUtils;
 
 class BluetoothConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothConnectionListener {
@@ -57,7 +56,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         context.unregisterReceiver(this);
-                        startConnectionThread(discoveredDevice);
+                        BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getUUID(attack), BluetoothConnectionManager.this);
                     }
                 }
             }
@@ -66,12 +65,6 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                 String discoveredDeviceMacAddress = discoveredDevice.getAddress();
                 String serverMacAddress = Attacks.getMacAddress(attack);
                 return discoveredDeviceMacAddress.equals(serverMacAddress);
-            }
-
-            private void startConnectionThread(BluetoothDevice discoveredDevice) {
-                BluetoothConnectionThread connectionThread = new BluetoothConnectionThread(discoveredDevice, Attacks.getUUID(attack));
-                connectionThread.setOnBluetoothConnectionListener(BluetoothConnectionManager.this);
-                connectionThread.start();
             }
         };
     }
@@ -102,7 +95,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     @Override
     public void onConstraintsResolved() {
         String serverMacAddress = Attacks.getMacAddress(attack);
-        if (isThisDevicePairedWith(serverMacAddress)) {
+        if (BluetoothUtils.isThisDevicePairedWith(serverMacAddress)) {
             //  TODO: connect with the server device
         } else {
             discoveryTask.start();

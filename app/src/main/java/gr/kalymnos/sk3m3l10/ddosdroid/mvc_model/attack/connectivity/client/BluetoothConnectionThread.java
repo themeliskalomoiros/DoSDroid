@@ -24,7 +24,13 @@ class BluetoothConnectionThread extends Thread {
         void onBluetoothConnectionFailure();
     }
 
-    public BluetoothConnectionThread(BluetoothDevice device, UUID serverUUID) {
+    static void startAnInstance(BluetoothDevice discoveredDevice, UUID uuid, OnBluetoothConnectionListener listener) {
+        BluetoothConnectionThread instance = new BluetoothConnectionThread(discoveredDevice, uuid);
+        instance.setOnBluetoothConnectionListener(listener);
+        instance.start();
+    }
+
+    private BluetoothConnectionThread(BluetoothDevice device, UUID serverUUID) {
         initializeBluetoothSocket(device, serverUUID);
     }
 
