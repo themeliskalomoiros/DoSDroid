@@ -96,7 +96,8 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     public void onConstraintsResolved() {
         String serverMacAddress = Attacks.getMacAddress(attack);
         if (BluetoothDeviceUtils.isThisDevicePairedWith(serverMacAddress)) {
-            //  TODO: connect with the server device
+            BluetoothConnectionThread.startAnInstance(BluetoothDeviceUtils.getPairedBluetoothDeviceOf(serverMacAddress),
+                    Attacks.getUUID(attack), this);
         } else {
             discoveryTask.start();
         }
