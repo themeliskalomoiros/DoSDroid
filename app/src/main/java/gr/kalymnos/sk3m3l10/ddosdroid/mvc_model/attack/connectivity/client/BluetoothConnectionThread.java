@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+
 class BluetoothConnectionThread extends Thread {
     private static final String TAG = "BluetoothConnectionThre";
 
@@ -44,8 +46,13 @@ class BluetoothConnectionThread extends Thread {
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 
         if (connectedToServer()) {
-            BufferedReader reader = getBufferedReader();
-            String serverResponse = readServerResponse(reader);
+            String serverResponse = readServerResponse(getBufferedReader());
+            boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
+            if (isValidResponse) {
+                callback.onBluetoothConnectionSuccess();
+            } else {
+                callback.onBluetoothConnectionFailure();
+            }
         } else {
             callback.onBluetoothConnectionFailure();
         }
@@ -62,7 +69,12 @@ class BluetoothConnectionThread extends Thread {
 
     private String readServerResponse(BufferedReader reader) {
         try {
-            return reader.readLine();
+            StringBuilder response = new StringBuilder();
+            String data;
+            while ((data = reader.readLine()) != null) {
+                response.append(data);
+            }
+            return response.toString();
         } catch (IOException e) {
             Log.e(TAG, "Error reading line from BufferedReader", e);
             return null;
