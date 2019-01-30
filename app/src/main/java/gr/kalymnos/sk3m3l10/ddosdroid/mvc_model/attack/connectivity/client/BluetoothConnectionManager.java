@@ -55,14 +55,17 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                 String action = intent.getAction();
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    String discoveredDeviceMacAddress = discoveredDevice.getAddress();
-                    String serverMacAddress = Attacks.getMacAddress(attack);
-                    boolean serverDeviceDiscovered = discoveredDeviceMacAddress.equals(serverMacAddress);
-                    if (serverDeviceDiscovered) {
+                    if (isServerDeviceDiscovered(discoveredDevice)) {
                         context.unregisterReceiver(this);
                         //  TODO: connect with the server device
                     }
                 }
+            }
+
+            private boolean isServerDeviceDiscovered(BluetoothDevice discoveredDevice) {
+                String discoveredDeviceMacAddress = discoveredDevice.getAddress();
+                String serverMacAddress = Attacks.getMacAddress(attack);
+                return discoveredDeviceMacAddress.equals(serverMacAddress);
             }
         };
     }
