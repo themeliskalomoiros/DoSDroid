@@ -140,6 +140,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     protected void releaseResources() {
         constraintsResolver.releaseResources();
         context.unregisterReceiver(deviceDiscoveryReceiver);
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(permissionReceiver);
         super.releaseResources();
     }
 
