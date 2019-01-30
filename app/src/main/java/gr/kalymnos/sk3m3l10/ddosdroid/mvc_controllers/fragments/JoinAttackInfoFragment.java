@@ -16,6 +16,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
+
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener {
 
     private JoinAttackInfoViewMvc viewMvc;
@@ -29,7 +31,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        attack = getArguments().getParcelable(Constants.Extra.EXTRA_ATTACK);
+        Bundle bundle = getActivity().getIntent().getBundleExtra(Constants.BUNDLE_SAMSUNG_BUG_KEY);
+        attack = bundle.getParcelable(EXTRA_ATTACK);
     }
 
     @Nullable

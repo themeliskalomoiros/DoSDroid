@@ -137,8 +137,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private void startJoinAttackActivity(Attack attack) {
+        //  Why this way? see BUNDLE_SAMSUNG_BUG_KEY for details
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.Extra.EXTRA_ATTACK, attack);
         Intent intent = new Intent(getContext(), JoinAttackActivity.class);
-        intent.putExtra(Constants.Extra.EXTRA_ATTACK, attack);
+        intent.putExtra(Constants.BUNDLE_SAMSUNG_BUG_KEY, bundle);
         getContext().startActivity(intent);
     }
 

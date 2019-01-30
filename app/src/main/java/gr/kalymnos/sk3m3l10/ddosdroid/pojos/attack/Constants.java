@@ -1,7 +1,8 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 public interface Constants {
-    int ATTACK_STARTED = 1010;
+    //  Search for "Android E/Parcel: Class not found when unmarshalling (only Samsung Tab3) on StackOverflow"
+    String BUNDLE_SAMSUNG_BUG_KEY = "bundle_bug_key_for_samsung_phones";
 
     interface AttackType {
         int TYPE_FETCH_ALL = 101;
