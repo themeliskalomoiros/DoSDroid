@@ -58,7 +58,7 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
         if (isThisDevicePairedWith(serverMacAddress)) {
             //  TODO: connect with the device
         } else {
-            //  TODO: initiate device discovery
+            discoveryTask.start();
         }
     }
 
