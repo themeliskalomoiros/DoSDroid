@@ -29,5 +29,6 @@ public interface Constants {
         String EXTRA_DEVICE_ADDRESS = "extra_device_address";
         String EXTRA_ATTACK_STARTED = "extra_attack_started";
         String EXTRA_LOCAL_PORT = "extra_local_port";
+        String EXTRA_MAC_ADDRESS = "extra_mac_address";
     }
 }
