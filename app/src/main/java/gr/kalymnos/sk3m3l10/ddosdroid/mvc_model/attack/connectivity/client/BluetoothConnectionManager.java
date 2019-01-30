@@ -57,7 +57,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         context.unregisterReceiver(this);
-                        //  TODO: connect with the server device
+                        startConnectionThread(discoveredDevice);
                     }
                 }
             }
@@ -66,6 +66,12 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                 String discoveredDeviceMacAddress = discoveredDevice.getAddress();
                 String serverMacAddress = Attacks.getMacAddress(attack);
                 return discoveredDeviceMacAddress.equals(serverMacAddress);
+            }
+
+            private void startConnectionThread(BluetoothDevice discoveredDevice) {
+                BluetoothConnectionThread connectionThread = new BluetoothConnectionThread(discoveredDevice, Attacks.getUUID(attack));
+                connectionThread.setOnBluetoothConnectionListener(BluetoothConnectionManager.this);
+                connectionThread.start();
             }
         };
     }
