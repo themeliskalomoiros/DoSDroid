@@ -1,23 +1,32 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothUtils.isThisDevicePairedWith;
 
 class BluetoothClientConnection extends ClientConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     private NetworkConstraintsResolver constraintsResolver;
     private Thread discoveryTask;
+    private BroadcastReceiver deviceDiscoveryReceiver;
 
     BluetoothClientConnection(Context context, Attack attack) {
         super(context, attack);
+        initializeFields(context, attack);
+    }
+
+    private void initializeFields(Context context, Attack attack) {
         initializeResolver(context);
         initializeDiscoveryTask();
+        initializeDiscoveryReceiver(attack);
     }
 
     private void initializeResolver(Context context) {
@@ -34,6 +43,24 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
                 disconnect();
             }
         });
+    }
+
+    private void initializeDiscoveryReceiver(Attack attack) {
+        deviceDiscoveryReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                    BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    String discoveredDeviceMacAddress = discoveredDevice.getAddress();
+                    String serverMacAddress = Attacks.getMacAddress(attack);
+                    boolean serverDeviceDiscovered = discoveredDeviceMacAddress.equals(serverMacAddress);
+                    if (serverDeviceDiscovered) {
+                        //  TODO: connect with the server device
+                    }
+                }
+            }
+        };
     }
 
     @Override
@@ -54,9 +81,9 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
 
     @Override
     public void onConstraintsResolved() {
-        String serverMacAddress = attack.getHostInfo().get(EXTRA_MAC_ADDRESS);
+        String serverMacAddress = Attacks.getMacAddress(attack);
         if (isThisDevicePairedWith(serverMacAddress)) {
-            //  TODO: connect with the device
+            //  TODO: connect with the server device
         } else {
             discoveryTask.start();
         }
