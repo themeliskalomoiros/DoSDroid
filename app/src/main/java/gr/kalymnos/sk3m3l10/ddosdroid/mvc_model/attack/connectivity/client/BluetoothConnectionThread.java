@@ -5,7 +5,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.UUID;
 
 class BluetoothConnectionThread extends Thread {
@@ -42,9 +44,28 @@ class BluetoothConnectionThread extends Thread {
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 
         if (connectedToServer()) {
-
+            BufferedReader reader = getBufferedReader();
+            String serverResponse = readServerResponse(reader);
         } else {
             callback.onBluetoothConnectionFailure();
+        }
+    }
+
+    private BufferedReader getBufferedReader() {
+        try {
+            return new BufferedReader(new InputStreamReader(bluetoothSocket.getInputStream()));
+        } catch (IOException e) {
+            Log.e(TAG, "Error getting InputStream from bluetoothSocket", e);
+            return null;
+        }
+    }
+
+    private String readServerResponse(BufferedReader reader) {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            Log.e(TAG, "Error reading line from BufferedReader", e);
+            return null;
         }
     }
 
