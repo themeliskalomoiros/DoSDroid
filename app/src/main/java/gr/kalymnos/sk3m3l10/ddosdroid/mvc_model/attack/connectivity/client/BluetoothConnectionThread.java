@@ -28,6 +28,7 @@ class BluetoothConnectionThread extends Thread {
         BluetoothConnectionThread instance = new BluetoothConnectionThread(discoveredDevice, uuid);
         instance.setOnBluetoothConnectionListener(listener);
         instance.start();
+        Log.d(TAG,"Instance started");
     }
 
     private BluetoothConnectionThread(BluetoothDevice device, UUID serverUUID) {
@@ -72,6 +73,7 @@ class BluetoothConnectionThread extends Thread {
             handleConnectionSuccess();
         } else {
             callback.onBluetoothConnectionFailure();
+            Log.d(TAG,"Connection failure");
         }
     }
 
@@ -81,8 +83,10 @@ class BluetoothConnectionThread extends Thread {
         boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
         if (isValidResponse) {
             callback.onBluetoothConnectionSuccess();
+            Log.d(TAG,"Connection success");
         } else {
             callback.onBluetoothConnectionFailure();
+            Log.d(TAG,"Connection failure");
         }
     }
 
