@@ -4,8 +4,8 @@ import android.content.Context;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class Client implements ClientConnection.ConnectionListener {
-    private ClientConnection clientConnection;
+public class Client implements ConnectionManager.ConnectionListener {
+    private ConnectionManager connectionManager;
     private ClientConnectionListener callback;
 
     public interface ClientConnectionListener {
@@ -21,20 +21,20 @@ public class Client implements ClientConnection.ConnectionListener {
     }
 
     public void connect(Context context, Attack attack) {
-        initializeClientConnectionIfNotNull(context, attack);
-        clientConnection.connect();
+        initializeConnectionManagerIfNotNull(context, attack);
+        connectionManager.connect();
     }
 
-    private void initializeClientConnectionIfNotNull(Context context, Attack attack) {
-        if (clientConnection == null) {
-            ClientConnection.Factory factory = new ClientConnection.FactoryImp();
-            clientConnection = factory.create(context, attack);
-            clientConnection.setConnectionListener(this);
+    private void initializeConnectionManagerIfNotNull(Context context, Attack attack) {
+        if (connectionManager == null) {
+            ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
+            connectionManager = factory.create(context, attack);
+            connectionManager.setConnectionListener(this);
         }
     }
 
     public void disconnect() {
-        clientConnection.disconnect();
+        connectionManager.disconnect();
     }
 
     @Override

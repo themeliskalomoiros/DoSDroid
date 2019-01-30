@@ -4,9 +4,9 @@ import android.content.Context;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-class NsdClientConnection extends ClientConnection {
+class WifiP2PConnectionManager extends ConnectionManager {
 
-    NsdClientConnection(Context context, Attack attack) {
+    WifiP2PConnectionManager(Context context, Attack attack) {
         super(context, attack);
     }
 

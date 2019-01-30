@@ -14,12 +14,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothUtils.isThisDevicePairedWith;
 
-class BluetoothClientConnection extends ClientConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener {
+class BluetoothConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     private NetworkConstraintsResolver constraintsResolver;
     private Thread discoveryTask;
     private BroadcastReceiver deviceDiscoveryReceiver;
 
-    BluetoothClientConnection(Context context, Attack attack) {
+    BluetoothConnectionManager(Context context, Attack attack) {
         super(context, attack);
         initializeFields(context, attack);
         registerDiscoveryReceiver(context);

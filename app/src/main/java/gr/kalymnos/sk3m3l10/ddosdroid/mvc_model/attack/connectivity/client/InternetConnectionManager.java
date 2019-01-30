@@ -8,9 +8,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_STARTED;
 
-class InternetClientConnection extends ClientConnection {
+class InternetConnectionManager extends ConnectionManager {
 
-    InternetClientConnection(Context context, Attack attack) {
+    InternetConnectionManager(Context context, Attack attack) {
         super(context, attack);
     }
 
