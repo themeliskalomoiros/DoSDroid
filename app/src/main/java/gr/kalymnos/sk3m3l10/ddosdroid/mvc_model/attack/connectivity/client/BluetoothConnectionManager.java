@@ -14,7 +14,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothUtils.isThisDevicePairedWith;
 
-class BluetoothConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener {
+class BluetoothConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener,
+        BluetoothConnectionThread.OnBluetoothConnectionListener {
     private NetworkConstraintsResolver constraintsResolver;
     private Thread discoveryTask;
     private BroadcastReceiver deviceDiscoveryReceiver;
@@ -103,5 +104,15 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     public void onConstraintResolveFailure() {
         connectionListener.onConnectionError();
         releaseResources();
+    }
+
+    @Override
+    public void onBluetoothConnectionSuccess() {
+
+    }
+
+    @Override
+    public void onBluetoothConnectionFailure() {
+
     }
 }
