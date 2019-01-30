@@ -34,6 +34,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     private void initializeResolver(Context context) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
         constraintsResolver = builder.build(context, Constants.NetworkType.BLUETOOTH);
+        constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
     private void initializeDiscoveryTask() {
