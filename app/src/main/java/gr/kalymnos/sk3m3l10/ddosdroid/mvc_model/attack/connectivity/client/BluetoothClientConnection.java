@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -21,6 +22,7 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
     BluetoothClientConnection(Context context, Attack attack) {
         super(context, attack);
         initializeFields(context, attack);
+        registerDiscoveryReceiver(context);
     }
 
     private void initializeFields(Context context, Attack attack) {
@@ -56,11 +58,18 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
                     String serverMacAddress = Attacks.getMacAddress(attack);
                     boolean serverDeviceDiscovered = discoveredDeviceMacAddress.equals(serverMacAddress);
                     if (serverDeviceDiscovered) {
+                        context.unregisterReceiver(this);
                         //  TODO: connect with the server device
                     }
                 }
             }
         };
+    }
+
+    private void registerDiscoveryReceiver(Context context) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        context.registerReceiver(deviceDiscoveryReceiver, filter);
     }
 
     @Override
@@ -76,6 +85,7 @@ class BluetoothClientConnection extends ClientConnection implements NetworkConst
     @Override
     protected void releaseResources() {
         constraintsResolver.releaseResources();
+        context.unregisterReceiver(deviceDiscoveryReceiver);
         super.releaseResources();
     }
 
