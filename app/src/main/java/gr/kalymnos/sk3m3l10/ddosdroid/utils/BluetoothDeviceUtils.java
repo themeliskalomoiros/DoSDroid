@@ -5,7 +5,7 @@ import android.bluetooth.BluetoothDevice;
 
 import java.util.Set;
 
-public class BluetoothUtils {
+public class BluetoothDeviceUtils {
 
     public static boolean isThisDevicePairedWith(String deviceAddress /*MAC Address*/) {
         for (BluetoothDevice device : getPairedDevices()) {

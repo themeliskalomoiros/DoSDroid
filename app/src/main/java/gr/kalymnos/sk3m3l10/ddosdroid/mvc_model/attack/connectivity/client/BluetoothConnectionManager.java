@@ -11,7 +11,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_cons
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothUtils;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtils;
 
 class BluetoothConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothConnectionListener {
@@ -95,7 +95,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     @Override
     public void onConstraintsResolved() {
         String serverMacAddress = Attacks.getMacAddress(attack);
-        if (BluetoothUtils.isThisDevicePairedWith(serverMacAddress)) {
+        if (BluetoothDeviceUtils.isThisDevicePairedWith(serverMacAddress)) {
             //  TODO: connect with the server device
         } else {
             discoveryTask.start();
