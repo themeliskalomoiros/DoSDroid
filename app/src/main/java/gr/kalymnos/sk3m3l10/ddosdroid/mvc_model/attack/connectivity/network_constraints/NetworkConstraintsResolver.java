@@ -194,6 +194,20 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private class BluetoothClientResolver extends NetworkConstraintsResolver {
             public BluetoothClientResolver(Context context) {
+                addConstraint(createSetupConstraint(context));
+                addConstraint(createBluetoothEnableConstraint(context));
+            }
+
+            private BluetoothSetupConstraint createSetupConstraint(Context context) {
+                BluetoothSetupConstraint constraint = new BluetoothSetupConstraint(context);
+                constraint.setOnResolveConstraintListener(this);
+                return constraint;
+            }
+
+            private BluetoothEnableConstraint createBluetoothEnableConstraint(Context context) {
+                BluetoothEnableConstraint constraint = new BluetoothEnableConstraint(context);
+                constraint.setOnResolveConstraintListener(this);
+                return constraint;
             }
         }
 
