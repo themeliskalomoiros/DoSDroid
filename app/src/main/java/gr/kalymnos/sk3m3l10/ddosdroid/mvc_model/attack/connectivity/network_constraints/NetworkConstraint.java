@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints;
 
 import android.content.Context;
 

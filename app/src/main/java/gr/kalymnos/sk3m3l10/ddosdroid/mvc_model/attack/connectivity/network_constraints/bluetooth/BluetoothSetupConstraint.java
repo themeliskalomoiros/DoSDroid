@@ -1,9 +1,9 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.network_constraints.NetworkConstraint;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraint;
 
 public class BluetoothSetupConstraint extends NetworkConstraint {
     private BluetoothAdapter bluetoothAdapter;

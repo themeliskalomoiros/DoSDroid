@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluetooth.constraints;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
