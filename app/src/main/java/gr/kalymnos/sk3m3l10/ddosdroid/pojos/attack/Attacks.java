@@ -12,6 +12,7 @@ import java.util.UUID;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 
 public final class Attacks {
     private static final String TAG = "Attacks";
@@ -52,8 +53,12 @@ public final class Attacks {
         return database.getReference().child("attacks");
     }
 
-    public static UUID getUUID(Attack attack){
+    public static UUID getUUID(Attack attack) {
         String uuidString = attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
         return UUID.fromString(uuidString);
+    }
+
+    public static String getMacAddress(Attack attack) {
+        return attack.getHostInfo().get(EXTRA_MAC_ADDRESS);
     }
 }
