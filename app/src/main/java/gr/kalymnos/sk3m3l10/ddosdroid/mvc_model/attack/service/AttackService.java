@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -33,11 +31,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
-    public static final int THREAD_POOL_SIZE = 10;
 
     private Map<String, Client> clients;
-    private Map<String, Future> tasks;
-    private ExecutorService executor;
+    private Map<String, Thread> tasks;
     private AttackRepository repo;
 
     @Override
@@ -47,7 +43,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void initializeFields() {
-        executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         tasks = new HashMap<>();
         clients = new HashMap<>();
         repo = new FirebaseRepository();
@@ -103,10 +98,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private void cancelTaskExecutionOf(Attack attack) {
         if (tasks.containsKey(attack.getPushId())) {
-            Future attackScriptFuture = tasks.get(attack.getPushId());
-            attackScriptFuture.cancel(true);
-            if (attackScriptFuture.isCancelled()) {
-                tasks.remove(attack.getPushId());
+            Thread attackScript = tasks.get(attack.getPushId());
+            attackScript.interrupt();
+            if (attackScript.isInterrupted()) {
+                tasks.remove(attackScript);
             }
         }
     }
@@ -125,9 +120,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
-        Future future = executor.submit(new AttackScript(attack.getWebsite()));
+        AttackScript script = new AttackScript(attack.getWebsite());
+        script.start();
         addLocalBotAndUpdate(attack);
-        saveReferences(thisClient, attack, future);
+        saveReferences(thisClient, attack, script);
         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
     }
 
@@ -136,9 +132,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         repo.updateAttack(attack);
     }
 
-    private void saveReferences(Client thisClient, Attack attack, Future future) {
+    private void saveReferences(Client thisClient, Attack attack, Thread script) {
         clients.put(attack.getPushId(), thisClient);
-        tasks.put(attack.getPushId(), future);
+        tasks.put(attack.getPushId(), script);
     }
 
     @Override
@@ -157,26 +153,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cancelAllTasks();
-        shutdownThreadPool();
+        stopTasks();
         disconnectClients();
     }
 
-    private void cancelAllTasks() {
-        for (Map.Entry<String, Future> futureEntry : tasks.entrySet()) {
-            boolean canceled = futureEntry.getValue().cancel(true);
-            Log.d(TAG, canceled ? "A task was canceled" : "A task was NOT canceled");
-        }
-    }
-
-    private void shutdownThreadPool() {
-        // https://www.baeldung.com/java-executor-service-tutorial
-        executor.shutdown();
-        try {
-            if (executor.awaitTermination(800, TimeUnit.MILLISECONDS))
-                executor.shutdownNow();
-        } catch (InterruptedException e) {
-            executor.shutdownNow();
+    private void stopTasks() {
+        for (Map.Entry<String, Thread> taskEntry : tasks.entrySet()) {
+            taskEntry.getValue().interrupt();
+            Log.d(TAG, taskEntry.getValue().isInterrupted() ? "A task was stopped" : "A task was NOT stopped");
         }
     }
 
