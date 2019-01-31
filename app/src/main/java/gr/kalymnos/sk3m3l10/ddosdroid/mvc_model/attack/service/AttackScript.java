@@ -10,6 +10,7 @@ import java.net.URL;
 public class AttackScript extends Thread {
     private static final String TAG = "AttackScript";
     private URL url;
+    private boolean stopped = false;
 
     public AttackScript(String website) {
         initializeUrl(website);
@@ -25,7 +26,7 @@ public class AttackScript extends Thread {
 
     @Override
     public void run() {
-        while (!isInterrupted()) {
+        while (!stopped) {
             readUrl();
         }
         Log.d(TAG, "Stopped requesting from " + url + " server.");
@@ -49,5 +50,13 @@ public class AttackScript extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Error while closing the input stream.", e);
         }
+    }
+
+    public void stopExecution() {
+        stopped = true;
+    }
+
+    public boolean isStopped() {
+        return stopped;
     }
 }
