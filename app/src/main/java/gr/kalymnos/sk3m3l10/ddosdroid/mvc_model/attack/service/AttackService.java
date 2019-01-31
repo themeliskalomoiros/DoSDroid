@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
@@ -28,7 +26,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 
-public class AttackService extends Service implements Client.ClientConnectionListener, AttackRepository.OnAttacksFetchListener {
+public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
 
     private Map<String, Client> clients;
@@ -45,7 +43,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         tasks = new HashMap<>();
         clients = new HashMap<>();
         repo = new FirebaseRepository();
-        repo.addOnAttacksFetchListener(this);
     }
 
     @Override
@@ -167,16 +164,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         for (Map.Entry<String, Client> clientEntry : clients.entrySet()) {
             clientEntry.getValue().disconnect();
         }
-    }
-
-    @Override
-    public void attacksFetched(List<Attack> attacks) {
-        //  Implemented to avoid a NullpointerException at FirebaseRepository
-    }
-
-    @Override
-    public void attacksFetchedFail(String msg) {
-        //  Implemented to avoid a NullpointerException at FirebaseRepository
     }
 
     class ForegroundNotification {
