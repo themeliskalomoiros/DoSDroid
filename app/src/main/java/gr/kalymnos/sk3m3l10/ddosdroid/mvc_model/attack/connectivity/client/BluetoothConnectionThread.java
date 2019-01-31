@@ -48,7 +48,7 @@ class BluetoothConnectionThread extends Thread {
 
     @Override
     public void run() {
-        Log.d(TAG,"Instance started");
+        Log.d(TAG, "Instance started");
         //  First cancel device discovery because it slows down the connection
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 
@@ -70,10 +70,11 @@ class BluetoothConnectionThread extends Thread {
 
     private void handleConnectionResult(boolean connectionSuccess) {
         if (connectionSuccess) {
+            Log.d(TAG, "Connection was successfull");
             handleConnectionSuccess();
         } else {
+            Log.d(TAG, "Connection failed");
             callback.onBluetoothConnectionFailure();
-            Log.d(TAG,"Connection failure");
         }
     }
 
@@ -83,10 +84,10 @@ class BluetoothConnectionThread extends Thread {
         boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
         if (isValidResponse) {
             callback.onBluetoothConnectionSuccess();
-            Log.d(TAG,"Connection success");
+            Log.d(TAG, "Connection success");
         } else {
             callback.onBluetoothConnectionFailure();
-            Log.d(TAG,"Connection failure");
+            Log.d(TAG, "Connection failure");
         }
     }
 
