@@ -117,7 +117,9 @@ class BluetoothConnectionThread extends Thread {
             if (responseIsValid) {
                 return response.toString();
             } else {
-                throw new UnsupportedOperationException(TAG + "Error reading line from BufferedReader", e);
+                Log.d(TAG, "response = " + response);
+                Log.e(TAG, "Error reading line from BufferedReader", e);
+                return null;
             }
         }
     }
