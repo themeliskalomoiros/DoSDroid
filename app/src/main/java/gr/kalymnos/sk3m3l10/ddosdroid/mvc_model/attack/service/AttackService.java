@@ -29,8 +29,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
 
-    private Map<String, Client> clients;
-    private Map<String, AttackScript> tasks;
+    private Map<Attack, Client> clients;
+    private Map<Attack, AttackScript> tasks;
     private AttackRepository repo;
 
     @Override
@@ -69,7 +69,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStartAttackAction(Attack attack) {
-        boolean clientForAttackExists = clients.containsKey(attack.getPushId());
+        boolean clientForAttackExists = clients.containsKey(attack);
         if (!clientForAttackExists) {
             Client client = createClient();
             client.connect(this, attack);
@@ -94,8 +94,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void cancelTaskExecutionOf(Attack attack) {
-        if (tasks.containsKey(attack.getPushId())) {
-            AttackScript attackScript = tasks.get(attack.getPushId());
+        if (tasks.containsKey(attack)) {
+            AttackScript attackScript = tasks.get(attack);
             attackScript.stopExecution();
             if (attackScript.isStopped()) {
                 tasks.remove(attackScript);
@@ -104,15 +104,15 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void disconnectClientOf(Attack attack) {
-        if (clients.containsKey(attack.getPushId())) {
-            Client client = clients.get(attack.getPushId());
+        if (clients.containsKey(attack)) {
+            Client client = clients.get(attack);
             client.disconnect();
             clients.remove(client);
         }
     }
 
     private boolean isLastAttack(Attack attack) {
-        return tasks.containsKey(attack.getPushId()) && tasks.size() == 1;
+        return tasks.containsKey(attack) && tasks.size() == 1;
     }
 
     @Override
@@ -130,8 +130,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void saveReferences(Client thisClient, Attack attack, AttackScript script) {
-        clients.put(attack.getPushId(), thisClient);
-        tasks.put(attack.getPushId(), script);
+        clients.put(attack, thisClient);
+        tasks.put(attack, script);
     }
 
     @Override
@@ -155,14 +155,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void stopTasks() {
-        for (Map.Entry<String, AttackScript> taskEntry : tasks.entrySet()) {
-            taskEntry.getValue().stopExecution();
+        for (Map.Entry<Attack, AttackScript> entry : tasks.entrySet()) {
+            entry.getValue().stopExecution();
         }
     }
 
     private void disconnectClients() {
-        for (Map.Entry<String, Client> clientEntry : clients.entrySet()) {
-            clientEntry.getValue().disconnect();
+        for (Map.Entry<Attack, Client> entry : clients.entrySet()) {
+            entry.getValue().disconnect();
         }
     }
 

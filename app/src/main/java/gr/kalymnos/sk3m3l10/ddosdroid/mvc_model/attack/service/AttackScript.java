@@ -29,7 +29,6 @@ public class AttackScript extends Thread {
         while (!stopped) {
             readUrl();
         }
-        Log.d(TAG, "Stopped requesting from " + url + " server.");
     }
 
     private void readUrl() {
@@ -46,7 +45,6 @@ public class AttackScript extends Thread {
     private void closeInputStream(InputStream in) {
         try {
             in.close();
-            Log.d(TAG, "InputStream closed for " + url);
         } catch (IOException e) {
             Log.e(TAG, "Error while closing the input stream.", e);
         }
