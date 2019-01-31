@@ -88,11 +88,11 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED:
-                        Log.d(TAG,"Permission granted, starting device discovery.");
+                        Log.d(TAG, "Permission granted, starting device discovery.");
                         discoveryTask.start();
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
-                        Log.d(TAG,"Permission denied, reporting connection error.");
+                        Log.d(TAG, "Permission denied, reporting connection error.");
                         connectionListener.onConnectionError();
                         break;
                     default:
@@ -144,8 +144,12 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     }
 
     private void unregisterReceivers() {
-        context.unregisterReceiver(deviceDiscoveryReceiver);
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(permissionReceiver);
+        try {
+            context.unregisterReceiver(deviceDiscoveryReceiver);
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(permissionReceiver);
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Tried to unregister an already unregisted receiver");
+        }
     }
 
     @Override
