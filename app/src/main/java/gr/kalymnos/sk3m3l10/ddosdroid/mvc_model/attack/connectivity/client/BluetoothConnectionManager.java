@@ -27,8 +27,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     BluetoothConnectionManager(Context context, Attack attack) {
         super(context, attack);
         initializeFields(context, attack);
-        registerDiscoveryReceiver(context);
-        registerPermissionReceiver(context);
+        registerReceivers(context);
 
     }
 
@@ -50,9 +49,9 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
             boolean discoveryInitiated = adapter.startDiscovery();
             if (!discoveryInitiated) {
+                Log.d(TAG, "Device discovery failed to initiate");
                 connectionListener.onConnectionError();
                 disconnect();
-                Log.d(TAG, "Device discovery failed to initiate");
             } else {
                 Log.d(TAG, "Device discovery initiated");
             }
@@ -63,22 +62,21 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
         deviceDiscoveryReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d(TAG, "deviceDiscoveryReceiver.OnReceiver() called");
                 String action = intent.getAction();
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     Log.d(TAG, "A device discovered");
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         Log.d(TAG, "Server device discovered, proceeding to connection");
-                        context.unregisterReceiver(this);
                         BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getUUID(attack), BluetoothConnectionManager.this);
+                        context.unregisterReceiver(this);
                     }
                 }
             }
 
             private boolean isServerDeviceDiscovered(BluetoothDevice discoveredDevice) {
                 String discoveredDeviceMacAddress = discoveredDevice.getAddress();
-                String serverMacAddress = Attacks.getMacAddress(attack);
+                String serverMacAddress = Attacks.getHostMacAddress(attack);
                 return discoveredDeviceMacAddress.equals(serverMacAddress);
             }
         };
@@ -90,36 +88,38 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED:
-                        startDeviceDiscovery();
+                        Log.d(TAG,"Permission granted, starting device discovery.");
+                        discoveryTask.start();
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
+                        Log.d(TAG,"Permission denied, reporting connection error.");
                         connectionListener.onConnectionError();
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": Unknown action");
                 }
             }
-
-            private void startDeviceDiscovery() {
-                new Thread(() -> BluetoothAdapter.getDefaultAdapter().startDiscovery()).start();
-            }
         };
+    }
+
+    private void registerReceivers(Context context) {
+        registerDiscoveryReceiver(context);
+        registerPermissionReceiver(context);
     }
 
     private void registerDiscoveryReceiver(Context context) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothDevice.ACTION_FOUND);
         context.registerReceiver(deviceDiscoveryReceiver, filter);
-        Log.d(TAG, "Receiver registered");
     }
 
     private void registerPermissionReceiver(Context context) {
-        IntentFilter filter = getIntentFilter();
+        IntentFilter filter = getIntentFilterForPermissionReceiver();
         LocalBroadcastManager.getInstance(context).registerReceiver(permissionReceiver, filter);
     }
 
     @NonNull
-    private IntentFilter getIntentFilter() {
+    private IntentFilter getIntentFilterForPermissionReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED);
         filter.addAction(RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED);
@@ -139,21 +139,24 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     @Override
     protected void releaseResources() {
         constraintsResolver.releaseResources();
+        unregisterReceivers();
+        super.releaseResources();
+    }
+
+    private void unregisterReceivers() {
         context.unregisterReceiver(deviceDiscoveryReceiver);
         LocalBroadcastManager.getInstance(context).unregisterReceiver(permissionReceiver);
-        super.releaseResources();
     }
 
     @Override
     public void onConstraintsResolved() {
-        Log.d(TAG, "BluetoothConnectionManager constraints resolved");
-        String serverMacAddress = Attacks.getMacAddress(attack);
-        if (BluetoothDeviceUtils.isThisDevicePairedWith(serverMacAddress)) {
+        String serverMacAddress = Attacks.getHostMacAddress(attack);
+        if (BluetoothDeviceUtils.isLocalDevicePairedWith(serverMacAddress)) {
             Log.d(TAG, "Server device is already paired with device, proceeding to connection");
             BluetoothConnectionThread.startAnInstance(BluetoothDeviceUtils.getPairedBluetoothDeviceOf(serverMacAddress),
                     Attacks.getUUID(attack), this);
         } else {
-            Log.d(TAG, "Server device was not paired with local device, proceeding to discovery");
+            Log.d(TAG, "Server device was not paired with local device. proceeding to device discovery to find it");
             RequestLocationPermissionForBluetoothActivity.requestUserPermission(context);
         }
     }
