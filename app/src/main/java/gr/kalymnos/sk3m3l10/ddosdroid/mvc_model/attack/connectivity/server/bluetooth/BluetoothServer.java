@@ -112,7 +112,7 @@ public class BluetoothServer extends Server {
 
     private void uploadAttack() {
         UUID uuid = UUID.randomUUID();
-        String macAddress = BluetoothDeviceUtils.getLocalMacAddress();
+        String macAddress = BluetoothDeviceUtils.getLocalMacAddress(context);
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
         attackRepo.uploadAttack(attack);
