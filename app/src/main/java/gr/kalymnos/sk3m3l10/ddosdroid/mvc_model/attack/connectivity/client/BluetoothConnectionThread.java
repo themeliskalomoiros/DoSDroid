@@ -28,7 +28,6 @@ class BluetoothConnectionThread extends Thread {
         BluetoothConnectionThread instance = new BluetoothConnectionThread(discoveredDevice, uuid);
         instance.setOnBluetoothConnectionListener(listener);
         instance.start();
-        Log.d(TAG,"Instance started");
     }
 
     private BluetoothConnectionThread(BluetoothDevice device, UUID serverUUID) {
@@ -49,6 +48,7 @@ class BluetoothConnectionThread extends Thread {
 
     @Override
     public void run() {
+        Log.d(TAG,"Instance started");
         //  First cancel device discovery because it slows down the connection
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 

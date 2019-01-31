@@ -9,7 +9,7 @@ import java.util.Set;
 public class BluetoothDeviceUtils {
     private static final String TAG = "BluetoothDeviceUtils";
 
-    public static boolean isThisDevicePairedWith(String deviceAddress /*MAC Address*/) {
+    public static boolean isLocalDevicePairedWith(String deviceAddress /*MAC Address*/) {
         for (BluetoothDevice device : getPairedDevices()) {
             if (device.getAddress().equals(deviceAddress)) {
                 return true;
