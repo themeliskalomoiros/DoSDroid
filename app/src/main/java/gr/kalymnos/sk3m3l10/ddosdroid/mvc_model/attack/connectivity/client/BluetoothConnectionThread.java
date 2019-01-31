@@ -100,15 +100,25 @@ class BluetoothConnectionThread extends Thread {
     }
 
     private String readServerResponse(BufferedReader reader) {
+        Log.d(TAG, "readServerResponse() called");
+        StringBuilder response = new StringBuilder();
+        String data = null;
         try {
-            StringBuilder response = new StringBuilder();
-            String data;
             while ((data = reader.readLine()) != null) {
                 response.append(data);
             }
+            /*May never reach this statement:
+             * Server is sending its response to the client and quickly closing its socket.
+             * This results the client socket closes as well (throwing an IOException)
+             * */
             return response.toString();
         } catch (IOException e) {
-            throw new UnsupportedOperationException(TAG + "Error reading line from BufferedReader", e);
+            boolean responseIsValid = response.toString().equals(Attack.STARTED_PASS);
+            if (responseIsValid) {
+                return response.toString();
+            } else {
+                throw new UnsupportedOperationException(TAG + "Error reading line from BufferedReader", e);
+            }
         }
     }
 
