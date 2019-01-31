@@ -6,4 +6,8 @@ public final class Bots {
     public static Bot getLocalUser() {
         return new Bot(new FirebaseInstanceId().getInstanceId());
     }
+
+    public static String getLocalUserId() {
+        return getLocalUser().getId();
+    }
 }
