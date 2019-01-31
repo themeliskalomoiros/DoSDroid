@@ -34,6 +34,20 @@ public class RequestLocationPermissionForBluetoothActivity extends AppCompatActi
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_COARSE_LOCATION);
         } else {
             broadcastPermissionGranted();
+            finish();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_COARSE_LOCATION) {
+            boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            if (permissionGranted) {
+                broadcastPermissionGranted();
+            } else {
+                broadcastPermissionDenied();
+            }
+            finish();
         }
     }
 
@@ -41,20 +55,6 @@ public class RequestLocationPermissionForBluetoothActivity extends AppCompatActi
         Intent intent = new Intent(ACTION_PERMISSION_GRANTED);
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
         broadcastManager.sendBroadcast(intent);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_COARSE_LOCATION:
-                boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                if (permissionGranted) {
-                    broadcastPermissionGranted();
-                } else {
-                    broadcastPermissionDenied();
-                }
-                finish();
-        }
     }
 
     private void broadcastPermissionDenied() {
