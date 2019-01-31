@@ -72,7 +72,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
                 handleStopAttackAction(attack);
                 return START_REDELIVER_INTENT;
             case ACTION_STOP_SERVICE:
-                stopSelf();
+                stopSelf(); // onDestroy() will be called clearing resources
                 return START_NOT_STICKY;
             default:
                 return super.onStartCommand(intent, flags, startId);
