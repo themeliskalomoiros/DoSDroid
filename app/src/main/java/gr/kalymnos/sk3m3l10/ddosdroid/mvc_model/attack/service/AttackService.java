@@ -32,7 +32,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     private static final String TAG = "AttackService";
 
     private Map<String, Client> clients;
-    private Map<String, Thread> tasks;
+    private Map<String, AttackScript> tasks;
     private AttackRepository repo;
 
     @Override
@@ -98,9 +98,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private void cancelTaskExecutionOf(Attack attack) {
         if (tasks.containsKey(attack.getPushId())) {
-            Thread attackScript = tasks.get(attack.getPushId());
-            attackScript.interrupt();
-            if (attackScript.isInterrupted()) {
+            AttackScript attackScript = tasks.get(attack.getPushId());
+            attackScript.stopExecution();
+            if (attackScript.isStopped()) {
                 tasks.remove(attackScript);
             }
         }
@@ -132,7 +132,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         repo.updateAttack(attack);
     }
 
-    private void saveReferences(Client thisClient, Attack attack, Thread script) {
+    private void saveReferences(Client thisClient, Attack attack, AttackScript script) {
         clients.put(attack.getPushId(), thisClient);
         tasks.put(attack.getPushId(), script);
     }
@@ -158,9 +158,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void stopTasks() {
-        for (Map.Entry<String, Thread> taskEntry : tasks.entrySet()) {
-            taskEntry.getValue().interrupt();
-            Log.d(TAG, taskEntry.getValue().isInterrupted() ? "A task was stopped" : "A task was NOT stopped");
+        for (Map.Entry<String, AttackScript> taskEntry : tasks.entrySet()) {
+            taskEntry.getValue().stopExecution();
         }
     }
 
