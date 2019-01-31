@@ -58,7 +58,7 @@ public final class Attacks {
         return UUID.fromString(uuidString);
     }
 
-    public static String getMacAddress(Attack attack) {
+    public static String getHostMacAddress(Attack attack) {
         return attack.getHostInfo().get(EXTRA_MAC_ADDRESS);
     }
 }
