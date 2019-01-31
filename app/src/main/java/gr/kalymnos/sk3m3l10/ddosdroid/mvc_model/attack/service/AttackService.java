@@ -33,9 +33,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
-    private static final String ACTION_START_ATTACK = TAG + "start attack action";
-    private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
-    private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
     public static final int THREAD_POOL_SIZE = 10;
 
     private Map<String, Client> clients;
@@ -65,13 +62,13 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     public int onStartCommand(Intent intent, int flags, int startId) {
         Attack attack = intent.getParcelableExtra(Constants.Extra.EXTRA_ATTACK);
         switch (intent.getAction()) {
-            case ACTION_START_ATTACK:
+            case Action.ACTION_START_ATTACK:
                 handleStartAttackAction(attack);
                 return START_REDELIVER_INTENT;
-            case ACTION_STOP_ATTACK:
+            case Action.ACTION_STOP_ATTACK:
                 handleStopAttackAction(attack);
                 return START_REDELIVER_INTENT;
-            case ACTION_STOP_SERVICE:
+            case Action.ACTION_STOP_SERVICE:
                 stopSelf(); // onDestroy() will be called clearing resources
                 return START_NOT_STICKY;
             default:
@@ -217,12 +214,15 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
         PendingIntent createStopServicePendingIntent() {
             Intent intent = new Intent(AttackService.this, AttackService.class);
-            intent.setAction(ACTION_STOP_SERVICE);
+            intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(AttackService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
     public static class Action {
+        private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
+        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
+        private static final String ACTION_START_ATTACK = TAG + "start attack action";
 
         public static void startAttack(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
