@@ -103,7 +103,8 @@ public class FirebaseRepository extends AttackRepository {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             List<Attack> attacks = extractAttacksFrom(dataSnapshot);
-            onAttacksFetchListener.attacksFetched(attacks);
+            if (onAttacksFetchListener != null)
+                onAttacksFetchListener.attacksFetched(attacks);
         }
 
         @Override
