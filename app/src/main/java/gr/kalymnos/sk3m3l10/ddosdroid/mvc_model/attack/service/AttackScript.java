@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class AttackScript implements Runnable {
+public class AttackScript extends Thread {
     private static final String TAG = "AttackScript";
     private URL url;
 
@@ -25,7 +25,7 @@ public class AttackScript implements Runnable {
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
+        while (!isInterrupted()) {
             readUrl();
         }
         Log.d(TAG, "Stopped requesting from " + url + " server.");
