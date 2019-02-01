@@ -57,6 +57,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     @Override
     public void onManagerConnection() {
         attackDeletionReporter.attach();
+        attackScript.start();
         callback.onClientConnected(this, attack);
     }
 
@@ -68,6 +69,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     @Override
     public void onManagerDisconnection() {
         context = null;
+        attackScript.stopExecution();
         attackDeletionReporter.detach();
         callback.onClientDisconnected(this, attack);
     }
