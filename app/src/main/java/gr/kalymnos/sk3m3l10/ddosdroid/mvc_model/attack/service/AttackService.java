@@ -30,17 +30,11 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     private static final String TAG = "AttackService";
 
     private Map<Attack, Client> clients;
-    private Map<Attack, AttackScript> tasks;
     private AttackRepository repo;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initializeFields();
-    }
-
-    private void initializeFields() {
-        tasks = new HashMap<>();
         clients = new HashMap<>();
         repo = new FirebaseRepository();
     }
@@ -86,40 +80,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStopAttackAction(Attack attack) {
-        cancelTaskExecutionOf(attack);
-        removeClientOf(attack);
-        if (isLastAttack(attack)) {
-            Action.stopService(this);
-        }
-    }
-
-    private void cancelTaskExecutionOf(Attack attack) {
-        if (tasks.containsKey(attack)) {
-            AttackScript attackScript = tasks.get(attack);
-            attackScript.stopExecution();
-            if (attackScript.isStopped()) {
-                tasks.remove(attackScript);
-            }
-        }
-    }
-
-    private void removeClientOf(Attack attack) {
-        if (clients.containsKey(attack)) {
-            Client client = clients.get(attack);
-            clients.remove(client);
-        }
-    }
-
-    private boolean isLastAttack(Attack attack) {
-        return tasks.containsKey(attack) && tasks.size() == 1;
+        Client client = clients.get(attack);
+        client.disconnect();
     }
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
-        AttackScript script = new AttackScript(attack.getWebsite());
-        script.start();
+        clients.put(attack, thisClient);
         addLocalBotAndUpdate(attack);
-        saveReferences(thisClient, attack, script);
         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
     }
 
@@ -128,21 +96,14 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         repo.updateAttack(attack);
     }
 
-    private void saveReferences(Client thisClient, Attack attack, AttackScript script) {
-        clients.put(attack, thisClient);
-        tasks.put(attack, script);
-    }
-
     @Override
     public void onClientConnectionError() {
         Toast.makeText(this, R.string.client_connection_error_msg, Toast.LENGTH_SHORT).show();
-        if (clients.isEmpty() && tasks.isEmpty())
-            stopSelf();
     }
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
-        Action.stopAttack(attack, this);
+        clients.remove(thisClient);
         removeBotFromAttackAndUpdate(attack);
         Toast.makeText(this, R.string.client_disconnected_msg, Toast.LENGTH_SHORT).show();
     }
@@ -155,14 +116,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopTasks();
         disconnectClients();
-    }
-
-    private void stopTasks() {
-        for (Map.Entry<Attack, AttackScript> entry : tasks.entrySet()) {
-            entry.getValue().stopExecution();
-        }
     }
 
     private void disconnectClients() {
