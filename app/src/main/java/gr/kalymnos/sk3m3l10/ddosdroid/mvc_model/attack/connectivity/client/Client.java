@@ -4,10 +4,12 @@ import android.content.Context;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackDeletionReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackDeletionReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class Client implements ConnectionManager.ConnectionListener, AttackDeletionReporter.AttackDeletionListener {
     private Attack attack;
+    private AttackScript attackScript;
     private AttackDeletionReporter attackDeletionReporter;
     private ConnectionManager connectionManager;
     private ClientConnectionListener callback;
@@ -32,6 +34,7 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
 
     private void initializeFields(Context context, Attack attack) {
         this.attack = attack;
+        this.attackScript = new AttackScript(attack.getWebsite());
         this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
         this.attackDeletionReporter.setAttackDeletionListener(this);
         initializeConnectionManagerIfNotNull(context);
