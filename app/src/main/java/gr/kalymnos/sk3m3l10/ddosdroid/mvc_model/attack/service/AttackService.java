@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
@@ -29,13 +29,13 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
 
-    private Map<Attack, Client> clients;
+    private Set<Client> clients;
     private AttackRepository repo;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        clients = new HashMap<>();
+        clients = new HashSet<>();
         repo = new FirebaseRepository();
     }
 
@@ -63,13 +63,20 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStartAttackAction(Attack attack) {
-        boolean clientForAttackExists = clients.containsKey(attack);
-        if (!clientForAttackExists) {
+        if (clientOfAttackExists(attack)) {
+            Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
+        } else {
             Client client = createClient();
             client.connect(this, attack);
-        } else {
-            Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean clientOfAttackExists(Attack attack) {
+        for (Client client : clients) {
+            if (client.getId() == attack.getPushId())
+                return true;
+        }
+        return false;
     }
 
     @NonNull
@@ -80,15 +87,21 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStopAttackAction(Attack attack) {
-        if (clients.containsKey(attack)){
-            Client client = clients.get(attack);
-            client.disconnect();
+        Client client = getClientFromCollection(attack);
+        client.disconnect();
+    }
+
+    private Client getClientFromCollection(Attack attack) {
+        for (Client client : clients) {
+            if (client.getId().equals(attack.getPushId()))
+                return client;
         }
+        throw new UnsupportedOperationException(TAG + ": No Client for attack(" + attack.getPushId() + ") in the collection");
     }
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
-        clients.put(attack, thisClient);
+        clients.add(thisClient);
         addLocalBotAndUpdate(attack);
         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
     }
@@ -122,8 +135,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void disconnectClients() {
-        for (Map.Entry<Attack, Client> entry : clients.entrySet()) {
-            entry.getValue().disconnect();
+        for (Client client : clients) {
+            client.disconnect();
         }
     }
 
