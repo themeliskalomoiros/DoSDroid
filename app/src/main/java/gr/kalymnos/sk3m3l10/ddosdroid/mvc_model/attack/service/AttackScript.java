@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AttackScript extends Thread {
     private static final String TAG = "AttackScript";
     private URL url;
-    private boolean stopped = false;
+    private AtomicBoolean stopped = new AtomicBoolean(false);
 
     public AttackScript(String website) {
         initializeUrl(website);
@@ -26,7 +27,7 @@ public class AttackScript extends Thread {
 
     @Override
     public void run() {
-        while (!stopped) {
+        while (!stopped.get()) {
             readUrl();
         }
     }
@@ -51,10 +52,10 @@ public class AttackScript extends Thread {
     }
 
     public void stopExecution() {
-        stopped = true;
+        stopped.set(true);
     }
 
     public boolean isStopped() {
-        return stopped;
+        return stopped.get();
     }
 }
