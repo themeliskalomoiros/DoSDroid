@@ -7,6 +7,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 public class Client implements ConnectionManager.ConnectionListener {
     private ConnectionManager connectionManager;
     private ClientConnectionListener callback;
+    private Attack attack;
 
     public interface ClientConnectionListener {
         void onClientConnected(Client thisClient, Attack attack);
@@ -21,11 +22,12 @@ public class Client implements ConnectionManager.ConnectionListener {
     }
 
     public void connect(Context context, Attack attack) {
-        initializeConnectionManagerIfNotNull(context, attack);
+        this.attack = attack;
+        initializeConnectionManagerIfNotNull(context);
         connectionManager.connect();
     }
 
-    private void initializeConnectionManagerIfNotNull(Context context, Attack attack) {
+    private void initializeConnectionManagerIfNotNull(Context context) {
         if (connectionManager == null) {
             ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
             connectionManager = factory.create(context, attack);
