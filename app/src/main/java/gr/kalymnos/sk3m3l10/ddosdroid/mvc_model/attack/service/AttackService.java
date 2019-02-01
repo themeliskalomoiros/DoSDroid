@@ -80,8 +80,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStopAttackAction(Attack attack) {
-        Client client = clients.get(attack);
-        client.disconnect();
+        if (clients.containsKey(attack)){
+            Client client = clients.get(attack);
+            client.disconnect();
+        }
     }
 
     @Override
