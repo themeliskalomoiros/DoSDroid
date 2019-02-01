@@ -2,12 +2,15 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.content.Context;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackDeletionReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackDeletionReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class Client implements ConnectionManager.ConnectionListener {
+public class Client implements ConnectionManager.ConnectionListener, AttackDeletionReporter.AttackDeletionListener {
     private ConnectionManager connectionManager;
     private ClientConnectionListener callback;
     private Attack attack;
+    protected AttackDeletionReporter attackDeletionReporter;
 
     public interface ClientConnectionListener {
         void onClientConnected(Client thisClient, Attack attack);
@@ -23,7 +26,10 @@ public class Client implements ConnectionManager.ConnectionListener {
 
     public void connect(Context context, Attack attack) {
         this.attack = attack;
+        this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
+        this.attackDeletionReporter.setAttackDeletionListener(this);
         initializeConnectionManagerIfNotNull(context);
+        attackDeletionReporter.attach();
         connectionManager.connect();
     }
 
@@ -36,6 +42,7 @@ public class Client implements ConnectionManager.ConnectionListener {
     }
 
     public void disconnect() {
+        attackDeletionReporter.detach();
         connectionManager.disconnect();
     }
 
@@ -52,5 +59,10 @@ public class Client implements ConnectionManager.ConnectionListener {
     @Override
     public void onDisconnected() {
         callback.onClientDisconnected(this, attack);
+    }
+
+    @Override
+    public void onAttackDeleted(Attack attack) {
+        disconnect();
     }
 }

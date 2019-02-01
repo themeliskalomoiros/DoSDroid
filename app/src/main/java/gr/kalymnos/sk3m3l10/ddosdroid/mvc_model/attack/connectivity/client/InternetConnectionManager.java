@@ -19,7 +19,6 @@ class InternetConnectionManager extends ConnectionManager {
         boolean hasInternet = InternetConnectivity.hasInternetConnection(getConnectivityManager());
         if (hasInternet && isAttackStarted()) {
             connectionListener.onConnected();
-            attackDeletionReporter.attach();
         } else {
             connectionListener.onConnectionError();
         }
