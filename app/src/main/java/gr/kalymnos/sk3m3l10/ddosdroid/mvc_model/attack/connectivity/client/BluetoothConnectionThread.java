@@ -118,8 +118,8 @@ class BluetoothConnectionThread extends Thread {
                 return response.toString();
             } else {
                 Log.d(TAG, "response = " + response);
-                Log.e(TAG, "Error reading line from BufferedReader", e);
-                return null;
+                Log.w(TAG, "Error reading line from BufferedReader", e);
+                return "";
             }
         }
     }
