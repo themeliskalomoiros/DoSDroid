@@ -18,7 +18,7 @@ class InternetConnectionManager extends ConnectionManager {
     void connect() {
         boolean hasInternet = InternetConnectivity.hasInternetConnection(getConnectivityManager());
         if (hasInternet && isAttackStarted()) {
-            connectionListener.onConnected(attack);
+            connectionListener.onConnected();
             attackDeletionReporter.attach();
         } else {
             connectionListener.onConnectionError();
@@ -36,7 +36,7 @@ class InternetConnectionManager extends ConnectionManager {
 
     @Override
     void disconnect() {
-        connectionListener.onDisconnected(attack);
+        connectionListener.onDisconnected();
         releaseResources();
     }
 

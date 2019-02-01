@@ -173,7 +173,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     @Override
     public void onBluetoothConnectionSuccess() {
-        connectionListener.onConnected(attack);
+        connectionListener.onConnected();
     }
 
     @Override

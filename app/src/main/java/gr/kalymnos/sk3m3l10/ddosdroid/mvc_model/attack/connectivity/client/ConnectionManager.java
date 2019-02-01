@@ -22,11 +22,11 @@ abstract class ConnectionManager implements AttackDeletionReporter.AttackDeletio
     protected AttackDeletionReporter attackDeletionReporter;
 
     interface ConnectionListener {
-        void onConnected(Attack attack);
+        void onConnected();
 
         void onConnectionError();
 
-        void onDisconnected(Attack attack);
+        void onDisconnected();
     }
 
     ConnectionManager(Context context, Attack attack) {

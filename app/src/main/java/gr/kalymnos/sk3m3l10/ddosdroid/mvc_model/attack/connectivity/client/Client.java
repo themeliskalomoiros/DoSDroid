@@ -40,7 +40,7 @@ public class Client implements ConnectionManager.ConnectionListener {
     }
 
     @Override
-    public void onConnected(Attack attack) {
+    public void onConnected() {
         callback.onClientConnected(this, attack);
     }
 
@@ -50,7 +50,7 @@ public class Client implements ConnectionManager.ConnectionListener {
     }
 
     @Override
-    public void onDisconnected(Attack attack) {
+    public void onDisconnected() {
         callback.onClientDisconnected(this, attack);
     }
 }
