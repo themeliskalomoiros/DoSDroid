@@ -20,8 +20,8 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
         BluetoothConnectionThread.OnBluetoothConnectionListener {
     private static final String TAG = "BluetoothConnectionMana";
 
-    private NetworkConstraintsResolver constraintsResolver;
     private Thread discoveryTask;
+    private NetworkConstraintsResolver constraintsResolver;
     private BroadcastReceiver deviceDiscoveryReceiver, permissionReceiver;
 
     BluetoothConnectionManager(Context context, Attack attack) {
@@ -50,7 +50,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
             boolean discoveryInitiated = adapter.startDiscovery();
             if (!discoveryInitiated) {
                 Log.d(TAG, "Device discovery failed to initiate");
-                connectionManagerListener.onManagerError();
+                client.onManagerError();
                 disconnect();
             } else {
                 Log.d(TAG, "Device discovery initiated");
@@ -93,7 +93,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
                         Log.d(TAG, "Permission denied, reporting connection error.");
-                        connectionManagerListener.onManagerError();
+                        client.onManagerError();
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": Unknown action");
@@ -167,17 +167,17 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     @Override
     public void onConstraintResolveFailure() {
-        connectionManagerListener.onManagerError();
+        client.onManagerError();
         releaseResources();
     }
 
     @Override
     public void onBluetoothConnectionSuccess() {
-        connectionManagerListener.onManagerConnection();
+        client.onManagerConnection();
     }
 
     @Override
     public void onBluetoothConnectionFailure() {
-        connectionManagerListener.onManagerError();
+        client.onManagerError();
     }
 }
