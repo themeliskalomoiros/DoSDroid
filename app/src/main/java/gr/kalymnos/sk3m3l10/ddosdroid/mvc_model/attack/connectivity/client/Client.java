@@ -68,10 +68,15 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     @Override
     public void onManagerDisconnection() {
+        releaseResources();
+        callback.onClientDisconnected(this, attack);
+    }
+
+    private void releaseResources() {
         context = null;
+        callback = null;
         attackScript.stopExecution();
         attackDeletionReporter.detach();
-        callback.onClientDisconnected(this, attack);
     }
 
     @Override
