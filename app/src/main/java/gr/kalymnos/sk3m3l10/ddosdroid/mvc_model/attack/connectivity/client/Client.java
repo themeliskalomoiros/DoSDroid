@@ -7,7 +7,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttack
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class Client implements ConnectionManager.ConnectionListener, AttackDeletionReporter.AttackDeletionListener {
+public class Client implements ConnectionManager.ConnectionManagerListener, AttackDeletionReporter.AttackDeletionListener {
     private Attack attack;
     private AttackScript attackScript;
     private AttackDeletionReporter attackDeletionReporter;
@@ -43,7 +43,7 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
         if (connectionManager == null) {
             ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
             connectionManager = factory.create(context, attack);
-            connectionManager.setConnectionListener(this);
+            connectionManager.setConnectionManagerListener(this);
         }
     }
 
@@ -52,18 +52,18 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
     }
 
     @Override
-    public void onConnected() {
+    public void onManagerConnection() {
         attackDeletionReporter.attach();
         callback.onClientConnected(this, attack);
     }
 
     @Override
-    public void onConnectionError() {
+    public void onManagerError() {
         callback.onClientConnectionError();
     }
 
     @Override
-    public void onDisconnected() {
+    public void onManagerDisconnection() {
         attackDeletionReporter.detach();
         callback.onClientDisconnected(this, attack);
     }
