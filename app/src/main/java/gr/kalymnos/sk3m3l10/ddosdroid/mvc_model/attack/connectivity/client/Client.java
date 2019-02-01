@@ -7,10 +7,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttack
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class Client implements ConnectionManager.ConnectionListener, AttackDeletionReporter.AttackDeletionListener {
+    private Attack attack;
+    private AttackDeletionReporter attackDeletionReporter;
     private ConnectionManager connectionManager;
     private ClientConnectionListener callback;
-    private Attack attack;
-    protected AttackDeletionReporter attackDeletionReporter;
 
     public interface ClientConnectionListener {
         void onClientConnected(Client thisClient, Attack attack);
@@ -25,12 +25,16 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
     }
 
     public void connect(Context context, Attack attack) {
+        initializeFields(context, attack);
+        attackDeletionReporter.attach();
+        connectionManager.connect();
+    }
+
+    private void initializeFields(Context context, Attack attack) {
         this.attack = attack;
         this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
         this.attackDeletionReporter.setAttackDeletionListener(this);
         initializeConnectionManagerIfNotNull(context);
-        attackDeletionReporter.attach();
-        connectionManager.connect();
     }
 
     private void initializeConnectionManagerIfNotNull(Context context) {
