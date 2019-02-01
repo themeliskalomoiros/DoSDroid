@@ -68,8 +68,8 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     @Override
     public void onManagerDisconnection() {
-        releaseResources();
         callback.onClientDisconnected(this, attack);
+        releaseResources();
     }
 
     private void releaseResources() {
