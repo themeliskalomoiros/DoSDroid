@@ -5,9 +5,11 @@ import android.content.Context;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackDeletionReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackDeletionReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class Client implements ConnectionManager.ConnectionManagerListener, AttackDeletionReporter.AttackDeletionListener {
+    private Context context;
     private Attack attack;
     private AttackScript attackScript;
     private AttackDeletionReporter attackDeletionReporter;
@@ -32,14 +34,15 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     }
 
     private void initializeFields(Context context, Attack attack) {
+        this.context = context;
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
         this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
         this.attackDeletionReporter.setAttackDeletionListener(this);
-        initializeConnectionManagerIfNotNull(context);
+        initializeConnectionManagerIfNotNull();
     }
 
-    private void initializeConnectionManagerIfNotNull(Context context) {
+    private void initializeConnectionManagerIfNotNull() {
         if (connectionManager == null) {
             ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
             connectionManager = factory.create(context, attack);
@@ -64,12 +67,13 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     @Override
     public void onManagerDisconnection() {
+        context = null;
         attackDeletionReporter.detach();
         callback.onClientDisconnected(this, attack);
     }
 
     @Override
     public void onAttackDeleted(Attack attack) {
-        disconnect();
+        AttackService.Action.stopAttack(attack, context);
     }
 }
