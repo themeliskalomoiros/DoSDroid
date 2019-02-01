@@ -87,7 +87,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private void handleStopAttackAction(Attack attack) {
         cancelTaskExecutionOf(attack);
-        disconnectClientOf(attack);
+        removeClientOf(attack);
         if (isLastAttack(attack)) {
             Action.stopService(this);
         }
@@ -103,10 +103,9 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
     }
 
-    private void disconnectClientOf(Attack attack) {
+    private void removeClientOf(Attack attack) {
         if (clients.containsKey(attack)) {
             Client client = clients.get(attack);
-            client.disconnect();
             clients.remove(client);
         }
     }
