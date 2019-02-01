@@ -28,7 +28,6 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
 
     public void connect(Context context, Attack attack) {
         initializeFields(context, attack);
-        attackDeletionReporter.attach();
         connectionManager.connect();
     }
 
@@ -49,12 +48,12 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
     }
 
     public void disconnect() {
-        attackDeletionReporter.detach();
         connectionManager.disconnect();
     }
 
     @Override
     public void onConnected() {
+        attackDeletionReporter.attach();
         callback.onClientConnected(this, attack);
     }
 
@@ -65,6 +64,7 @@ public class Client implements ConnectionManager.ConnectionListener, AttackDelet
 
     @Override
     public void onDisconnected() {
+        attackDeletionReporter.detach();
         callback.onClientDisconnected(this, attack);
     }
 
