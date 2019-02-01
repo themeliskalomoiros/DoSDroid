@@ -83,4 +83,28 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     public void onAttackDeleted(Attack attack) {
         AttackService.Action.stopAttack(attack, context);
     }
+
+    public String getId() {
+        return attack.getPushId();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Client))
+            return false;
+
+        Client client = (Client) obj;
+        return this.getId().equals(client.getId());
+    }
+
+    //  This technique is taken from the book Effective Java, Second Edition, Item 9
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + getId().hashCode();
+        return result;
+    }
 }
