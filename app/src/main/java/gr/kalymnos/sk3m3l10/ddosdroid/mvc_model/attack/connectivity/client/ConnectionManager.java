@@ -62,7 +62,7 @@ abstract class ConnectionManager {
                 case BLUETOOTH:
                     return new BluetoothConnectionManager(context, attack);
                 case WIFI_P2P:
-                    return new WifiP2PConnectionManager(context, attack);
+                    return new WifiP2pConnectionManager(context, attack);
                 case NSD:
                     return new NsdConnectionManager(context, attack);
                 default:

@@ -27,6 +27,7 @@ public class WifiP2pConnectionThread extends Thread {
     }
 
     public WifiP2pConnectionThread(InetAddress groupOwnerAddress, int groupOwnerPort) {
+        Log.d(TAG, "Initialized");
         initializeFields(groupOwnerAddress, groupOwnerPort);
     }
 
