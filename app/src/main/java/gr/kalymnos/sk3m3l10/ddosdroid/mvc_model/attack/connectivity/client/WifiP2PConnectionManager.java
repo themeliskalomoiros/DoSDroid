@@ -21,16 +21,18 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
 
     @Override
     void connect() {
-
+        constraintsResolver.resolveConstraints();
     }
 
     @Override
     void disconnect() {
-
+        client.onManagerDisconnection();
+        releaseResources();
     }
 
     @Override
     protected void releaseResources() {
+        constraintsResolver.releaseResources();
         super.releaseResources();
     }
 
