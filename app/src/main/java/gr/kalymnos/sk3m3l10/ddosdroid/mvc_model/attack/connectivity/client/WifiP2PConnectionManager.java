@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Looper;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -46,7 +47,7 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
 
     @Override
     public void onConstraintsResolved() {
-
+        channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
     }
 
     @Override
