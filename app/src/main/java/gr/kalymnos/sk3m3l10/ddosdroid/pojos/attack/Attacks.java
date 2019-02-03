@@ -12,6 +12,7 @@ import java.util.UUID;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_LOCAL_PORT;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 
 public final class Attacks {
@@ -60,5 +61,9 @@ public final class Attacks {
 
     public static String getHostMacAddress(Attack attack) {
         return attack.getHostInfo().get(EXTRA_MAC_ADDRESS);
+    }
+
+    public static int getHostLocalPort(Attack attack) {
+        return Integer.parseInt(attack.getHostInfo().get(EXTRA_LOCAL_PORT));
     }
 }
