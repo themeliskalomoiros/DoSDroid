@@ -104,6 +104,7 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
     @Override
     protected void releaseResources() {
         constraintsResolver.releaseResources();
+        context.unregisterReceiver(wifiDirectReceiver);
         super.releaseResources();
     }
 
