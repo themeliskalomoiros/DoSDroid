@@ -9,6 +9,9 @@ import android.os.Looper;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
+import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
+
 class WifiP2PConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     private static final String TAG = "WifiP2PConnectionManage";
 
@@ -41,6 +44,8 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                 switch (intent.getAction()) {
                     case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
                         //  Check to see if wifi is enabled/disabled
+                        int state = intent.getIntExtra(EXTRA_WIFI_STATE, -1);
+                        handleWifiState(context, state);
                         break;
                     case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
                         //  Call WifiP2pManager.requestPeers() to get a list of current peers
@@ -53,6 +58,12 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": Unknown action");
+                }
+            }
+
+            private void handleWifiState(Context context, int state) {
+                if (state != WIFI_P2P_STATE_ENABLED) {
+                    disconnect();
                 }
             }
         };
