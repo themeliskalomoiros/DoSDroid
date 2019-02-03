@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 
 class WifiP2PConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     private static final String TAG = "WifiP2PConnectionManage";
@@ -58,6 +61,7 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                         break;
                     case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
                         //  Call WifiP2pManager.requestPeers() to get a list of current peers
+                        wifiP2pManager.requestPeers(channel, getPeerListener());
                         break;
                     case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
                         //  Respond to new connection or disconnections
@@ -74,6 +78,24 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                 if (state != WIFI_P2P_STATE_ENABLED) {
                     disconnect();
                 }
+            }
+
+            private WifiP2pManager.PeerListListener getPeerListener() {
+                return new WifiP2pManager.PeerListListener() {
+                    @Override
+                    public void onPeersAvailable(WifiP2pDeviceList deviceList) {
+                        for (WifiP2pDevice device : deviceList.getDeviceList()) {
+                            if (isServerDevice(device)) {
+
+                            }
+                        }
+                    }
+
+                    private boolean isServerDevice(WifiP2pDevice device) {
+                        return device.deviceAddress.equals(attack.getHostInfo().get(EXTRA_MAC_ADDRESS))
+                                && device.isGroupOwner();
+                    }
+                };
             }
         };
     }
