@@ -3,14 +3,20 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
+import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION;
 
 class WifiP2PConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     private static final String TAG = "WifiP2PConnectionManage";
@@ -29,6 +35,7 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         initializeConstraintsResolver(context, attack);
         initializeWifiDirectReceiver();
+        registerWifiDirectReceiver(context);
     }
 
     private void initializeConstraintsResolver(Context context, Attack attack) {
@@ -67,6 +74,20 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                 }
             }
         };
+    }
+
+    private void registerWifiDirectReceiver(Context context) {
+        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
+        filter.addAction(WIFI_P2P_PEERS_CHANGED_ACTION);
+        filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
+        filter.addAction(WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
+        return filter;
     }
 
     @Override
