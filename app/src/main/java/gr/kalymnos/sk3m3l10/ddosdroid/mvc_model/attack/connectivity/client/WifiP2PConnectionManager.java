@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -16,6 +17,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_cons
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils;
 
+import static android.net.wifi.p2p.WifiP2pManager.EXTRA_NETWORK_INFO;
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
@@ -66,6 +68,16 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                         break;
                     case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
                         //  Respond to new connection or disconnections
+                        NetworkInfo info = intent.getParcelableExtra(EXTRA_NETWORK_INFO);
+                        if (info.isConnected()) {
+                            //  We are connected with the device, requesting connection info
+                            //  to find the group owner's IP
+                            wifiP2pManager.requestConnectionInfo(channel, wifiP2pInfo -> {
+                                if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
+
+                                }
+                            });
+                        }
                         break;
                     case WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION:
                         //  Respond to this device's wifi state changing
