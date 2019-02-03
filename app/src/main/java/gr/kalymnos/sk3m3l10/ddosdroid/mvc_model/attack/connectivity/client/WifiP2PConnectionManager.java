@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -86,7 +87,7 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                     public void onPeersAvailable(WifiP2pDeviceList deviceList) {
                         for (WifiP2pDevice device : deviceList.getDeviceList()) {
                             if (isServerDevice(device)) {
-
+                                connectTo(device);
                             }
                         }
                     }
@@ -94,6 +95,28 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
                     private boolean isServerDevice(WifiP2pDevice device) {
                         return device.deviceAddress.equals(attack.getHostInfo().get(EXTRA_MAC_ADDRESS))
                                 && device.isGroupOwner();
+                    }
+
+                    private void connectTo(WifiP2pDevice device) {
+                        WifiP2pConfig config = new WifiP2pConfig();
+                        config.deviceAddress = device.deviceAddress;
+                        wifiP2pManager.connect(channel, config, getConnectActionListener());
+                    }
+
+                    @NonNull
+                    private WifiP2pManager.ActionListener getConnectActionListener() {
+                        return new WifiP2pManager.ActionListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d(TAG, "Connection to server device initiated.");
+                            }
+
+                            @Override
+                            public void onFailure(int reason) {
+                                Log.d(TAG, "Failed to initiate connection to server device: " + WifiP2pUtils.getFailureTextFrom(reason));
+                                disconnect();
+                            }
+                        };
                     }
                 };
             }
