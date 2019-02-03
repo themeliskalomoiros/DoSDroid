@@ -43,6 +43,7 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
 
     @Override
     public void onConstraintResolveFailure() {
-
+        client.onManagerError();
+        releaseResources();
     }
 }
