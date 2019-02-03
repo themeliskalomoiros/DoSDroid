@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils;
 
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
@@ -111,6 +113,24 @@ class WifiP2PConnectionManager extends ConnectionManager implements NetworkConst
     @Override
     public void onConstraintsResolved() {
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
+        wifiP2pManager.discoverPeers(channel, getDiscoveryActionListener());
+    }
+
+    @NonNull
+    private WifiP2pManager.ActionListener getDiscoveryActionListener() {
+        return new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Peer discovery initiated.");
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                Log.d(TAG, "Failed to initiate peer discovery: " + WifiP2pUtils.getFailureTextFrom(reason));
+                Log.d(TAG, "Disconnecting...");
+                disconnect();
+            }
+        };
     }
 
     @Override
