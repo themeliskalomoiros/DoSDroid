@@ -213,6 +213,14 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private class WifiP2pClientResolver extends NetworkConstraintsResolver {
             public WifiP2pClientResolver(Context context) {
+                addConstraint(createWifiP2pSetupConstraint(context));
+            }
+
+            @NonNull
+            private NetworkConstraint createWifiP2pSetupConstraint(Context context) {
+                NetworkConstraint constraint = new WifiP2pEnabledConstraint(context);
+                constraint.setOnResolveConstraintListener(this);
+                return constraint;
             }
         }
 
