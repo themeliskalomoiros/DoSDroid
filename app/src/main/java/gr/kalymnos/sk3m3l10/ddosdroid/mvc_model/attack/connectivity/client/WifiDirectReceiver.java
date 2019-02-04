@@ -32,9 +32,7 @@ public class WifiDirectReceiver extends BroadcastReceiver {
         switch (intent.getAction()) {
             case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
                 int state = intent.getIntExtra(EXTRA_WIFI_STATE, -1);
-                if (state != WIFI_P2P_STATE_ENABLED) {
-                    connectionManager.disconnect();
-                }
+                handleWifiState(state);
                 break;
             case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
                 break;
@@ -44,6 +42,14 @@ public class WifiDirectReceiver extends BroadcastReceiver {
                 break;
             default:
                 throw new IllegalArgumentException(TAG + ": Unknown action");
+        }
+    }
+
+    private void handleWifiState(int state) {
+        if (state == WIFI_P2P_STATE_ENABLED) {
+            connectionManager.client.onManagerConnection();
+        }else{
+            connectionManager.client.onManagerDisconnection();
         }
     }
 
