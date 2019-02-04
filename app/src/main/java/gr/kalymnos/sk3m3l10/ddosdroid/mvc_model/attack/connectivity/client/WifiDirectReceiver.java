@@ -60,8 +60,6 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
     private void handleWifiState(int state) {
         if (state == WIFI_P2P_STATE_ENABLED) {
             manager.discoverPeers(channel, getPeerDiscoveryActionListener());
-        } else {
-            connectionManager.disconnect();
         }
     }
 
@@ -76,7 +74,6 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
             @Override
             public void onFailure(int reason) {
                 Log.d(TAG, "Initiating discovering peers process: " + getFailureTextFrom(reason));
-                connectionManager.disconnect();
             }
         };
     }
@@ -116,7 +113,6 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
             @Override
             public void onFailure(int reason) {
                 Log.d(TAG, "Connection initiation with server device failed: " + getFailureTextFrom(reason));
-                connectionManager.disconnect();
             }
         };
     }
@@ -160,7 +156,6 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
     @Override
     public void onServerResponseError() {
         Log.d(TAG, "Did not receive response from server");
-        connectionManager.disconnect();
     }
 
     @NonNull
