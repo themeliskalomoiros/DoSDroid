@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
-import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION;
 
 public class WifiDirectReceiver extends BroadcastReceiver {
     private static final String TAG = "WifiDirectReceiver";
@@ -45,10 +45,26 @@ public class WifiDirectReceiver extends BroadcastReceiver {
 
     private void handleWifiState(int state) {
         if (state == WIFI_P2P_STATE_ENABLED) {
-            connectionManager.client.onManagerConnection();
-        }else{
-            connectionManager.client.onManagerDisconnection();
+            manager.discoverPeers(channel, getPeerDiscoveryActionListener());
+        } else {
+            connectionManager.disconnect();
         }
+    }
+
+    @NonNull
+    private WifiP2pManager.ActionListener getPeerDiscoveryActionListener() {
+        return new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Initiating discovering peers process...");
+            }
+
+            @Override
+            public void onFailure(int i) {
+                Log.d(TAG, "Initiating discovering peers process...");
+                connectionManager.disconnect();
+            }
+        };
     }
 
     @NonNull
