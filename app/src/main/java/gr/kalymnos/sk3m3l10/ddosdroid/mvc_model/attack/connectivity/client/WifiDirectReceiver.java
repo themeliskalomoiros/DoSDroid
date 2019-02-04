@@ -86,6 +86,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
         return wifiP2pDeviceList -> {
             for (WifiP2pDevice device : wifiP2pDeviceList.getDeviceList()) {
                 if (isServer(device)) {
+                    Log.d(TAG, "Found server peer with name: " + device.deviceName + " and address: " + device.deviceAddress);
                     connectTo(device);
                 }
             }
@@ -123,6 +124,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
     private void handleConnectionChange(Intent intent) {
         NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
         if (networkInfo.isConnected()) {
+            Log.d(TAG, "Local device is connected with server device, requesting connection info");
             manager.requestConnectionInfo(channel, getConnectionInfoListener());
         } else {
             Log.d(TAG, "NetworkInfo.isConnected() returned false.");
@@ -133,6 +135,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
     private WifiP2pManager.ConnectionInfoListener getConnectionInfoListener() {
         return wifiP2pInfo -> {
             if (wifiP2pInfo.groupFormed) {
+                Log.d(TAG, "Starting a connection thread");
                 WifiP2pConnectionThread thread = createConnectionThread(wifiP2pInfo);
                 thread.start();
             }
@@ -150,11 +153,13 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
 
     @Override
     public void onServerResponseReceived() {
+        Log.d(TAG, "Received server response");
         connectionManager.client.onManagerConnection();
     }
 
     @Override
     public void onServerResponseError() {
+        Log.d(TAG, "Did not receive response from server");
         connectionManager.disconnect();
     }
 
