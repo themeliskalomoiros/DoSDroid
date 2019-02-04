@@ -14,6 +14,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_LOCAL_PORT;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_SERVICE_NAME;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_SERVICE_TYPE;
 
 public final class Attacks {
     private static final String TAG = "Attacks";
@@ -65,5 +67,13 @@ public final class Attacks {
 
     public static int getHostLocalPort(Attack attack) {
         return Integer.parseInt(attack.getHostInfo().get(EXTRA_LOCAL_PORT));
+    }
+
+    public static String getNsdServiceType(Attack attack) {
+        return attack.getHostInfo().get(EXTRA_SERVICE_TYPE);
+    }
+
+    public static String getNsdServiceName(Attack attack) {
+        return attack.getHostInfo().get(EXTRA_SERVICE_NAME);
     }
 }
