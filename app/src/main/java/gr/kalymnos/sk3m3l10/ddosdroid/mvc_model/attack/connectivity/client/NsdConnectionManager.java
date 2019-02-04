@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -46,6 +47,34 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
     @Override
     public void onServiceFound(NsdServiceInfo nsdServiceInfo) {
         Log.d(TAG, "Service found");
+        boolean sameServiceTypeAsServer = nsdServiceInfo.getServiceType().equals(Attacks.getNsdServiceType(attack));
+        boolean sameServiceNameAsServer = nsdServiceInfo.getServiceName().equals(Attacks.getNsdServiceName(attack));
+        if (sameServiceTypeAsServer && sameServiceNameAsServer) {
+            manager.resolveService(nsdServiceInfo, getResolveListener());
+        } else {
+            Log.d(TAG, getUnknownServiceText(nsdServiceInfo));
+        }
+    }
+
+    @NonNull
+    private NsdManager.ResolveListener getResolveListener() {
+        return new NsdManager.ResolveListener() {
+            @Override
+            public void onServiceResolved(NsdServiceInfo nsdServiceInfo) {
+
+            }
+
+            @Override
+            public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int i) {
+
+            }
+        };
+    }
+
+    @NonNull
+    private String getUnknownServiceText(NsdServiceInfo nsdServiceInfo) {
+        return String.format("Unknown service type or name.\nService name: \"%s\"\nService type:\"%s\"",
+                nsdServiceInfo.getServiceName(), nsdServiceInfo.getServiceType());
     }
 
     @Override
