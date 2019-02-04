@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -29,13 +30,14 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_A
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 
 class WifiP2pConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener, WifiP2pConnectionThread.OnConnectionListener {
-    private static final String TAG = "WifiP2PConnectionManage";
+    private static final String TAG = "WifiP2pConnectionManage";
 
     private NetworkConstraintsResolver constraintsResolver;
     private WifiP2pManager.Channel channel;
     private WifiP2pManager wifiP2pManager;
     private BroadcastReceiver wifiDirectReceiver;
     private WifiP2pConnectionThread connectionThread;
+    private boolean connectionToDeviceInitiated = false;
 
     WifiP2pConnectionManager(Context context, Attack attack) {
         super(context, attack);
@@ -71,10 +73,12 @@ class WifiP2pConnectionManager extends ConnectionManager implements NetworkConst
                         break;
                     case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
                         //  Respond to new connection or disconnections
-                        NetworkInfo info = intent.getParcelableExtra(EXTRA_NETWORK_INFO);
-                        if (info.isConnected()) {
+                        Log.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION received");
+                        NetworkInfo networkInfo = intent.getParcelableExtra(EXTRA_NETWORK_INFO);
+                        if (networkInfo.isConnected()) {
                             //  We are connected with the device, requesting connection info
                             //  to find the group owner's IP
+                            Log.d(TAG, "NetworkInfo.isConnected() == true");
                             wifiP2pManager.requestConnectionInfo(channel, wifiP2pInfo -> {
                                 if (wifiP2pInfo.groupFormed && !wifiP2pInfo.isGroupOwner) {
                                     if (connectionThread != null) {
@@ -84,6 +88,8 @@ class WifiP2pConnectionManager extends ConnectionManager implements NetworkConst
                                     connectionThread.start();
                                 }
                             });
+                        } else {
+                            Log.d(TAG, "networkInfo.isConnected() == false");
                         }
                         break;
                     case WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION:
@@ -117,9 +123,13 @@ class WifiP2pConnectionManager extends ConnectionManager implements NetworkConst
                     }
 
                     private void connectTo(WifiP2pDevice device) {
-                        WifiP2pConfig config = new WifiP2pConfig();
-                        config.deviceAddress = device.deviceAddress;
-                        wifiP2pManager.connect(channel, config, getConnectActionListener());
+                        if (!connectionToDeviceInitiated) {
+                            Log.d(TAG, "connectTo() called");
+                            WifiP2pConfig config = new WifiP2pConfig();
+                            config.deviceAddress = device.deviceAddress;
+                            config.wps.setup = WpsInfo.PBC;
+                            wifiP2pManager.connect(channel, config, getConnectActionListener());
+                        }
                     }
 
                     @NonNull
@@ -128,6 +138,7 @@ class WifiP2pConnectionManager extends ConnectionManager implements NetworkConst
                             @Override
                             public void onSuccess() {
                                 Log.d(TAG, "Connection to server device initiated.");
+                                connectionToDeviceInitiated = true;
                             }
 
                             @Override
