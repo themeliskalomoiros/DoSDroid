@@ -6,10 +6,12 @@ import android.net.nsd.NsdServiceInfo;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.net.InetAddress;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-class NsdConnectionManager extends ConnectionManager implements NsdManager.DiscoveryListener {
+class NsdConnectionManager extends ConnectionManager implements NsdManager.DiscoveryListener, WifiP2pConnectionThread.OnServerResponseListener {
     private static final String TAG = "NsdConnectionManager";
 
     private NsdManager manager;
@@ -61,12 +63,21 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
         return new NsdManager.ResolveListener() {
             @Override
             public void onServiceResolved(NsdServiceInfo nsdServiceInfo) {
+                Thread connectionThread = createConnectionThread(nsdServiceInfo);
+                connectionThread.start();
+            }
 
+            private Thread createConnectionThread(NsdServiceInfo nsdServiceInfo) {
+                int port = nsdServiceInfo.getPort();
+                InetAddress inetAddress = nsdServiceInfo.getHost();
+                WifiP2pConnectionThread thread = new WifiP2pConnectionThread(inetAddress, port);
+                thread.setServerResponseListener(NsdConnectionManager.this);
+                return thread;
             }
 
             @Override
-            public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int i) {
-
+            public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int errorCode) {
+                Log.d(TAG, "Service resolve failed");
             }
         };
     }
@@ -90,5 +101,15 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
     @Override
     public void onStopDiscoveryFailed(String s, int errorCode) {
         Log.d(TAG, "Stop discovery failed");
+    }
+
+    @Override
+    public void onServerResponseReceived() {
+        client.onManagerConnection();
+    }
+
+    @Override
+    public void onServerResponseError() {
+        client.onManagerError();
     }
 }
