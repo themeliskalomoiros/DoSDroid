@@ -33,6 +33,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     protected void releaseResources() {
+        manager.stopServiceDiscovery(this);
         super.releaseResources();
     }
 
