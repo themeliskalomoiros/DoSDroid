@@ -38,8 +38,6 @@ public class WifiDirectReceiver extends BroadcastReceiver {
                 break;
             case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
                 break;
-            case WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION:
-                break;
             default:
                 throw new IllegalArgumentException(TAG + ": Unknown action");
         }
@@ -59,7 +57,6 @@ public class WifiDirectReceiver extends BroadcastReceiver {
         filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
         filter.addAction(WIFI_P2P_PEERS_CHANGED_ACTION);
         filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        filter.addAction(WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
         return filter;
     }
 }
