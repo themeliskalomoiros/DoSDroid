@@ -23,7 +23,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     void connect() {
-        manager.discoverServices(Attacks.getNsdServiceName(attack), NsdManager.PROTOCOL_DNS_SD, this);
+        manager.discoverServices(Attacks.getNsdServiceType(attack), NsdManager.PROTOCOL_DNS_SD, this);
     }
 
     @Override
