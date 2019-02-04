@@ -18,12 +18,12 @@ public class WifiP2pConnectionThread extends Thread {
     private int groupOwnerPort;
 
     private Socket socket;
-    private OnConnectionListener connectionListener;
+    private OnServerResponseListener serverResponseListener;
 
-    public interface OnConnectionListener {
-        void onConnectionSuccess();
+    public interface OnServerResponseListener {
+        void onServerResponseReceived();
 
-        void onConnectionFailure();
+        void onServerResponseError();
     }
 
     public WifiP2pConnectionThread(InetAddress groupOwnerAddress, int groupOwnerPort) {
@@ -37,8 +37,8 @@ public class WifiP2pConnectionThread extends Thread {
         socket = new Socket();
     }
 
-    public void setConnectionListener(OnConnectionListener connectionListener) {
-        this.connectionListener = connectionListener;
+    public void setServerResponseListener(OnServerResponseListener serverResponseListener) {
+        this.serverResponseListener = serverResponseListener;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class WifiP2pConnectionThread extends Thread {
             handleConnectionSuccess();
         } else {
             Log.d(TAG, "Connection failed");
-            connectionListener.onConnectionFailure();
+            serverResponseListener.onServerResponseError();
         }
         closeSocket();
     }
@@ -69,10 +69,10 @@ public class WifiP2pConnectionThread extends Thread {
         String serverResponse = readServerResponse(reader);
         boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
         if (isValidResponse) {
-            connectionListener.onConnectionSuccess();
+            serverResponseListener.onServerResponseReceived();
             Log.d(TAG, "Connection success");
         } else {
-            connectionListener.onConnectionFailure();
+            serverResponseListener.onServerResponseError();
             Log.d(TAG, "Connection failure");
         }
     }

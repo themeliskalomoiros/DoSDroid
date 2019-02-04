@@ -4,21 +4,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import java.net.InetAddress;
+
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils.getFailureTextFrom;
 
-public class WifiDirectReceiver extends BroadcastReceiver {
+public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";
 
     private WifiP2pConnectionManager connectionManager;
@@ -42,6 +47,7 @@ public class WifiDirectReceiver extends BroadcastReceiver {
                 manager.requestPeers(channel, getPeerListListener());
                 break;
             case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
+                handleConnectionChange(intent);
                 break;
             default:
                 throw new IllegalArgumentException(TAG + ": Unknown action");
@@ -85,7 +91,7 @@ public class WifiDirectReceiver extends BroadcastReceiver {
 
     private boolean isServer(WifiP2pDevice device) {
         String macAddress = device.deviceAddress;
-        String serverMacAddress = connectionManager.attack.getHostInfo().get(EXTRA_MAC_ADDRESS);
+        String serverMacAddress = Attacks.getHostMacAddress(connectionManager.attack);
         return macAddress.equals(serverMacAddress) && device.isGroupOwner();
     }
 
@@ -109,6 +115,44 @@ public class WifiDirectReceiver extends BroadcastReceiver {
                 connectionManager.disconnect();
             }
         };
+    }
+
+    private void handleConnectionChange(Intent intent) {
+        NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+        if (networkInfo.isConnected()) {
+            manager.requestConnectionInfo(channel, getConnectionInfoListener());
+        } else {
+            Log.d(TAG, "NetworkInfo.isConnected() returned false.");
+        }
+    }
+
+    @NonNull
+    private WifiP2pManager.ConnectionInfoListener getConnectionInfoListener() {
+        return wifiP2pInfo -> {
+            if (wifiP2pInfo.groupFormed) {
+                WifiP2pConnectionThread thread = createConnectionThread(wifiP2pInfo);
+                thread.start();
+            }
+        };
+    }
+
+    @NonNull
+    private WifiP2pConnectionThread createConnectionThread(WifiP2pInfo wifiP2pInfo) {
+        InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
+        int hostLocalPort = Attacks.getHostLocalPort(connectionManager.attack);
+        WifiP2pConnectionThread thread = new WifiP2pConnectionThread(groupOwnerAddress, hostLocalPort);
+        thread.setServerResponseListener(this);
+        return thread;
+    }
+
+    @Override
+    public void onServerResponseReceived() {
+        connectionManager.client.onManagerConnection();
+    }
+
+    @Override
+    public void onServerResponseError() {
+        connectionManager.disconnect();
     }
 
     @NonNull
