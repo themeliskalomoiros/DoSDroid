@@ -40,13 +40,16 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
     public void onReceive(Context context, Intent intent) {
         switch (intent.getAction()) {
             case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
+                Log.d(TAG, "WIFI_P2P_STATE_CHANGED_ACTION");
                 int state = intent.getIntExtra(EXTRA_WIFI_STATE, -1);
                 handleWifiState(state);
                 break;
             case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
+                Log.d(TAG, "WIFI_P2P_PEERS_CHANGED_ACTION");
                 manager.requestPeers(channel, getPeerListListener());
                 break;
             case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
+                Log.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION");
                 handleConnectionChange(intent);
                 break;
             default:
