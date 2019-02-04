@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils.getFailureTextFrom;
 
 public class WifiDirectReceiver extends BroadcastReceiver {
     private static final String TAG = "WifiDirectReceiver";
@@ -63,8 +65,8 @@ public class WifiDirectReceiver extends BroadcastReceiver {
             }
 
             @Override
-            public void onFailure(int i) {
-                Log.d(TAG, "Initiating discovering peers process...");
+            public void onFailure(int reason) {
+                Log.d(TAG, "Initiating discovering peers process: " + getFailureTextFrom(reason));
                 connectionManager.disconnect();
             }
         };
@@ -88,6 +90,25 @@ public class WifiDirectReceiver extends BroadcastReceiver {
     }
 
     private void connectTo(WifiP2pDevice device) {
+        WifiP2pConfig config = new WifiP2pConfig();
+        config.deviceAddress = device.deviceAddress;
+        manager.connect(channel, config, getDeviceConnectionActionListener());
+    }
+
+    @NonNull
+    private WifiP2pManager.ActionListener getDeviceConnectionActionListener() {
+        return new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Initiated connection with server device...");
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                Log.d(TAG, "Connection initiation with server device failed: " + getFailureTextFrom(reason));
+                connectionManager.disconnect();
+            }
+        };
     }
 
     @NonNull
