@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -13,6 +14,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_AC
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
 
 public class WifiDirectReceiver extends BroadcastReceiver {
     private static final String TAG = "WifiDirectReceiver";
@@ -35,6 +37,7 @@ public class WifiDirectReceiver extends BroadcastReceiver {
                 handleWifiState(state);
                 break;
             case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
+                manager.requestPeers(channel, getPeerListListener());
                 break;
             case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
                 break;
@@ -65,6 +68,26 @@ public class WifiDirectReceiver extends BroadcastReceiver {
                 connectionManager.disconnect();
             }
         };
+    }
+
+    @NonNull
+    private WifiP2pManager.PeerListListener getPeerListListener() {
+        return wifiP2pDeviceList -> {
+            for (WifiP2pDevice device : wifiP2pDeviceList.getDeviceList()) {
+                if (isServer(device)) {
+                    connectTo(device);
+                }
+            }
+        };
+    }
+
+    private boolean isServer(WifiP2pDevice device) {
+        String macAddress = device.deviceAddress;
+        String serverMacAddress = connectionManager.attack.getHostInfo().get(EXTRA_MAC_ADDRESS);
+        return macAddress.equals(serverMacAddress) && device.isGroupOwner();
+    }
+
+    private void connectTo(WifiP2pDevice device) {
     }
 
     @NonNull
