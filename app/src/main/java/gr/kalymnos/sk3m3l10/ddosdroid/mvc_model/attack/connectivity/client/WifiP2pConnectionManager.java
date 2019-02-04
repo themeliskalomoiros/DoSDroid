@@ -4,10 +4,9 @@ import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-class WifiP2pConnectionManager extends ConnectionManager{
+class WifiP2pConnectionManager extends ConnectionManager {
     private static final String TAG = "WifiP2pConnectionManage";
 
     private WifiDirectReceiver receiver;
@@ -30,6 +29,13 @@ class WifiP2pConnectionManager extends ConnectionManager{
 
     @Override
     void disconnect() {
+        client.onManagerDisconnection();
+        releaseResources();
+    }
 
+    @Override
+    protected void releaseResources() {
+        context.unregisterReceiver(receiver);
+        super.releaseResources();
     }
 }
