@@ -35,6 +35,7 @@ class WifiP2pConnectionManager extends ConnectionManager {
 
     @Override
     protected void releaseResources() {
+        receiver.releaseWifiP2pResources();
         context.unregisterReceiver(receiver);
         super.releaseResources();
     }
