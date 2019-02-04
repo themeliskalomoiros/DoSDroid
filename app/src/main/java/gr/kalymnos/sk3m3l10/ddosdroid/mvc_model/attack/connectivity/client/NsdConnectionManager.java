@@ -28,7 +28,8 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     void disconnect() {
-
+        client.onManagerDisconnection();
+        releaseResources();
     }
 
     @Override
@@ -78,7 +79,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
             @Override
             public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int errorCode) {
-                Log.d(TAG, "Service resolve failed");
+                Log.d(TAG, "Service resolve failed with error code: " + errorCode);
             }
         };
     }
@@ -96,12 +97,12 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     public void onStartDiscoveryFailed(String s, int errorCode) {
-        Log.d(TAG, "Start discovery failed");
+        Log.d(TAG, "Start discovery failed with error code: " + errorCode);
     }
 
     @Override
     public void onStopDiscoveryFailed(String s, int errorCode) {
-        Log.d(TAG, "Stop discovery failed");
+        Log.d(TAG, "Stop discovery failed with error code: " + errorCode);
     }
 
     @Override
