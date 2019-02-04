@@ -158,6 +158,20 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
         Log.d(TAG, "Did not receive response from server");
     }
 
+    public void releaseWifiP2pResources() {
+        manager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "Initiated group removal");
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                Log.d(TAG, "Failed to initiate group removal: " + getFailureTextFrom(reason));
+            }
+        });
+    }
+
     @NonNull
     public static IntentFilter getIntentFilter() {
         IntentFilter filter = new IntentFilter();
