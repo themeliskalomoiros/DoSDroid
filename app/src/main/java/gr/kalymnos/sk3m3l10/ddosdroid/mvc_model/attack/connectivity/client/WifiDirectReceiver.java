@@ -23,7 +23,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils.getFailureTextFrom;
 
-public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConnectionThread.OnServerResponseListener {
+public class WifiDirectReceiver extends BroadcastReceiver implements SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";
 
     private WifiP2pConnectionManager connectionManager;
@@ -132,17 +132,17 @@ public class WifiDirectReceiver extends BroadcastReceiver implements WifiP2pConn
         return wifiP2pInfo -> {
             if (wifiP2pInfo.groupFormed) {
                 Log.d(TAG, "Starting a connection thread");
-                WifiP2pConnectionThread thread = createConnectionThread(wifiP2pInfo);
+                SocketConnectionThread thread = createConnectionThread(wifiP2pInfo);
                 thread.start();
             }
         };
     }
 
     @NonNull
-    private WifiP2pConnectionThread createConnectionThread(WifiP2pInfo wifiP2pInfo) {
+    private SocketConnectionThread createConnectionThread(WifiP2pInfo wifiP2pInfo) {
         InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
         int hostLocalPort = Attacks.getHostLocalPort(connectionManager.attack);
-        WifiP2pConnectionThread thread = new WifiP2pConnectionThread(groupOwnerAddress, hostLocalPort);
+        SocketConnectionThread thread = new SocketConnectionThread(groupOwnerAddress, hostLocalPort);
         thread.setServerResponseListener(this);
         return thread;
     }

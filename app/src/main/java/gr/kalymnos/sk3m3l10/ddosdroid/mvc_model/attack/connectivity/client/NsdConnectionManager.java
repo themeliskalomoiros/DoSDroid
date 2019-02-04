@@ -11,7 +11,7 @@ import java.net.InetAddress;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-class NsdConnectionManager extends ConnectionManager implements NsdManager.DiscoveryListener, WifiP2pConnectionThread.OnServerResponseListener {
+class NsdConnectionManager extends ConnectionManager implements NsdManager.DiscoveryListener, SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "NsdConnectionManager";
 
     private NsdManager manager;
@@ -70,7 +70,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
             private Thread createConnectionThread(NsdServiceInfo nsdServiceInfo) {
                 int port = nsdServiceInfo.getPort();
                 InetAddress inetAddress = nsdServiceInfo.getHost();
-                WifiP2pConnectionThread thread = new WifiP2pConnectionThread(inetAddress, port);
+                SocketConnectionThread thread = new SocketConnectionThread(inetAddress, port);
                 thread.setServerResponseListener(NsdConnectionManager.this);
                 return thread;
             }

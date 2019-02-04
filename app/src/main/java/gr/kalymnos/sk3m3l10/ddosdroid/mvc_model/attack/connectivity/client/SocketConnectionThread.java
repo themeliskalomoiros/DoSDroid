@@ -11,11 +11,11 @@ import java.net.Socket;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class WifiP2pConnectionThread extends Thread {
-    private static final String TAG = "WifiP2pConnectionThread";
+public class SocketConnectionThread extends Thread {
+    private static final String TAG = "SocketConnectionThread";
     private static final int TIMEOUT = 1000;
-    private InetAddress groupOwnerAddress;
-    private int groupOwnerPort;
+    private InetAddress host;
+    private int port;
 
     private Socket socket;
     private OnServerResponseListener serverResponseListener;
@@ -26,14 +26,14 @@ public class WifiP2pConnectionThread extends Thread {
         void onServerResponseError();
     }
 
-    public WifiP2pConnectionThread(InetAddress groupOwnerAddress, int groupOwnerPort) {
+    public SocketConnectionThread(InetAddress host, int port) {
         Log.d(TAG, "Initialized");
-        initializeFields(groupOwnerAddress, groupOwnerPort);
+        initializeFields(host, port);
     }
 
-    private void initializeFields(InetAddress groupOwnerAddress, int groupOwnerPort) {
-        this.groupOwnerAddress = groupOwnerAddress;
-        this.groupOwnerPort = groupOwnerPort;
+    private void initializeFields(InetAddress host, int port) {
+        this.host = host;
+        this.port = port;
         socket = new Socket();
     }
 
@@ -56,7 +56,7 @@ public class WifiP2pConnectionThread extends Thread {
 
     private boolean connectToServer() {
         try {
-            socket.connect(new InetSocketAddress(groupOwnerAddress, groupOwnerPort), TIMEOUT);
+            socket.connect(new InetSocketAddress(host, port), TIMEOUT);
             return true;
         } catch (IOException e) {
             Log.e(TAG, "Error while socket.connect()", e);
