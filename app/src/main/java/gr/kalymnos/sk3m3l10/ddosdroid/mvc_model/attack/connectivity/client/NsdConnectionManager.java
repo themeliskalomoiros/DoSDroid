@@ -6,17 +6,21 @@ import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 class NsdConnectionManager extends ConnectionManager implements NsdManager.DiscoveryListener {
     private static final String TAG = "NsdConnectionManager";
 
+    private NsdManager manager;
+
     NsdConnectionManager(Context context, Attack attack) {
         super(context, attack);
+        manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
     }
 
     @Override
     void connect() {
-
+        manager.discoverServices(Attacks.getNsdServiceName(attack), NsdManager.PROTOCOL_DNS_SD, this);
     }
 
     @Override
