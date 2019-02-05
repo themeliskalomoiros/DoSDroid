@@ -101,7 +101,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
             return false;
 
         Client client = (Client) obj;
-        return this.getId().equals(client.getId());
+        return this.getAttackedWebsite().equals(client.getAttackedWebsite());
     }
 
     //  This technique is taken from the book Effective Java, Second Edition, Item 9

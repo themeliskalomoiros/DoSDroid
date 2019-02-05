@@ -137,7 +137,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
             return false;
 
         Server server = (Server) obj;
-        return this.getId().equals(server.getId());
+        return this.getAttackedWebsite().equals(server.getAttackedWebsite());
     }
 
     //  This technique is taken from the book Effective Java, Second Edition, Item 9
