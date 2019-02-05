@@ -17,6 +17,7 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
@@ -32,7 +33,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
-        AttackRepository.OnAttacksFetchListener {
+        AttackRepository.OnAttacksFetchListener, AttackRepositoryReporter.OnAttackNodeListener {
     private static final String TAG = "AttackListFragment";
 
     private AttackListViewMvc viewMvc;
@@ -154,6 +155,21 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
             Log.d(TAG, "Stopped a server");
         }
+    }
+
+    @Override
+    public void onAttackAddedToRepository(Attack attack) {
+
+    }
+
+    @Override
+    public void onAttackChangedInRepository(Attack changedAttack) {
+
+    }
+
+    @Override
+    public void onAttackDeletedFromRepository(Attack deletedAttack) {
+        
     }
 
     /*

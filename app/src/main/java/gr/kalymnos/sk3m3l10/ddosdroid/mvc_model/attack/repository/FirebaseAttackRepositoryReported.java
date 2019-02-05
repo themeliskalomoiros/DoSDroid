@@ -37,19 +37,19 @@ public class FirebaseAttackRepositoryReported extends AttackRepositoryReporter i
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onAttackNodeListener.onAttackAdded(attack);
+        onAttackNodeListener.onAttackAddedToRepository(attack);
     }
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onAttackNodeListener.onAttackChanged(attack);
+        onAttackNodeListener.onAttackChangedInRepository(attack);
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onAttackNodeListener.onAttackDeleted(attack);
+        onAttackNodeListener.onAttackDeletedFromRepository(attack);
     }
 
     @Override

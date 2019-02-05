@@ -9,11 +9,11 @@ public abstract class AttackRepositoryReporter {
     protected OnAttackNodeListener onAttackNodeListener;
 
     public interface OnAttackNodeListener {
-        void onAttackAdded(Attack attack);
+        void onAttackAddedToRepository(Attack attack);
 
-        void onAttackChanged(Attack changedAttack);
+        void onAttackChangedInRepository(Attack changedAttack);
 
-        void onAttackDeleted(Attack deletedAttack);
+        void onAttackDeletedFromRepository(Attack deletedAttack);
     }
 
     public final void setOnAttackNodeListener(OnAttackNodeListener listener) {
