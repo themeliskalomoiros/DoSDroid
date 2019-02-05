@@ -88,6 +88,10 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         return attack.getPushId();
     }
 
+    public final String getAttackedWebsite() {
+        return attack.getWebsite();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this)

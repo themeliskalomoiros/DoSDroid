@@ -64,6 +64,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         return attack.getPushId();
     }
 
+    public final String getAttackedWebsite() {
+        return attack.getWebsite();
+    }
+
     public abstract void start();
 
     public void stop() {
