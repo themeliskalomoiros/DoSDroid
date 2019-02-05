@@ -177,10 +177,15 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private void removeAttackFromCachedAttacks(Attack attack) {
+        deleteFromCachedAttacks(attack);
+    }
+
+    private void deleteFromCachedAttacks(Attack attack) {
         Iterator<Attack> iterator = cachedAttacks.iterator();
         while (iterator.hasNext()) {
             if (iterator.next().getPushId().equals(attack.getPushId())) {
                 iterator.remove();
+                viewMvc.bindAttacks(cachedAttacks);
                 break;
             }
         }
