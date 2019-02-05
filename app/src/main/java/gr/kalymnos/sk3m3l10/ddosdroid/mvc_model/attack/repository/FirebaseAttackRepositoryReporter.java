@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -12,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class FirebaseAttackRepositoryReporter extends AttackRepositoryReporter implements ChildEventListener {
+    private static final String TAG = "FirebaseAttackRepositor";
+
     private DatabaseReference allAttacksRef;
 
     public FirebaseAttackRepositoryReporter() {
@@ -36,18 +39,21 @@ public class FirebaseAttackRepositoryReporter extends AttackRepositoryReporter i
 
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        Log.d(TAG, "onChildAdded()");
         Attack attack = dataSnapshot.getValue(Attack.class);
         onAttackNodeListener.onAttackAddedToRepository(attack);
     }
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        Log.d(TAG, "onChildChanged()");
         Attack attack = dataSnapshot.getValue(Attack.class);
         onAttackNodeListener.onAttackChangedInRepository(attack);
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+        Log.d(TAG, "onChildRemoved()");
         Attack attack = dataSnapshot.getValue(Attack.class);
         onAttackNodeListener.onAttackDeletedFromRepository(attack);
     }
