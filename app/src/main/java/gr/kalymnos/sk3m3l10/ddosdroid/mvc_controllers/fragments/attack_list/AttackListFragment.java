@@ -38,10 +38,10 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         AttackRepository.OnAttacksFetchListener, AttackRepositoryReporter.OnAttackNodeListener {
     private static final String TAG = "AttackListFragment";
 
-    private AttackListViewMvc viewMvc;
+    protected AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
     private AttackRepositoryReporter attackRepoReporter;
-    private List<Attack> cachedAttacks;
+    protected List<Attack> cachedAttacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

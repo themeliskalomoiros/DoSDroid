@@ -1,7 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,7 +35,6 @@ public final class Attacks {
     }
 
     public static boolean includes(Attack attack, Bot bot) {
-        Log.d(TAG, "Attacks.inclures returns " + attack.getBotIds().contains(bot.getId()));
         return attack.getBotIds().contains(bot.getId());
     }
 
