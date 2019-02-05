@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActiv
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackRepositoryReported;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
@@ -55,8 +55,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private void initializeAttackRepoReporter() {
-        attackRepoReporter = new FirebaseAttackRepositoryReported();
+        attackRepoReporter = new FirebaseAttackRepositoryReporter();
         attackRepoReporter.setOnAttackNodeListener(this);
+        attackRepoReporter.attach();
     }
 
 
@@ -109,6 +110,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onDestroy() {
         super.onDestroy();
         removeFetchingAttacksListener();
+        attackRepoReporter.detach();
     }
 
     private void removeFetchingAttacksListener() {
