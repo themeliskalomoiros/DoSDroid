@@ -1,6 +1,5 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseReposi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
@@ -122,32 +120,23 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         //  TODO: Display the error somewhere besides the toast
     }
 
-    protected int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
-            return bundle.getInt(EXTRA_TYPE);
-        }
-        return TYPE_NONE;
-    }
-
     @Override
     public void onAttackItemClick(int position) {
         if (listHasItems(cachedAttacks)) {
             if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
                 Attack attack = cachedAttacks.get(position);
-                startJoinAttackActivity(attack);
+                JoinAttackActivity.startAnInstance(getContext(), attack);
             } else if (getAttacksType(getArguments()) == TYPE_FETCH_JOINED) {
                 //  TODO: what sould be done when user clicked an attack that he already joined?
             }
         }
     }
 
-    private void startJoinAttackActivity(Attack attack) {
-        //  Why this way? see BUNDLE_SAMSUNG_BUG_KEY for details
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.Extra.EXTRA_ATTACK, attack);
-        Intent intent = new Intent(getContext(), JoinAttackActivity.class);
-        intent.putExtra(Constants.BUNDLE_SAMSUNG_BUG_KEY, bundle);
-        getContext().startActivity(intent);
+    protected int getAttacksType(Bundle bundle) {
+        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
+            return bundle.getInt(EXTRA_TYPE);
+        }
+        return TYPE_NONE;
     }
 
     @Override

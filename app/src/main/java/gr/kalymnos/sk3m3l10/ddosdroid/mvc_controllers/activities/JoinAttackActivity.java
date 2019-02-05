@@ -1,6 +1,9 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
@@ -9,10 +12,26 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 public class JoinAttackActivity extends AppCompatActivity implements
         JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
     private JoinAttackViewMvc viewMvc;
+
+    public static void startAnInstance(Context context, Attack attack) {
+        Intent intent = getIntent(context, attack);
+        context.startActivity(intent);
+    }
+
+    @NonNull
+    private static Intent getIntent(Context context, Attack attack) {
+        //  Why this way? see Constants.BUNDLE_SAMSUNG_BUG_KEY for details
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.Extra.EXTRA_ATTACK, attack);
+        Intent intent = new Intent(context, JoinAttackActivity.class);
+        intent.putExtra(Constants.BUNDLE_SAMSUNG_BUG_KEY, bundle);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
