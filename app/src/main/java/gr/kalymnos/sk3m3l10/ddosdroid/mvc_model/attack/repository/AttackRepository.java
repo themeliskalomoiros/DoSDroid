@@ -22,13 +22,8 @@ public abstract class AttackRepository {
         void onAttackUploaded(Attack attack);
     }
 
-    public interface OnAttackRemovedListener {
-        void onAttackRemoved();
-    }
-
     protected OnAttacksFetchListener onAttacksFetchListener;
     protected OnAttackUploadedListener onAttackUploadedListener;
-    protected OnAttackRemovedListener onAttackRemovedListener;
 
     public abstract void fetchAllAttacks();
 
@@ -66,14 +61,6 @@ public abstract class AttackRepository {
 
     public final void removeOnAttackUploadedListener() {
         onAttackUploadedListener = null;
-    }
-
-    public final void addOnAttackRemovedListener(OnAttackRemovedListener listener) {
-        this.onAttackRemovedListener = listener;
-    }
-
-    public final void removedOnAttackRemovedListener() {
-        this.onAttackRemovedListener = null;
     }
 
 }
