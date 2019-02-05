@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
@@ -47,6 +48,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         super.onCreate(savedInstanceState);
         initializeAttackRepo();
         initializeAttackRepoReporter();
+        cachedAttacks = new ArrayList<>();
     }
 
     private void initializeAttackRepo() {
@@ -90,7 +92,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         if (bundleIsValidAndContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
             List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
             if (listHasItems(temp)) {
-                cachedAttacks = temp;
+                cachedAttacks.addAll(temp);
                 return true;
             }
         }
@@ -170,19 +172,32 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackAddedToRepository(Attack attack) {
-
+        cachedAttacks.add(attack);
+        viewMvc.bindAttacks(cachedAttacks);
     }
 
     @Override
     public void onAttackChangedInRepository(Attack changedAttack) {
-
+        deleteAttackWithSameIdAs(changedAttack);
+        cachedAttacks.add(changedAttack);
+        viewMvc.bindAttacks(cachedAttacks);
     }
 
     @Override
     public void onAttackDeletedFromRepository(Attack deletedAttack) {
-
+        deleteAttackWithSameIdAs(deletedAttack);
+        viewMvc.bindAttacks(cachedAttacks);
     }
 
+    private void deleteAttackWithSameIdAs(Attack attack) {
+        Iterator<Attack> iterator = cachedAttacks.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getPushId().equals(attack.getPushId())) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
     /*
      * Baring down a switch statement. Technique used to clean the code. Justification lies in
      * Uncle Bob's "Clean Code", chapter 3, page 39.
