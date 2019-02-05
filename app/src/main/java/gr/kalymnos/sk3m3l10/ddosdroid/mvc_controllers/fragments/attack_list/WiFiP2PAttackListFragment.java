@@ -58,11 +58,19 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
         Log.d(TAG, "onAttackChangedInRepository()");
         if (changedAttack.getNetworkType() == WIFI_P2P) {
             int attacksType = getAttacksType(getArguments());
-            boolean shouldDisplayAttackForTypeFetchJoined = attacksType == TYPE_FETCH_JOINED && Attacks.includes(changedAttack, Bots.getLocalUser());
-            boolean shouldDisplayAttackForTypeFetchNotJoined = attacksType == TYPE_FETCH_NOT_JOINED && !Attacks.includes(changedAttack, Bots.getLocalUser());
 
-            if (shouldDisplayAttackForTypeFetchJoined || shouldDisplayAttackForTypeFetchNotJoined) {
-                displayChangedAttack(changedAttack);
+            if (Attacks.includes(changedAttack, Bots.getLocalUser())) {
+                if (attacksType == TYPE_FETCH_JOINED) {
+                    displayChangedAttack(changedAttack);
+                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
+                    deleteFromCachedAttacksAndBind(changedAttack);
+                }
+            } else {
+                if (attacksType == TYPE_FETCH_JOINED) {
+                    deleteFromCachedAttacksAndBind(changedAttack);
+                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
+                    displayChangedAttack(changedAttack);
+                }
             }
         }
     }

@@ -12,7 +12,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 
 public class InternetAttackListFragment extends AttackListFragment {
@@ -55,11 +54,19 @@ public class InternetAttackListFragment extends AttackListFragment {
         Log.d(TAG, "onAttackChangedInRepository()");
         if (changedAttack.getNetworkType() == INTERNET) {
             int attacksType = getAttacksType(getArguments());
-            boolean shouldDisplayAttackForTypeFetchJoined = attacksType == TYPE_FETCH_JOINED && Attacks.includes(changedAttack, Bots.getLocalUser());
-            boolean shouldDisplayAttackForTypeFetchNotJoined = attacksType == TYPE_FETCH_NOT_JOINED && !Attacks.includes(changedAttack, Bots.getLocalUser());
 
-            if (shouldDisplayAttackForTypeFetchJoined || shouldDisplayAttackForTypeFetchNotJoined) {
-                displayChangedAttack(changedAttack);
+            if (Attacks.includes(changedAttack, Bots.getLocalUser())) {
+                if (attacksType == TYPE_FETCH_JOINED) {
+                    displayChangedAttack(changedAttack);
+                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
+                    deleteFromCachedAttacksAndBind(changedAttack);
+                }
+            } else {
+                if (attacksType == TYPE_FETCH_JOINED) {
+                    deleteFromCachedAttacksAndBind(changedAttack);
+                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
+                    displayChangedAttack(changedAttack);
+                }
             }
         }
     }
