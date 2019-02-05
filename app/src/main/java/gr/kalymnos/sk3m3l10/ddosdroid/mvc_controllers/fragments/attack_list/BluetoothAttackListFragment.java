@@ -1,6 +1,9 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
+import java.util.Iterator;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_ALL;
@@ -46,7 +49,31 @@ public class BluetoothAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackChangedInRepository(Attack changedAttack) {
+        if (changedAttack.getNetworkType() == BLUETOOTH) {
+            int attacksType = getAttacksType(getArguments());
+            boolean shouldDisplayAttackForTypeFetchJoined = attacksType == TYPE_FETCH_JOINED && Attacks.includes(changedAttack, Bots.getLocalUser());
+            boolean shouldDisplayAttackForTypeFetchNotJoined = attacksType == TYPE_FETCH_NOT_JOINED && !Attacks.includes(changedAttack, Bots.getLocalUser());
 
+            if (shouldDisplayAttackForTypeFetchJoined || shouldDisplayAttackForTypeFetchNotJoined) {
+                displayChangedAttack(changedAttack);
+            }
+        }
+    }
+
+    private void displayChangedAttack(Attack changedAttack) {
+        deleteAttackWithSameIdAs(changedAttack);
+        cachedAttacks.add(changedAttack);
+        viewMvc.bindAttacks(cachedAttacks);
+    }
+
+    private void deleteAttackWithSameIdAs(Attack attack) {
+        Iterator<Attack> iterator = cachedAttacks.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getPushId().equals(attack.getPushId())) {
+                iterator.remove();
+                break;
+            }
+        }
     }
 
     @Override
