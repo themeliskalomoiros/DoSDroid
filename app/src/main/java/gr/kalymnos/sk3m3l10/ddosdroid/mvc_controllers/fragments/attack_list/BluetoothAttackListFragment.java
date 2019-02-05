@@ -75,9 +75,4 @@ public class BluetoothAttackListFragment extends AttackListFragment {
             }
         }
     }
-
-    @Override
-    public void onAttackDeletedFromRepository(Attack deletedAttack) {
-
-    }
 }

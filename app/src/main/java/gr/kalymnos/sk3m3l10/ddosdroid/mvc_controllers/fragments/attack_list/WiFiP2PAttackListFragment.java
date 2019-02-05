@@ -78,9 +78,4 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
             }
         }
     }
-
-    @Override
-    public void onAttackDeletedFromRepository(Attack deletedAttack) {
-
-    }
 }

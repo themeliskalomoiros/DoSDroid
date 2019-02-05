@@ -170,6 +170,21 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
+    @Override
+    public void onAttackDeletedFromRepository(Attack deletedAttack) {
+        removeAttackFromCachedAttacks(deletedAttack);
+    }
+
+    private void removeAttackFromCachedAttacks(Attack attack) {
+        Iterator<Attack> iterator = cachedAttacks.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getPushId().equals(attack.getPushId())) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
     /*
      * Baring down a switch statement. Technique used to clean the code. Justification lies in
      * Uncle Bob's "Clean Code", chapter 3, page 39.

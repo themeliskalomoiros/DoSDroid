@@ -75,9 +75,4 @@ public class InternetAttackListFragment extends AttackListFragment {
             }
         }
     }
-
-    @Override
-    public void onAttackDeletedFromRepository(Attack deletedAttack) {
-
-    }
 }

@@ -78,9 +78,4 @@ public class NSDAttackListFragment extends AttackListFragment {
             }
         }
     }
-
-    @Override
-    public void onAttackDeletedFromRepository(Attack deletedAttack) {
-
-    }
 }
