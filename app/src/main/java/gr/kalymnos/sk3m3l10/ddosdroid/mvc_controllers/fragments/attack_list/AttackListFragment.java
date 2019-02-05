@@ -41,6 +41,17 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     protected AttackRepository attackRepo;
     private List<Attack> cachedAttacks;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initializeAttackRepo();
+    }
+
+    private void initializeAttackRepo() {
+        attackRepo = new FirebaseRepository();
+        attackRepo.addOnAttacksFetchListener(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,34 +73,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             viewMvc.bindAttacks(cachedAttacks);
         } else {
             viewMvc.showLoadingIndicator();
-            initializeAttackRepo();
             fetchAttacksAccordingToType();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (listHasItems(cachedAttacks)) {
-            outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        removeFetchingAttacksListener();
-    }
-
-    @Override
-    public void attacksFetched(List<Attack> attacks) {
-        cachedAttacks = attacks;
-        viewMvc.hideLoadingIndicator();
-        viewMvc.bindAttacks(cachedAttacks);
-    }
-
-    @Override
-    public void attacksFetchedFail(String msg) {
-        //  TODO: Display the error somewhere besides the toast
     }
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
@@ -105,16 +90,17 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     protected abstract void fetchAttacksAccordingToType();
 
-    private void initializeAttackRepo() {
-        attackRepo = new FirebaseRepository();
-        attackRepo.addOnAttacksFetchListener(this);
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (listHasItems(cachedAttacks)) {
+            outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
+        }
     }
 
-    protected int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
-            return bundle.getInt(EXTRA_TYPE);
-        }
-        return TYPE_NONE;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        removeFetchingAttacksListener();
     }
 
     private void removeFetchingAttacksListener() {
@@ -122,6 +108,25 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             attackRepo.removeOnAttacksFetchListener();
             attackRepo = null;
         }
+    }
+
+    @Override
+    public void attacksFetched(List<Attack> attacks) {
+        cachedAttacks = attacks;
+        viewMvc.hideLoadingIndicator();
+        viewMvc.bindAttacks(cachedAttacks);
+    }
+
+    @Override
+    public void attacksFetchedFail(String msg) {
+        //  TODO: Display the error somewhere besides the toast
+    }
+
+    protected int getAttacksType(Bundle bundle) {
+        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
+            return bundle.getInt(EXTRA_TYPE);
+        }
+        return TYPE_NONE;
     }
 
     @Override
