@@ -17,7 +17,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
 public class WiFiP2PAttackListFragment extends AttackListFragment {
-
     private static final String TAG = AttackListFragment.TAG + "WiFiP2P";
 
     @Override

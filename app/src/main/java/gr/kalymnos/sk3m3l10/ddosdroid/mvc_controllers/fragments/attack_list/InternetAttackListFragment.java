@@ -15,7 +15,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 
 public class InternetAttackListFragment extends AttackListFragment {
-
     private static final String TAG = AttackListFragment.TAG + "Internet";
 
     @Override

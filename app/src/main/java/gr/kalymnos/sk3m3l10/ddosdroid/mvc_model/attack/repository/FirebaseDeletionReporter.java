@@ -11,10 +11,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class FirebaseAttackDeletionReporter extends AttackDeletionReporter implements ChildEventListener {
+public class FirebaseDeletionReporter extends AttackDeletionReporter implements ChildEventListener {
     private DatabaseReference allAttacksRef;
 
-    public FirebaseAttackDeletionReporter() {
+    public FirebaseDeletionReporter() {
         initializeAllAttacksRef();
     }
 

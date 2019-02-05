@@ -12,12 +12,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class FirebaseAttackRepositoryReporter extends AttackRepositoryReporter implements ChildEventListener {
+public class FirebaseRepositoryReporter extends AttackRepositoryReporter implements ChildEventListener {
     private static final String TAG = "FirebaseAttackRepositor";
 
     private DatabaseReference allAttacksRef;
 
-    public FirebaseAttackRepositoryReporter() {
+    public FirebaseRepositoryReporter() {
         initializeAllAttacksRef();
     }
 

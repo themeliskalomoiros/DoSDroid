@@ -69,9 +69,6 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
-
-        private static final String TAG = "MyPagerAdapter";
-
         private String[] titles;
         private int attackType;
 

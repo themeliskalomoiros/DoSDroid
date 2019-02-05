@@ -144,7 +144,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + getId().hashCode();
+        result = 31 * result + this.getAttackedWebsite().hashCode();
         return result;
     }
 }

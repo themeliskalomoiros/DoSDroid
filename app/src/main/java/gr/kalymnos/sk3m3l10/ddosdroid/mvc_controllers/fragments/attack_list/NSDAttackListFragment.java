@@ -17,7 +17,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 
 public class NSDAttackListFragment extends AttackListFragment {
-
     private static final String TAG = AttackListFragment.TAG + "NSD";
 
     @Override

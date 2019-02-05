@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 import android.content.Context;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackDeletionReporter;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackDeletionReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseDeletionReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -37,7 +37,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         this.context = context;
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
-        this.attackDeletionReporter = new FirebaseAttackDeletionReporter();
+        this.attackDeletionReporter = new FirebaseDeletionReporter();
         this.attackDeletionReporter.setAttackDeletionListener(this);
         initializeConnectionManagerIfNotNull();
     }
@@ -108,7 +108,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + getId().hashCode();
+        result = 31 * result + getAttackedWebsite().hashCode();
         return result;
     }
 }

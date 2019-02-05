@@ -16,7 +16,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 
 public class BluetoothAttackListFragment extends AttackListFragment {
-
     private static final String TAG = AttackListFragment.TAG + "Bluetooth";
 
     @Override
