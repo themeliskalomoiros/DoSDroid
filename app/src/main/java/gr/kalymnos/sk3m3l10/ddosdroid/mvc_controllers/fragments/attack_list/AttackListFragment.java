@@ -18,6 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActiv
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseAttackRepositoryReported;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
@@ -38,18 +39,26 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
+    private AttackRepositoryReporter attackRepoReporter;
     private List<Attack> cachedAttacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeAttackRepo();
+        initializeAttackRepoReporter();
     }
 
     private void initializeAttackRepo() {
         attackRepo = new FirebaseRepository();
         attackRepo.addOnAttacksFetchListener(this);
     }
+
+    private void initializeAttackRepoReporter() {
+        attackRepoReporter = new FirebaseAttackRepositoryReported();
+        attackRepoReporter.setOnAttackNodeListener(this);
+    }
+
 
     @Nullable
     @Override
@@ -169,7 +178,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackDeletedFromRepository(Attack deletedAttack) {
-        
+
     }
 
     /*
