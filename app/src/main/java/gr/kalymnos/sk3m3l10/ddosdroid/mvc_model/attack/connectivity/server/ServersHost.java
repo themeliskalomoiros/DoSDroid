@@ -99,6 +99,8 @@ public class ServersHost extends Service {
         boolean serverAdded = servers.add(server);
         if (serverAdded) {
             server.start();
+        } else {
+            Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         }
     }
 
