@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
+import android.util.Log;
+
 import java.util.Iterator;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -16,7 +18,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 public class WiFiP2PAttackListFragment extends AttackListFragment {
 
-    private static final String TAG = "WiFiP2PAttackListFragme";
+    private static final String TAG = AttackListFragment.TAG + "WiFiP2P";
 
     @Override
     protected void fetchAttacksAccordingToType() {
@@ -42,6 +44,7 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackAddedToRepository(Attack attack) {
+        Log.d(TAG, "onAttackAddedToRepository()");
         boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
         boolean isWifiP2pAttack = attack.getNetworkType() == WIFI_P2P;
         if (isNotJoinedAttackListFragment && isWifiP2pAttack) {
@@ -52,6 +55,7 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackChangedInRepository(Attack changedAttack) {
+        Log.d(TAG, "onAttackChangedInRepository()");
         if (changedAttack.getNetworkType() == WIFI_P2P) {
             int attacksType = getAttacksType(getArguments());
             boolean shouldDisplayAttackForTypeFetchJoined = attacksType == TYPE_FETCH_JOINED && Attacks.includes(changedAttack, Bots.getLocalUser());

@@ -36,7 +36,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
         AttackRepository.OnAttacksFetchListener, AttackRepositoryReporter.OnAttackNodeListener {
-    private static final String TAG = "AttackListFragment";
+    protected static final String TAG = "AttackListFrag";
 
     protected AttackListViewMvc viewMvc;
     protected AttackRepository attackRepo;
@@ -172,6 +172,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackDeletedFromRepository(Attack deletedAttack) {
+        Log.d(TAG, "onAttackDeletedFromRepository()");
         removeAttackFromCachedAttacks(deletedAttack);
     }
 

@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
+import android.util.Log;
+
 import java.util.Iterator;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -15,7 +17,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 public class BluetoothAttackListFragment extends AttackListFragment {
 
-    private static final String TAG = "BluetoothAttackListFrag";
+    private static final String TAG = AttackListFragment.TAG + "Bluetooth";
 
     @Override
     protected void fetchAttacksAccordingToType() {
@@ -39,6 +41,7 @@ public class BluetoothAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackAddedToRepository(Attack attack) {
+        Log.d(TAG, "onAttackAddedToRepository()");
         boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
         boolean isBluetoothAttack = attack.getNetworkType() == BLUETOOTH;
         if (isNotJoinedAttackListFragment && isBluetoothAttack) {
@@ -49,6 +52,7 @@ public class BluetoothAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackChangedInRepository(Attack changedAttack) {
+        Log.d(TAG, "onAttackChangedInRepository()");
         if (changedAttack.getNetworkType() == BLUETOOTH) {
             int attacksType = getAttacksType(getArguments());
             boolean shouldDisplayAttackForTypeFetchJoined = attacksType == TYPE_FETCH_JOINED && Attacks.includes(changedAttack, Bots.getLocalUser());

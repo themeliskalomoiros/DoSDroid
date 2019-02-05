@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
+import android.util.Log;
+
 import java.util.Iterator;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -16,7 +18,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 public class NSDAttackListFragment extends AttackListFragment {
 
-    private static final String TAG = "NSDAttackListFragment";
+    private static final String TAG = AttackListFragment.TAG + "NSD";
 
     @Override
     protected void fetchAttacksAccordingToType() {
@@ -42,6 +44,7 @@ public class NSDAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackAddedToRepository(Attack attack) {
+        Log.d(TAG, "onAttackAddedToRepository()");
         boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
         boolean isNsdAttack = attack.getNetworkType() == NSD;
         if (isNotJoinedAttackListFragment && isNsdAttack) {
@@ -52,6 +55,7 @@ public class NSDAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackChangedInRepository(Attack changedAttack) {
+        Log.d(TAG, "onAttackChangedInRepository()");
         if (changedAttack.getNetworkType() == NSD) {
             int attacksType = getAttacksType(getArguments());
             boolean shouldDisplayAttackForTypeFetchJoined = attacksType == TYPE_FETCH_JOINED && Attacks.includes(changedAttack, Bots.getLocalUser());
