@@ -35,7 +35,7 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
     @Override
     public void detach() {
         allAttacksRef.removeEventListener(this);
-        this.onAttackNodeListener = null;
+        this.onRepositoryChangeListener = null;
     }
 
     @Override
@@ -60,6 +60,7 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
         });
     }
 
+    //  Firebase's ChildEventListener methods
     @Override
     public void delete(String attackId) {
         DatabaseReference attackRef = allAttacksRef.child(attackId);
@@ -70,21 +71,21 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Log.d(TAG, "onChildAdded()");
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onAttackNodeListener.onAttackAddedToRepository(attack);
+        onRepositoryChangeListener.onAttackUpload(attack);
     }
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Log.d(TAG, "onChildChanged()");
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onAttackNodeListener.onAttackChangedInRepository(attack);
+        onRepositoryChangeListener.onAttackUpdate(attack);
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
         Log.d(TAG, "onChildRemoved()");
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onAttackNodeListener.onAttackDeletedFromRepository(attack);
+        onRepositoryChangeListener.onAttackDelete(attack);
     }
 
     @Override

@@ -35,7 +35,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
-        AttackRepositoryReporter.OnAttackNodeListener {
+        AttackRepositoryReporter.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
 
     protected AttackListViewMvc viewMvc;
@@ -51,7 +51,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void initializeRepository() {
         repository = new FirebaseRepositoryReporter();
-        repository.setOnAttackNodeListener(this);
+        repository.setOnRepositoryChangeListener(this);
     }
 
     @Nullable
@@ -106,6 +106,31 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
+    protected final void deleteFromCacheAttackWith(String attackId) {
+        Iterator<Attack> iterator = cachedAttacks.iterator();
+        while (iterator.hasNext()) {
+            boolean foundAttack = iterator.next().getPushId().equals(attackId);
+            if (foundAttack) {
+                iterator.remove();
+            }
+        }
+    }
+
+    protected final void cacheAttackAndBind(Attack attack) {
+        cachedAttacks.add(attack);
+        viewMvc.bindAttacks(cachedAttacks);
+    }
+
+    @Override
+    public void onAttackItemClick(int position) {
+        if (listHasItems(cachedAttacks)) {
+            if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
+                Attack attack = cachedAttacks.get(position);
+                JoinAttackActivity.startAnInstance(getContext(), attack);
+            }
+        }
+    }
+
     protected final int getAttacksType(Bundle bundle) {
         if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
             return bundle.getInt(EXTRA_CONTENT_TYPE);
@@ -114,23 +139,20 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void onAttackDeletedFromRepository(Attack deletedAttack) {
-        Log.d(TAG, "onAttackDeletedFromRepository()");
-        removeAttackFromCachedAttacks(deletedAttack);
+    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
+        if (!isChecked) {
+            Attack attack = cachedAttacks.get(position);
+            AttackService.Action.stopAttack(attack, getContext());
+            Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
+        }
     }
 
-    private void removeAttackFromCachedAttacks(Attack attack) {
-        deleteFromCachedAttacksAndBind(attack);
-    }
-
-    protected void deleteFromCachedAttacksAndBind(Attack attack) {
-        Iterator<Attack> iterator = cachedAttacks.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getPushId().equals(attack.getPushId())) {
-                iterator.remove();
-                viewMvc.bindAttacks(cachedAttacks);
-                break;
-            }
+    @Override
+    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
+        if (!isChecked) {
+            Attack attack = cachedAttacks.get(position);
+            ServersHost.Action.stopServer(getContext(), attack.getPushId());
+            Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
 

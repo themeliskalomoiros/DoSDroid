@@ -19,71 +19,17 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     private static final String TAG = AttackListFragment.TAG + "Bluetooth";
 
     @Override
-    protected void fetchAttacksAccordingToType() {
-        switch (getAttacksType(getArguments())) {
-            case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacksOf(BLUETOOTH);
-                break;
-            case TYPE_FETCH_JOINED:
-                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), BLUETOOTH);
-                break;
-            case TYPE_FETCH_OWNER:
-                attackRepo.fetchLocalOwnerAttacksOf(BLUETOOTH);
-                break;
-            case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), BLUETOOTH);
-                break;
-            default:
-                throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
-        }
+    public void onAttackUpload(Attack attack) {
+
     }
 
     @Override
-    public void onAttackAddedToRepository(Attack attack) {
-        Log.d(TAG, "onAttackAddedToRepository()");
-        boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
-        boolean isBluetoothAttack = attack.getNetworkType() == BLUETOOTH;
-        if (isNotJoinedAttackListFragment && isBluetoothAttack) {
-            cachedAttacks.add(attack);
-            viewMvc.bindAttacks(cachedAttacks);
-        }
+    public void onAttackUpdate(Attack changedAttack) {
+
     }
 
     @Override
-    public void onAttackChangedInRepository(Attack changedAttack) {
-        Log.d(TAG, "onAttackChangedInRepository()");
-        if (changedAttack.getNetworkType() == BLUETOOTH) {
-            int attacksType = getAttacksType(getArguments());
+    public void onAttackDelete(Attack deletedAttack) {
 
-            if (Attacks.includes(changedAttack, Bots.getLocalUser())) {
-                if (attacksType == TYPE_FETCH_JOINED) {
-                    displayChangedAttack(changedAttack);
-                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
-                    deleteFromCachedAttacksAndBind(changedAttack);
-                }
-            } else {
-                if (attacksType == TYPE_FETCH_JOINED) {
-                    deleteFromCachedAttacksAndBind(changedAttack);
-                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
-                    displayChangedAttack(changedAttack);
-                }
-            }
-        }
-    }
-
-    private void displayChangedAttack(Attack changedAttack) {
-        deleteAttackWithSameIdAs(changedAttack);
-        cachedAttacks.add(changedAttack);
-        viewMvc.bindAttacks(cachedAttacks);
-    }
-
-    private void deleteAttackWithSameIdAs(Attack attack) {
-        Iterator<Attack> iterator = cachedAttacks.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getPushId().equals(attack.getPushId())) {
-                iterator.remove();
-                break;
-            }
-        }
     }
 }
