@@ -20,7 +20,8 @@ public class InternetAttackListFragment extends AttackListFragment {
     @Override
     public void onAttackUpload(Attack attack) {
         if (attack.getNetworkType() == INTERNET) {
-
+            cachedAttacks.add(attack);
+            viewMvc.bindAttacks(cachedAttacks);
         }
     }
 
