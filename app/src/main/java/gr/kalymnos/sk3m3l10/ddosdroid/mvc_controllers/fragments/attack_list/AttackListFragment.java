@@ -52,9 +52,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     private void initializeRepository() {
         repository = new FirebaseRepositoryReporter();
         repository.setOnAttackNodeListener(this);
-        repository.attach();
     }
-    
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,6 +88,18 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             }
         }
         return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        repository.attach();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        repository.detach();
     }
 
     protected abstract void fetchAttacksAccordingToType();
