@@ -172,7 +172,7 @@ public class ServersHost extends Service {
 
         NotificationCompat.Builder createNotificationBuilder() {
             return new NotificationCompat.Builder(ServersHost.this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_swords)
+                    .setSmallIcon(R.drawable.ic_www_icon)
                     .setContentTitle(getString(R.string.server_notification_title))
                     .setContentText(getString(R.string.server_notification_small_text))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.server_notification_big_text)))
