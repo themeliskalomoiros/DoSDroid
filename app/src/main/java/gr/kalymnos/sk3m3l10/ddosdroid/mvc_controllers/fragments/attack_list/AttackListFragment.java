@@ -99,8 +99,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         repository.detach();
     }
 
-    protected abstract void fetchAttacksAccordingToType();
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         if (listHasItems(cachedAttacks)) {
