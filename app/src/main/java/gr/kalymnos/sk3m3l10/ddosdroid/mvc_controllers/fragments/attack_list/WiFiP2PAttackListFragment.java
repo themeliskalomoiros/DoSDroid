@@ -21,16 +21,24 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpload(Attack attack) {
-
+        if (attack.getNetworkType() == WIFI_P2P) {
+            cacheAttackAndBind(attack);
+        }
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
-
+        if (changedAttack.getNetworkType() == WIFI_P2P) {
+            deleteFromCacheAttackWith(changedAttack.getPushId());
+            cacheAttackAndBind(changedAttack);
+        }
     }
 
     @Override
     public void onAttackDelete(Attack deletedAttack) {
-
+        if (deletedAttack.getNetworkType() == WIFI_P2P) {
+            deleteFromCacheAttackWith(deletedAttack.getPushId());
+            viewMvc.bindAttacks(cachedAttacks);
+        }
     }
 }
