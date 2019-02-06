@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
@@ -36,14 +38,14 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         AttackRepositoryReporter.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
 
-    protected AttackListViewMvc viewMvc;
+    private AttackListViewMvc viewMvc;
     private AttackRepositoryReporter repository;
-    protected List<Attack> cachedAttacks;
+    private Set<Attack> cachedAttacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cachedAttacks = new ArrayList<>();
+        cachedAttacks = new HashSet<>();
         initializeRepository();
     }
 
@@ -70,8 +72,13 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (cachedAttacksExist(savedInstanceState)) {
-            viewMvc.bindAttacks(cachedAttacks);
+            bindAttacks();
         }
+    }
+
+    protected final void bindAttacks() {
+        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
+        viewMvc.bindAttacks(attacksCopy);
     }
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
@@ -99,8 +106,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public final void onSaveInstanceState(@NonNull Bundle outState) {
-        if (listHasItems(cachedAttacks)) {
-            outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
+        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
+        if (listHasItems(attacksCopy)) {
+            outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) attacksCopy);
         }
     }
 
@@ -116,14 +124,15 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     protected final void cacheAttackAndBind(Attack attack) {
         cachedAttacks.add(attack);
-        viewMvc.bindAttacks(cachedAttacks);
+        bindAttacks();
     }
 
     @Override
     public void onAttackItemClick(int position) {
-        if (listHasItems(cachedAttacks)) {
+        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
+        if (listHasItems(attacksCopy)) {
             if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
-                Attack attack = cachedAttacks.get(position);
+                Attack attack = attacksCopy.get(position);
                 JoinAttackActivity.startAnInstance(getContext(), attack);
             }
         }
@@ -139,7 +148,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onJoinSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
-            Attack attack = cachedAttacks.get(position);
+            List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
+            Attack attack = attacksCopy.get(position);
             AttackService.Action.stopAttack(attack, getContext());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
@@ -148,7 +158,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
-            Attack attack = cachedAttacks.get(position);
+            List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
+            Attack attack = attacksCopy.get(position);
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }

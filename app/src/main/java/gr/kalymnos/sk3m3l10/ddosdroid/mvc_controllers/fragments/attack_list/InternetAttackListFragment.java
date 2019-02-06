@@ -26,7 +26,7 @@ public class InternetAttackListFragment extends AttackListFragment {
     public void onAttackDelete(Attack deletedAttack) {
         if (deletedAttack.getNetworkType() == INTERNET) {
             deleteFromCacheAttackWith(deletedAttack.getPushId());
-            viewMvc.bindAttacks(cachedAttacks);
+            bindAttacks();
         }
     }
 }

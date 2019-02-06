@@ -37,7 +37,7 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     public void onAttackDelete(Attack deletedAttack) {
         if (deletedAttack.getNetworkType() == BLUETOOTH) {
             deleteFromCacheAttackWith(deletedAttack.getPushId());
-            viewMvc.bindAttacks(cachedAttacks);
+            bindAttacks();
         }
     }
 }
