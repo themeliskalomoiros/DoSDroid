@@ -131,16 +131,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onAttackItemClick(int position) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
         if (listHasItems(attacksCopy)) {
-            if (getContentType(getArguments()) == FETCH_ONLY_NOT_JOINED_ATTACKS) {
+            if (getContentType() == FETCH_ONLY_NOT_JOINED_ATTACKS) {
                 Attack attack = attacksCopy.get(position);
                 JoinAttackActivity.startAnInstance(getContext(), attack);
             }
         }
     }
 
-    protected final int getContentType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
-            return bundle.getInt(EXTRA_CONTENT_TYPE);
+    protected final int getContentType() {
+        if (bundleIsValidAndContainsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
+            return getArguments().getInt(EXTRA_CONTENT_TYPE);
         }
         return INVALID_CONTENT_TYPE;
     }
