@@ -21,12 +21,4 @@ public class BluetoothAttackListFragment extends AttackListFragment {
             cacheAttackAndBind(changedAttack);
         }
     }
-
-    @Override
-    public void onAttackDelete(Attack deletedAttack) {
-        if (deletedAttack.getNetworkType() == BLUETOOTH) {
-            deleteFromCacheAttackWith(deletedAttack.getPushId());
-            bindAttacks();
-        }
-    }
 }

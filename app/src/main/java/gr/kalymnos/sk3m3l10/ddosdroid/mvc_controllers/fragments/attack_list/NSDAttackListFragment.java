@@ -21,12 +21,4 @@ public class NSDAttackListFragment extends AttackListFragment {
             cacheAttackAndBind(changedAttack);
         }
     }
-
-    @Override
-    public void onAttackDelete(Attack deletedAttack) {
-        if (deletedAttack.getNetworkType() == NSD) {
-            deleteFromCacheAttackWith(deletedAttack.getPushId());
-            bindAttacks();
-        }
-    }
 }

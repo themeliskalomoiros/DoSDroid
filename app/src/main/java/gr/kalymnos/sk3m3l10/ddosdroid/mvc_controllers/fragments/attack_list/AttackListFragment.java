@@ -30,6 +30,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -112,16 +113,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
-    protected final void deleteFromCacheAttackWith(String attackId) {
-        Iterator<Attack> iterator = cachedAttacks.iterator();
-        while (iterator.hasNext()) {
-            boolean foundAttack = iterator.next().getPushId().equals(attackId);
-            if (foundAttack) {
-                iterator.remove();
-            }
-        }
-    }
-
     protected final void cacheAttackAndBind(Attack attack) {
         cachedAttacks.add(attack);
         bindAttacks();
@@ -162,6 +153,24 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             Attack attack = attacksCopy.get(position);
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public final void onAttackDelete(Attack deletedAttack) {
+        if (deletedAttack.getNetworkType() == INTERNET) {
+            deleteFromCacheAttackWith(deletedAttack.getPushId());
+            bindAttacks();
+        }
+    }
+
+    protected void deleteFromCacheAttackWith(String attackId) {
+        Iterator<Attack> iterator = cachedAttacks.iterator();
+        while (iterator.hasNext()) {
+            boolean foundAttack = iterator.next().getPushId().equals(attackId);
+            if (foundAttack) {
+                iterator.remove();
+            }
         }
     }
 

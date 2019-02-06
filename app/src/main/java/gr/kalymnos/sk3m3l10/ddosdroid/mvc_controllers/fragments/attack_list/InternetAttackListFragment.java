@@ -1,7 +1,9 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 
 public class InternetAttackListFragment extends AttackListFragment {
@@ -17,16 +19,10 @@ public class InternetAttackListFragment extends AttackListFragment {
     @Override
     public void onAttackUpdate(Attack changedAttack) {
         if (changedAttack.getNetworkType() == INTERNET) {
-            deleteFromCacheAttackWith(changedAttack.getPushId());
-            cacheAttackAndBind(changedAttack);
-        }
-    }
-
-    @Override
-    public void onAttackDelete(Attack deletedAttack) {
-        if (deletedAttack.getNetworkType() == INTERNET) {
-            deleteFromCacheAttackWith(deletedAttack.getPushId());
-            bindAttacks();
+            if (FETCH_ONLY_JOINED_ATTACKS == getContentType()) {
+                deleteFromCacheAttackWith(changedAttack.getPushId());
+                cacheAttackAndBind(changedAttack);
+            }
         }
     }
 }
