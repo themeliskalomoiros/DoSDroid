@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.MainActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
@@ -33,7 +31,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.T
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
@@ -150,9 +148,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
-    protected int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
-            return bundle.getInt(EXTRA_TYPE);
+    protected final int getAttacksType(Bundle bundle) {
+        if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
+            return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
         return TYPE_NONE;
     }
@@ -234,7 +232,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         @NonNull
         protected static Bundle createFragmentArgs(int attacksType) {
             Bundle args = new Bundle();
-            args.putInt(EXTRA_TYPE, attacksType);
+            args.putInt(EXTRA_CONTENT_TYPE, attacksType);
             return args;
         }
     }

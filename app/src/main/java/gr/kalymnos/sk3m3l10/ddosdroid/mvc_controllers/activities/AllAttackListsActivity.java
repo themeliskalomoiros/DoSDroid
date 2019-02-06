@@ -14,7 +14,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackLis
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
 
 public class AllAttackListsActivity extends AppCompatActivity {
@@ -42,8 +42,8 @@ public class AllAttackListsActivity extends AppCompatActivity {
     }
 
     private int getAttacksType(Bundle bundle) {
-        if (bundleIsValidAndContainsKey(bundle, EXTRA_TYPE)) {
-            return bundle.getInt(EXTRA_TYPE);
+        if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
+            return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
         return TYPE_NONE;
     }
@@ -68,7 +68,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
         @NonNull
         private static Bundle createBundle(int attackType, String title) {
             Bundle extras = new Bundle();
-            extras.putInt(EXTRA_TYPE, attackType);
+            extras.putInt(EXTRA_CONTENT_TYPE, attackType);
             extras.putString(AllAttackListsActivity.EXTRA_TITLE, title);
             return extras;
         }
