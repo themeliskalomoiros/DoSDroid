@@ -16,8 +16,12 @@ public abstract class AttackRepositoryReporter {
         void onAttackDelete(Attack deletedAttack);
     }
 
-    public final void setOnRepositoryChangeListener(OnRepositoryChangeListener listener) {
+    public final void addOnRepositoryChangeListener(OnRepositoryChangeListener listener) {
         this.onRepositoryChangeListener = listener;
+    }
+
+    public final void removeOnRepositoryChangeListener() {
+        onRepositoryChangeListener = null;
     }
 
     public abstract void attach();

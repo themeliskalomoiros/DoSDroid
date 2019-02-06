@@ -35,7 +35,6 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
     @Override
     public void detach() {
         allAttacksRef.removeEventListener(this);
-        this.onRepositoryChangeListener = null;
     }
 
     @Override
