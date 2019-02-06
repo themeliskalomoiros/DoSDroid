@@ -116,6 +116,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
+    protected final void cacheAttackAndBind(Attack attack) {
+        cachedAttacks.add(attack);
+        viewMvc.bindAttacks(cachedAttacks);
+    }
+
     @Override
     public void onAttackItemClick(int position) {
         if (listHasItems(cachedAttacks)) {
