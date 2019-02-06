@@ -16,11 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.MainActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -155,18 +157,17 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onJoinSwitchCheckedState(int position, boolean isChecked) {
-        Toast.makeText(getContext(), "Item at position" + (position) + " switch set to " + isChecked, Toast.LENGTH_SHORT).show();
+        if (!isChecked) {
+            Attack attack = cachedAttacks.get(position);
+            AttackService.Action.stopAttack(attack, getContext());
+        }
     }
 
     @Override
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
-        Attack attack = cachedAttacks.get(position);
-        if (isChecked) {
-            ServersHost.Action.startServer(getContext(), attack);
-            Log.d(TAG, "Started a server");
-        } else {
+        if (!isChecked) {
+            Attack attack = cachedAttacks.get(position);
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
-            Log.d(TAG, "Stopped a server");
         }
     }
 
