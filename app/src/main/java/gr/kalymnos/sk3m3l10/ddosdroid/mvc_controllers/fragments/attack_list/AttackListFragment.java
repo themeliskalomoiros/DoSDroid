@@ -105,13 +105,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        repository.detach();
-    }
-
+    
     @Override
     public void onAttackItemClick(int position) {
         if (listHasItems(cachedAttacks)) {
