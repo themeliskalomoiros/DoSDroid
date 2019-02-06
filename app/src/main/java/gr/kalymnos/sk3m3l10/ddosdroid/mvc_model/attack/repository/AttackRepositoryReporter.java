@@ -6,18 +6,18 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public abstract class AttackRepositoryReporter {
-    protected OnAttackNodeListener onAttackNodeListener;
+    protected OnRepositoryChangeListener onRepositoryChangeListener;
 
-    public interface OnAttackNodeListener {
-        void onAttackAddedToRepository(Attack attack);
+    public interface OnRepositoryChangeListener {
+        void onAttackUpload(Attack attack);
 
-        void onAttackChangedInRepository(Attack changedAttack);
+        void onAttackUpdate(Attack changedAttack);
 
-        void onAttackDeletedFromRepository(Attack deletedAttack);
+        void onAttackDelete(Attack deletedAttack);
     }
 
-    public final void setOnAttackNodeListener(OnAttackNodeListener listener) {
-        this.onAttackNodeListener = listener;
+    public final void setOnRepositoryChangeListener(OnRepositoryChangeListener listener) {
+        this.onRepositoryChangeListener = listener;
     }
 
     public abstract void attach();

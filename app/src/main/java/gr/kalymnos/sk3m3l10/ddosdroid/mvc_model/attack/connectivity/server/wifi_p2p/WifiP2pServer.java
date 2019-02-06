@@ -93,7 +93,7 @@ public class WifiP2pServer extends Server {
     private void initializeGroupInfoListener() {
         groupInfoListener = group -> {
             if (group.isGroupOwner() && !attackUploaded) {
-                uploadAttack(group); // triggers onAttackUploaded()
+                uploadAttack(group); // triggers onAttackUpload()
             }
         };
     }

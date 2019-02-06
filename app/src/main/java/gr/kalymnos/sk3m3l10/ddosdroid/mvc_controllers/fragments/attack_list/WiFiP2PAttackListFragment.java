@@ -42,8 +42,8 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
     }
 
     @Override
-    public void onAttackAddedToRepository(Attack attack) {
-        Log.d(TAG, "onAttackAddedToRepository()");
+    public void onAttackUpload(Attack attack) {
+        Log.d(TAG, "onAttackUpload()");
         boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
         boolean isWifiP2pAttack = attack.getNetworkType() == WIFI_P2P;
         if (isNotJoinedAttackListFragment && isWifiP2pAttack) {
@@ -53,8 +53,8 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
     }
 
     @Override
-    public void onAttackChangedInRepository(Attack changedAttack) {
-        Log.d(TAG, "onAttackChangedInRepository()");
+    public void onAttackUpdate(Attack changedAttack) {
+        Log.d(TAG, "onAttackUpdate()");
         if (changedAttack.getNetworkType() == WIFI_P2P) {
             int attacksType = getAttacksType(getArguments());
 

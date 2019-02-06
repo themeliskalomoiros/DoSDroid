@@ -39,8 +39,8 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     }
 
     @Override
-    public void onAttackAddedToRepository(Attack attack) {
-        Log.d(TAG, "onAttackAddedToRepository()");
+    public void onAttackUpload(Attack attack) {
+        Log.d(TAG, "onAttackUpload()");
         boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
         boolean isBluetoothAttack = attack.getNetworkType() == BLUETOOTH;
         if (isNotJoinedAttackListFragment && isBluetoothAttack) {
@@ -50,8 +50,8 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     }
 
     @Override
-    public void onAttackChangedInRepository(Attack changedAttack) {
-        Log.d(TAG, "onAttackChangedInRepository()");
+    public void onAttackUpdate(Attack changedAttack) {
+        Log.d(TAG, "onAttackUpdate()");
         if (changedAttack.getNetworkType() == BLUETOOTH) {
             int attacksType = getAttacksType(getArguments());
 

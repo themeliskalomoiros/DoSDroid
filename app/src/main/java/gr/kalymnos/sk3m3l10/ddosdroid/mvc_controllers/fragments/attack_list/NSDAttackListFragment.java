@@ -42,8 +42,8 @@ public class NSDAttackListFragment extends AttackListFragment {
     }
 
     @Override
-    public void onAttackAddedToRepository(Attack attack) {
-        Log.d(TAG, "onAttackAddedToRepository()");
+    public void onAttackUpload(Attack attack) {
+        Log.d(TAG, "onAttackUpload()");
         boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
         boolean isNsdAttack = attack.getNetworkType() == NSD;
         if (isNotJoinedAttackListFragment && isNsdAttack) {
@@ -53,8 +53,8 @@ public class NSDAttackListFragment extends AttackListFragment {
     }
 
     @Override
-    public void onAttackChangedInRepository(Attack changedAttack) {
-        Log.d(TAG, "onAttackChangedInRepository()");
+    public void onAttackUpdate(Attack changedAttack) {
+        Log.d(TAG, "onAttackUpdate()");
         if (changedAttack.getNetworkType() == NSD) {
             int attacksType = getAttacksType(getArguments());
 

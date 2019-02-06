@@ -35,7 +35,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
-        AttackRepositoryReporter.OnAttackNodeListener {
+        AttackRepositoryReporter.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
 
     protected AttackListViewMvc viewMvc;
@@ -51,7 +51,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void initializeRepository() {
         repository = new FirebaseRepositoryReporter();
-        repository.setOnAttackNodeListener(this);
+        repository.setOnRepositoryChangeListener(this);
     }
 
     @Nullable
@@ -105,7 +105,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
         }
     }
-    
+
     @Override
     public void onAttackItemClick(int position) {
         if (listHasItems(cachedAttacks)) {
@@ -140,27 +140,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             Attack attack = cachedAttacks.get(position);
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onAttackDeletedFromRepository(Attack deletedAttack) {
-        Log.d(TAG, "onAttackDeletedFromRepository()");
-        removeAttackFromCachedAttacks(deletedAttack);
-    }
-
-    private void removeAttackFromCachedAttacks(Attack attack) {
-        deleteFromCachedAttacksAndBind(attack);
-    }
-
-    protected void deleteFromCachedAttacksAndBind(Attack attack) {
-        Iterator<Attack> iterator = cachedAttacks.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getPushId().equals(attack.getPushId())) {
-                iterator.remove();
-                viewMvc.bindAttacks(cachedAttacks);
-                break;
-            }
         }
     }
 
