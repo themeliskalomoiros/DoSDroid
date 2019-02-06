@@ -73,9 +73,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         super.onActivityCreated(savedInstanceState);
         if (cachedAttacksExist(savedInstanceState)) {
             viewMvc.bindAttacks(cachedAttacks);
-        } else {
-            viewMvc.showLoadingIndicator();
-            fetchAttacksAccordingToType();
         }
     }
 
