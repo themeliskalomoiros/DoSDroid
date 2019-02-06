@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cachedAttacks = new HashSet<>();
+        cachedAttacks = new LinkedHashSet<>();
         initializeRepository();
     }
 
