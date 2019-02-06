@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -35,6 +36,34 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
     public void detach() {
         allAttacksRef.removeEventListener(this);
         this.onAttackNodeListener = null;
+    }
+
+    @Override
+    public void upload(Attack attack) {
+        allAttacksRef.child(attack.getPushId()).setValue(attack, null);
+    }
+
+    @Override
+    public void update(Attack attack) {
+        //  TODO: maybe can be refactored to allAttacksRef.child(attack.getPushId()).setValue(attack);
+        allAttacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                    if (snapshot.getKey().equals(attack.getPushId()))
+                        snapshot.getRef().setValue(attack);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    @Override
+    public void delete(String attackId) {
+        DatabaseReference attackRef = allAttacksRef.child(attackId);
+        attackRef.removeValue();
     }
 
     @Override

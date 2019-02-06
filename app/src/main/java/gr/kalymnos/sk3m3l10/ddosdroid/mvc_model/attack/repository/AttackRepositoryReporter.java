@@ -28,5 +28,5 @@ public abstract class AttackRepositoryReporter {
 
     public abstract void update(Attack attack);
 
-    public abstract void delete(Attack attack);
+    public abstract void delete(String attackId);
 }
