@@ -28,6 +28,11 @@ public class InternetAttackListFragment extends AttackListFragment {
     }
 
     @Override
+    public void onAttackDelete(Attack deletedAttack) {
+
+    }
+
+    @Override
     public void onAttackItemClick(int position) {
 
     }

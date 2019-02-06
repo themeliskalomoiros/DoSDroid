@@ -20,73 +20,32 @@ public class NSDAttackListFragment extends AttackListFragment {
     private static final String TAG = AttackListFragment.TAG + "NSD";
 
     @Override
-    protected void fetchAttacksAccordingToType() {
-        switch (getAttacksType(getArguments())) {
-            case TYPE_FETCH_ALL:
-                attackRepo.fetchAllAttacksOf(NSD);
-                break;
-            case TYPE_FETCH_JOINED:
-                //  TODO: when the fake attack repo is removed replace "bot3" argument with userId variable
-                //  String userId = Bot.getLocalUser().getId();
-                attackRepo.fetchJoinedAttakcsOf(Bots.getLocalUser().getId(), NSD);
-                break;
-            case TYPE_FETCH_OWNER:
-                attackRepo.fetchLocalOwnerAttacksOf(NSD);
-                break;
-            case TYPE_FETCH_NOT_JOINED:
-                attackRepo.fetchNotJoinedAttacksOf(Bots.getLocalUser().getId(), NSD);
-                break;
-            default:
-                throw new UnsupportedOperationException(TAG + ": Type of attacks to fetch not specified");
-        }
-    }
-
-    @Override
     public void onAttackUpload(Attack attack) {
-        Log.d(TAG, "onAttackUpload()");
-        boolean isNotJoinedAttackListFragment = getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED;
-        boolean isNsdAttack = attack.getNetworkType() == NSD;
-        if (isNotJoinedAttackListFragment && isNsdAttack) {
-            cachedAttacks.add(attack);
-            viewMvc.bindAttacks(cachedAttacks);
-        }
+
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
-        Log.d(TAG, "onAttackUpdate()");
-        if (changedAttack.getNetworkType() == NSD) {
-            int attacksType = getAttacksType(getArguments());
 
-            if (Attacks.includes(changedAttack, Bots.getLocalUser())) {
-                if (attacksType == TYPE_FETCH_JOINED) {
-                    displayChangedAttack(changedAttack);
-                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
-                    deleteFromCachedAttacksAndBind(changedAttack);
-                }
-            } else {
-                if (attacksType == TYPE_FETCH_JOINED) {
-                    deleteFromCachedAttacksAndBind(changedAttack);
-                } else if (attacksType == TYPE_FETCH_NOT_JOINED) {
-                    displayChangedAttack(changedAttack);
-                }
-            }
-        }
     }
 
-    private void displayChangedAttack(Attack changedAttack) {
-        deleteAttackWithSameIdAs(changedAttack);
-        cachedAttacks.add(changedAttack);
-        viewMvc.bindAttacks(cachedAttacks);
+    @Override
+    public void onAttackDelete(Attack deletedAttack) {
+
     }
 
-    private void deleteAttackWithSameIdAs(Attack attack) {
-        Iterator<Attack> iterator = cachedAttacks.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getPushId().equals(attack.getPushId())) {
-                iterator.remove();
-                break;
-            }
-        }
+    @Override
+    public void onAttackItemClick(int position) {
+
+    }
+
+    @Override
+    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
+
+    }
+
+    @Override
+    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
+
     }
 }
