@@ -18,10 +18,8 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
@@ -37,34 +35,26 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
-        AttackRepository.OnAttacksFetchListener, AttackRepositoryReporter.OnAttackNodeListener {
+        AttackRepositoryReporter.OnAttackNodeListener {
     protected static final String TAG = "AttackListFrag";
 
     protected AttackListViewMvc viewMvc;
-    protected AttackRepository attackRepo;
-    private AttackRepositoryReporter attackRepoReporter;
+    private AttackRepositoryReporter repository;
     protected List<Attack> cachedAttacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeAttackRepo();
-        initializeAttackRepoReporter();
         cachedAttacks = new ArrayList<>();
+        initializeRepository();
     }
 
-    private void initializeAttackRepo() {
-        attackRepo = new FirebaseRepository();
-        attackRepo.addOnAttacksFetchListener(this);
+    private void initializeRepository() {
+        repository = new FirebaseRepositoryReporter();
+        repository.setOnAttackNodeListener(this);
+        repository.attach();
     }
-
-    private void initializeAttackRepoReporter() {
-        attackRepoReporter = new FirebaseRepositoryReporter();
-        attackRepoReporter.setOnAttackNodeListener(this);
-        attackRepoReporter.attach();
-    }
-
-
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -113,27 +103,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onDestroy() {
         super.onDestroy();
-        removeFetchingAttacksListener();
-        attackRepoReporter.detach();
-    }
-
-    private void removeFetchingAttacksListener() {
-        if (attackRepo != null) {
-            attackRepo.removeOnAttacksFetchListener();
-            attackRepo = null;
-        }
-    }
-
-    @Override
-    public void attacksFetched(List<Attack> attacks) {
-        cachedAttacks = attacks;
-        viewMvc.hideLoadingIndicator();
-        viewMvc.bindAttacks(cachedAttacks);
-    }
-
-    @Override
-    public void attacksFetchedFail(String msg) {
-        //  TODO: Display the error somewhere besides the toast
+        repository.detach();
     }
 
     @Override
