@@ -108,4 +108,25 @@ public class Attack implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+    //  Overriding equality. Two objects are equal when their id's are equal.
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Attack))
+            return false;
+
+        Attack attack = (Attack) obj;
+        return this.getPushId().equals(attack.getPushId());
+    }
+
+    //  This technique is taken from the book Effective Java, Second Edition, Item 9.
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + this.getPushId().hashCode();
+        return result;
+    }
 }
