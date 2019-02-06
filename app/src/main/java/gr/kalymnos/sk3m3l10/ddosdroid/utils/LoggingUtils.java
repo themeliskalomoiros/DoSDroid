@@ -1,24 +1,24 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_ALL;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ALL_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_NOT_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_OWNER_ATTACKS;
 
 public final class LoggingUtils {
 
     public static String getAttackTypeName(int type) {
         switch (type) {
-            case TYPE_FETCH_ALL:
-                return "TYPE_FETCH_ALL";
-            case TYPE_FETCH_JOINED:
-                return "TYPE_FETCH_JOINED";
-            case TYPE_FETCH_NOT_JOINED:
-                return "TYPE_FETCH_NOT_JOINED";
-            case TYPE_FETCH_OWNER:
-                return "TYPE_FETCH_OWNER";
+            case FETCH_ALL_ATTACKS:
+                return "FETCH_ALL_ATTACKS";
+            case FETCH_ONLY_JOINED_ATTACKS:
+                return "FETCH_ONLY_JOINED_ATTACKS";
+            case FETCH_ONLY_NOT_JOINED_ATTACKS:
+                return "FETCH_ONLY_NOT_JOINED_ATTACKS";
+            case FETCH_ONLY_OWNER_ATTACKS:
+                return "FETCH_ONLY_OWNER_ATTACKS";
             default:
-                return "TYPE_NONE";
+                return "INVALID_CONTENT_TYPE";
         }
     }
 }

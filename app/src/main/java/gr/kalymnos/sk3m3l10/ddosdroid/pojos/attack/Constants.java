@@ -4,12 +4,12 @@ public interface Constants {
     //  Search for "Android E/Parcel: Class not found when unmarshalling (only Samsung Tab3) on StackOverflow"
     String BUNDLE_SAMSUNG_BUG_KEY = "bundle_bug_key_for_samsung_phones";
 
-    interface AttackType {
-        int TYPE_FETCH_ALL = 101;
-        int TYPE_FETCH_JOINED = 102;
-        int TYPE_FETCH_NOT_JOINED = 103;
-        int TYPE_FETCH_OWNER = 104;
-        int TYPE_NONE = -1;
+    interface ContentType {
+        int FETCH_ALL_ATTACKS = 101;
+        int FETCH_ONLY_JOINED_ATTACKS = 102;
+        int FETCH_ONLY_NOT_JOINED_ATTACKS = 103;
+        int FETCH_ONLY_OWNER_ATTACKS = 104;
+        int INVALID_CONTENT_TYPE = -1;
     }
 
     interface NetworkType {

@@ -26,8 +26,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListVi
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_NOT_JOINED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_NONE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_NOT_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
@@ -131,7 +131,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onAttackItemClick(int position) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
         if (listHasItems(attacksCopy)) {
-            if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
+            if (getAttacksType(getArguments()) == FETCH_ONLY_NOT_JOINED_ATTACKS) {
                 Attack attack = attacksCopy.get(position);
                 JoinAttackActivity.startAnInstance(getContext(), attack);
             }
@@ -142,7 +142,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
             return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
-        return TYPE_NONE;
+        return INVALID_CONTENT_TYPE;
     }
 
     @Override

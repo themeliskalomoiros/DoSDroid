@@ -26,7 +26,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_JOINED;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_JOINED_ATTACKS;
 
 public class AttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "AttackService";
@@ -173,7 +173,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
 
         PendingIntent createContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(AttackService.this, TYPE_FETCH_JOINED, R.string.joined_attacks_label);
+            Intent intent = AllAttackListsActivity.Action.createIntent(AttackService.this, FETCH_ONLY_JOINED_ATTACKS, R.string.joined_attacks_label);
             return PendingIntent.getActivity(AttackService.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 

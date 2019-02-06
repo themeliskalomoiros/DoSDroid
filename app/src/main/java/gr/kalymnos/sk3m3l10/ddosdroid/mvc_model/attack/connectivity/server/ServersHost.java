@@ -24,7 +24,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.statu
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost.ForegroundNotification.NOTIFICATION_ID;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.AttackType.TYPE_FETCH_OWNER;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_OWNER_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
 public class ServersHost extends Service {
@@ -182,7 +182,7 @@ public class ServersHost extends Service {
         }
 
         PendingIntent createContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this, TYPE_FETCH_OWNER, R.string.your_attacks_label);
+            Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this, FETCH_ONLY_OWNER_ATTACKS, R.string.your_attacks_label);
             return PendingIntent.getActivity(ServersHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
