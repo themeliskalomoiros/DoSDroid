@@ -32,19 +32,4 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     public void onAttackDelete(Attack deletedAttack) {
 
     }
-
-    @Override
-    public void onAttackItemClick(int position) {
-
-    }
-
-    @Override
-    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
-
-    }
-
-    @Override
-    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
-
-    }
 }

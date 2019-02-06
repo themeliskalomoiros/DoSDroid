@@ -106,11 +106,39 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
+    @Override
+    public void onAttackItemClick(int position) {
+        if (listHasItems(cachedAttacks)) {
+            if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
+                Attack attack = cachedAttacks.get(position);
+                JoinAttackActivity.startAnInstance(getContext(), attack);
+            }
+        }
+    }
+
     protected final int getAttacksType(Bundle bundle) {
         if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
             return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
         return TYPE_NONE;
+    }
+
+    @Override
+    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
+        if (!isChecked) {
+            Attack attack = cachedAttacks.get(position);
+            AttackService.Action.stopAttack(attack, getContext());
+            Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
+        if (!isChecked) {
+            Attack attack = cachedAttacks.get(position);
+            ServersHost.Action.stopServer(getContext(), attack.getPushId());
+            Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     /*

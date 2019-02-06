@@ -19,31 +19,22 @@ public class InternetAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpload(Attack attack) {
+        if (attack.getNetworkType() == INTERNET) {
 
+        }
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
+        if (changedAttack.getNetworkType() == INTERNET) {
 
+        }
     }
 
     @Override
     public void onAttackDelete(Attack deletedAttack) {
+        if (deletedAttack.getNetworkType() == INTERNET) {
 
-    }
-
-    @Override
-    public void onAttackItemClick(int position) {
-
-    }
-
-    @Override
-    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
-
-    }
-
-    @Override
-    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
-
+        }
     }
 }
