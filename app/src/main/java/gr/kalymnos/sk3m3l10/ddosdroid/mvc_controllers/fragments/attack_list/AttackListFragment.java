@@ -100,21 +100,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public final void onSaveInstanceState(@NonNull Bundle outState) {
         if (listHasItems(cachedAttacks)) {
             outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) cachedAttacks);
-        }
-    }
-    
-    @Override
-    public void onAttackItemClick(int position) {
-        if (listHasItems(cachedAttacks)) {
-            if (getAttacksType(getArguments()) == TYPE_FETCH_NOT_JOINED) {
-                Attack attack = cachedAttacks.get(position);
-                JoinAttackActivity.startAnInstance(getContext(), attack);
-            } else if (getAttacksType(getArguments()) == TYPE_FETCH_JOINED) {
-                //  TODO: what sould be done when user clicked an attack that he already joined?
-            }
         }
     }
 
@@ -123,24 +111,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
         return TYPE_NONE;
-    }
-
-    @Override
-    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
-        if (!isChecked) {
-            Attack attack = cachedAttacks.get(position);
-            AttackService.Action.stopAttack(attack, getContext());
-            Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
-        if (!isChecked) {
-            Attack attack = cachedAttacks.get(position);
-            ServersHost.Action.stopServer(getContext(), attack.getPushId());
-            Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
-        }
     }
 
     @Override
