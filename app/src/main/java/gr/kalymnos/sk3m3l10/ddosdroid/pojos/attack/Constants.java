@@ -5,10 +5,9 @@ public interface Constants {
     String BUNDLE_SAMSUNG_BUG_KEY = "bundle_bug_key_for_samsung_phones";
 
     interface ContentType {
-        int FETCH_ALL_ATTACKS = 101;
-        int FETCH_ONLY_JOINED_ATTACKS = 102;
-        int FETCH_ONLY_NOT_JOINED_ATTACKS = 103;
-        int FETCH_ONLY_OWNER_ATTACKS = 104;
+        int FETCH_ONLY_USER_JOINED_ATTACKS = 102;
+        int FETCH_ONLY_USER_NOT_JOINED_ATTACKS = 103;
+        int FETCH_ONLY_USER_OWN_ATTACKS = 104;
         int INVALID_CONTENT_TYPE = -1;
     }
 

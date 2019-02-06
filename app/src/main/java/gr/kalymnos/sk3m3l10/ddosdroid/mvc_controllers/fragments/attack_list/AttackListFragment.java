@@ -25,8 +25,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_NOT_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
@@ -77,11 +81,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
-    protected final void bindAttacks() {
-        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        viewMvc.bindAttacks(attacksCopy);
-    }
-
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
         if (bundleIsValidAndContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
             List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
@@ -91,6 +90,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             }
         }
         return false;
+    }
+
+    protected final void bindAttacks() {
+        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
+        viewMvc.bindAttacks(attacksCopy);
     }
 
     @Override
@@ -113,16 +117,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
-    protected final void cacheAttackAndBind(Attack attack) {
-        cachedAttacks.add(attack);
-        bindAttacks();
-    }
-
     @Override
     public void onAttackItemClick(int position) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
         if (listHasItems(attacksCopy)) {
-            if (getContentType() == FETCH_ONLY_NOT_JOINED_ATTACKS) {
+            if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
                 Attack attack = attacksCopy.get(position);
                 JoinAttackActivity.startAnInstance(getContext(), attack);
             }
@@ -164,7 +163,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
-    protected void deleteFromCacheAttackWith(String attackId) {
+    protected final void deleteFromCacheAttackWith(String attackId) {
         Iterator<Attack> iterator = cachedAttacks.iterator();
         while (iterator.hasNext()) {
             boolean foundAttack = iterator.next().getPushId().equals(attackId);
@@ -172,6 +171,28 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
                 iterator.remove();
             }
         }
+    }
+
+    protected final void cacheAttackAndBindAccordingToContentType(Attack attack) {
+        if (getContentType() == FETCH_ONLY_USER_JOINED_ATTACKS) {
+            if (Attacks.includes(attack, Bots.getLocalUser())) {
+                cacheAttackAndBind(attack);
+            }
+        } else if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
+            boolean attackNotBelongToLocalUser = !Attacks.includes(attack, Bots.getLocalUser()) && !Attacks.ownedBy(attack, Bots.getLocalUser());
+            if (attackNotBelongToLocalUser) {
+                cacheAttackAndBind(attack);
+            }
+        } else if (getContentType() == FETCH_ONLY_USER_OWN_ATTACKS) {
+            if (Attacks.ownedBy(attack, Bots.getLocalUser())) {
+                cacheAttackAndBind(attack);
+            }
+        }
+    }
+
+    private void cacheAttackAndBind(Attack attack) {
+        cachedAttacks.add(attack);
+        bindAttacks();
     }
 
     /*

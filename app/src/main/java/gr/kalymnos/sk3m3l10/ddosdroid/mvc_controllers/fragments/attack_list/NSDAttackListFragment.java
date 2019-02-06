@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
 
 public class NSDAttackListFragment extends AttackListFragment {
@@ -9,16 +10,15 @@ public class NSDAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpload(Attack attack) {
-        if (attack.getNetworkType() == NSD) {
-            cacheAttackAndBind(attack);
-        }
+        if (attack.getNetworkType() == NSD)
+            cacheAttackAndBindAccordingToContentType(attack);
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
         if (changedAttack.getNetworkType() == NSD) {
             deleteFromCacheAttackWith(changedAttack.getPushId());
-            cacheAttackAndBind(changedAttack);
+            cacheAttackAndBindAccordingToContentType(changedAttack);
         }
     }
 }
