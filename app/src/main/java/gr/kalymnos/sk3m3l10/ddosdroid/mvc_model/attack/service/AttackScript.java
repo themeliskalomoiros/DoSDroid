@@ -8,6 +8,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+    /*
+        This class works only with an existing website.
+        Otherwise readUrl() obtains null InputStream.
+        Ideally the app should inform the user on that case.
+    */
+
 public class AttackScript extends Thread {
     private static final String TAG = "AttackScript";
     private URL url;
@@ -45,7 +51,11 @@ public class AttackScript extends Thread {
 
     private void closeInputStream(InputStream in) {
         try {
-            in.close();
+            if (in != null) {
+                in.close();
+            } else {
+                Log.w(TAG, "inputStream is null. Is " + url + " a valid website?");
+            }
         } catch (IOException e) {
             Log.e(TAG, "Error while closing the input stream.", e);
         }
