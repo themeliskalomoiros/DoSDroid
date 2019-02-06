@@ -131,14 +131,14 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onAttackItemClick(int position) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
         if (listHasItems(attacksCopy)) {
-            if (getAttacksType(getArguments()) == FETCH_ONLY_NOT_JOINED_ATTACKS) {
+            if (getContentType(getArguments()) == FETCH_ONLY_NOT_JOINED_ATTACKS) {
                 Attack attack = attacksCopy.get(position);
                 JoinAttackActivity.startAnInstance(getContext(), attack);
             }
         }
     }
 
-    protected final int getAttacksType(Bundle bundle) {
+    protected final int getContentType(Bundle bundle) {
         if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
             return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
@@ -172,15 +172,15 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
      * */
 
     public interface Builder {
-        AttackListFragment build(String tabTitle, int attackType);
+        AttackListFragment build(String tabTitle, int contentType);
     }
 
     public static class BuilderImp implements Builder {
 
         @Override
-        public AttackListFragment build(String tabTitle, int attackType) {
+        public AttackListFragment build(String tabTitle, int contentType) {
             AttackListFragment instance = getAttackListFragmentImplFromTabTitle(tabTitle);
-            instance.setArguments(createFragmentArgs(attackType));
+            instance.setArguments(createFragmentArgs(contentType));
             return instance;
         }
 
@@ -201,9 +201,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
 
         @NonNull
-        protected static Bundle createFragmentArgs(int attacksType) {
+        protected static Bundle createFragmentArgs(int contentType) {
             Bundle args = new Bundle();
-            args.putInt(EXTRA_CONTENT_TYPE, attacksType);
+            args.putInt(EXTRA_CONTENT_TYPE, contentType);
             return args;
         }
     }

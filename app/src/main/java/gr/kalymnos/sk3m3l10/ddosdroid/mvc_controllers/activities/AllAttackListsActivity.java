@@ -38,10 +38,10 @@ public class AllAttackListsActivity extends AppCompatActivity {
 
     private void initializeViewMvc() {
         viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null,
-                getSupportFragmentManager(), getAttacksType(getIntent().getExtras()));
+                getSupportFragmentManager(), getContentType(getIntent().getExtras()));
     }
 
-    private int getAttacksType(Bundle bundle) {
+    private int getContentType(Bundle bundle) {
         if (bundleIsValidAndContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
             return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
@@ -59,16 +59,16 @@ public class AllAttackListsActivity extends AppCompatActivity {
         }
 
         @NonNull
-        public static Intent createIntent(Context context, int attackType, int titleRes) {
+        public static Intent createIntent(Context context, int contentType, int titleRes) {
             Intent intent = new Intent(context, AllAttackListsActivity.class);
-            intent.putExtras(createBundle(attackType, context.getString(titleRes)));
+            intent.putExtras(createBundle(contentType, context.getString(titleRes)));
             return intent;
         }
 
         @NonNull
-        private static Bundle createBundle(int attackType, String title) {
+        private static Bundle createBundle(int contentType, String title) {
             Bundle extras = new Bundle();
-            extras.putInt(EXTRA_CONTENT_TYPE, attackType);
+            extras.putInt(EXTRA_CONTENT_TYPE, contentType);
             extras.putString(AllAttackListsActivity.EXTRA_TITLE, title);
             return extras;
         }

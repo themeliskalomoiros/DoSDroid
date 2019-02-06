@@ -21,11 +21,10 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
+    private int contentType;
 
-    private int attackType;
-
-    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int attackType) {
-        this.attackType = attackType;
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
+        this.contentType = contentType;
         initializeViews(inflater, container, fragmentManager);
     }
 
@@ -56,7 +55,7 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     }
 
     private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
-        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), attackType);
+        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
         viewPager = root.findViewById(R.id.viewPager);
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = root.findViewById(R.id.tabLayout);
@@ -70,18 +69,18 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
         private String[] titles;
-        private int attackType;
+        private int contentType;
 
-        public MyPagerAdapter(FragmentManager fm, String[] titles, int attackType) {
+        public MyPagerAdapter(FragmentManager fm, String[] titles, int contentType) {
             super(fm);
             this.titles = titles;
-            this.attackType = attackType;
+            this.contentType = contentType;
         }
 
         @Override
         public Fragment getItem(int position) {
             AttackListFragment.Builder builder = new AttackListFragment.BuilderImp();
-            return builder.build(titles[position], attackType);
+            return builder.build(titles[position], contentType);
         }
 
         @Nullable
