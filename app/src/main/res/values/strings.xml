@@ -60,6 +60,8 @@
     <string name="client_notification_small_text">Your device is taking part at DDOS attacks on specific websites.</string>
     <string name="client_notification_big_text">Your device is taking part at DDOS  (Denial-of-services) attacks on specific websites. Denial of service is typically accomplished by flooding the targeted machine or resource with superfluous requests in an attempt to overfload the system.</string>
     <string name="joined_attacks_label">Joined attacks</string>
+    <string name="not_following_attack">You are no longer attacking</string>
+    <string name="canceled_attack">You canceled the attack on</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.MainActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
@@ -160,6 +162,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         if (!isChecked) {
             Attack attack = cachedAttacks.get(position);
             AttackService.Action.stopAttack(attack, getContext());
+            Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -168,6 +171,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         if (!isChecked) {
             Attack attack = cachedAttacks.get(position);
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
+            Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
 
