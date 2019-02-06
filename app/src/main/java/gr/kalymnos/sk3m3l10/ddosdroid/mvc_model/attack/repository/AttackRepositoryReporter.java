@@ -23,4 +23,10 @@ public abstract class AttackRepositoryReporter {
     public abstract void attach();
 
     public abstract void detach();
+
+    public abstract void upload(Attack attack);
+
+    public abstract void update(Attack attack);
+
+    public abstract void delete(Attack attack);
 }
