@@ -106,6 +106,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         }
     }
 
+    protected final void removeAttackFromCache(String attackId) {
+        Iterator<Attack> iterator = cachedAttacks.iterator();
+        while (iterator.hasNext()) {
+            boolean foundAttack = iterator.next().getPushId().equals(attackId);
+            if (foundAttack) {
+                iterator.remove();
+            }
+        }
+    }
+
     @Override
     public void onAttackItemClick(int position) {
         if (listHasItems(cachedAttacks)) {
