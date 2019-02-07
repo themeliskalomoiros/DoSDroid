@@ -54,9 +54,12 @@ public final class Attacks {
         return database.getReference().child("attacks");
     }
 
-    public static UUID getUUID(Attack attack) {
-        String uuidString = attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
-        return UUID.fromString(uuidString);
+    public static UUID getHostUUID(Attack attack) {
+        return UUID.fromString(getHostUUIDText(attack));
+    }
+
+    public static String getHostUUIDText(Attack attack) {
+        return attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
     }
 
     public static String getHostMacAddress(Attack attack) {
