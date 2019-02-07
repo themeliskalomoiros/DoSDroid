@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
@@ -127,7 +128,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
-        clients.remove(thisClient);
         if (clients.size() == 0) {
             Action.stopService(this);
         }
@@ -146,8 +146,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void disconnectClients() {
-        for (Client client : clients) {
+        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
+            Client client = iterator.next();
             client.disconnect();
+            iterator.remove();
         }
     }
 
