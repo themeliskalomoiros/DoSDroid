@@ -3,9 +3,9 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.stat
 public interface StatusRepository {
     String TAG = "StatusRepository";
 
-    boolean isStarted(String serverId);
+    boolean isStarted(String serverWebsite);
 
-    void setToStarted(String serverId);
+    void setToStarted(String serverWebsite);
 
-    void setToStopped(String serverId);
+    void setToStopped(String serverWebsite);
 }

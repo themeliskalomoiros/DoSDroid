@@ -110,7 +110,7 @@ public class ServersHost extends Service {
     }
 
     private void handleStopServerAction(Intent intent) {
-        String serverId = intent.getStringExtra(Server.EXTRA_ID);
+        String serverId = intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
         executeStopProcedure(serverId);
     }
 
@@ -118,7 +118,7 @@ public class ServersHost extends Service {
         try {
             Server server = extractServerFrom(servers, serverId);
             server.stop();
-            statusRepo.setToStopped(server.getId());
+            statusRepo.setToStopped(server.getAttackedWebsite());
             servers.remove(server);
             if (servers.size() == 0) {
                 stopSelf();
@@ -128,12 +128,12 @@ public class ServersHost extends Service {
         }
     }
 
-    private Server extractServerFrom(Set<Server> servers, String serverId) {
+    private Server extractServerFrom(Set<Server> servers, String serverWebsite) {
         for (Server server : servers) {
-            if (serverId.equals(server.getId()))
+            if (serverWebsite.equals(server.getAttackedWebsite()))
                 return server;
         }
-        throw new IllegalArgumentException(TAG + ": No server with " + serverId + " id exists in " + servers);
+        throw new IllegalArgumentException(TAG + ": No server with " + serverWebsite + " exists in " + servers);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class ServersHost extends Service {
 
     private void setServersToStoppedStatus() {
         for (Server server : servers)
-            statusRepo.setToStopped(server.getId());
+            statusRepo.setToStopped(server.getAttackedWebsite());
     }
 
     private void unregisterStatusReceiver() {
@@ -212,9 +212,9 @@ public class ServersHost extends Service {
         }
 
         @NonNull
-        private static Intent createStopServerIntent(Context context, String serverId) {
+        private static Intent createStopServerIntent(Context context, String serverWebsite) {
             Intent intent = new Intent(context, ServersHost.class);
-            intent.putExtra(Server.EXTRA_ID, serverId);
+            intent.putExtra(Server.EXTRA_SERVER_WEBSITE, serverWebsite);
             intent.setAction(ACTION_STOP_SERVER);
             return intent;
         }

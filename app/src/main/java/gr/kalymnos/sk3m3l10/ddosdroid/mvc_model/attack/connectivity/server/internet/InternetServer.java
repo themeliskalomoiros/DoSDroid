@@ -30,7 +30,7 @@ public class InternetServer extends Server {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (disconnectionHappened(intent)) {
-                    ServersHost.Action.stopServer(context, getId());
+                    ServersHost.Action.stopServer(context, getAttackedWebsite());
                     context.unregisterReceiver(this);
                 }
             }
@@ -55,7 +55,7 @@ public class InternetServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
         uploadAttack();
         registerReceiver();
     }
@@ -79,6 +79,6 @@ public class InternetServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getId(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
     }
 }

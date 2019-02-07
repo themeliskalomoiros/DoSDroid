@@ -68,7 +68,7 @@ public class WifiP2pServer extends Server {
 
             private void handleStateChangedAction(Context context, Intent intent) {
                 if (isStateDisabled(intent))
-                    ServersHost.Action.stopServer(context, getId());
+                    ServersHost.Action.stopServer(context, getAttackedWebsite());
                 return;
             }
 
@@ -122,7 +122,7 @@ public class WifiP2pServer extends Server {
     public void onAttackUpload(Attack attack) {
         super.onAttackUpload(attack);
         attackUploaded = true;
-        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
         acceptClientThread.start();
     }
 
@@ -162,7 +162,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getId(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
     }
 
     public WifiP2pManager getWifiP2pManager() {

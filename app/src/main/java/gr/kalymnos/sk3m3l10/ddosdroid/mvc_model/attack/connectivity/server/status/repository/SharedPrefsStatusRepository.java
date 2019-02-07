@@ -11,21 +11,21 @@ public class SharedPrefsStatusRepository implements StatusRepository {
     }
 
     @Override
-    public boolean isStarted(String serverId) {
-        return sharedPreferences.getBoolean(serverId, false);
+    public boolean isStarted(String serverWebsite) {
+        return sharedPreferences.getBoolean(serverWebsite, false);
     }
 
     @Override
-    public void setToStarted(String serverId) {
+    public void setToStarted(String serverWebsite) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(serverId, true);
+        editor.putBoolean(serverWebsite, true);
         editor.apply();
     }
 
     @Override
-    public void setToStopped(String serverId) {
+    public void setToStopped(String serverWebsite) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(serverId, false);
+        editor.putBoolean(serverWebsite, false);
         editor.apply();
     }
 }

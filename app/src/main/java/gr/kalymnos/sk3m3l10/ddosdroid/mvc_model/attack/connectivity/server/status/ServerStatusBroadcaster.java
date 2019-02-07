@@ -12,26 +12,26 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.serve
 
 public class ServerStatusBroadcaster {
 
-    public static void broadcastRunning(String serverId, LocalBroadcastManager manager) {
-        Intent intent = createIntent(RUNNING, serverId);
+    public static void broadcastRunning(String serverWebsite, LocalBroadcastManager manager) {
+        Intent intent = createIntent(RUNNING, serverWebsite);
         manager.sendBroadcast(intent);
     }
 
-    public static void broadcastStopped(String serverId, LocalBroadcastManager manager) {
-        Intent intent = createIntent(STOPPED, serverId);
+    public static void broadcastStopped(String serverWebsite, LocalBroadcastManager manager) {
+        Intent intent = createIntent(STOPPED, serverWebsite);
         manager.sendBroadcast(intent);
     }
 
-    public static void broadcastError(String serverId, LocalBroadcastManager manager) {
-        Intent intent = createIntent(ERROR, serverId);
+    public static void broadcastError(String serverWebsite, LocalBroadcastManager manager) {
+        Intent intent = createIntent(ERROR, serverWebsite);
         manager.sendBroadcast(intent);
     }
 
     @NonNull
-    private static Intent createIntent(int status, String serverId) {
+    private static Intent createIntent(int status, String serverWebsite) {
         Intent intent = new Intent(Server.ACTION_SERVER_STATUS);
         intent.putExtra(Server.EXTRA_SERVER_STATUS, status);
-        intent.putExtra(Server.EXTRA_ID, serverId);
+        intent.putExtra(Server.EXTRA_SERVER_WEBSITE, serverWebsite);
         return intent;
     }
 }

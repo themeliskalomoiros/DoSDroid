@@ -35,7 +35,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
     public static final String EXTRA_SERVER_STATUS = "extra server status";
-    public static final String EXTRA_ID = TAG + "extra id";
+    public static final String EXTRA_SERVER_WEBSITE = TAG + "extra website";
 
     protected Context context;
     protected Attack attack;
@@ -66,10 +66,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
-    public final String getId() {
-        return attack.getPushId();
-    }
-
     public final String getAttackedWebsite() {
         return attack.getWebsite();
     }
@@ -79,7 +75,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     }
 
     public void stop() {
-        Log.d(TAG, "stop()");
         constraintsResolver.releaseResources();
         shutdownThreadPool();
         repository.delete(attack.getPushId());

@@ -69,7 +69,7 @@ public class BluetoothServer extends Server {
                 if (stateChanged) {
                     int state = intent.getIntExtra(EXTRA_STATE, STATE_OFF);
                     if (state == STATE_OFF) {
-                        ServersHost.Action.stopServer(context, getId());
+                        ServersHost.Action.stopServer(context, getAttackedWebsite());
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class BluetoothServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
         uploadAttack();
         initializeServerSocket();
         acceptClientThread.start(); // start accepting clients
@@ -125,12 +125,12 @@ public class BluetoothServer extends Server {
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getHostUUID(attack));
         } catch (IOException e) {
             Log.e(TAG, "Error creating BluetoothServerSocket", e);
-            ServersHost.Action.stopServer(context, getId());
+            ServersHost.Action.stopServer(context, getAttackedWebsite());
         }
     }
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getId(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
     }
 }
