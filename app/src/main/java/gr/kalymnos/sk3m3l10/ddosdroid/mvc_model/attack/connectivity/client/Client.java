@@ -30,7 +30,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     public void connect(Context context, Attack attack) {
         initializeFields(context, attack);
-        connectionManager.connect();
+        connectionManager.connectToServer();
     }
 
     private void initializeFields(Context context, Attack attack) {
@@ -51,7 +51,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     }
 
     public void disconnect() {
-        connectionManager.disconnect();
+        connectionManager.disconnectFromServer();
     }
 
     @Override

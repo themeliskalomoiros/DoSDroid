@@ -23,12 +23,12 @@ class WifiP2pConnectionManager extends ConnectionManager {
     }
 
     @Override
-    void connect() {
+    void connectToServer() {
         context.registerReceiver(receiver, WifiDirectReceiver.getIntentFilter());
     }
 
     @Override
-    void disconnect() {
+    void disconnectFromServer() {
         client.onManagerDisconnection();
         releaseResources();
     }

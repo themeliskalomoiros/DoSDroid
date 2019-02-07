@@ -22,12 +22,12 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
     }
 
     @Override
-    void connect() {
+    void connectToServer() {
         manager.discoverServices(Attacks.getNsdServiceType(attack), NsdManager.PROTOCOL_DNS_SD, this);
     }
 
     @Override
-    void disconnect() {
+    void disconnectFromServer() {
         client.onManagerDisconnection();
         releaseResources();
     }

@@ -15,7 +15,7 @@ class InternetConnectionManager extends ConnectionManager {
     }
 
     @Override
-    void connect() {
+    void connectToServer() {
         boolean hasInternet = InternetConnectivity.hasInternetConnection(getConnectivityManager());
         if (hasInternet && isAttackStarted()) {
             client.onManagerConnection();
@@ -34,7 +34,7 @@ class InternetConnectionManager extends ConnectionManager {
     }
 
     @Override
-    void disconnect() {
+    void disconnectFromServer() {
         client.onManagerDisconnection();
         releaseResources();
     }

@@ -39,9 +39,9 @@ abstract class ConnectionManager {
         this.client = listener;
     }
 
-    abstract void connect();
+    abstract void connectToServer();
 
-    abstract void disconnect();
+    abstract void disconnectFromServer();
 
     protected void releaseResources() {
         context = null;

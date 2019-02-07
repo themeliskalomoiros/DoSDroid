@@ -128,12 +128,12 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     }
 
     @Override
-    void connect() {
+    void connectToServer() {
         constraintsResolver.resolveConstraints();
     }
 
     @Override
-    void disconnect() {
+    void disconnectFromServer() {
         client.onManagerDisconnection();
         releaseResources();
     }
