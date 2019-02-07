@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
@@ -28,16 +29,17 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
  * the abstract methods the same way.
  * */
 
-public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener, AttackRepository.OnRepositoryChangeListener {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener,
+        AttackRepository.OnRepositoryChangeListener {
     protected static final String TAG = "MyServer";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
     public static final String EXTRA_SERVER_STATUS = "extra server status";
     public static final String EXTRA_ID = TAG + "extra id";
 
+    protected Context context;
     protected Attack attack;
     protected AttackRepository repository;
-    protected Context context;
     protected NetworkConstraintsResolver constraintsResolver;
     protected ExecutorService executor;
 
@@ -49,9 +51,13 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        initializeRepository();
+        initializeConstraintsResolver(context, attack);
+    }
+
+    private void initializeRepository() {
         this.repository = new FirebaseRepository();
         this.repository.addOnRepositoryChangeListener(this);
-        initializeConstraintsResolver(context, attack);
     }
 
     private void initializeConstraintsResolver(Context context, Attack attack) {
@@ -73,12 +79,13 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     }
 
     public void stop() {
-        context = null;
+        Log.d(TAG, "stop()");
         constraintsResolver.releaseResources();
         shutdownThreadPool();
         repository.delete(attack.getPushId());
         repository.stopListenForChanges();
         repository.removeOnRepositoryChangeListener();
+        context = null;
     }
 
     private void shutdownThreadPool() {

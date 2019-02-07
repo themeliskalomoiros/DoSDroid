@@ -35,6 +35,13 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         return viewMvc.getRootView();
     }
 
+    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        viewMvc = new AttackCreationViewMvcImpl(inflater, container);
+        viewMvc.setOnAttackCreationButtonClickListener(this);
+        viewMvc.setOnSpinnerItemSelectedListener(this);
+        viewMvc.setOnWebsiteTextChangeListener(this);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,13 +72,6 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     @Override
     public void onSpinnerItemSelected(String hint) {
         viewMvc.setNetworkConfigHint(hint);
-    }
-
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        viewMvc = new AttackCreationViewMvcImpl(inflater, container);
-        viewMvc.setOnAttackCreationButtonClickListener(this);
-        viewMvc.setOnSpinnerItemSelectedListener(this);
-        viewMvc.setOnWebsiteTextChangeListener(this);
     }
 
     @Override

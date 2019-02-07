@@ -84,6 +84,7 @@ public class BluetoothServer extends Server {
 
     @Override
     public void start() {
+        super.start();
         constraintsResolver.resolveConstraints();
     }
 
