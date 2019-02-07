@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;

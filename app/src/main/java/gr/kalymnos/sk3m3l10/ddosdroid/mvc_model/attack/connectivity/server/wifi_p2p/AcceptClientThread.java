@@ -44,11 +44,11 @@ class AcceptClientThread extends Thread {
         attackRepo.updateAttack(attack);
     }
 
-    public void close(){
+    public void close() {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            Log.e(TAG,"Error when closing server socket");
+            Log.e(TAG, "Error when closing server socket");
         }
     }
 

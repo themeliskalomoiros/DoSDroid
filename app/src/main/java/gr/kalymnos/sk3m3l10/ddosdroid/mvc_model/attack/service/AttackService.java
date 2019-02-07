@@ -10,18 +10,16 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
@@ -34,13 +32,13 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     private static final String TAG = "AttackService";
 
     private Set<Client> clients;
-    private AttackRepository repo;
+    private AttackRepositoryReporter repo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         clients = new HashSet<>();
-        repo = new FirebaseRepository();
+        repo = new FirebaseRepositoryReporter();
     }
 
     @Override
@@ -115,7 +113,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private void addLocalBotAndUpdate(Attack attack) {
         Attacks.addBot(attack, Bots.getLocalUser());
-        repo.updateAttack(attack);
+        repo.update(attack);
     }
 
     @Override
@@ -142,7 +140,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private void removeBotFromAttackAndUpdate(Attack attack) {
         attack.getBotIds().remove(Bots.getLocalUserId());
-        repo.updateAttack(attack);
+        repo.update(attack);
     }
 
     class ForegroundNotification {
