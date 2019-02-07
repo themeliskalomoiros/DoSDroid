@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists;
 
 import java.util.List;
+import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -18,7 +19,7 @@ public interface AttackListViewMvc extends ViewMvc {
         void onActivateSwitchCheckedState(int position, boolean isChecked);
     }
 
-    void bindAttacks(List<Attack> attacks);
+    void bindAttacks(Set<Attack> attacks);
 
     void showLoadingIndicator();
 

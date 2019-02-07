@@ -12,7 +12,7 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
 
 public class WifiScanAdapter extends RecyclerView.Adapter<WifiScanAdapter.ScanResultHolder> {
     private Context context;
@@ -40,14 +40,14 @@ public class WifiScanAdapter extends RecyclerView.Adapter<WifiScanAdapter.ScanRe
 
     @Override
     public void onBindViewHolder(@NonNull ScanResultHolder viewHolder, int i) {
-        if (listHasItems(scanResults)) {
+        if (collectionHasItems(scanResults)) {
             viewHolder.bind(scanResults.get(i));
         }
     }
 
     @Override
     public int getItemCount() {
-        if (listHasItems(scanResults)) {
+        if (collectionHasItems(scanResults)) {
             return scanResults.size();
         }
         return 0;

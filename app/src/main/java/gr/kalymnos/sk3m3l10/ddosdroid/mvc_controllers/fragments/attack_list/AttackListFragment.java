@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -36,8 +35,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleIsValidAndContainsKey;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.listHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContains;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
@@ -83,9 +82,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
-        if (bundleIsValidAndContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
+        if (bundleContains(savedInstanceState, EXTRA_ATTACKS)) {
             List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
-            if (listHasItems(temp)) {
+            if (collectionHasItems(temp)) {
                 cachedAttacks.addAll(temp);
                 return true;
             }
@@ -113,7 +112,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public final void onSaveInstanceState(@NonNull Bundle outState) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        if (listHasItems(attacksCopy)) {
+        if (collectionHasItems(attacksCopy)) {
             outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) attacksCopy);
         }
     }
@@ -121,7 +120,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onAttackItemClick(int position) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        if (listHasItems(attacksCopy)) {
+        if (collectionHasItems(attacksCopy)) {
             if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
                 Attack attack = attacksCopy.get(position);
                 JoinAttackActivity.startAnInstance(getContext(), attack);
@@ -130,7 +129,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected final int getContentType() {
-        if (bundleIsValidAndContainsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
+        if (bundleContains(getArguments(), EXTRA_CONTENT_TYPE)) {
             return getArguments().getInt(EXTRA_CONTENT_TYPE);
         }
         return INVALID_CONTENT_TYPE;
