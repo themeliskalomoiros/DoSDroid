@@ -16,7 +16,7 @@ abstract class ConnectionManager {
 
     protected Attack attack;
     protected Context context;
-    protected ConnectionManagerListener client;
+    protected ConnectionManagerListener connectionManagerListener;
 
     interface ConnectionManagerListener {
         void onManagerConnection();
@@ -36,7 +36,7 @@ abstract class ConnectionManager {
     }
 
     void setConnectionManagerListener(ConnectionManagerListener listener) {
-        this.client = listener;
+        this.connectionManagerListener = listener;
     }
 
     abstract void connectToServer();
@@ -45,7 +45,7 @@ abstract class ConnectionManager {
 
     protected void releaseResources() {
         context = null;
-        client = null;
+        connectionManagerListener = null;
     }
 
     interface Factory {

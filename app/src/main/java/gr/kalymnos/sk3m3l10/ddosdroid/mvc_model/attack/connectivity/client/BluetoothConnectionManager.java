@@ -50,7 +50,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
             boolean discoveryInitiated = adapter.startDiscovery();
             if (!discoveryInitiated) {
                 Log.d(TAG, "Device discovery failed to initiate");
-                client.onManagerError();
+                connectionManagerListener.onManagerError();
                 releaseResources();
             } else {
                 Log.d(TAG, "Device discovery initiated");
@@ -93,7 +93,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
                         Log.d(TAG, "Permission denied, reporting connection error.");
-                        client.onManagerError();
+                        connectionManagerListener.onManagerError();
                         releaseResources();
                         break;
                     default:
@@ -134,7 +134,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     @Override
     void disconnectFromServer() {
-        client.onManagerDisconnection();
+        connectionManagerListener.onManagerDisconnection();
         releaseResources();
     }
 
@@ -169,17 +169,17 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     @Override
     public void onConstraintResolveFailure() {
-        client.onManagerError();
+        connectionManagerListener.onManagerError();
         releaseResources();
     }
 
     @Override
     public void onBluetoothConnectionSuccess() {
-        client.onManagerConnection();
+        connectionManagerListener.onManagerConnection();
     }
 
     @Override
     public void onBluetoothConnectionFailure() {
-        client.onManagerError();
+        connectionManagerListener.onManagerError();
     }
 }

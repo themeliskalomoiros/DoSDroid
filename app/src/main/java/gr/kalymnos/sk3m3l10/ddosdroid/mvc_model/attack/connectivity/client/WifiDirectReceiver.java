@@ -150,7 +150,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     @Override
     public void onServerResponseReceived() {
         Log.d(TAG, "Received server response");
-        connectionManager.client.onManagerConnection();
+        connectionManager.connectionManagerListener.onManagerConnection();
     }
 
     @Override

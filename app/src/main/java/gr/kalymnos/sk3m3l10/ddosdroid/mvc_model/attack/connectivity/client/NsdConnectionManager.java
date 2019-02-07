@@ -28,7 +28,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     void disconnectFromServer() {
-        client.onManagerDisconnection();
+        connectionManagerListener.onManagerDisconnection();
         releaseResources();
     }
 
@@ -107,11 +107,11 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     public void onServerResponseReceived() {
-        client.onManagerConnection();
+        connectionManagerListener.onManagerConnection();
     }
 
     @Override
     public void onServerResponseError() {
-        client.onManagerError();
+        connectionManagerListener.onManagerError();
     }
 }
