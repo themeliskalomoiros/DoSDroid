@@ -24,9 +24,9 @@ public abstract class AttackRepositoryReporter {
         onRepositoryChangeListener = null;
     }
 
-    public abstract void attach();
+    public abstract void startListenForChanges();
 
-    public abstract void detach();
+    public abstract void stopListenForChanges();
 
     public abstract void upload(Attack attack);
 

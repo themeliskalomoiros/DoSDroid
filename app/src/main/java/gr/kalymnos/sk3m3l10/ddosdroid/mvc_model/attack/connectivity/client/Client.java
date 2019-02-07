@@ -59,7 +59,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     @Override
     public void onManagerConnection() {
-        repository.attach();
+        repository.startListenForChanges();
         attackScript.start();
         callback.onClientConnected(this, attack);
     }
@@ -79,7 +79,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         context = null;
         callback = null;
         attackScript.stopExecution();
-        repository.detach();
+        repository.stopListenForChanges();
     }
 
     public String getId() {

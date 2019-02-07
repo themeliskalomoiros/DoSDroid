@@ -101,13 +101,13 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onStart() {
         super.onStart();
-        repository.attach();
+        repository.startListenForChanges();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        repository.detach();
+        repository.stopListenForChanges();
     }
 
     @Override

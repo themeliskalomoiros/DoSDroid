@@ -28,12 +28,12 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
     }
 
     @Override
-    public void attach() {
+    public void startListenForChanges() {
         allAttacksRef.addChildEventListener(this);
     }
 
     @Override
-    public void detach() {
+    public void stopListenForChanges() {
         allAttacksRef.removeEventListener(this);
     }
 
