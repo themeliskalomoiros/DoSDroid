@@ -156,6 +156,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     @Override
     public void onServerResponseError() {
         Log.d(TAG, "Did not receive response from server");
+        connectionManager.connectionManagerListener.onManagerError();
     }
 
     public void releaseWifiP2pResources() {
