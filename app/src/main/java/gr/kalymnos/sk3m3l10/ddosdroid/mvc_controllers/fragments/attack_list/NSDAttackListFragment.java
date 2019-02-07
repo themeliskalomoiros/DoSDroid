@@ -10,15 +10,18 @@ public class NSDAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpload(Attack attack) {
-        if (attack.getNetworkType() == NSD)
-            cacheAttackAndBindAccordingToContentType(attack);
+        if (attack.getNetworkType() == NSD) {
+            cacheAttackAccordingToContentType(attack);
+            bindAttacks();
+        }
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
         if (changedAttack.getNetworkType() == NSD) {
             deleteFromCacheAttackWith(changedAttack.getPushId());
-            cacheAttackAndBindAccordingToContentType(changedAttack);
+            cacheAttackAccordingToContentType(changedAttack);
+            bindAttacks();
         }
     }
 }

@@ -10,15 +10,18 @@ public class BluetoothAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpload(Attack attack) {
-        if (attack.getNetworkType() == BLUETOOTH)
-            cacheAttackAndBindAccordingToContentType(attack);
+        if (attack.getNetworkType() == BLUETOOTH) {
+            cacheAttackAccordingToContentType(attack);
+            bindAttacks();
+        }
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
         if (changedAttack.getNetworkType() == BLUETOOTH) {
             deleteFromCacheAttackWith(changedAttack.getPushId());
-            cacheAttackAndBindAccordingToContentType(changedAttack);
+            cacheAttackAccordingToContentType(changedAttack);
+            bindAttacks();
         }
     }
 }

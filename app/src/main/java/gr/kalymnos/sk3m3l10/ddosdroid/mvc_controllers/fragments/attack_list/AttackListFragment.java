@@ -166,30 +166,26 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
             boolean foundAttack = iterator.next().getPushId().equals(attackId);
             if (foundAttack) {
                 iterator.remove();
+                return;
             }
         }
     }
 
-    protected final void cacheAttackAndBindAccordingToContentType(Attack attack) {
+    protected final void cacheAttackAccordingToContentType(Attack attack) {
         if (getContentType() == FETCH_ONLY_USER_JOINED_ATTACKS) {
             if (includesBot(attack, Bots.getLocalUser())) {
-                cacheAttackAndBind(attack);
+                cachedAttacks.add(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
-            boolean attackNotOwnedByUser = !includesBot(attack, Bots.getLocalUser()) && !isAttackOwnedByBot(attack, Bots.getLocalUser());
-            if (attackNotOwnedByUser) {
-                cacheAttackAndBind(attack);
+            boolean attackNotJoinedOrOwnedByUser = !includesBot(attack, Bots.getLocalUser()) && !isAttackOwnedByBot(attack, Bots.getLocalUser());
+            if (attackNotJoinedOrOwnedByUser) {
+                cachedAttacks.add(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_OWN_ATTACKS) {
             if (isAttackOwnedByBot(attack, Bots.getLocalUser())) {
-                cacheAttackAndBind(attack);
+                cachedAttacks.add(attack);
             }
         }
-    }
-
-    private void cacheAttackAndBind(Attack attack) {
-        cachedAttacks.add(attack);
-        bindAttacks();
     }
 
     /*
