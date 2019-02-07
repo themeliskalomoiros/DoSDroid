@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashSet;
@@ -96,7 +97,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private Client getClientFromCollection(Attack attack) {
         for (Client client : clients) {
-            if (client.getId().equals(attack.getPushId()))
+            boolean sameId = client.getId().equals(attack.getPushId());
+            if (sameId)
                 return client;
         }
         throw new UnsupportedOperationException(TAG + ": No Client for attack(" + attack.getPushId() + ") in the collection");
@@ -104,9 +106,11 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
-        clients.add(thisClient);
-        addLocalBotAndUpdate(attack);
-        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
+        boolean clientAdded = clients.add(thisClient);
+        if (clientAdded) {
+            addLocalBotAndUpdate(attack);
+            startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
+        }
     }
 
     private void addLocalBotAndUpdate(Attack attack) {
@@ -128,29 +132,17 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
+        thisClient.releaseResources();
+        clients.remove(thisClient);
+        removeBotFromAttackAndUpdate(attack);
         if (clients.size() == 0) {
             Action.stopService(this);
         }
-        removeBotFromAttackAndUpdate(attack);
     }
 
     private void removeBotFromAttackAndUpdate(Attack attack) {
         attack.getBotIds().remove(Bots.getLocalUserId());
         repo.updateAttack(attack);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        disconnectClients();
-    }
-
-    private void disconnectClients() {
-        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
-            Client client = iterator.next();
-            client.disconnect();
-            iterator.remove();
-        }
     }
 
     class ForegroundNotification {
