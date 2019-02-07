@@ -13,8 +13,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluet
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd.NsdServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -28,7 +28,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
  * the abstract methods the same way.
  * */
 
-public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener, AttackRepositoryReporter.OnRepositoryChangeListener {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener, AttackRepository.OnRepositoryChangeListener {
     protected static final String TAG = "MyServer";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
@@ -36,7 +36,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public static final String EXTRA_ID = TAG + "extra id";
 
     protected Attack attack;
-    protected AttackRepositoryReporter repository;
+    protected AttackRepository repository;
     protected Context context;
     protected NetworkConstraintsResolver constraintsResolver;
     protected ExecutorService executor;
@@ -49,7 +49,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        this.repository = new FirebaseRepositoryReporter();
+        this.repository = new FirebaseRepository();
         this.repository.addOnRepositoryChangeListener(this);
         initializeConstraintsResolver(context, attack);
     }

@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
@@ -16,13 +16,13 @@ class AcceptClientThread extends Thread {
     private static final String TAG = "AcceptClientThread";
 
     private final Attack attack;
-    private final AttackRepositoryReporter repository;
+    private final AttackRepository repository;
     private final ExecutorService executor;
 
     private ServerSocket serverSocket;
     private int localPort;
 
-    AcceptClientThread(Attack attack, ExecutorService executor, AttackRepositoryReporter repository) {
+    AcceptClientThread(Attack attack, ExecutorService executor, AttackRepository repository) {
         this.attack = attack;
         this.executor = executor;
         this.repository = repository;

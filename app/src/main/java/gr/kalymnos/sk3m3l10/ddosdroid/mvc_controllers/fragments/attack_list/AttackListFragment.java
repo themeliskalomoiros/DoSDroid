@@ -18,8 +18,8 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
@@ -41,11 +41,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.getItemFromLi
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
-        AttackRepositoryReporter.OnRepositoryChangeListener {
+        AttackRepository.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
 
     private AttackListViewMvc viewMvc;
-    private AttackRepositoryReporter repository;
+    private AttackRepository repository;
     private LinkedHashSet<Attack> cachedAttacks;
 
     @Override
@@ -56,7 +56,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private void initializeRepository() {
-        repository = new FirebaseRepositoryReporter();
+        repository = new FirebaseRepository();
         repository.addOnRepositoryChangeListener(this);
     }
 
