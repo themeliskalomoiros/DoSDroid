@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
@@ -28,6 +27,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.isAttackOwnedByBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_OWN_ATTACKS;
@@ -35,8 +36,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContains;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.getItemFromLinkedHashSet;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
@@ -45,7 +47,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private AttackListViewMvc viewMvc;
     private AttackRepositoryReporter repository;
-    private Set<Attack> cachedAttacks;
+    private LinkedHashSet<Attack> cachedAttacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,9 +84,10 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
-        if (bundleContains(savedInstanceState, EXTRA_ATTACKS)) {
+        if (bundleContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
             List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
             if (collectionHasItems(temp)) {
+                cachedAttacks.clear();
                 cachedAttacks.addAll(temp);
                 return true;
             }
@@ -93,8 +96,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected final void bindAttacks() {
-        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        viewMvc.bindAttacks(attacksCopy);
+        viewMvc.bindAttacks(cachedAttacks);
     }
 
     @Override
@@ -119,17 +121,14 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackItemClick(int position) {
-        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        if (collectionHasItems(attacksCopy)) {
-            if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
-                Attack attack = attacksCopy.get(position);
-                JoinAttackActivity.startAnInstance(getContext(), attack);
-            }
+        if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
+            Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
+            JoinAttackActivity.startAnInstance(getContext(), attack);
         }
     }
 
     protected final int getContentType() {
-        if (bundleContains(getArguments(), EXTRA_CONTENT_TYPE)) {
+        if (bundleContainsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
             return getArguments().getInt(EXTRA_CONTENT_TYPE);
         }
         return INVALID_CONTENT_TYPE;
@@ -138,8 +137,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onJoinSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
-            List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-            Attack attack = attacksCopy.get(position);
+            Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
             AttackService.Action.stopAttack(attack, getContext());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
@@ -148,8 +146,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
-            List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-            Attack attack = attacksCopy.get(position);
+            Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
             ServersHost.Action.stopServer(getContext(), attack.getPushId());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
@@ -175,16 +172,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     protected final void cacheAttackAndBindAccordingToContentType(Attack attack) {
         if (getContentType() == FETCH_ONLY_USER_JOINED_ATTACKS) {
-            if (Attacks.includes(attack, Bots.getLocalUser())) {
+            if (includesBot(attack, Bots.getLocalUser())) {
                 cacheAttackAndBind(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
-            boolean attackNotBelongToLocalUser = !Attacks.includes(attack, Bots.getLocalUser()) && !Attacks.ownedBy(attack, Bots.getLocalUser());
-            if (attackNotBelongToLocalUser) {
+            boolean attackNotOwnedByUser = !includesBot(attack, Bots.getLocalUser()) && !isAttackOwnedByBot(attack, Bots.getLocalUser());
+            if (attackNotOwnedByUser) {
                 cacheAttackAndBind(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_OWN_ATTACKS) {
-            if (Attacks.ownedBy(attack, Bots.getLocalUser())) {
+            if (isAttackOwnedByBot(attack, Bots.getLocalUser())) {
                 cacheAttackAndBind(attack);
             }
         }

@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.SharedPrefsStatusRepository;
@@ -25,9 +23,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackItemClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.getItemFrom;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.getItemFromLinkedHashSet;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private static final String TAG = AttacksAdapter.class.getSimpleName();
@@ -58,7 +55,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
         if (collectionHasItems(attacks)) {
-            Attack attack = getItemFrom(attacks, position);
+            Attack attack = getItemFromLinkedHashSet(attacks, position);
             attackHolder.bind(attack);
             attackHolder.itemView.setTag(String.valueOf(position));
         }
@@ -75,14 +72,14 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public int getItemViewType(int position) {
         if (ValidationUtils.collectionHasItems(attacks)) {
-            Attack attack = getItemFrom(attacks, position);
+            Attack attack = getItemFromLinkedHashSet(attacks, position);
             return getItemViewTypeFrom(attack);
         }
         throw new UnsupportedOperationException(TAG + ": attacks is null or has no items");
     }
 
     private int getItemViewTypeFrom(Attack attack) {
-        if (Attacks.includes(attack, Bots.getLocalUser()))
+        if (Attacks.includesBot(attack, Bots.getLocalUser()))
             return ITEM_VIEW_TYPE_JOINED_ATTACK;
         if (Attacks.getHostUUIDText(attack).equals(Bots.getLocalUser().getId())) {
             return ITEM_VIEW_TYPE_OWNER_ATTACK;
@@ -176,7 +173,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
 
         private void setCheckedState() {
-            Attack attack = getItemFrom(attacks, getLayoutPosition());
+            Attack attack = getItemFromLinkedHashSet(attacks, getLayoutPosition());
             String serverId = attack.getPushId();
             StatusRepository repo = new SharedPrefsStatusRepository(context);
             boolean serverActive = repo.isStarted(serverId);

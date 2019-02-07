@@ -34,11 +34,11 @@ public final class Attacks {
         }
     }
 
-    public static boolean includes(Attack attack, Bot bot) {
+    public static boolean includesBot(Attack attack, Bot bot) {
         return attack.getBotIds().contains(bot.getId());
     }
 
-    public static boolean ownedBy(Attack attack, Bot bot) {
+    public static boolean isAttackOwnedByBot(Attack attack, Bot bot) {
         String attackHostId = attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
         String localHostId = bot.getId();
         return attackHostId.equals(localHostId);

@@ -18,14 +18,14 @@ public final class ValidationUtils {
         return false;
     }
 
-    public static boolean bundleContains(Bundle bundle, String key) {
+    public static boolean bundleContainsKey(Bundle bundle, String key) {
         if (bundle != null && bundle.containsKey(key)) {
             return true;
         }
         return false;
     }
 
-    public static <T> T getItemFrom(LinkedHashSet<T> set, int index) {
+    public static <T> T getItemFromLinkedHashSet(LinkedHashSet<T> set, int index) {
         if (index < 0 || index >= set.size())
             throw new IllegalArgumentException("Invalid index: " + index + " while set's size is " + set.size() + ".");
 

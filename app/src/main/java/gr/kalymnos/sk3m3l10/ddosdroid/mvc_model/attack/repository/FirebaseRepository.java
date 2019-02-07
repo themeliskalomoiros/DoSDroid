@@ -169,7 +169,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected final boolean botJoinedAttack(Attack attack) {
-            return Attacks.includes(attack, new Bot(botId)) && !Attacks.ownedBy(attack, new Bot(botId));
+            return Attacks.includesBot(attack, new Bot(botId)) && !Attacks.isAttackOwnedByBot(attack, new Bot(botId));
         }
     }
 
@@ -214,7 +214,7 @@ public class FirebaseRepository extends AttackRepository {
         }
 
         protected final boolean botNotBelongTo(Attack attack) {
-            return !Attacks.includes(attack, new Bot(botId)) && !Attacks.ownedBy(attack, new Bot(botId));
+            return !Attacks.includesBot(attack, new Bot(botId)) && !Attacks.isAttackOwnedByBot(attack, new Bot(botId));
         }
     }
 
