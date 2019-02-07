@@ -68,7 +68,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         Log.d(TAG, "Server device discovered, proceeding to connection");
-                        BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getUUID(attack), BluetoothConnectionManager.this);
+                        BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothConnectionManager.this);
                         context.unregisterReceiver(this);
                     }
                 }
@@ -160,7 +160,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
         if (BluetoothDeviceUtils.isLocalDevicePairedWith(serverMacAddress)) {
             Log.d(TAG, "Server device is already paired with device, proceeding to connection");
             BluetoothConnectionThread.startAnInstance(BluetoothDeviceUtils.getPairedBluetoothDeviceOf(serverMacAddress),
-                    Attacks.getUUID(attack), this);
+                    Attacks.getHostUUID(attack), this);
         } else {
             Log.d(TAG, "Server device was not paired with local device. proceeding to device discovery to find it");
             RequestLocationPermissionForBluetoothActivity.requestUserPermission(context);

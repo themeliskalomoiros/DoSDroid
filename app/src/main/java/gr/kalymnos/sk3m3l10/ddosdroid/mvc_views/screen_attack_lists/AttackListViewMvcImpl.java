@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     }
 
     @Override
-    public void bindAttacks(Set<Attack> attacks) {
+    public void bindAttacks(LinkedHashSet<Attack> attacks) {
         attacksAdapter.addAttacks(attacks);
         attacksAdapter.notifyDataSetChanged();
     }

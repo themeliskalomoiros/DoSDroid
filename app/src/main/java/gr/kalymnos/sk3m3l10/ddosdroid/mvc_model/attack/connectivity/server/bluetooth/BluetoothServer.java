@@ -121,7 +121,7 @@ public class BluetoothServer extends Server {
     private void initializeServerSocket() {
         try {
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-            serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getUUID(attack));
+            serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getHostUUID(attack));
         } catch (IOException e) {
             Log.e(TAG, "Error creating BluetoothServerSocket", e);
             ServersHost.Action.stopServer(context, getId());

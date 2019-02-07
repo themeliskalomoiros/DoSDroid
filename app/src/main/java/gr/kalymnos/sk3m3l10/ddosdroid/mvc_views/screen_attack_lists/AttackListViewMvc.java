@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public interface AttackListViewMvc extends ViewMvc {
         void onActivateSwitchCheckedState(int position, boolean isChecked);
     }
 
-    void bindAttacks(Set<Attack> attacks);
+    void bindAttacks(LinkedHashSet<Attack> attacks);
 
     void showLoadingIndicator();
 

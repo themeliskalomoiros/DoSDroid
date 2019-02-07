@@ -25,7 +25,7 @@ public final class ValidationUtils {
         return false;
     }
 
-    private static <T> T getItemFrom(LinkedHashSet<T> set, int index) {
+    public static <T> T getItemFrom(LinkedHashSet<T> set, int index) {
         if (index < 0 || index >= set.size())
             throw new IllegalArgumentException("Invalid index: " + index + " while set's size is " + set.size() + ".");
 
