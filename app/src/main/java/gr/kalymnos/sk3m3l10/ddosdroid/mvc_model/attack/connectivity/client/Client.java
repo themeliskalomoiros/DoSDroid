@@ -1,18 +1,21 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.content.Context;
+import android.util.Log;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackDeletionReporter;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseDeletionReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class Client implements ConnectionManager.ConnectionManagerListener, AttackDeletionReporter.AttackDeletionListener {
+public class Client implements ConnectionManager.ConnectionManagerListener, AttackRepositoryReporter.OnRepositoryChangeListener {
+    private static final String TAG = "Client";
+
     private Context context;
     private Attack attack;
     private AttackScript attackScript;
-    private AttackDeletionReporter attackDeletionReporter;
+    private AttackRepositoryReporter repository;
     private ConnectionManager connectionManager;
     private ClientConnectionListener callback;
 
@@ -37,8 +40,8 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         this.context = context;
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
-        this.attackDeletionReporter = new FirebaseDeletionReporter();
-        this.attackDeletionReporter.setAttackDeletionListener(this);
+        this.repository = new FirebaseRepositoryReporter();
+        this.repository.addOnRepositoryChangeListener(this);
         initializeConnectionManagerIfNotNull();
     }
 
@@ -56,7 +59,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     @Override
     public void onManagerConnection() {
-        attackDeletionReporter.attach();
+        repository.attach();
         attackScript.start();
         callback.onClientConnected(this, attack);
     }
@@ -76,12 +79,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         context = null;
         callback = null;
         attackScript.stopExecution();
-        attackDeletionReporter.detach();
-    }
-
-    @Override
-    public void onAttackDeleted(Attack attack) {
-        AttackService.Action.stopAttack(attack, context);
+        repository.detach();
     }
 
     public String getId() {
@@ -90,6 +88,21 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
 
     public final String getAttackedWebsite() {
         return attack.getWebsite();
+    }
+
+    @Override
+    public void onAttackUpload(Attack attack) {
+        Log.d(TAG, "onAttackUpload()");
+    }
+
+    @Override
+    public void onAttackUpdate(Attack changedAttack) {
+        Log.d(TAG, "onAttackUpdate()");
+    }
+
+    @Override
+    public void onAttackDelete(Attack deletedAttack) {
+        AttackService.Action.stopAttack(attack, context);
     }
 
     @Override
