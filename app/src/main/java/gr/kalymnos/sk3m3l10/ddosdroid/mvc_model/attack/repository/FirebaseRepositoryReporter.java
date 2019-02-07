@@ -15,6 +15,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class FirebaseRepositoryReporter extends AttackRepositoryReporter implements ChildEventListener {
     private static final String TAG = "FirebaseAttackRepositor";
+    private static final String NODE_ATTACKS = "attacks";
 
     private DatabaseReference allAttacksRef;
 
@@ -24,7 +25,7 @@ public class FirebaseRepositoryReporter extends AttackRepositoryReporter impleme
 
     private void initializeAllAttacksRef() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        allAttacksRef = firebaseDatabase.getReference().child(FirebaseRepository.NODE_ATTACKS);
+        allAttacksRef = firebaseDatabase.getReference().child(NODE_ATTACKS);
     }
 
     @Override

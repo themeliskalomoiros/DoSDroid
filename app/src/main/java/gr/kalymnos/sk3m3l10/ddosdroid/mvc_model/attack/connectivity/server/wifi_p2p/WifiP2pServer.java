@@ -45,7 +45,7 @@ public class WifiP2pServer extends Server {
     private void initializeFields() {
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
-        acceptClientThread = new AcceptClientThread(attack, executor, attackRepo);
+        acceptClientThread = new AcceptClientThread(attack, executor, repository);
         initializeWifiDirectReceiver();
         initializeGroupInfoListener();
     }
@@ -103,7 +103,7 @@ public class WifiP2pServer extends Server {
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
         attack.addSingleHostInfo(EXTRA_DEVICE_NAME, thisDevice.deviceName);
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, thisDevice.deviceAddress);
-        attackRepo.uploadAttack(attack);
+        repository.upload(attack);
     }
 
     private void registerWifiDirectReceiver() {
@@ -119,8 +119,8 @@ public class WifiP2pServer extends Server {
     }
 
     @Override
-    public void onAttackUploaded(Attack attack) {
-        super.onAttackUploaded(attack);
+    public void onAttackUpload(Attack attack) {
+        super.onAttackUpload(attack);
         attackUploaded = true;
         ServerStatusBroadcaster.broadcastRunning(getId(), LocalBroadcastManager.getInstance(context));
         acceptClientThread.start();

@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
@@ -16,18 +16,18 @@ class AcceptClientThread extends Thread {
     private static final String TAG = "AcceptClientThread";
 
     private final Attack attack;
-    private final AttackRepository attackRepo;
+    private final AttackRepositoryReporter repository;
     private final ExecutorService executor;
 
     private ServerSocket serverSocket;
     private int localPort;
 
-    AcceptClientThread(Attack attack, ExecutorService executor, AttackRepository attackRepo) {
+    AcceptClientThread(Attack attack, ExecutorService executor, AttackRepositoryReporter repository) {
         this.attack = attack;
         this.executor = executor;
-        this.attackRepo = attackRepo;
+        this.repository = repository;
         initializeServerSocket();
-        updateAttackWithLocalPort(attack, attackRepo);
+        updateAttackWithLocalPort();
     }
 
     private void initializeServerSocket() {
@@ -39,9 +39,9 @@ class AcceptClientThread extends Thread {
         }
     }
 
-    private void updateAttackWithLocalPort(Attack attack, AttackRepository attackRepo) {
+    private void updateAttackWithLocalPort() {
         attack.addSingleHostInfo(Constants.Extra.EXTRA_LOCAL_PORT, String.valueOf(localPort));
-        attackRepo.updateAttack(attack);
+        repository.update(attack);
     }
 
     public void close() {

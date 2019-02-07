@@ -13,8 +13,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.bluet
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.internet.InternetServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.nsd.NsdServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepositoryReporter;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepositoryReporter;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
@@ -28,7 +28,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
  * the abstract methods the same way.
  * */
 
-public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener, AttackRepository.OnAttackUploadedListener {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener, AttackRepositoryReporter.OnRepositoryChangeListener {
     protected static final String TAG = "MyServer";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
@@ -36,7 +36,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public static final String EXTRA_ID = TAG + "extra id";
 
     protected Attack attack;
-    protected AttackRepository attackRepo;
+    protected AttackRepositoryReporter repository;
     protected Context context;
     protected NetworkConstraintsResolver constraintsResolver;
     protected ExecutorService executor;
@@ -49,8 +49,8 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        this.attackRepo = new FirebaseRepository();
-        this.attackRepo.addOnAttackUploadedListener(this);
+        this.repository = new FirebaseRepositoryReporter();
+        this.repository.addOnRepositoryChangeListener(this);
         initializeConstraintsResolver(context, attack);
     }
 
@@ -68,23 +68,16 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         return attack.getWebsite();
     }
 
-    public abstract void start();
+    public void start() {
+        repository.startListenForChanges();
+    }
 
     public void stop() {
         context = null;
         constraintsResolver.releaseResources();
         shutdownThreadPool();
-        attackRepo.deleteAttack(attack.getPushId());
-        attackRepo.removeOnAttackUploadedListener();
-    }
-
-    @Override
-    public void onAttackUploaded(Attack attack) {
-        Toast.makeText(context, R.string.attack_published_label, Toast.LENGTH_SHORT).show();
-    }
-
-    public final void deleteAttack() {
-        attackRepo.deleteAttack(attack.getPushId());
+        repository.stopListenForChanges();
+        repository.removeOnRepositoryChangeListener();
     }
 
     private void shutdownThreadPool() {
@@ -97,6 +90,19 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    @Override
+    public void onAttackUpload(Attack attack) {
+        Toast.makeText(context, R.string.attack_published_label, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAttackUpdate(Attack changedAttack) {
+    }
+
+    @Override
+    public void onAttackDelete(Attack deletedAttack) {
     }
 
     public interface Status {
