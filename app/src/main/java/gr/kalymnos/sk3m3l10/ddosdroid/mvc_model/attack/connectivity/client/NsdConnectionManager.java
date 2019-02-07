@@ -29,7 +29,6 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
     @Override
     void disconnectFromServer() {
         connectionManagerListener.onManagerDisconnection();
-        releaseResources();
     }
 
     @Override

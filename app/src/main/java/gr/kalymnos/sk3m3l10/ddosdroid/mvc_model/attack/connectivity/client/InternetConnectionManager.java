@@ -36,6 +36,5 @@ class InternetConnectionManager extends ConnectionManager {
     @Override
     void disconnectFromServer() {
         connectionManagerListener.onManagerDisconnection();
-        releaseResources();
     }
 }

@@ -135,7 +135,6 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
     @Override
     void disconnectFromServer() {
         connectionManagerListener.onManagerDisconnection();
-        releaseResources();
     }
 
     @Override

@@ -30,7 +30,6 @@ class WifiP2pConnectionManager extends ConnectionManager {
     @Override
     void disconnectFromServer() {
         connectionManagerListener.onManagerDisconnection();
-        releaseResources();
     }
 
     @Override
