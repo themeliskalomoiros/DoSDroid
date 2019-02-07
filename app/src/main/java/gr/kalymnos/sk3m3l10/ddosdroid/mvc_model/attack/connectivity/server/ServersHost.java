@@ -144,9 +144,9 @@ public class ServersHost extends Service {
         unregisterStatusReceiver();
     }
 
-    private void unregisterStatusReceiver() {
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        manager.unregisterReceiver(statusReceiver);
+    private void stopServers() {
+        for (Server server : servers)
+            server.stop();
     }
 
     private void setServersToStoppedStatus() {
@@ -154,9 +154,9 @@ public class ServersHost extends Service {
             statusRepo.setToStopped(server.getId());
     }
 
-    private void stopServers() {
-        for (Server server : servers)
-            server.stop();
+    private void unregisterStatusReceiver() {
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.unregisterReceiver(statusReceiver);
     }
 
     class ForegroundNotification {
