@@ -68,8 +68,7 @@ public class WifiP2pServer extends Server {
 
             private void handleStateChangedAction(Context context, Intent intent) {
                 if (isStateDisabled(intent))
-                    ServerHost.Action.stopServer(context, getAttackedWebsite());
-                return;
+                    ServerHost.Action.stopServer(context, getAttackedWebsite());    //  TODO: Decouple Server from ServerHost
             }
 
             private boolean isStateDisabled(Intent intent) {
@@ -77,15 +76,14 @@ public class WifiP2pServer extends Server {
             }
 
             private void handleConnectionChangedAction(Intent intent) {
-                boolean isConnected = getNetworkInfoFrom(intent).isConnected();
-                if (isConnected) {
+                if (isConnected(intent)) {
                     wifiP2pManager.requestGroupInfo(channel, groupInfoListener);
                 }
-                return;
             }
 
-            private NetworkInfo getNetworkInfoFrom(Intent intent) {
-                return intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+            private boolean isConnected(Intent intent) {
+                NetworkInfo info = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+                return info.isConnected();
             }
         };
     }
