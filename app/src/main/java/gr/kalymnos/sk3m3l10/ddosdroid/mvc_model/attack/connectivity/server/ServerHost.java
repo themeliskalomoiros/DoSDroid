@@ -23,12 +23,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.statu
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.StatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
-public class ServersHost extends Service {
-    private static final String TAG = "ServersHost";
+public class ServerHost extends Service {
+    private static final String TAG = "ServerHost";
 
     private Set<Server> servers;
     private StatusRepository statusRepo;
@@ -60,7 +60,7 @@ public class ServersHost extends Service {
                         executeStopProcedure(getServerWebsiteFrom(intent));
                         break;
                     case Server.Status.ERROR:
-                        Toast.makeText(ServersHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
                         break;
                 }
             }
@@ -165,7 +165,7 @@ public class ServersHost extends Service {
         }
 
         NotificationCompat.Builder createNotificationBuilder() {
-            return new NotificationCompat.Builder(ServersHost.this, CHANNEL_ID)
+            return new NotificationCompat.Builder(ServerHost.this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_www_icon)
                     .setContentTitle(getString(R.string.server_notification_title))
                     .setContentText(getString(R.string.server_notification_small_text))
@@ -176,14 +176,14 @@ public class ServersHost extends Service {
         }
 
         PendingIntent createContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(ServersHost.this, FETCH_ONLY_USER_OWN_ATTACKS, R.string.your_attacks_label);
-            return PendingIntent.getActivity(ServersHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intent = AllAttackListsActivity.Action.createIntent(ServerHost.this, FETCH_ONLY_USER_OWN_ATTACKS, R.string.your_attacks_label);
+            return PendingIntent.getActivity(ServerHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         PendingIntent createStopServicePendingIntent() {
-            Intent intent = new Intent(ServersHost.this, ServersHost.class);
+            Intent intent = new Intent(ServerHost.this, ServerHost.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
-            return PendingIntent.getService(ServersHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            return PendingIntent.getService(ServerHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
@@ -199,7 +199,7 @@ public class ServersHost extends Service {
 
         @NonNull
         private static Intent createStartServerIntent(Context context, Attack attack) {
-            Intent intent = new Intent(context, ServersHost.class);
+            Intent intent = new Intent(context, ServerHost.class);
             intent.putExtra(EXTRA_ATTACK, attack);
             intent.setAction(ACTION_START_SERVER);
             return intent;
@@ -212,7 +212,7 @@ public class ServersHost extends Service {
 
         @NonNull
         private static Intent createStopServerIntent(Context context, String serverWebsite) {
-            Intent intent = new Intent(context, ServersHost.class);
+            Intent intent = new Intent(context, ServerHost.class);
             intent.putExtra(Server.EXTRA_SERVER_WEBSITE, serverWebsite);
             intent.setAction(ACTION_STOP_SERVER);
             return intent;

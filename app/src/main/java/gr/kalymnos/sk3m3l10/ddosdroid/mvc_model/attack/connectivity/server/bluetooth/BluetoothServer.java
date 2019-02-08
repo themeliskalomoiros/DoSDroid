@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.BuildConfig;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
@@ -69,7 +69,7 @@ public class BluetoothServer extends Server {
                 if (stateChanged) {
                     int state = intent.getIntExtra(EXTRA_STATE, STATE_OFF);
                     if (state == STATE_OFF) {
-                        ServersHost.Action.stopServer(context, getAttackedWebsite());
+                        ServerHost.Action.stopServer(context, getAttackedWebsite());
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class BluetoothServer extends Server {
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getHostUUID(attack));
         } catch (IOException e) {
             Log.e(TAG, "Error creating BluetoothServerSocket", e);
-            ServersHost.Action.stopServer(context, getAttackedWebsite());
+            ServerHost.Action.stopServer(context, getAttackedWebsite());
         }
     }
 

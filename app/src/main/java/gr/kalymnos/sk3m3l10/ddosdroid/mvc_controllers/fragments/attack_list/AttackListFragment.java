@@ -17,7 +17,7 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServersHost;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
@@ -146,7 +146,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
-            ServersHost.Action.stopServer(getContext(), attack.getPushId());
+            ServerHost.Action.stopServer(getContext(), attack.getPushId());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
