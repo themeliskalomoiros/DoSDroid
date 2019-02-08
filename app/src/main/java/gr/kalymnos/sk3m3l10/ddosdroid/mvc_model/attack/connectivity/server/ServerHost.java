@@ -90,12 +90,15 @@ public class ServerHost extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         switch (intent.getAction()) {
             case Action.ACTION_START_SERVER:
+                Log.d(TAG, "ACTION_START_SERVER");
                 handleStartServerAction(intent);
                 return START_STICKY;
             case Action.ACTION_STOP_SERVER:
+                Log.d(TAG, "ACTION_STOP_SERVER");
                 handleStopServerAction(intent);
                 return START_STICKY;
             case Action.ACTION_STOP_SERVICE:
+                Log.d(TAG, "ACTION_STOP_SERVICE");
                 stopSelf();
                 return START_NOT_STICKY;
             default:
