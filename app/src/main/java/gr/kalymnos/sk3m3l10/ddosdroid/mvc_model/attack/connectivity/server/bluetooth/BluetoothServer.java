@@ -36,7 +36,7 @@ public class BluetoothServer extends Server {
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
         initializeFields();
-        registerBluetoothStateReceiver(context);
+        context.registerReceiver(bluetoothStateReceiver, new IntentFilter(ACTION_STATE_CHANGED));
     }
 
     private void initializeFields() {
@@ -69,17 +69,11 @@ public class BluetoothServer extends Server {
                 if (stateChanged) {
                     int state = intent.getIntExtra(EXTRA_STATE, STATE_OFF);
                     if (state == STATE_OFF) {
-                        ServerHost.Action.stopServer(context, getAttackedWebsite());
+                        ServerHost.Action.stopServer(context, getAttackedWebsite());    // TODO: Decouple from ServerHost
                     }
                 }
             }
         };
-    }
-
-    private void registerBluetoothStateReceiver(Context context) {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_STATE_CHANGED);
-        context.registerReceiver(bluetoothStateReceiver, filter);
     }
 
     @Override
