@@ -105,6 +105,7 @@ public class NsdServer extends Server {
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
                 Log.d(TAG, "Nsd service unregistered");
+                ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
             }
         };
     }
