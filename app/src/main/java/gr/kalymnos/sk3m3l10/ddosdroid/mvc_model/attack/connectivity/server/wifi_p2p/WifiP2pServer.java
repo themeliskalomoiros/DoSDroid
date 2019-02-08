@@ -108,7 +108,6 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void start() {
-        super.start();
         constraintsResolver.resolveConstraints();
     }
 

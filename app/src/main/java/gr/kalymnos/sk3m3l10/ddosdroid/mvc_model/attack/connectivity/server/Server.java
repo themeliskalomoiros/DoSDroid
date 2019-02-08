@@ -27,8 +27,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
  * the abstract methods the same way.
  * */
 
-public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener,
-        AttackRepository.OnRepositoryChangeListener {
+public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     protected static final String TAG = "MyServer";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
@@ -49,13 +48,8 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        initializeRepository();
-        initializeConstraintsResolver();
-    }
-
-    private void initializeRepository() {
         this.repository = new FirebaseRepository();
-        this.repository.addOnRepositoryChangeListener(this);
+        initializeConstraintsResolver();
     }
 
     private void initializeConstraintsResolver() {
@@ -64,15 +58,12 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
-    public void start() {
-        repository.startListenForChanges();
-    }
+    public abstract void start();
 
     public void stop() {
         constraintsResolver.releaseResources();
         shutdownThreadPool();
         repository.delete(attack.getPushId());
-        repository.stopListenForChanges();
         repository.removeOnRepositoryChangeListener();
         context = null;
     }
@@ -91,19 +82,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
 
     public final String getAttackedWebsite() {
         return attack.getWebsite();
-    }
-
-    @Override
-    public void onAttackUpload(Attack attack) {
-        Toast.makeText(context, R.string.attack_published_label, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAttackUpdate(Attack changedAttack) {
-    }
-
-    @Override
-    public void onAttackDelete(Attack deletedAttack) {
     }
 
     public interface Status {

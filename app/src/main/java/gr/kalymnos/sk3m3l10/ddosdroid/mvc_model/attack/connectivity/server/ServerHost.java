@@ -112,7 +112,7 @@ public class ServerHost extends Service {
             cachedStartedServer = server;
             cachedStartedServer.start();
         } else {
-            Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getAttackedWebsite(), Toast.LENGTH_SHORT).show();
         }
     }
 

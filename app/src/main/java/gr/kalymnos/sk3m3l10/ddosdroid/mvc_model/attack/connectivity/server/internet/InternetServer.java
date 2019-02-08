@@ -42,7 +42,6 @@ public class InternetServer extends Server {
 
     @Override
     public void start() {
-        super.start();
         constraintsResolver.resolveConstraints();
     }
 
