@@ -16,7 +16,7 @@ class BluetoothConnectionThread extends Thread {
     private static final String TAG = "BluetoothConnectionThre";
 
     private BluetoothSocket bluetoothSocket;
-    private OnBluetoothConnectionListener callback;
+    private OnBluetoothConnectionListener bluetoothConnectionListener;
 
     interface OnBluetoothConnectionListener {
         void onBluetoothConnectionSuccess();
@@ -43,14 +43,18 @@ class BluetoothConnectionThread extends Thread {
     }
 
     public void setOnBluetoothConnectionListener(OnBluetoothConnectionListener onBluetoothConnectionListener) {
-        this.callback = onBluetoothConnectionListener;
+        this.bluetoothConnectionListener = onBluetoothConnectionListener;
     }
 
     @Override
     public void run() {
-        Log.d(TAG, "Instance started");
         //  First cancel device discovery because it slows down the connection
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+
+        if (bluetoothSocket == null) {
+            bluetoothConnectionListener.onBluetoothConnectionFailure();
+            return;
+        }
 
         boolean connectionSuccess = connectToServer();
         handleConnectionResult(connectionSuccess);
@@ -74,7 +78,7 @@ class BluetoothConnectionThread extends Thread {
             handleConnectionSuccess();
         } else {
             Log.d(TAG, "Connection failed");
-            callback.onBluetoothConnectionFailure();
+            bluetoothConnectionListener.onBluetoothConnectionFailure();
         }
     }
 
@@ -83,10 +87,10 @@ class BluetoothConnectionThread extends Thread {
         String serverResponse = readServerResponse(reader);
         boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
         if (isValidResponse) {
-            callback.onBluetoothConnectionSuccess();
+            bluetoothConnectionListener.onBluetoothConnectionSuccess();
             Log.d(TAG, "Connection success");
         } else {
-            callback.onBluetoothConnectionFailure();
+            bluetoothConnectionListener.onBluetoothConnectionFailure();
             Log.d(TAG, "Connection failure");
         }
     }
