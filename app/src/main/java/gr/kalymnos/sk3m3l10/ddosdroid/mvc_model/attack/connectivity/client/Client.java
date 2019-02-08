@@ -77,6 +77,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     @Override
     public void onServerConnectionError() {
+        serverConnection.releaseResources();
         clientConnectionListener.onClientConnectionError();
     }
 
