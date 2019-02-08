@@ -17,7 +17,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     private AttackScript attackScript;
     private AttackRepository repository;
     private ConnectionManager connectionManager;
-    private ClientConnectionListener callback;
+    private ClientConnectionListener clientConnectionListener;
 
     public interface ClientConnectionListener {
         void onClientConnected(Client thisClient, Attack attack);
@@ -47,7 +47,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     }
 
     public void setClientConnectionListener(ClientConnectionListener listener) {
-        this.callback = listener;
+        this.clientConnectionListener = listener;
     }
 
     public void connect() {
@@ -62,23 +62,23 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     public void onManagerConnection() {
         repository.startListenForChanges();
         attackScript.start();
-        callback.onClientConnected(this, attack);
+        clientConnectionListener.onClientConnected(this, attack);
     }
 
     @Override
     public void onManagerError() {
-        callback.onClientConnectionError();
+        clientConnectionListener.onClientConnectionError();
     }
 
     @Override
     public void onManagerDisconnection() {
         connectionManager.releaseResources();
-        callback.onClientDisconnected(this, attack);
+        clientConnectionListener.onClientDisconnected(this, attack);
     }
 
     private void releaseResources() {
         context = null;
-        callback = null;
+        clientConnectionListener = null;
         attackScript.stopExecution();
         repository.stopListenForChanges();
     }
