@@ -102,7 +102,7 @@ public class ServerHost extends Service {
 
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
-        if (servers.contains(server)) {
+        if (!servers.contains(server)) {
             server.start();
         } else {
             Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
