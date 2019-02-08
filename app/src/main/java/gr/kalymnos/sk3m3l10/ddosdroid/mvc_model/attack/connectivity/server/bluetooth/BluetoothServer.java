@@ -89,6 +89,7 @@ public class BluetoothServer extends Server {
     public void stop() {
         closeServerSocket();
         context.unregisterReceiver(bluetoothStateReceiver);
+        ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
         super.stop();
     }
 
