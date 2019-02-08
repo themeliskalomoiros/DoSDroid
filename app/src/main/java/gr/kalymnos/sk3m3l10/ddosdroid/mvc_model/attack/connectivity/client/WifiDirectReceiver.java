@@ -60,6 +60,8 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     private void handleWifiState(int state) {
         if (state == WIFI_P2P_STATE_ENABLED) {
             manager.discoverPeers(channel, getPeerDiscoveryActionListener());
+        }else {
+            serverConnection.serverConnectionListener.onServerConnectionError();
         }
     }
 
