@@ -97,11 +97,15 @@ public class WifiP2pServer extends Server {
     }
 
     private void uploadAttack(WifiP2pGroup group) {
+        setHostInfoToAttack(group);
+        repository.upload(attack);
+    }
+
+    private void setHostInfoToAttack(WifiP2pGroup group) {
         WifiP2pDevice thisDevice = group.getOwner();
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
         attack.addSingleHostInfo(EXTRA_DEVICE_NAME, thisDevice.deviceName);
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, thisDevice.deviceAddress);
-        repository.upload(attack);
     }
 
     private void registerWifiDirectReceiver() {
