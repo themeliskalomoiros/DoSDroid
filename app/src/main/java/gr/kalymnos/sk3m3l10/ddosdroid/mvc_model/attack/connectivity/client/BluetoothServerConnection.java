@@ -49,7 +49,6 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
             if (!discoveryInitiated) {
                 Log.d(TAG, "Device discovery failed to initiate");
                 serverConnectionListener.onServerConnectionError();
-                releaseResources();
             }
         });
     }
@@ -90,7 +89,6 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
                         Log.d(TAG, "Permission denied, reporting connection error.");
                         serverConnectionListener.onServerConnectionError();
-                        releaseResources();
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": Unknown action");
@@ -165,7 +163,6 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
     @Override
     public void onConstraintResolveFailure() {
         serverConnectionListener.onServerConnectionError();
-        releaseResources();
     }
 
     @Override
