@@ -99,11 +99,14 @@ public class BluetoothServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        setAttackHostInfo();
-        initializeServerSocket();   // Initialize here because ServerSocket demands some host info that was set before
-        repository.upload(attack);
-        acceptClientThread.start();
-        ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        boolean serverSocketInitialized = initializeServerSocket();
+        if (serverSocketInitialized) {
+            acceptClientThread.start();
+            repository.upload(attack);
+            ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        } else {
+            ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        }
     }
 
     private void setAttackHostInfo() {
@@ -113,13 +116,16 @@ public class BluetoothServer extends Server {
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
     }
 
-    private void initializeServerSocket() {
+    private boolean initializeServerSocket() {
+        //  Tip: can be initialized inside constructor if attackHostInfo can be set inside constructor
         try {
+            setAttackHostInfo();
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
             serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getHostUUID(attack));
+            return true;
         } catch (IOException e) {
             Log.e(TAG, "Error creating BluetoothServerSocket", e);
-            ServerHost.Action.stopServer(context, getAttackedWebsite());
+            return false;
         }
     }
 
