@@ -55,6 +55,8 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
 
     private void initializeDiscoveryReceiver(Attack attack) {
         deviceDiscoveryReceiver = new BroadcastReceiver() {
+            private boolean firstTimeDiscoveredServer = true;
+
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
@@ -63,8 +65,10 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         Log.d(TAG, "Server device discovered, proceeding to connection");
-                        BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothServerConnection.this);
-                        context.unregisterReceiver(this);
+                        if (firstTimeDiscoveredServer) {
+                            BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothServerConnection.this);
+                            firstTimeDiscoveredServer = false;
+                        }
                     }
                 }
             }
