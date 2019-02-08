@@ -54,13 +54,19 @@ public class ServerHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
-                        statusRepo.setToStarted(getServerWebsiteFrom(intent));
-                        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
+                        Server startedServer = extractServerFrom(servers, getServerWebsiteFrom(intent));
+                        boolean serverAdded = servers.add(startedServer);
+                        if (serverAdded) {
+                            statusRepo.setToStarted(getServerWebsiteFrom(intent));
+                            startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
+                        } else {
+                            Log.e(TAG, "Server for " + startedServer.getAttackedWebsite() + " not added to cache");
+                        }
                         break;
                     case Server.Status.STOPPED:
                         Server stoppedServer = extractServerFrom(servers, getServerWebsiteFrom(intent));
-                        statusRepo.setToStopped(stoppedServer.getAttackedWebsite());
                         servers.remove(stoppedServer);
+                        statusRepo.setToStopped(stoppedServer.getAttackedWebsite());
                         if (servers.size() == 0) {
                             stopSelf();
                         }
@@ -110,8 +116,7 @@ public class ServerHost extends Service {
 
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
-        boolean serverAdded = servers.add(server);
-        if (serverAdded) {
+        if (servers.contains(server)) {
             server.start();
         } else {
             Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
