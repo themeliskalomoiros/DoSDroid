@@ -6,7 +6,6 @@ import android.util.Log;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 /* Note:
@@ -110,7 +109,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     @Override
     public void onAttackDelete(Attack deletedAttack) {
-        AttackService.Action.stopAttack(attack, context);
+        disconnect();
     }
 
     @Override
