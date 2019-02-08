@@ -11,22 +11,22 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 /*  This class offloads the connection implementations from Client class.*/
 
-abstract class ConnectionManager {
-    private static final String TAG = "ConnectionManager";
+abstract class ServerConnection {
+    protected static final String TAG = "MyServerConnection";
 
     protected Attack attack;
     protected Context context;
-    protected ConnectionManagerListener connectionManagerListener;
+    protected ServerConnectionListener serverConnectionListener;
 
-    interface ConnectionManagerListener {
-        void onManagerConnection();
+    interface ServerConnectionListener {
+        void onServerConnection();
 
-        void onManagerError();
+        void onServerConnectionError();
 
-        void onManagerDisconnection();
+        void onServerDisconnection();
     }
 
-    ConnectionManager(Context context, Attack attack) {
+    ServerConnection(Context context, Attack attack) {
         initializeFields(context, attack);
     }
 
@@ -35,8 +35,8 @@ abstract class ConnectionManager {
         this.attack = attack;
     }
 
-    void setConnectionManagerListener(ConnectionManagerListener listener) {
-        this.connectionManagerListener = listener;
+    void setServerConnectionListener(ServerConnectionListener listener) {
+        this.serverConnectionListener = listener;
     }
 
     abstract void connectToServer();
@@ -45,26 +45,26 @@ abstract class ConnectionManager {
 
     protected void releaseResources() {
         context = null;
-        connectionManagerListener = null;
+        serverConnectionListener = null;
     }
 
     interface Factory {
-        ConnectionManager create(Context context, Attack attack);
+        ServerConnection create(Context context, Attack attack);
     }
 
     static class FactoryImp implements Factory {
 
         @Override
-        public ConnectionManager create(Context context, Attack attack) {
+        public ServerConnection create(Context context, Attack attack) {
             switch (attack.getNetworkType()) {
                 case INTERNET:
-                    return new InternetConnectionManager(context, attack);
+                    return new InternetServerConnection(context, attack);
                 case BLUETOOTH:
-                    return new BluetoothConnectionManager(context, attack);
+                    return new BluetoothServerConnection(context, attack);
                 case WIFI_P2P:
-                    return new WifiP2pConnectionManager(context, attack);
+                    return new WifiP2PServerConnection(context, attack);
                 case NSD:
-                    return new NsdConnectionManager(context, attack);
+                    return new NsdServerConnection(context, attack);
                 default:
                     throw new IllegalArgumentException(TAG + "Unknown attack network type");
             }

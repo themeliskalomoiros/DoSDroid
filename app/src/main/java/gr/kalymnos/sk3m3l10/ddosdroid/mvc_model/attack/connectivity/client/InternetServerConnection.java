@@ -8,9 +8,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_STARTED;
 
-class InternetConnectionManager extends ConnectionManager {
+class InternetServerConnection extends ServerConnection {
 
-    InternetConnectionManager(Context context, Attack attack) {
+    InternetServerConnection(Context context, Attack attack) {
         super(context, attack);
     }
 
@@ -18,9 +18,9 @@ class InternetConnectionManager extends ConnectionManager {
     void connectToServer() {
         boolean hasInternet = InternetConnectivity.hasInternetConnection(getConnectivityManager());
         if (hasInternet && isAttackStarted()) {
-            connectionManagerListener.onManagerConnection();
+            serverConnectionListener.onServerConnection();
         } else {
-            connectionManagerListener.onManagerError();
+            serverConnectionListener.onServerConnectionError();
         }
     }
 
@@ -35,6 +35,6 @@ class InternetConnectionManager extends ConnectionManager {
 
     @Override
     void disconnectFromServer() {
-        connectionManagerListener.onManagerDisconnection();
+        serverConnectionListener.onServerDisconnection();
     }
 }

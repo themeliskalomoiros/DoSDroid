@@ -26,12 +26,12 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils.getFailureTextFr
 public class WifiDirectReceiver extends BroadcastReceiver implements SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";
 
-    private WifiP2pConnectionManager connectionManager;
+    private WifiP2PServerConnection serverConnection;
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
 
-    public WifiDirectReceiver(WifiP2pConnectionManager connectionManager, WifiP2pManager manager, WifiP2pManager.Channel channel) {
-        this.connectionManager = connectionManager;
+    public WifiDirectReceiver(WifiP2PServerConnection serverConnection, WifiP2pManager manager, WifiP2pManager.Channel channel) {
+        this.serverConnection = serverConnection;
         this.manager = manager;
         this.channel = channel;
     }
@@ -92,7 +92,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
 
     private boolean isServer(WifiP2pDevice device) {
         String macAddress = device.deviceAddress;
-        String serverMacAddress = Attacks.getHostMacAddress(connectionManager.attack);
+        String serverMacAddress = Attacks.getHostMacAddress(serverConnection.attack);
         return macAddress.equals(serverMacAddress) && device.isGroupOwner();
     }
 
@@ -141,7 +141,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     @NonNull
     private SocketConnectionThread createConnectionThread(WifiP2pInfo wifiP2pInfo) {
         InetAddress groupOwnerAddress = wifiP2pInfo.groupOwnerAddress;
-        int hostLocalPort = Attacks.getHostLocalPort(connectionManager.attack);
+        int hostLocalPort = Attacks.getHostLocalPort(serverConnection.attack);
         SocketConnectionThread thread = new SocketConnectionThread(groupOwnerAddress, hostLocalPort);
         thread.setServerResponseListener(this);
         return thread;
@@ -150,13 +150,13 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     @Override
     public void onServerResponseReceived() {
         Log.d(TAG, "Received server response");
-        connectionManager.connectionManagerListener.onManagerConnection();
+        serverConnection.serverConnectionListener.onServerConnection();
     }
 
     @Override
     public void onServerResponseError() {
         Log.d(TAG, "Did not receive response from server");
-        connectionManager.connectionManagerListener.onManagerError();
+        serverConnection.serverConnectionListener.onServerConnectionError();
     }
 
     public void releaseWifiP2pResources() {

@@ -6,12 +6,10 @@ import android.os.Looper;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-class WifiP2pConnectionManager extends ConnectionManager {
-    private static final String TAG = "WifiP2pConnectionManage";
-
+class WifiP2PServerConnection extends ServerConnection {
     private WifiDirectReceiver receiver;
 
-    WifiP2pConnectionManager(Context context, Attack attack) {
+    WifiP2PServerConnection(Context context, Attack attack) {
         super(context, attack);
         initializeReceiver(context);
     }
@@ -29,7 +27,7 @@ class WifiP2pConnectionManager extends ConnectionManager {
 
     @Override
     void disconnectFromServer() {
-        connectionManagerListener.onManagerDisconnection();
+        serverConnectionListener.onServerDisconnection();
     }
 
     @Override

@@ -9,14 +9,24 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class Client implements ConnectionManager.ConnectionManagerListener, AttackRepository.OnRepositoryChangeListener {
+/* Note:
+ * Client gets disconnected by itself when the attack that is
+ * currently following is deleted from the AttackRepository.
+ *
+ * Details:
+ * The above is usually the way where the client knows its server was shutdown.
+ * They don't keep a connection for long. Their connection is live until the client
+ * received a valid response from server. After that the connection stops and
+ * client starts attacking the website.*/
+
+public class Client implements ServerConnection.ServerConnectionListener, AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "Client";
 
     private Context context;
     private Attack attack;
     private AttackScript attackScript;
     private AttackRepository repository;
-    private ConnectionManager connectionManager;
+    private ServerConnection serverConnection;
     private ClientConnectionListener clientConnectionListener;
 
     public interface ClientConnectionListener {
@@ -37,13 +47,13 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         this.attackScript = new AttackScript(attack.getWebsite());
         this.repository = new FirebaseRepository();
         this.repository.addOnRepositoryChangeListener(this);
-        initializeConnectionManager();
+        initializeServerConnection();
     }
 
-    private void initializeConnectionManager() {
-        ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
-        connectionManager = factory.create(context, attack);
-        connectionManager.setConnectionManagerListener(this);
+    private void initializeServerConnection() {
+        ServerConnection.Factory factory = new ServerConnection.FactoryImp();
+        serverConnection = factory.create(context, attack);
+        serverConnection.setServerConnectionListener(this);
     }
 
     public void setClientConnectionListener(ClientConnectionListener listener) {
@@ -51,32 +61,33 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
     }
 
     public void connect() {
-        connectionManager.connectToServer();
+        serverConnection.connectToServer();
     }
 
     public void disconnect() {
-        connectionManager.disconnectFromServer();
+        serverConnection.disconnectFromServer();
     }
 
     @Override
-    public void onManagerConnection() {
+    public void onServerConnection() {
         repository.startListenForChanges();
         attackScript.start();
         clientConnectionListener.onClientConnected(this, attack);
     }
 
     @Override
-    public void onManagerError() {
+    public void onServerConnectionError() {
         clientConnectionListener.onClientConnectionError();
     }
 
     @Override
-    public void onManagerDisconnection() {
-        connectionManager.releaseResources();
+    public void onServerDisconnection() {
+        serverConnection.releaseResources();
         clientConnectionListener.onClientDisconnected(this, attack);
     }
 
     private void releaseResources() {
+        //  TODO: Must release client resources
         context = null;
         clientConnectionListener = null;
         attackScript.stopExecution();

@@ -16,15 +16,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtils;
 
-class BluetoothConnectionManager extends ConnectionManager implements NetworkConstraintsResolver.OnConstraintsResolveListener,
+class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothConnectionListener {
-    private static final String TAG = "BluetoothConnectionMana";
-
     private Thread discoveryTask;
     private NetworkConstraintsResolver constraintsResolver;
     private BroadcastReceiver deviceDiscoveryReceiver, permissionReceiver;
 
-    BluetoothConnectionManager(Context context, Attack attack) {
+    BluetoothServerConnection(Context context, Attack attack) {
         super(context, attack);
         initializeFields(context, attack);
         registerReceivers(context);
@@ -50,7 +48,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
             boolean discoveryInitiated = adapter.startDiscovery();
             if (!discoveryInitiated) {
                 Log.d(TAG, "Device discovery failed to initiate");
-                connectionManagerListener.onManagerError();
+                serverConnectionListener.onServerConnectionError();
                 releaseResources();
             } else {
                 Log.d(TAG, "Device discovery initiated");
@@ -68,7 +66,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                     BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         Log.d(TAG, "Server device discovered, proceeding to connection");
-                        BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothConnectionManager.this);
+                        BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothServerConnection.this);
                         context.unregisterReceiver(this);
                     }
                 }
@@ -93,7 +91,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
                         Log.d(TAG, "Permission denied, reporting connection error.");
-                        connectionManagerListener.onManagerError();
+                        serverConnectionListener.onServerConnectionError();
                         releaseResources();
                         break;
                     default:
@@ -134,7 +132,7 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     @Override
     void disconnectFromServer() {
-        connectionManagerListener.onManagerDisconnection();
+        serverConnectionListener.onServerDisconnection();
     }
 
     @Override
@@ -168,17 +166,17 @@ class BluetoothConnectionManager extends ConnectionManager implements NetworkCon
 
     @Override
     public void onConstraintResolveFailure() {
-        connectionManagerListener.onManagerError();
+        serverConnectionListener.onServerConnectionError();
         releaseResources();
     }
 
     @Override
     public void onBluetoothConnectionSuccess() {
-        connectionManagerListener.onManagerConnection();
+        serverConnectionListener.onServerConnection();
     }
 
     @Override
     public void onBluetoothConnectionFailure() {
-        connectionManagerListener.onManagerError();
+        serverConnectionListener.onServerConnectionError();
     }
 }

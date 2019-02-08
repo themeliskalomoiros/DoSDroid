@@ -11,12 +11,12 @@ import java.net.InetAddress;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-class NsdConnectionManager extends ConnectionManager implements NsdManager.DiscoveryListener, SocketConnectionThread.OnServerResponseListener {
-    private static final String TAG = "NsdConnectionManager";
+class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener, SocketConnectionThread.OnServerResponseListener {
+    private static final String TAG = "NsdServerConnection";
 
     private NsdManager manager;
 
-    NsdConnectionManager(Context context, Attack attack) {
+    NsdServerConnection(Context context, Attack attack) {
         super(context, attack);
         manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
     }
@@ -28,7 +28,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     void disconnectFromServer() {
-        connectionManagerListener.onManagerDisconnection();
+        serverConnectionListener.onServerDisconnection();
     }
 
     @Override
@@ -72,7 +72,7 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
                 int port = nsdServiceInfo.getPort();
                 InetAddress inetAddress = nsdServiceInfo.getHost();
                 SocketConnectionThread thread = new SocketConnectionThread(inetAddress, port);
-                thread.setServerResponseListener(NsdConnectionManager.this);
+                thread.setServerResponseListener(NsdServerConnection.this);
                 return thread;
             }
 
@@ -106,11 +106,11 @@ class NsdConnectionManager extends ConnectionManager implements NsdManager.Disco
 
     @Override
     public void onServerResponseReceived() {
-        connectionManagerListener.onManagerConnection();
+        serverConnectionListener.onServerConnection();
     }
 
     @Override
     public void onServerResponseError() {
-        connectionManagerListener.onManagerError();
+        serverConnectionListener.onServerConnectionError();
     }
 }
