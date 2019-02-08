@@ -69,9 +69,7 @@ public class ServersHost extends Service {
 
     private void registerServerStatusReceiver() {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Server.ACTION_SERVER_STATUS);
-        manager.registerReceiver(statusReceiver, filter);
+        manager.registerReceiver(statusReceiver, new IntentFilter(Server.ACTION_SERVER_STATUS));
     }
 
     @Override
