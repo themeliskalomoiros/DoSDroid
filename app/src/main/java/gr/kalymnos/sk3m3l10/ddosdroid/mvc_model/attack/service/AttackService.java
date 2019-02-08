@@ -118,7 +118,6 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
         //  TODO: This is not called from main thread, maybe it will arise problems!
-        thisClient.releaseResources();
         clients.remove(thisClient);
         removeBotFromAttackAndUpdate(attack);
         if (clients.size() == 0) {

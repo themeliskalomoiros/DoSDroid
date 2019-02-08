@@ -76,7 +76,7 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         callback.onClientDisconnected(this, attack);
     }
 
-    public void releaseResources() {
+    private void releaseResources() {
         context = null;
         callback = null;
         attackScript.stopExecution();
