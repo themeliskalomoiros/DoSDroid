@@ -130,6 +130,13 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         repo.update(attack);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (Client client : clients)
+            client.disconnect();
+    }
+
     class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 291919;
