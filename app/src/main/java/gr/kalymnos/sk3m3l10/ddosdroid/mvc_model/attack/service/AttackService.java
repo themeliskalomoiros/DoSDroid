@@ -68,7 +68,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         Client client = new Client(this, attack);
         client.setClientConnectionListener(this);
         if (clients.contains(client)) {
-            Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + client.getAttackedWebsite(), Toast.LENGTH_SHORT).show();
         } else {
             client.connect();
         }
@@ -119,13 +119,13 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     public void onClientDisconnected(Client thisClient, Attack attack) {
         //  TODO: This is not called from main thread, maybe it will arise problems!
         clients.remove(thisClient);
-        removeBotFromAttackAndUpdate(attack);
+        updateAttackWithoutCurrentUser(attack);
         if (clients.size() == 0) {
-            Action.stopService(this);
+            stopSelf();
         }
     }
 
-    private void removeBotFromAttackAndUpdate(Attack attack) {
+    private void updateAttackWithoutCurrentUser(Attack attack) {
         attack.getBotIds().remove(Bots.getLocalUserId());
         repo.update(attack);
     }
