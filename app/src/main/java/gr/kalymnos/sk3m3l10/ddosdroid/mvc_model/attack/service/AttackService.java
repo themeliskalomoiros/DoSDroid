@@ -65,27 +65,13 @@ public class AttackService extends Service implements Client.ClientConnectionLis
     }
 
     private void handleStartAttackAction(Attack attack) {
-        if (clientOfAttackExists(attack)) {
+        Client client = new Client(this, attack);
+        if (clients.contains(client)) {
             Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         } else {
-            Client client = createClient();
-            client.connect(this, attack);
+            client.setClientConnectionListener(this);
+            client.connect();
         }
-    }
-
-    private boolean clientOfAttackExists(Attack attack) {
-        for (Client client : clients) {
-            if (client.getId() == attack.getPushId())
-                return true;
-        }
-        return false;
-    }
-
-    @NonNull
-    private Client createClient() {
-        Client client = new Client();
-        client.setClientConnectionListener(this);
-        return client;
     }
 
     private void handleStopAttackAction(Attack attack) {
