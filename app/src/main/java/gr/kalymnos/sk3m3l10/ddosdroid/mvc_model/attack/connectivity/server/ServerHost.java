@@ -54,7 +54,7 @@ public class ServerHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
-                        Server startedServer = extractServerFrom(servers, getServerWebsiteFrom(intent));
+                        Server startedServer = getServerFromCache(getServerWebsiteFrom(intent));
                         boolean serverAdded = servers.add(startedServer);
                         if (serverAdded) {
                             statusRepo.setToStarted(getServerWebsiteFrom(intent));
@@ -64,7 +64,7 @@ public class ServerHost extends Service {
                         }
                         break;
                     case Server.Status.STOPPED:
-                        Server stoppedServer = extractServerFrom(servers, getServerWebsiteFrom(intent));
+                        Server stoppedServer = getServerFromCache(getServerWebsiteFrom(intent));
                         servers.remove(stoppedServer);
                         statusRepo.setToStopped(stoppedServer.getAttackedWebsite());
                         if (servers.size() == 0) {
@@ -130,11 +130,11 @@ public class ServerHost extends Service {
 
     private void handleStopServerAction(Intent intent) {
         String serverWebsite = intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
-        Server server = extractServerFrom(servers, serverWebsite);
+        Server server = getServerFromCache(serverWebsite);
         server.stop();
     }
 
-    private Server extractServerFrom(Set<Server> servers, String serverWebsite) {
+    private Server getServerFromCache(String serverWebsite) {
         for (Server server : servers) {
             if (serverWebsite.equals(server.getAttackedWebsite()))
                 return server;
