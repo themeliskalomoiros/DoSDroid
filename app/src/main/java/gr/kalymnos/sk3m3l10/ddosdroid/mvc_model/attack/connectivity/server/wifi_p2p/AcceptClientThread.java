@@ -44,14 +44,6 @@ class AcceptClientThread extends Thread {
         repository.update(attack);
     }
 
-    public void close() {
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error when closing server socket");
-        }
-    }
-
     @Override
     public void run() {
         while (true) {
@@ -65,6 +57,14 @@ class AcceptClientThread extends Thread {
                 Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
                 break;
             }
+        }
+    }
+
+    public void close() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error when closing server socket");
         }
     }
 }

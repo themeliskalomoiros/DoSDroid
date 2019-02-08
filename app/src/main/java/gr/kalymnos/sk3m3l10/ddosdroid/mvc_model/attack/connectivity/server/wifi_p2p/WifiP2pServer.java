@@ -36,7 +36,6 @@ public class WifiP2pServer extends Server {
     private boolean isReceiverRegistered = false;
 
     private AcceptClientThread acceptClientThread;
-    private boolean attackUploaded;
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
@@ -91,8 +90,10 @@ public class WifiP2pServer extends Server {
 
     private void initializeGroupInfoListener() {
         groupInfoListener = group -> {
-            if (group.isGroupOwner() && !attackUploaded) {
-                uploadAttack(group); // triggers onAttackUpload()
+            if (group.isGroupOwner() && !acceptClientThread.isAlive()) {
+                acceptClientThread.start();
+                ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                uploadAttack(group);
             }
         };
     }
@@ -107,14 +108,6 @@ public class WifiP2pServer extends Server {
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
         attack.addSingleHostInfo(EXTRA_DEVICE_NAME, thisDevice.deviceName);
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, thisDevice.deviceAddress);
-    }
-
-    @Override
-    public void onAttackUpload(Attack attack) {
-        super.onAttackUpload(attack);
-        attackUploaded = true;
-        ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
-        acceptClientThread.start();
     }
 
     @Override
