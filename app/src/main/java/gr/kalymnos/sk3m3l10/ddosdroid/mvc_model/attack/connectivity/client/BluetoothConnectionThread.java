@@ -59,7 +59,8 @@ class BluetoothConnectionThread extends Thread {
         boolean connectionSuccess = connectToServer();
         if (connectionSuccess) {
             Log.d(TAG, "Connection was successfull");
-            handleConnectionSuccess();
+            String response = readServerResponse(getBufferedReader());
+            handleResponse(response);
         } else {
             Log.d(TAG, "Connection failed");
             bluetoothConnectionListener.onBluetoothConnectionFailure();
@@ -78,16 +79,14 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private void handleConnectionSuccess() {
-        BufferedReader reader = getBufferedReader();
-        String serverResponse = readServerResponse(reader);
-        boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
+    private void handleResponse(String response) {
+        boolean isValidResponse = response.equals(Attack.STARTED_PASS);
         if (isValidResponse) {
+            Log.d(TAG, "Received valid server response");
             bluetoothConnectionListener.onBluetoothConnectionSuccess();
-            Log.d(TAG, "Connection success");
         } else {
+            Log.d(TAG, "Received wrong server response");
             bluetoothConnectionListener.onBluetoothConnectionFailure();
-            Log.d(TAG, "Connection failure");
         }
     }
 
