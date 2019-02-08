@@ -26,6 +26,7 @@ public class InternetServer extends Server {
     }
 
     private void initializeConnectivityReceiver() {
+        //  Is registered only after a successful start, which happens in onConstraintsResolved()
         connectivityReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -36,7 +37,8 @@ public class InternetServer extends Server {
             }
 
             private boolean disconnectionHappened(Intent intent) {
-                return intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION) && intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+                return intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
+                        && intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
             }
         };
     }
