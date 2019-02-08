@@ -14,7 +14,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
@@ -72,22 +71,9 @@ public class ServerHost extends Service {
                         }
                         break;
                     case Server.Status.ERROR:
-                        deleteServer(intent);
                         Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
                         break;
                 }
-            }
-
-            private void deleteServer(Intent intent) {
-                for (Iterator<Server> iterator = servers.iterator(); iterator.hasNext(); ) {
-                    Server server = iterator.next();
-                    if (server.getAttackedWebsite().equals(getServerWebsiteFrom(intent))) {
-                        iterator.remove();
-                        Log.d(TAG, "Deleted Server for " + server.getAttackedWebsite() + " from cache");
-                        return;
-                    }
-                }
-                Log.e(TAG, "No server for " + getServerWebsiteFrom(intent) + " found!");
             }
         };
     }
