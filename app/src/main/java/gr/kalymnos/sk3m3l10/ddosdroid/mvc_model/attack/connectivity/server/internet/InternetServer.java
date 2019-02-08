@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -31,8 +29,7 @@ public class InternetServer extends Server {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (disconnectionHappened(intent)) {
-                    ServerHost.Action.stopServer(context, getAttackedWebsite());
-                    context.unregisterReceiver(this);
+                    ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
                 }
             }
 

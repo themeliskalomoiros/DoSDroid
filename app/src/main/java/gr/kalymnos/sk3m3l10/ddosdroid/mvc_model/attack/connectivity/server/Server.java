@@ -1,7 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
