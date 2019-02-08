@@ -42,7 +42,7 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    public void setOnBluetoothConnectionListener(OnBluetoothConnectionListener onBluetoothConnectionListener) {
+    private void setOnBluetoothConnectionListener(OnBluetoothConnectionListener onBluetoothConnectionListener) {
         this.bluetoothConnectionListener = onBluetoothConnectionListener;
     }
 
@@ -66,7 +66,7 @@ class BluetoothConnectionThread extends Thread {
             bluetoothConnectionListener.onBluetoothConnectionFailure();
         }
 
-        closeBluetoothSocket();
+        releaseResources();
     }
 
     private boolean connectToServer() {
@@ -123,7 +123,12 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private void closeBluetoothSocket() {
+    private void releaseResources() {
+        closeSocket();
+        bluetoothConnectionListener = null;
+    }
+
+    private void closeSocket() {
         try {
             bluetoothSocket.close();
         } catch (IOException e) {
