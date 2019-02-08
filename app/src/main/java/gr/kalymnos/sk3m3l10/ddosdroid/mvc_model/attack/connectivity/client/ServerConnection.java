@@ -23,6 +23,7 @@ abstract class ServerConnection {
 
         void onServerConnectionError();
 
+        //  TODO: Probably not needed
         void onServerDisconnection();
     }
 

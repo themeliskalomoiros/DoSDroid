@@ -16,15 +16,15 @@ class BluetoothConnectionThread extends Thread {
     private static final String TAG = "BluetoothConnectionThre";
 
     private BluetoothSocket bluetoothSocket;
-    private OnBluetoothConnectionListener callback;
+    private OnBluetoothServerResoinseListener serverResponseListener;
 
-    interface OnBluetoothConnectionListener {
-        void onBluetoothConnectionSuccess();
+    interface OnBluetoothServerResoinseListener {
+        void onServerResponseReceived();
 
-        void onBluetoothConnectionFailure();
+        void onServerResponseError();
     }
 
-    static void startAnInstance(BluetoothDevice discoveredDevice, UUID uuid, OnBluetoothConnectionListener listener) {
+    static void startAnInstance(BluetoothDevice discoveredDevice, UUID uuid, OnBluetoothServerResoinseListener listener) {
         BluetoothConnectionThread instance = new BluetoothConnectionThread(discoveredDevice, uuid);
         instance.setOnBluetoothConnectionListener(listener);
         instance.start();
@@ -42,20 +42,31 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    public void setOnBluetoothConnectionListener(OnBluetoothConnectionListener onBluetoothConnectionListener) {
-        this.callback = onBluetoothConnectionListener;
+    private void setOnBluetoothConnectionListener(OnBluetoothServerResoinseListener listener) {
+        this.serverResponseListener = listener;
     }
 
     @Override
     public void run() {
-        Log.d(TAG, "Instance started");
         //  First cancel device discovery because it slows down the connection
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
 
-        boolean connectionSuccess = connectToServer();
-        handleConnectionResult(connectionSuccess);
+        if (bluetoothSocket == null) {
+            serverResponseListener.onServerResponseError();
+            return;
+        }
 
-        closeBluetoothSocket();
+        boolean connectionSuccess = connectToServer();
+        if (connectionSuccess) {
+            Log.d(TAG, "Connection was successfull");
+            String response = readServerResponse(getBufferedReader());
+            handleResponse(response);
+        } else {
+            Log.d(TAG, "Connection failed");
+            serverResponseListener.onServerResponseError();
+        }
+
+        releaseResources();
     }
 
     private boolean connectToServer() {
@@ -68,26 +79,14 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private void handleConnectionResult(boolean connectionSuccess) {
-        if (connectionSuccess) {
-            Log.d(TAG, "Connection was successfull");
-            handleConnectionSuccess();
-        } else {
-            Log.d(TAG, "Connection failed");
-            callback.onBluetoothConnectionFailure();
-        }
-    }
-
-    private void handleConnectionSuccess() {
-        BufferedReader reader = getBufferedReader();
-        String serverResponse = readServerResponse(reader);
-        boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
+    private void handleResponse(String response) {
+        boolean isValidResponse = response.equals(Attack.STARTED_PASS);
         if (isValidResponse) {
-            callback.onBluetoothConnectionSuccess();
-            Log.d(TAG, "Connection success");
+            Log.d(TAG, "Received valid server response");
+            serverResponseListener.onServerResponseReceived();
         } else {
-            callback.onBluetoothConnectionFailure();
-            Log.d(TAG, "Connection failure");
+            Log.d(TAG, "Received wrong server response");
+            serverResponseListener.onServerResponseError();
         }
     }
 
@@ -124,7 +123,12 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private void closeBluetoothSocket() {
+    private void releaseResources() {
+        closeSocket();
+        serverResponseListener = null;
+    }
+
+    private void closeSocket() {
         try {
             bluetoothSocket.close();
         } catch (IOException e) {
