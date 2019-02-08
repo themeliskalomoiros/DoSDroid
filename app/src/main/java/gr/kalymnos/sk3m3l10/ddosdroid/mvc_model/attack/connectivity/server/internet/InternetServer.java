@@ -69,14 +69,7 @@ public class InternetServer extends Server {
     }
 
     private void registerReceiver() {
-        context.registerReceiver(connectivityReceiver, getIntentFilter());
-    }
-
-    @NonNull
-    private IntentFilter getIntentFilter() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        return filter;
+        context.registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
