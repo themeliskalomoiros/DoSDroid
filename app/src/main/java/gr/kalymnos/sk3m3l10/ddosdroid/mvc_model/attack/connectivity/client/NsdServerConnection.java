@@ -11,7 +11,8 @@ import java.net.InetAddress;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener, SocketConnectionThread.OnServerResponseListener {
+class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener,
+        SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "NsdServerConnection";
 
     private NsdManager manager;
@@ -97,6 +98,7 @@ class NsdServerConnection extends ServerConnection implements NsdManager.Discove
     @Override
     public void onStartDiscoveryFailed(String s, int errorCode) {
         Log.d(TAG, "Start discovery failed with error code: " + errorCode);
+        serverConnectionListener.onServerConnectionError();
     }
 
     @Override
