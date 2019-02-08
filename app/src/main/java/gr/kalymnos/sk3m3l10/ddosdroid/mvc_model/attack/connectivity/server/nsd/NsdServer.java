@@ -34,10 +34,10 @@ public class NsdServer extends Server {
 
     public NsdServer(Context context, Attack attack) {
         super(context, attack);
-        initializeFields(context);
+        initializeFields();
     }
 
-    private void initializeFields(Context context) {
+    private void initializeFields() {
         initializeServerSocket();
         initializeAcceptClientThread();
         initializeRegistrationListener(context);
