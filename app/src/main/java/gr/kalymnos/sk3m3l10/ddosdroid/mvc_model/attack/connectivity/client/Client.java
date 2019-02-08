@@ -82,10 +82,6 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         repository.stopListenForChanges();
     }
 
-    public String getId() {
-        return attack.getPushId();
-    }
-
     public final String getAttackedWebsite() {
         return attack.getWebsite();
     }
