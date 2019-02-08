@@ -99,18 +99,18 @@ public class BluetoothServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
+        setAttackHostInfo();
+        initializeServerSocket();   // Initialize here because ServerSocket demands some host info that was set before
+        repository.upload(attack);
+        acceptClientThread.start();
         ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
-        uploadAttack();
-        initializeServerSocket();
-        acceptClientThread.start(); // start accepting clients
     }
 
-    private void uploadAttack() {
+    private void setAttackHostInfo() {
         UUID uuid = UUID.randomUUID();
         String macAddress = BluetoothDeviceUtils.getLocalMacAddress(context);
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
-        repository.upload(attack);
     }
 
     private void initializeServerSocket() {
