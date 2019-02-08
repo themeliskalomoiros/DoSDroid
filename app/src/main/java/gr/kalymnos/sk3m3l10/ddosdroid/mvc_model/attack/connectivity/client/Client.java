@@ -82,12 +82,12 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     @Override
     public void onServerDisconnection() {
-        serverConnection.releaseResources();
+        releaseResources();
         clientConnectionListener.onClientDisconnected(this, attack);
     }
 
     private void releaseResources() {
-        //  TODO: Must release client resources
+        serverConnection.releaseResources();
         context = null;
         clientConnectionListener = null;
         attackScript.stopExecution();
