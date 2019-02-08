@@ -29,9 +29,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 
 public class ServersHost extends Service {
     private static final String TAG = "ServersHost";
-    private static final String ACTION_START_SERVER = TAG + "start server action";
-    private static final String ACTION_STOP_SERVER = TAG + "stop server action";
-    private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
     private Set<Server> servers;
     private StatusRepository statusRepo;
@@ -56,11 +53,11 @@ public class ServersHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
-                        statusRepo.setToStarted(getServerIdFrom(intent));
+                        statusRepo.setToStarted(getServerWebsiteFrom(intent));
                         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         break;
                     case Server.Status.STOPPED:
-                        executeStopProcedure(getServerIdFrom(intent));
+                        executeStopProcedure(getServerWebsiteFrom(intent));
                         break;
                     case Server.Status.ERROR:
                         Toast.makeText(ServersHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
@@ -80,13 +77,13 @@ public class ServersHost extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         switch (intent.getAction()) {
-            case ACTION_START_SERVER:
+            case Action.ACTION_START_SERVER:
                 handleStartServerAction(intent);
                 return START_STICKY;
-            case ACTION_STOP_SERVER:
+            case Action.ACTION_STOP_SERVER:
                 handleStopServerAction(intent);
                 return START_STICKY;
-            case ACTION_STOP_SERVICE:
+            case Action.ACTION_STOP_SERVICE:
                 stopSelf();
                 return START_NOT_STICKY;
             default:
@@ -110,13 +107,13 @@ public class ServersHost extends Service {
     }
 
     private void handleStopServerAction(Intent intent) {
-        String serverId = intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
-        executeStopProcedure(serverId);
+        String serverWebsite = intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
+        executeStopProcedure(serverWebsite);
     }
 
-    private void executeStopProcedure(String serverId) {
+    private void executeStopProcedure(String serverWebsite) {
         try {
-            Server server = extractServerFrom(servers, serverId);
+            Server server = extractServerFrom(servers, serverWebsite);
             server.stop();
             statusRepo.setToStopped(server.getAttackedWebsite());
             servers.remove(server);
@@ -187,12 +184,16 @@ public class ServersHost extends Service {
 
         PendingIntent createStopServicePendingIntent() {
             Intent intent = new Intent(ServersHost.this, ServersHost.class);
-            intent.setAction(ACTION_STOP_SERVICE);
+            intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(ServersHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
     public static class Action {
+        private static final String ACTION_START_SERVER = TAG + "start server action";
+        private static final String ACTION_STOP_SERVER = TAG + "stop server action";
+        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
+
         public static void startServer(Context context, Attack attack) {
             Intent intent = createStartServerIntent(context, attack);
             context.startService(intent);
@@ -206,8 +207,8 @@ public class ServersHost extends Service {
             return intent;
         }
 
-        public static void stopServer(Context context, String serverId) {
-            Intent intent = createStopServerIntent(context, serverId);
+        public static void stopServer(Context context, String serverWebsite) {
+            Intent intent = createStopServerIntent(context, serverWebsite);
             context.startService(intent);
         }
 

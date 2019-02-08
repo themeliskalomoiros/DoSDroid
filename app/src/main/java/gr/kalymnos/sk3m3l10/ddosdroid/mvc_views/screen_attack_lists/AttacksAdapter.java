@@ -174,9 +174,9 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
         private void setCheckedState() {
             Attack attack = getItemFromLinkedHashSet(attacks, getLayoutPosition());
-            String serverId = attack.getPushId();
+            String serverWebsite = attack.getWebsite();
             StatusRepository repo = new SharedPrefsStatusRepository(context);
-            boolean serverActive = repo.isStarted(serverId);
+            boolean serverActive = repo.isStarted(serverWebsite);
             activateSwitch.setChecked(serverActive);
         }
 

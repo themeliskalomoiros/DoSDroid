@@ -24,11 +24,11 @@ public abstract class ServerStatusReceiver extends BroadcastReceiver {
 
     protected abstract void handleServerStatusAction(Intent intent);
 
-    protected String getServerIdFrom(Intent intent) {
+    protected final String getServerWebsiteFrom(Intent intent) {
         return intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
     }
 
-    protected int getServerStatusFrom(Intent intent) {
+    protected final int getServerStatusFrom(Intent intent) {
         return intent.getIntExtra(Server.EXTRA_SERVER_STATUS, Server.Status.ERROR);
     }
 }
