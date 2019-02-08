@@ -38,12 +38,12 @@ public class NsdServer extends Server {
     }
 
     private void initializeFields() {
-        initializeServerSocket();
+        initializeServerSocketAndCachePort();
         initializeAcceptClientThread();
         initializeRegistrationListener(context);
     }
 
-    private void initializeServerSocket() {
+    private void initializeServerSocketAndCachePort() {
         try {
             serverSocket = new ServerSocket(0); // system chooses an available port
             localPort = serverSocket.getLocalPort();
@@ -104,7 +104,7 @@ public class NsdServer extends Server {
 
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
-
+                Log.d(TAG, "Nsd service unregistered");
             }
         };
     }
