@@ -59,10 +59,10 @@ public class NsdServer extends Server {
                     Socket socket = serverSocket.accept();
                     executor.execute(new NsdServerThread(socket));
                 } catch (SocketException e) {
-                    Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed.", e);
+                    Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed.", e);
                     break;
                 } catch (IOException e) {
-                    Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
+                    Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
                     break;
                 }
             }
@@ -104,7 +104,7 @@ public class NsdServer extends Server {
 
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
-                Log.d(TAG, "Nsd service unregistered");
+                Log.d(TAG, "Nsd service unregistered successfully");
                 ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
             }
         };

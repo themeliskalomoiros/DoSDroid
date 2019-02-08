@@ -51,10 +51,10 @@ class AcceptClientThread extends Thread {
                 Socket socket = serverSocket.accept();
                 executor.execute(new WifiP2pServerThread(socket));
             } catch (SocketException e) {
-                Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed.", e);
+                Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed.", e);
                 break;
             } catch (IOException e) {
-                Log.d(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
+                Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
                 break;
             }
         }

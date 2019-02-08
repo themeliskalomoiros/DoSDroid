@@ -33,6 +33,7 @@ public class ServerHost extends Service {
     private Set<Server> servers;
     private StatusRepository statusRepo;
     private ServerStatusReceiver statusReceiver;
+    private Server cachedStartedServer;
 
     @Override
     public void onCreate() {
@@ -54,13 +55,12 @@ public class ServerHost extends Service {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
                         Log.d(TAG, "Server.Status.RUNNING");
-                        Server startedServer = getServerFromCache(getServerWebsiteFrom(intent));
-                        boolean serverAdded = servers.add(startedServer);
+                        boolean serverAdded = servers.add(cachedStartedServer);
                         if (serverAdded) {
                             statusRepo.setToStarted(getServerWebsiteFrom(intent));
                             startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         } else {
-                            Log.e(TAG, "Server for " + startedServer.getAttackedWebsite() + " not added to cache");
+                            Log.e(TAG, "Server for " + cachedStartedServer.getAttackedWebsite() + " not added to cache");
                         }
                         break;
                     case Server.Status.STOPPED:
@@ -109,7 +109,8 @@ public class ServerHost extends Service {
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
         if (!servers.contains(server)) {
-            server.start();
+            cachedStartedServer = server;
+            cachedStartedServer.start();
         } else {
             Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         }
