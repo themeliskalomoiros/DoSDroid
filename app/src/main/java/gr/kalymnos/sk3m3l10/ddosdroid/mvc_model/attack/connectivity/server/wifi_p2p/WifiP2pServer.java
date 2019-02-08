@@ -30,8 +30,10 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
     private WifiP2pManager.Channel channel;
-    private BroadcastReceiver wifiDirectReceiver;
     private WifiP2pManager.GroupInfoListener groupInfoListener;
+
+    private BroadcastReceiver wifiDirectReceiver;
+    private boolean isReceiverRegistered = false;
 
     private AcceptClientThread acceptClientThread;
     private boolean attackUploaded;
@@ -39,7 +41,6 @@ public class WifiP2pServer extends Server {
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
         initializeFields();
-        registerWifiDirectReceiver();
     }
 
     private void initializeFields() {
@@ -108,18 +109,6 @@ public class WifiP2pServer extends Server {
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, thisDevice.deviceAddress);
     }
 
-    private void registerWifiDirectReceiver() {
-        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
-    }
-
-    @NonNull
-    private IntentFilter getIntentFilter() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
-        filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        return filter;
-    }
-
     @Override
     public void onAttackUpload(Attack attack) {
         super.onAttackUpload(attack);
@@ -137,7 +126,8 @@ public class WifiP2pServer extends Server {
     @Override
     public void stop() {
         acceptClientThread.close();
-        context.unregisterReceiver(wifiDirectReceiver);
+        if (isReceiverRegistered)
+            context.unregisterReceiver(wifiDirectReceiver);
         removeGroup();
         super.stop();
     }
@@ -158,8 +148,20 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        //  No code needed here. When constraints are resolved the wifiDirectReceiver
-        //  will receive its actions and act accordingly.
+        registerWifiDirectReceiver();
+    }
+
+    private void registerWifiDirectReceiver() {
+        context.registerReceiver(wifiDirectReceiver, getIntentFilter());
+        isReceiverRegistered = true;
+    }
+
+    @NonNull
+    private IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
+        filter.addAction(WIFI_P2P_CONNECTION_CHANGED_ACTION);
+        return filter;
     }
 
     @Override
