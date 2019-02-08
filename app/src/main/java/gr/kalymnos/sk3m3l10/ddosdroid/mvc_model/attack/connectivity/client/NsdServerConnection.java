@@ -94,6 +94,7 @@ class NsdServerConnection extends ServerConnection implements NsdManager.Discove
     @Override
     public void onServiceLost(NsdServiceInfo nsdServiceInfo) {
         Log.d(TAG, "Service lost");
+        disconnectFromServer();
     }
 
     @Override
