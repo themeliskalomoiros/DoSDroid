@@ -28,7 +28,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
 public class ServerHost extends Service {
-    private static final String TAG = "ServerHost";
+    private static final String TAG = "MyServerHost";
 
     private Set<Server> servers;
     private StatusRepository statusRepo;
@@ -53,6 +53,7 @@ public class ServerHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
+                        Log.d(TAG, "Server.Status.RUNNING");
                         Server startedServer = getServerFromCache(getServerWebsiteFrom(intent));
                         boolean serverAdded = servers.add(startedServer);
                         if (serverAdded) {
@@ -63,6 +64,7 @@ public class ServerHost extends Service {
                         }
                         break;
                     case Server.Status.STOPPED:
+                        Log.d(TAG, "Server.Status.STOPPED");
                         Server stoppedServer = getServerFromCache(getServerWebsiteFrom(intent));
                         servers.remove(stoppedServer);
                         statusRepo.setToStopped(stoppedServer.getAttackedWebsite());
@@ -71,6 +73,7 @@ public class ServerHost extends Service {
                         }
                         break;
                     case Server.Status.ERROR:
+                        Log.d(TAG, "Server.Status.ERROR");
                         Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
                         break;
                 }
