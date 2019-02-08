@@ -24,8 +24,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
 
 /*Scenario to eliminate duplication:
- *
- * Server is not abstract anymore since all the subclasses are implementing
+ * Server should not abstract anymore since all the subclasses are implementing
  * the abstract methods the same way.
  * */
 
@@ -52,7 +51,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         initializeRepository();
-        initializeConstraintsResolver(context, attack);
+        initializeConstraintsResolver();
     }
 
     private void initializeRepository() {
@@ -60,14 +59,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.repository.addOnRepositoryChangeListener(this);
     }
 
-    private void initializeConstraintsResolver(Context context, Attack attack) {
+    private void initializeConstraintsResolver() {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
         constraintsResolver = builder.build(context, attack.getNetworkType(), this);
         constraintsResolver.setOnConstraintsResolveListener(this);
-    }
-
-    public final String getAttackedWebsite() {
-        return attack.getWebsite();
     }
 
     public void start() {
@@ -93,6 +88,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    public final String getAttackedWebsite() {
+        return attack.getWebsite();
     }
 
     @Override
