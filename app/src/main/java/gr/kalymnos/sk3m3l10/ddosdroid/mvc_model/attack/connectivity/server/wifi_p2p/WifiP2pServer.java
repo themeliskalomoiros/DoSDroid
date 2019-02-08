@@ -54,25 +54,28 @@ public class WifiP2pServer extends Server {
         wifiDirectReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                switch (intent.getAction()) {
-                    case WIFI_P2P_STATE_CHANGED_ACTION:
-                        if (isStateDisabled(intent)) {
-                            stop();
-                            ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
-                        }
-                        break;
-                    case WIFI_P2P_CONNECTION_CHANGED_ACTION:
-                        if (isConnected(intent)) {
-                            wifiP2pManager.requestGroupInfo(channel, groupInfoListener);
-                        }
-                        break;
-                    default:
-                        throw new IllegalArgumentException(TAG + ": unknown action");
+                if (WIFI_P2P_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+                    stopIfStateDisabled(context, intent);
+                } else if (WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(intent.getAction())) {
+                    requestGroupInfoIfConnected(intent);
+                }
+            }
+
+            private void stopIfStateDisabled(Context context, Intent intent) {
+                if (isStateDisabled(intent)) {
+                    stop();
+                    ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
                 }
             }
 
             private boolean isStateDisabled(Intent intent) {
                 return intent.getIntExtra(EXTRA_WIFI_STATE, -1) == WIFI_P2P_STATE_DISABLED;
+            }
+
+            private void requestGroupInfoIfConnected(Intent intent) {
+                if (isConnected(intent)) {
+                    wifiP2pManager.requestGroupInfo(channel, groupInfoListener);
+                }
             }
 
             private boolean isConnected(Intent intent) {
