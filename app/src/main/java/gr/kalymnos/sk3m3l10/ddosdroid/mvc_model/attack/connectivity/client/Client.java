@@ -69,7 +69,6 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     @Override
     public void onServerConnection() {
-        serverConnection.releaseResources();
         repository.startListenForChanges();
         attackScript.start();
         clientConnectionListener.onClientConnected(this, attack);
@@ -83,8 +82,8 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     @Override
     public void onServerDisconnection() {
-        releaseResources();
         clientConnectionListener.onClientDisconnected(this, attack);
+        releaseResources();
     }
 
     private void releaseResources() {
