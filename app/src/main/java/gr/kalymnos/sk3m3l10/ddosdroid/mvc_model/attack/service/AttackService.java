@@ -90,14 +90,15 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
+        //  TODO: This is not called from main thread, maybe it will arise problems!
         boolean clientAdded = clients.add(thisClient);
         if (clientAdded) {
-            addLocalBotAndUpdate(attack);
+            updateAttackWithCurrentUser(attack);
             startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
         }
     }
 
-    private void addLocalBotAndUpdate(Attack attack) {
+    private void updateAttackWithCurrentUser(Attack attack) {
         Attacks.addBot(attack, Bots.getLocalUser());
         repo.update(attack);
     }
@@ -116,6 +117,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
+        //  TODO: This is not called from main thread, maybe it will arise problems!
         thisClient.releaseResources();
         clients.remove(thisClient);
         removeBotFromAttackAndUpdate(attack);
