@@ -66,10 +66,10 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private void handleStartAttackAction(Attack attack) {
         Client client = new Client(this, attack);
+        client.setClientConnectionListener(this);
         if (clients.contains(client)) {
             Toast.makeText(this, R.string.already_attacking_label, Toast.LENGTH_SHORT).show();
         } else {
-            client.setClientConnectionListener(this);
             client.connect();
         }
     }
@@ -81,8 +81,8 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
     private Client getClientFromCollection(Attack attack) {
         for (Client client : clients) {
-            boolean sameId = client.getId().equals(attack.getPushId());
-            if (sameId)
+            boolean sameWebsite = client.getAttackedWebsite().equals(attack.getWebsite());
+            if (sameWebsite)
                 return client;
         }
         throw new UnsupportedOperationException(TAG + ": No Client for attack(" + attack.getPushId() + ") in the collection");
