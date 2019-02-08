@@ -16,7 +16,6 @@ import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.BuildConfig;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
@@ -67,10 +66,14 @@ public class BluetoothServer extends Server {
             public void onReceive(Context context, Intent intent) {
                 boolean stateChanged = intent.getAction().equals(ACTION_STATE_CHANGED);
                 if (stateChanged) {
-                    int state = intent.getIntExtra(EXTRA_STATE, STATE_OFF);
-                    if (state == STATE_OFF) {
-                        ServerHost.Action.stopServer(context, getAttackedWebsite());    // TODO: Decouple from ServerHost
-                    }
+                    stopIfStateIsOff(intent);
+                }
+            }
+
+            private void stopIfStateIsOff(Intent intent) {
+                int state = intent.getIntExtra(EXTRA_STATE, STATE_OFF);
+                if (state == STATE_OFF) {
+                    stop();
                 }
             }
         };
