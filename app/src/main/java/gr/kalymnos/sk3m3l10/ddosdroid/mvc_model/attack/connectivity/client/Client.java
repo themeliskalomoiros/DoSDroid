@@ -27,13 +27,8 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         void onClientDisconnected(Client thisClient, Attack attack);
     }
 
-    public void setClientConnectionListener(ClientConnectionListener listener) {
-        this.callback = listener;
-    }
-
-    public void connect(Context context, Attack attack) {
+    public Client(Context context, Attack attack) {
         initializeFields(context, attack);
-        connectionManager.connectToServer();
     }
 
     private void initializeFields(Context context, Attack attack) {
@@ -42,15 +37,21 @@ public class Client implements ConnectionManager.ConnectionManagerListener, Atta
         this.attackScript = new AttackScript(attack.getWebsite());
         this.repository = new FirebaseRepository();
         this.repository.addOnRepositoryChangeListener(this);
-        initializeConnectionManagerIfNotNull();
+        initializeConnectionManager();
     }
 
-    private void initializeConnectionManagerIfNotNull() {
-        if (connectionManager == null) {
-            ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
-            connectionManager = factory.create(context, attack);
-            connectionManager.setConnectionManagerListener(this);
-        }
+    private void initializeConnectionManager() {
+        ConnectionManager.Factory factory = new ConnectionManager.FactoryImp();
+        connectionManager = factory.create(context, attack);
+        connectionManager.setConnectionManagerListener(this);
+    }
+
+    public void setClientConnectionListener(ClientConnectionListener listener) {
+        this.callback = listener;
+    }
+
+    public void connect() {
+        connectionManager.connectToServer();
     }
 
     public void disconnect() {
