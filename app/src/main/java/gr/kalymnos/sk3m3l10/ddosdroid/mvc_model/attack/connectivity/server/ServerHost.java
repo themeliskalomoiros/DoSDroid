@@ -58,7 +58,12 @@ public class ServerHost extends Service {
                         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         break;
                     case Server.Status.STOPPED:
-                        executeStopProcedure(getServerWebsiteFrom(intent));
+                        Server stoppedServer = extractServerFrom(servers, getServerWebsiteFrom(intent));
+                        statusRepo.setToStopped(stoppedServer.getAttackedWebsite());
+                        servers.remove(stoppedServer);
+                        if (servers.size() == 0) {
+                            stopSelf();
+                        }
                         break;
                     case Server.Status.ERROR:
                         deleteServer(intent);
@@ -120,21 +125,8 @@ public class ServerHost extends Service {
 
     private void handleStopServerAction(Intent intent) {
         String serverWebsite = intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
-        executeStopProcedure(serverWebsite);
-    }
-
-    private void executeStopProcedure(String serverWebsite) {
-        try {
-            Server server = extractServerFrom(servers, serverWebsite);
-            server.stop();
-            statusRepo.setToStopped(server.getAttackedWebsite());
-            servers.remove(server);
-            if (servers.size() == 0) {
-                stopSelf();
-            }
-        } catch (IllegalArgumentException e) {
-            Log.e(TAG, e.getMessage());
-        }
+        Server server = extractServerFrom(servers, serverWebsite);
+        server.stop();
     }
 
     private Server extractServerFrom(Set<Server> servers, String serverWebsite) {
