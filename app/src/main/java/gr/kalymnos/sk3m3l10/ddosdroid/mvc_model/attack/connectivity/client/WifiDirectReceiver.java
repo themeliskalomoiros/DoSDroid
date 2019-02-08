@@ -76,6 +76,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
             @Override
             public void onFailure(int reason) {
                 Log.d(TAG, "Initiating discovering peers process: " + getFailureTextFrom(reason));
+                serverConnection.serverConnectionListener.onServerConnectionError();
             }
         };
     }
