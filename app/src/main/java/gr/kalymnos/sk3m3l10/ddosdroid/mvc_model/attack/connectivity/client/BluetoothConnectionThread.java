@@ -57,7 +57,13 @@ class BluetoothConnectionThread extends Thread {
         }
 
         boolean connectionSuccess = connectToServer();
-        handleConnectionResult(connectionSuccess);
+        if (connectionSuccess) {
+            Log.d(TAG, "Connection was successfull");
+            handleConnectionSuccess();
+        } else {
+            Log.d(TAG, "Connection failed");
+            bluetoothConnectionListener.onBluetoothConnectionFailure();
+        }
 
         closeBluetoothSocket();
     }
@@ -69,16 +75,6 @@ class BluetoothConnectionThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Error when bluetoothSocket.connect()", e);
             return false;
-        }
-    }
-
-    private void handleConnectionResult(boolean connectionSuccess) {
-        if (connectionSuccess) {
-            Log.d(TAG, "Connection was successfull");
-            handleConnectionSuccess();
-        } else {
-            Log.d(TAG, "Connection failed");
-            bluetoothConnectionListener.onBluetoothConnectionFailure();
         }
     }
 
