@@ -80,6 +80,7 @@ class NsdServerConnection extends ServerConnection implements NsdManager.Discove
             @Override
             public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int errorCode) {
                 Log.d(TAG, "Service resolve failed with error code: " + errorCode);
+                serverConnectionListener.onServerConnectionError();
             }
         };
     }
