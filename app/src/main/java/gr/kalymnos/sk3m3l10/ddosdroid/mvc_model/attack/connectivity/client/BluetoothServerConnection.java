@@ -50,8 +50,6 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
                 Log.d(TAG, "Device discovery failed to initiate");
                 serverConnectionListener.onServerConnectionError();
                 releaseResources();
-            } else {
-                Log.d(TAG, "Device discovery initiated");
             }
         });
     }

@@ -35,6 +35,7 @@ class InternetServerConnection extends ServerConnection {
 
     @Override
     void disconnectFromServer() {
+        releaseResources();
         serverConnectionListener.onServerDisconnection();
     }
 }
