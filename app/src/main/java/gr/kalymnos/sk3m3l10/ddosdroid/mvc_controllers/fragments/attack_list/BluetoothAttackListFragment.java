@@ -11,7 +11,7 @@ public class BluetoothAttackListFragment extends AttackListFragment {
     public void onAttackUpload(Attack attack) {
         if (attack.getNetworkType() == BLUETOOTH) {
             cacheAttackAccordingToContentType(attack);
-            bindAttacks();
+            displayAttacks();
         }
     }
 
@@ -20,7 +20,7 @@ public class BluetoothAttackListFragment extends AttackListFragment {
         if (changedAttack.getNetworkType() == BLUETOOTH) {
             deleteFromCacheAttackWith(changedAttack.getPushId());
             cacheAttackAccordingToContentType(changedAttack);
-            bindAttacks();
+            displayAttacks();
         }
     }
 }

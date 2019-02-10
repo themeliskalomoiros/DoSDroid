@@ -78,7 +78,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (cachedAttacksExist(savedInstanceState)) {
-            bindAttacks();
+            displayAttacks();
         }
     }
 
@@ -94,7 +94,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         return false;
     }
 
-    protected final void bindAttacks() {
+    protected final void displayAttacks() {
         viewMvc.bindAttacks(cachedAttacks);
     }
 
@@ -155,7 +155,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public final void onAttackDelete(Attack deletedAttack) {
         if (deletedAttack.getNetworkType() == INTERNET) {
             deleteFromCacheAttackWith(deletedAttack.getPushId());
-            bindAttacks();
+            displayAttacks();
         }
     }
 
@@ -181,7 +181,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
                 cachedAttacks.add(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_OWN_ATTACKS) {
-            if (isAttackOwnedByBot(attack, Bots.getLocalUser())) {
+            boolean userOwnsThisAttack = isAttackOwnedByBot(attack, Bots.getLocalUser()) && !includesBot(attack, Bots.getLocalUser());
+            if (userOwnsThisAttack) {
                 cachedAttacks.add(attack);
             }
         }

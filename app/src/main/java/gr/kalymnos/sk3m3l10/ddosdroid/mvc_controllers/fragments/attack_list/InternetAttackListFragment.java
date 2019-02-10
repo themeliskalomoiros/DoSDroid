@@ -11,7 +11,7 @@ public class InternetAttackListFragment extends AttackListFragment {
     public void onAttackUpload(Attack attack) {
         if (attack.getNetworkType() == INTERNET) {
             cacheAttackAccordingToContentType(attack);
-            bindAttacks();
+            displayAttacks();
         }
     }
 
@@ -20,7 +20,7 @@ public class InternetAttackListFragment extends AttackListFragment {
         if (changedAttack.getNetworkType() == INTERNET) {
             deleteFromCacheAttackWith(changedAttack.getPushId());
             cacheAttackAccordingToContentType(changedAttack);
-            bindAttacks();
+            displayAttacks();
         }
     }
 }
