@@ -19,7 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
  * client starts attacking the website.*/
 
 public class Client implements ServerConnection.ServerConnectionListener, AttackRepository.OnRepositoryChangeListener {
-    private static final String TAG = "Client";
+    private static final String TAG = "MyClient";
 
     private Context context;
     private Attack attack;
