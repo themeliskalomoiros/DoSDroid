@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
@@ -75,6 +76,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
 
     private void handleStopAttackAction(Attack attack) {
         Client client = getClientFromCollection(attack);
+        clients.remove(client);
         client.disconnect();
     }
 
@@ -117,7 +119,6 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     @Override
     public void onClientDisconnected(Client thisClient, Attack attack) {
         //  TODO: This is not called from main thread, maybe it will arise problems!
-        clients.remove(thisClient);
         updateAttackWithoutCurrentUser(attack);
         if (clients.size() == 0) {
             stopSelf();
@@ -132,8 +133,14 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for (Client client : clients)
-            client.disconnect();
+        disconnectAndDeleteClients();
+    }
+
+    private void disconnectAndDeleteClients() {
+        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
+            iterator.next().disconnect();
+            iterator.remove();
+        }
     }
 
     class ForegroundNotification {
