@@ -18,6 +18,7 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     private static final String NODE_ATTACKS = "attacks";
 
     private DatabaseReference allAttacksRef;
+    private boolean addedChildEventListener;
 
     public FirebaseRepository() {
         initializeAllAttacksRef();
@@ -30,12 +31,19 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
 
     @Override
     public void startListenForChanges() {
-        allAttacksRef.addChildEventListener(this);
+        if (!addedChildEventListener) {
+            allAttacksRef.addChildEventListener(this);
+            addedChildEventListener = true;
+            Log.d(TAG, "Added childEventListener to attacks ref");
+        }
     }
 
     @Override
     public void stopListenForChanges() {
-        allAttacksRef.removeEventListener(this);
+        if (addedChildEventListener) {
+            allAttacksRef.removeEventListener(this);
+            Log.d(TAG, "Removed childEventListener to attacks ref");
+        }
     }
 
     @Override
