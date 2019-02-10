@@ -91,7 +91,8 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
                     return;
                 }
             }
-            serverConnection.serverConnectionListener.onServerConnectionError();
+            if (serverConnection.serverConnectionListener != null)
+                serverConnection.serverConnectionListener.onServerConnectionError();
         };
     }
 
