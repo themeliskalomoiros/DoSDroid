@@ -37,6 +37,7 @@ public class AttackScript extends Thread {
         while (!stopped.get()) {
             readUrl();
         }
+        Log.d(TAG, "Exited from thread");
     }
 
     private void readUrl() {
@@ -66,9 +67,5 @@ public class AttackScript extends Thread {
 
     public void stopExecution() {
         stopped.set(true);
-    }
-
-    public boolean isStopped() {
-        return stopped.get();
     }
 }
