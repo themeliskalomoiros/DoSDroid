@@ -70,7 +70,8 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
     @Override
     public void onServerConnection() {
         repository.startListenForChanges();
-        attackScript.start();
+        if (!attackScript.isAlive())
+            attackScript.start();
         clientConnectionListener.onClientConnected(this, attack);
     }
 
