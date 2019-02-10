@@ -160,14 +160,14 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected final void deleteFromCacheAttackWith(String attackId) {
-        Iterator<Attack> iterator = cachedAttacks.iterator();
-        while (iterator.hasNext()) {
+        for (Iterator<Attack> iterator = cachedAttacks.iterator(); iterator.hasNext(); ) {
             boolean foundAttack = iterator.next().getPushId().equals(attackId);
             if (foundAttack) {
                 iterator.remove();
                 return;
             }
         }
+        throw new UnsupportedOperationException(TAG + ": Could not find attack to delete.");
     }
 
     protected final void cacheAttackAccordingToContentType(Attack attack) {
