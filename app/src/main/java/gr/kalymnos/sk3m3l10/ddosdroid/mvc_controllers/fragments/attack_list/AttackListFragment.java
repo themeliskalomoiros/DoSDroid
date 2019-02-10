@@ -141,7 +141,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
-            ServerHost.Action.stopServer(getContext(), attack.getPushId());
+            ServerHost.Action.stopServer(getContext(), attack.getWebsite());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
