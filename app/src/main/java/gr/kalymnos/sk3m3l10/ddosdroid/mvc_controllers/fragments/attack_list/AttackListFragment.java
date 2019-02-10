@@ -53,6 +53,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         super.onCreate(savedInstanceState);
         cachedAttacks = new LinkedHashSet<>();
         initializeRepository();
+        repository.startListenForChanges();
     }
 
     private void initializeRepository() {
@@ -99,14 +100,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        repository.startListenForChanges();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         repository.stopListenForChanges();
     }
 
