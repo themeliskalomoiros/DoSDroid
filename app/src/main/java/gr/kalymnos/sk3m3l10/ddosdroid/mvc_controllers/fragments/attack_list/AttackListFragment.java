@@ -36,8 +36,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContainsKey;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.getItemFromLinkedHashSet;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.collectionHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.getItemFromLinkedHashSet;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,

@@ -18,13 +18,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.statu
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackItemClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.getItemFromLinkedHashSet;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.collectionHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.getItemFromLinkedHashSet;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private static final String TAG = AttacksAdapter.class.getSimpleName();
@@ -71,7 +71,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (ValidationUtils.collectionHasItems(attacks)) {
+        if (CollectionUtils.collectionHasItems(attacks)) {
             Attack attack = getItemFromLinkedHashSet(attacks, position);
             return getItemViewTypeFrom(attack);
         }

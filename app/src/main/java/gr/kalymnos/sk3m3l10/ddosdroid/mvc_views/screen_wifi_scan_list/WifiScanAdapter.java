@@ -12,7 +12,7 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.collectionHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.collectionHasItems;
 
 public class WifiScanAdapter extends RecyclerView.Adapter<WifiScanAdapter.ScanResultHolder> {
     private Context context;
