@@ -148,10 +148,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public final void onAttackDelete(Attack deletedAttack) {
-        if (deletedAttack.getNetworkType() == INTERNET) {
-            deleteFromCacheAttackWith(deletedAttack.getPushId());
-            displayAttacks();
-        }
+        deleteFromCacheAttackWith(deletedAttack.getPushId());
+        displayAttacks();
     }
 
     protected final void deleteFromCacheAttackWith(String attackId) {
