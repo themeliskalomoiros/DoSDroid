@@ -162,7 +162,6 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
                 return;
             }
         }
-        throw new UnsupportedOperationException(TAG + ": Could not find attack to delete.");
     }
 
     protected final void cacheAttackAccordingToContentType(Attack attack) {
