@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -17,7 +17,6 @@ import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -25,7 +24,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.ClientHost.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.ClientHost.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
 
 public class ClientHost extends Service implements Client.ClientConnectionListener {

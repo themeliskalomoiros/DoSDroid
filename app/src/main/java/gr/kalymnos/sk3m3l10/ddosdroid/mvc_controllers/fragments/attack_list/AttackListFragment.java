@@ -20,7 +20,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActiv
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.ClientHost;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.ClientHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;

@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity;
 
 import android.util.Log;
 

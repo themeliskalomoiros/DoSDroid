@@ -5,7 +5,7 @@ import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackScript;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 /* Note:
