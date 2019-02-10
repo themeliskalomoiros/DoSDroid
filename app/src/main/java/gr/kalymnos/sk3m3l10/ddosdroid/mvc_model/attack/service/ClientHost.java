@@ -25,11 +25,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.ClientHost.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
 
-public class AttackService extends Service implements Client.ClientConnectionListener {
-    private static final String TAG = "AttackService";
+public class ClientHost extends Service implements Client.ClientConnectionListener {
+    private static final String TAG = "ClientHost";
 
     private Set<Client> clients;
     private AttackRepository repo;
@@ -148,7 +148,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
 
         NotificationCompat.Builder createNotificationBuilder() {
-            return new NotificationCompat.Builder(AttackService.this, CHANNEL_ID)
+            return new NotificationCompat.Builder(ClientHost.this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_fist)
                     .setContentTitle(getString(R.string.client_notification_title))
                     .setContentText(getString(R.string.client_notification_small_text))
@@ -159,32 +159,32 @@ public class AttackService extends Service implements Client.ClientConnectionLis
         }
 
         PendingIntent createContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(AttackService.this, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.joined_attacks_label);
-            return PendingIntent.getActivity(AttackService.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intent = AllAttackListsActivity.Action.createIntent(ClientHost.this, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.joined_attacks_label);
+            return PendingIntent.getActivity(ClientHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         PendingIntent createStopServicePendingIntent() {
-            Intent intent = new Intent(AttackService.this, AttackService.class);
+            Intent intent = new Intent(ClientHost.this, ClientHost.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
-            return PendingIntent.getService(AttackService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            return PendingIntent.getService(ClientHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 
     public static class Action {
+        private static final String ACTION_START_ATTACK = TAG + "start attack action";
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
-        private static final String ACTION_START_ATTACK = TAG + "start attack action";
 
-        public static void startAttack(Attack attack, Context context) {
+        public static void createClientOf(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
         }
 
-        public static void stopAttack(Attack attack, Context context) {
+        public static void stopClientOf(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_STOP_ATTACK));
         }
 
         private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
-            Intent intent = new Intent(context, AttackService.class);
+            Intent intent = new Intent(context, ClientHost.class);
             intent.setAction(action);
             intent.putExtra(Constants.Extra.EXTRA_ATTACK, attack);
             return intent;
@@ -196,7 +196,7 @@ public class AttackService extends Service implements Client.ClientConnectionLis
 
         @NonNull
         private static Intent createStopServiceIntent(Context context) {
-            Intent intent = new Intent(context, AttackService.class);
+            Intent intent = new Intent(context, ClientHost.class);
             intent.setAction(ACTION_STOP_SERVICE);
             return intent;
         }

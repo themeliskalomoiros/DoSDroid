@@ -20,7 +20,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActiv
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.AttackService;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service.ClientHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -137,7 +137,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onJoinSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
-            AttackService.Action.stopAttack(attack, getContext());
+            ClientHost.Action.stopClientOf(attack, getContext());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
