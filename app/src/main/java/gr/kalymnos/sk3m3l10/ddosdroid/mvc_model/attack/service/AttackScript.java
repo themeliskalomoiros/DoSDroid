@@ -2,6 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.service;
 
 import android.util.Log;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -42,6 +43,8 @@ public class AttackScript extends Thread {
         InputStream in = null;
         try {
             in = url.openStream();
+        } catch (FileNotFoundException e) {
+            Log.w(TAG, "Website " + url + " not found.");
         } catch (IOException e) {
             Log.e(TAG, "openStream() error.", e);
         } finally {
