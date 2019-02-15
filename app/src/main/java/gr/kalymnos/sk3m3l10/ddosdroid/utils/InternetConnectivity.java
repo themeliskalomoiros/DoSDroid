@@ -15,7 +15,7 @@ public class InternetConnectivity {
         return isConnectedToNetwork(info) && isWifi(info);
     }
 
-    public static boolean isConnectedToNetwork(NetworkInfo info) {
+    private static boolean isConnectedToNetwork(NetworkInfo info) {
         return info != null && info.isConnectedOrConnecting();
     }
 
