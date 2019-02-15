@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -26,10 +25,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListVi
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.INVALID_CONTENT_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.showingJoinedAttacks;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.showingNotJoinedAttacks;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.showingOwnAttacks;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
@@ -46,6 +45,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     protected AttackListViewMvc viewMvc;
     private AttackRepository repository;
     protected LinkedHashSet<Attack> cachedAttacks;
+    private int contentType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,8 +55,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private void initializeFieldsExceptViewMvc() {
+        contentType = getContentType();
         cachedAttacks = new LinkedHashSet<>();
         initializeRepository();
+    }
+
+    protected final int getContentType() {
+        if (containsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
+            return getArguments().getInt(EXTRA_CONTENT_TYPE);
+        }
+        return INVALID_CONTENT_TYPE;
     }
 
     private void initializeRepository() {
@@ -116,17 +124,10 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackClick(int position) {
-        if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
+        if (showingNotJoinedAttacks(contentType)) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
             JoinAttackActivity.startAnInstance(getContext(), attack);
         }
-    }
-
-    protected final int getContentType() {
-        if (containsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
-            return getArguments().getInt(EXTRA_CONTENT_TYPE);
-        }
-        return INVALID_CONTENT_TYPE;
     }
 
     @Override
@@ -142,7 +143,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
-            ServerHost.Action.stopServerOf(attack.getWebsite(),getContext());
+            ServerHost.Action.stopServerOf(attack.getWebsite(), getContext());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -154,16 +155,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected final void cacheAttackAccordingToContentType(Attack attack) {
-        if (getContentType() == FETCH_ONLY_USER_JOINED_ATTACKS) {
+        if (showingJoinedAttacks(contentType)) {
             if (includesBot(attack, Bots.local())) {
                 cachedAttacks.add(attack);
             }
-        } else if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
+        } else if (showingNotJoinedAttacks(contentType)) {
             boolean attackNotJoinedOrOwnedByUser = !includesBot(attack, Bots.local()) && !isAttackOwnedByBot(attack, Bots.local());
             if (attackNotJoinedOrOwnedByUser) {
                 cachedAttacks.add(attack);
             }
-        } else if (getContentType() == FETCH_ONLY_USER_OWN_ATTACKS) {
+        } else if (showingOwnAttacks(contentType)) {
             boolean userOwnsThisAttack = isAttackOwnedByBot(attack, Bots.local()) && !includesBot(attack, Bots.local());
             if (userOwnsThisAttack) {
                 cachedAttacks.add(attack);

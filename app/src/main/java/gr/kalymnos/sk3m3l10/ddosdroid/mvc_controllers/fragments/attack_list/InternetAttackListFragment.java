@@ -22,7 +22,7 @@ public class InternetAttackListFragment extends AttackListFragment {
     public void onAttackUpdate(Attack changedAttack) {
         Log.d(TAG, "OnAttackUpdate()");
         if (changedAttack.getNetworkType() == INTERNET) {
-            deleteFromCacheAttackWith(changedAttack.getPushId());
+            cachedAttacks.remove(changedAttack);
             cacheAttackAccordingToContentType(changedAttack);
             viewMvc.bindAttacks(cachedAttacks);
         }

@@ -18,7 +18,7 @@ public class WiFiP2PAttackListFragment extends AttackListFragment {
     @Override
     public void onAttackUpdate(Attack changedAttack) {
         if (changedAttack.getNetworkType() == WIFI_P2P) {
-            deleteFromCacheAttackWith(changedAttack.getPushId());
+            cachedAttacks.remove(changedAttack);
             cacheAttackAccordingToContentType(changedAttack);
             viewMvc.bindAttacks(cachedAttacks);
         }

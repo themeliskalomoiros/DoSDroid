@@ -16,7 +16,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_SERVICE_NAME
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_SERVICE_TYPE;
 
 public final class Attacks {
-    private static final String TAG = "Attacks";
 
     public static void addBot(Attack attack, Bot bot) {
         if (!attack.getBotIds().contains(bot.getId()))

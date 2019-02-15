@@ -18,7 +18,7 @@ public class NSDAttackListFragment extends AttackListFragment {
     @Override
     public void onAttackUpdate(Attack changedAttack) {
         if (changedAttack.getNetworkType() == NSD) {
-            deleteFromCacheAttackWith(changedAttack.getPushId());
+            cachedAttacks.remove(changedAttack);
             cacheAttackAccordingToContentType(changedAttack);
             viewMvc.bindAttacks(cachedAttacks);
         }

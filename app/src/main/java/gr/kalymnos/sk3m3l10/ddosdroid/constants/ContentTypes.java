@@ -8,4 +8,16 @@ public final class ContentTypes {
 
     private ContentTypes() {
     }
+
+    public static boolean showingJoinedAttacks(int contentType) {
+        return contentType == FETCH_ONLY_USER_JOINED_ATTACKS;
+    }
+
+    public static boolean showingNotJoinedAttacks(int contentType) {
+        return contentType == FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
+    }
+
+    public static boolean showingOwnAttacks(int contentType) {
+        return contentType == FETCH_ONLY_USER_OWN_ATTACKS;
+    }
 }
