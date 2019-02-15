@@ -23,9 +23,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.statu
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.repository.StatusRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost.ForegroundNotification.NOTIFICATION_ID;
 
 public class ServerHost extends Service {
     private static final String TAG = "MyServerHost";
@@ -196,7 +196,7 @@ public class ServerHost extends Service {
         private static final String ACTION_STOP_SERVER = TAG + "stop server action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
-        public static void startServer(Context context, Attack attack) {
+        public static void startServerOf(Attack attack, Context context) {
             Intent intent = createStartServerIntent(context, attack);
             context.startService(intent);
         }
@@ -209,7 +209,7 @@ public class ServerHost extends Service {
             return intent;
         }
 
-        public static void stopServer(Context context, String serverWebsite) {
+        public static void stopServerOf(String serverWebsite, Context context) {
             Intent intent = createStopServerIntent(context, serverWebsite);
             context.startService(intent);
         }

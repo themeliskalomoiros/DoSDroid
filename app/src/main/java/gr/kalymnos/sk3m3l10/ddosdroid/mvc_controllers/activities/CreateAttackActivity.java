@@ -33,7 +33,7 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackCre
 
     @Override
     public void onAttackCreated(Attack attack) {
-        ServerHost.Action.startServer(this, attack);
+        ServerHost.Action.startServerOf(attack, this);
         finish();
     }
 }
