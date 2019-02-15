@@ -9,14 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Special;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
 
@@ -31,7 +31,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getActivity().getIntent().getBundleExtra(Constants.BUNDLE_SAMSUNG_BUG_KEY);
+        Bundle bundle = getActivity().getIntent().getBundleExtra(Special.BUNDLE_SAMSUNG_BUG_KEY);
         attack = bundle.getParcelable(EXTRA_ATTACK);
     }
 

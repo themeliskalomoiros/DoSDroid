@@ -28,12 +28,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.isAttackOwnedByBot;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_OWN_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.INVALID_CONTENT_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;

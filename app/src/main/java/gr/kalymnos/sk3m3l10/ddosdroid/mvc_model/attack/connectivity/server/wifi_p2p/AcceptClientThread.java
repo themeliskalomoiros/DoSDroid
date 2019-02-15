@@ -8,9 +8,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 
 class AcceptClientThread extends Thread {
     private static final String TAG = "AcceptClientThread";
@@ -40,7 +40,7 @@ class AcceptClientThread extends Thread {
     }
 
     private void updateAttackWithLocalPort() {
-        attack.addSingleHostInfo(Constants.Extra.EXTRA_LOCAL_PORT, String.valueOf(localPort));
+        attack.addSingleHostInfo(Extras.EXTRA_LOCAL_PORT, String.valueOf(localPort));
         repository.update(attack);
     }
 

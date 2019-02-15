@@ -4,7 +4,7 @@ import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.INTERNET;
 
 public class InternetAttackListFragment extends AttackListFragment {
     private static final String TAG = AttackListFragment.TAG + "Internet";

@@ -24,8 +24,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.statu
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost.ForegroundNotification.NOTIFICATION_ID;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_OWN_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 
 public class ServerHost extends Service {
     private static final String TAG = "MyServerHost";

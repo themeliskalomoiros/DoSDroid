@@ -17,16 +17,16 @@ import java.util.Iterator;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.ClientHost.ForegroundNotification.NOTIFICATION_ID;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 
 public class ClientHost extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "ClientHost";
@@ -48,7 +48,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Attack attack = intent.getParcelableExtra(Constants.Extra.EXTRA_ATTACK);
+        Attack attack = intent.getParcelableExtra(Extras.EXTRA_ATTACK);
         switch (intent.getAction()) {
             case Action.ACTION_START_ATTACK:
                 handleStartAttackAction(attack);
@@ -192,7 +192,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
         private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
             Intent intent = new Intent(context, ClientHost.class);
             intent.setAction(action);
-            intent.putExtra(Constants.Extra.EXTRA_ATTACK, attack);
+            intent.putExtra(Extras.EXTRA_ATTACK, attack);
             return intent;
         }
 

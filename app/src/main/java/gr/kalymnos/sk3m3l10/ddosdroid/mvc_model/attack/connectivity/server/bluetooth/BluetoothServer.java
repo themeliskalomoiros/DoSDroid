@@ -24,8 +24,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
 import static android.bluetooth.BluetoothAdapter.STATE_OFF;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK_HOST_UUID;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_MAC_ADDRESS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
 
 public class BluetoothServer extends Server {
     private BroadcastReceiver bluetoothStateReceiver;

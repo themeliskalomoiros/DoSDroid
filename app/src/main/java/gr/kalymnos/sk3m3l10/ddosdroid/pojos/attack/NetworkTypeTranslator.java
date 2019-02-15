@@ -1,17 +1,19 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
+
 public final class NetworkTypeTranslator {
     private static final String TAG = "NetworkTypeTranslator";
 
     public static String translate(int networkType) {
         switch (networkType) {
-            case Constants.NetworkType.BLUETOOTH:
+            case NetworkTypes.BLUETOOTH:
                 return "BluetoothClient";
-            case Constants.NetworkType.INTERNET:
+            case NetworkTypes.INTERNET:
                 return "InternetClient";
-            case Constants.NetworkType.WIFI_P2P:
+            case NetworkTypes.WIFI_P2P:
                 return "Wifi Peer to Peer";
-            case Constants.NetworkType.NSD:
+            case NetworkTypes.NSD:
                 return "Network Service Discovery";
             default:
                 throw new UnsupportedOperationException(TAG + ": no such network type");

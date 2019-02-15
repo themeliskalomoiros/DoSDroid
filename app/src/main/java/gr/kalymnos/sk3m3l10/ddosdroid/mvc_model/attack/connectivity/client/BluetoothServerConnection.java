@@ -10,10 +10,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 
 class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
@@ -38,7 +38,7 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
 
     private void initializeResolver(Context context) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
-        constraintsResolver = builder.build(context, Constants.NetworkType.BLUETOOTH);
+        constraintsResolver = builder.build(context, NetworkTypes.BLUETOOTH);
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 

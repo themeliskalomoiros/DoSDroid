@@ -15,10 +15,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackReposito
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.BLUETOOTH;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.NSD;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.WIFI_P2P;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.BLUETOOTH;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.INTERNET;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.NSD;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.WIFI_P2P;
 
 /*Scenario to eliminate duplication:
  * Server should not abstract anymore since all the subclasses are implementing

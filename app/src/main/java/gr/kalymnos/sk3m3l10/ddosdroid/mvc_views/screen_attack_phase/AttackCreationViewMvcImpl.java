@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -164,13 +164,13 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     public int getNetworkConf() {
         switch (spinner.getSelectedItemPosition()) {
             case 0:
-                return Constants.NetworkType.INTERNET;
+                return NetworkTypes.INTERNET;
             case 1:
-                return Constants.NetworkType.WIFI_P2P;
+                return NetworkTypes.WIFI_P2P;
             case 2:
-                return Constants.NetworkType.NSD;
+                return NetworkTypes.NSD;
             case 3:
-                return Constants.NetworkType.BLUETOOTH;
+                return NetworkTypes.BLUETOOTH;
             default:
                 throw new UnsupportedOperationException(TAG + ": No such network configuration");
         }
