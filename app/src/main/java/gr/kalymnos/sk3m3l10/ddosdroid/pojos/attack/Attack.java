@@ -9,18 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Attack implements Parcelable {
-    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
-        @Override
-        public Attack createFromParcel(Parcel in) {
-            return new Attack(in);
-        }
-
-        @Override
-        public Attack[] newArray(int size) {
-            return new Attack[size];
-        }
-    };
-
     private String pushId, website;
     private int networkType;
     private long timeMillis;
@@ -67,6 +55,20 @@ public class Attack implements Parcelable {
     public void addSingleHostInfo(String key, String value) {
         hostInfo.put(key, value);
     }
+
+
+    // Parcelable code
+    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
+        @Override
+        public Attack createFromParcel(Parcel in) {
+            return new Attack(in);
+        }
+
+        @Override
+        public Attack[] newArray(int size) {
+            return new Attack[size];
+        }
+    };
 
     protected Attack(Parcel in) {
         pushId = in.readString();
