@@ -34,7 +34,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.bundleContainsKey;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
 
@@ -83,7 +83,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
-        if (bundleContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
+        if (containsKey(savedInstanceState, EXTRA_ATTACKS)) {
             List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
             if (hasItems(temp)) {
                 cachedAttacks.clear();
@@ -121,7 +121,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected final int getContentType() {
-        if (bundleContainsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
+        if (containsKey(getArguments(), EXTRA_CONTENT_TYPE)) {
             return getArguments().getInt(EXTRA_CONTENT_TYPE);
         }
         return INVALID_CONTENT_TYPE;

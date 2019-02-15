@@ -15,7 +15,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.bundleContainsKey;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
 
 public class AllAttackListsActivity extends AppCompatActivity {
     private static final String TAG = "AllAttackListsActivity";
@@ -42,7 +42,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
     }
 
     private int getContentType(Bundle bundle) {
-        if (bundleContainsKey(bundle, EXTRA_CONTENT_TYPE)) {
+        if (containsKey(bundle, EXTRA_CONTENT_TYPE)) {
             return bundle.getInt(EXTRA_CONTENT_TYPE);
         }
         return INVALID_CONTENT_TYPE;
