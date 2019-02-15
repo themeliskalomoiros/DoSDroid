@@ -10,23 +10,25 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseV
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class CreateAttackActivity extends AppCompatActivity implements
-        AttackCreationFragment.OnAttackCreationListener {
-
+public class CreateAttackActivity extends AppCompatActivity implements AttackCreationFragment.OnAttackCreationListener {
     private AttackPhaseViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupUi();
+        viewMvc = new AttackPhaseViewMvcImp(LayoutInflater.from(this), null);
+        setupUiFrom(viewMvc);
+    }
+
+    private void setupUiFrom(AttackPhaseViewMvc viewMvc) {
+        setContentView(viewMvc.getRootView());
+        showAttackCreationFragment(viewMvc);
+    }
+
+    private void showAttackCreationFragment(AttackPhaseViewMvc viewMvc) {
         getSupportFragmentManager().beginTransaction()
                 .replace(viewMvc.getFragmentContainerId(), new AttackCreationFragment())
                 .commit();
-    }
-
-    private void setupUi() {
-        viewMvc = new AttackPhaseViewMvcImp(LayoutInflater.from(this), null);
-        setContentView(viewMvc.getRootView());
     }
 
     @Override
