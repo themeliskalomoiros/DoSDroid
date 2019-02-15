@@ -145,6 +145,10 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         @Override
         protected void initializeViews(@NonNull View itemView) {
             super.initializeViews(itemView);
+            initializeSwitch(itemView);
+        }
+
+        private void initializeSwitch(@NonNull View itemView) {
             joinSwitch = itemView.findViewById(R.id.join_switch);
             joinSwitch.setOnCheckedChangeListener((view, isChecked) -> {
                 if (switchCheckedStateListener != null) {
@@ -155,12 +159,24 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     }
 
     private class OwnerAttackHolder extends AttackHolder {
-
         private Switch activateSwitch;
 
         OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
             initializeActivationSwitch(itemView);
+        }
+
+        private void initializeActivationSwitch(@NonNull View itemView) {
+            activateSwitch = itemView.findViewById(R.id.activation_switch);
+            setCheckedListener();
+        }
+
+        private void setCheckedListener() {
+            activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
+                if (activateSwitchCheckedStateListener != null) {
+                    activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
+                }
+            });
         }
 
         @Override
@@ -175,19 +191,6 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             StatusRepository repo = new SharedPrefsStatusRepository(context);
             boolean serverActive = repo.isStarted(serverWebsite);
             activateSwitch.setChecked(serverActive);
-        }
-
-        private void initializeActivationSwitch(@NonNull View itemView) {
-            activateSwitch = itemView.findViewById(R.id.activation_switch);
-            setCheckedListener();
-        }
-
-        private void setCheckedListener() {
-            activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
-                if (activateSwitchCheckedStateListener != null) {
-                    activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
-                }
-            });
         }
     }
 
