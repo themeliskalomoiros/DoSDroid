@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-public final class ValidationUtils {
+public final class BundleUtil {
 
     public static boolean bundleContainsKey(Bundle bundle, String key) {
         if (bundle != null && bundle.containsKey(key)) {

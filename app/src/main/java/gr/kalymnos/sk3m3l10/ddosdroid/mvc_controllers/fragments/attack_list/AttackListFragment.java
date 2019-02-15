@@ -34,7 +34,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContainsKey;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.bundleContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
 
