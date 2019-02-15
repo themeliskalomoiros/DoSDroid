@@ -10,9 +10,9 @@ import java.util.Locale;
 public final class DateFormatter {
 
     public static String stringDateFrom(long timeMillis, Configuration configuration) {
-        Date today = new Date(timeMillis);
-        DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getCurrentLocale(configuration));
-        return dateFormatter.format(today);
+        Date date = new Date(timeMillis);
+        DateFormat formatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getCurrentLocale(configuration));
+        return formatter.format(date);
     }
 
     private static Locale getCurrentLocale(Configuration configuration) {
