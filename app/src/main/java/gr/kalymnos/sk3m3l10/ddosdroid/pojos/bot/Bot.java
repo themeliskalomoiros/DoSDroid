@@ -17,14 +17,7 @@ public class Bot implements Parcelable {
         return id;
     }
 
-    /**
-     * Parcelable code
-     */
-
-    protected Bot(Parcel in) {
-        id = in.readString();
-    }
-
+    // Parcelable code
     public static final Creator<Bot> CREATOR = new Creator<Bot>() {
         @Override
         public Bot createFromParcel(Parcel in) {
@@ -36,6 +29,10 @@ public class Bot implements Parcelable {
             return new Bot[size];
         }
     };
+
+    protected Bot(Parcel in) {
+        id = in.readString();
+    }
 
     @Override
     public int describeContents() {

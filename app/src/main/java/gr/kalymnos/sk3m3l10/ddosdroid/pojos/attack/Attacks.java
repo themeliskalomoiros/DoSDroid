@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
 import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
@@ -19,19 +18,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_
 public final class Attacks {
     private static final String TAG = "Attacks";
 
-    public static void removeBot(Attack attack, Bot bot) {
-        attack.getBotIds().remove(bot.getId());
-    }
-
     public static void addBot(Attack attack, Bot bot) {
         if (!attack.getBotIds().contains(bot.getId()))
             attack.getBotIds().add(bot.getId());
-    }
-
-    public static void addBotIds(Attack attack, List<String> botIds) {
-        for (String id : botIds) {
-            addBot(attack, new Bot(id));
-        }
     }
 
     public static boolean includesBot(Attack attack, Bot bot) {
@@ -42,16 +31,6 @@ public final class Attacks {
         String attackHostId = attack.getHostInfo().get(EXTRA_ATTACK_HOST_UUID);
         String localHostId = bot.getId();
         return attackHostId.equals(localHostId);
-    }
-
-    public static String createPushId() {
-        return getAttackDatabaseReference().push().getKey();
-    }
-
-    @NonNull
-    private static DatabaseReference getAttackDatabaseReference() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        return database.getReference().child("attacks");
     }
 
     public static UUID getHostUUID(Attack attack) {
@@ -76,5 +55,15 @@ public final class Attacks {
 
     public static String getNsdServiceName(Attack attack) {
         return attack.getHostInfo().get(EXTRA_SERVICE_NAME);
+    }
+
+    public static String createPushId() {
+        return getAttackDatabaseReference().push().getKey();
+    }
+
+    @NonNull
+    private static DatabaseReference getAttackDatabaseReference() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        return database.getReference().child("attacks");
     }
 }
