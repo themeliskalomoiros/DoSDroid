@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackListsViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AllAttackListsViewMvcImpl;
 
@@ -18,9 +19,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
 
 public class AllAttackListsActivity extends AppCompatActivity {
-    private static final String TAG = "AllAttackListsActivity";
-    public static final String EXTRA_TITLE = TAG + "title key";
-
     private AllAttackListsViewMvc viewMvc;
 
     @Override
@@ -31,7 +29,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
 
     private void setupUi() {
         initializeViewMvc();
-        viewMvc.bindToolbarTitle(getIntent().getStringExtra(EXTRA_TITLE));
+        viewMvc.bindToolbarTitle(getIntent().getStringExtra(Extras.EXTRA_TITLE));
         setSupportActionBar(viewMvc.getToolbar());
         setContentView(viewMvc.getRootView());
     }
@@ -69,7 +67,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
         private static Bundle createBundle(int contentType, String title) {
             Bundle extras = new Bundle();
             extras.putInt(EXTRA_CONTENT_TYPE, contentType);
-            extras.putString(AllAttackListsActivity.EXTRA_TITLE, title);
+            extras.putString(Extras.EXTRA_TITLE, title);
             return extras;
         }
     }

@@ -11,6 +11,7 @@ public final class Extras {
     public static final String EXTRA_CONTENT_TYPE = "extra_attack type_key";
     public static final String EXTRA_LOCAL_PORT = "extra_local_port";
     public static final String EXTRA_MAC_ADDRESS = "extra_mac_address";
+    public static final String EXTRA_TITLE = "extra_title";
 
     private Extras() {
     }
