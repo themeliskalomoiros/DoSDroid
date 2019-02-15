@@ -22,14 +22,14 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackItemClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private static final String TAG = "AttacksAdapter";
-    private static final int ITEM_VIEW_TYPE_SIMPLE_ATTACK = 0;
-    private static final int ITEM_VIEW_TYPE_JOINED_ATTACK = 1;
-    private static final int ITEM_VIEW_TYPE_OWNER_ATTACK = 2;
 
     private Context context;
     private LinkedHashSet<Attack> attacks;
@@ -79,11 +79,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     private int getItemViewTypeFrom(Attack attack) {
         if (Attacks.includesBot(attack, Bots.local()))
-            return ITEM_VIEW_TYPE_JOINED_ATTACK;
+            return FETCH_ONLY_USER_JOINED_ATTACKS;
         if (Attacks.getHostUUIDText(attack).equals(Bots.local().getId())) {
-            return ITEM_VIEW_TYPE_OWNER_ATTACK;
+            return FETCH_ONLY_USER_OWN_ATTACKS;
         }
-        return ITEM_VIEW_TYPE_SIMPLE_ATTACK;
+        return FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
     }
 
     public void setOnItemClickListener(OnAttackItemClickListener listener) {
@@ -202,11 +202,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         @Override
         public AttackHolder build(int viewType, ViewGroup parent) {
             switch (viewType) {
-                case ITEM_VIEW_TYPE_JOINED_ATTACK:
+                case FETCH_ONLY_USER_JOINED_ATTACKS:
                     return new JoinedAttackHolder(createViewFrom(R.layout.list_item_attack_joined, parent));
-                case ITEM_VIEW_TYPE_OWNER_ATTACK:
+                case FETCH_ONLY_USER_OWN_ATTACKS:
                     return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
-                case ITEM_VIEW_TYPE_SIMPLE_ATTACK:
+                case FETCH_ONLY_USER_NOT_JOINED_ATTACKS:
                     return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
                 default:
                     throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
