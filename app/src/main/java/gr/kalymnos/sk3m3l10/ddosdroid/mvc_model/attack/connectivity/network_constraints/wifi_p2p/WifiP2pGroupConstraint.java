@@ -41,7 +41,7 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
 
             @Override
             public void onFailure(int reason) {
-                Log.d(TAG, "WifiP2pGroupConstraint failed to resolve because of \"" + WifiP2pUtil.getFailureTextFrom(reason) + "\"");
+                Log.d(TAG, "WifiP2pGroupConstraint failed to resolve because of \"" + WifiP2pUtil.failureTextFrom(reason) + "\"");
                 callback.onConstraintResolveFailed(context, WifiP2pGroupConstraint.this);
             }
         };

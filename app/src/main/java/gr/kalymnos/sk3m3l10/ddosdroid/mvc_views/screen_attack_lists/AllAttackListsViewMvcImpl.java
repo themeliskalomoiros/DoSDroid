@@ -28,6 +28,20 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
         initializeViews(inflater, container, fragmentManager);
     }
 
+    private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
+        root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
+        toolbar = root.findViewById(R.id.toolBar);
+        initializeViewPagerWithTabLayout(fragmentManager);
+    }
+
+    private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
+        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
+        viewPager = root.findViewById(R.id.viewPager);
+        viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = root.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
     @Override
     public void bindToolbarSubtitle(String subtitle) {
         toolbar.setSubtitle(subtitle);
@@ -46,20 +60,6 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     @Override
     public View getRootView() {
         return root;
-    }
-
-    private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
-        root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
-        toolbar = root.findViewById(R.id.toolBar);
-        initializeViewPagerWithTabLayout(fragmentManager);
-    }
-
-    private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
-        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
-        viewPager = root.findViewById(R.id.viewPager);
-        viewPager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = root.findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     @NonNull

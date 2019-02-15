@@ -21,7 +21,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_AC
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtil.getFailureTextFrom;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtil.failureTextFrom;
 
 public class WifiDirectReceiver extends BroadcastReceiver implements SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";
@@ -75,7 +75,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
 
             @Override
             public void onFailure(int reason) {
-                Log.d(TAG, "Initiating discovering peers process: " + getFailureTextFrom(reason));
+                Log.d(TAG, "Initiating discovering peers process: " + failureTextFrom(reason));
                 serverConnection.serverConnectionListener.onServerConnectionError();
             }
         };
@@ -118,7 +118,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
 
             @Override
             public void onFailure(int reason) {
-                Log.d(TAG, "Connection initiation with server device failed: " + getFailureTextFrom(reason));
+                Log.d(TAG, "Connection initiation with server device failed: " + failureTextFrom(reason));
             }
         };
     }
@@ -174,7 +174,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
 
             @Override
             public void onFailure(int reason) {
-                Log.d(TAG, "Failed to initiate group removal: " + getFailureTextFrom(reason));
+                Log.d(TAG, "Failed to initiate group removal: " + failureTextFrom(reason));
             }
         });
     }
