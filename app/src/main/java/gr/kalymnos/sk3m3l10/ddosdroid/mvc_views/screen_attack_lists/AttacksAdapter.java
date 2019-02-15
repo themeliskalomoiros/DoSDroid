@@ -23,7 +23,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackItemClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.collectionHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.getItemFromLinkedHashSet;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
@@ -54,7 +54,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
-        if (collectionHasItems(attacks)) {
+        if (hasItems(attacks)) {
             Attack attack = getItemFromLinkedHashSet(attacks, position);
             attackHolder.bind(attack);
             attackHolder.itemView.setTag(String.valueOf(position));
@@ -63,7 +63,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     @Override
     public int getItemCount() {
-        if (collectionHasItems(attacks)) {
+        if (hasItems(attacks)) {
             return attacks.size();
         }
         return 0;
@@ -71,7 +71,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (CollectionUtils.collectionHasItems(attacks)) {
+        if (CollectionUtils.hasItems(attacks)) {
             Attack attack = getItemFromLinkedHashSet(attacks, position);
             return getItemViewTypeFrom(attack);
         }

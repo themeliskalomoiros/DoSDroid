@@ -6,7 +6,7 @@ import java.util.LinkedHashSet;
 
 public class CollectionUtils {
 
-    public static boolean collectionHasItems(Collection collection) {
+    public static boolean hasItems(Collection collection) {
         if (collection != null && collection.size() > 0) {
             return true;
         }

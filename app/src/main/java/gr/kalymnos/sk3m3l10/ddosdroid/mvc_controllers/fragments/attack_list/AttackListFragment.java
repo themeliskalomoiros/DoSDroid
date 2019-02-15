@@ -35,7 +35,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContainsKey;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.collectionHasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.getItemFromLinkedHashSet;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
@@ -85,7 +85,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     private boolean cachedAttacksExist(Bundle savedInstanceState) {
         if (bundleContainsKey(savedInstanceState, EXTRA_ATTACKS)) {
             List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
-            if (collectionHasItems(temp)) {
+            if (hasItems(temp)) {
                 cachedAttacks.clear();
                 cachedAttacks.addAll(temp);
                 return true;
@@ -107,7 +107,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public final void onSaveInstanceState(@NonNull Bundle outState) {
         List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        if (collectionHasItems(attacksCopy)) {
+        if (hasItems(attacksCopy)) {
             outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) attacksCopy);
         }
     }
