@@ -20,7 +20,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
         AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
-
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
 

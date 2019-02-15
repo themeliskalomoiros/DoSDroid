@@ -11,7 +11,6 @@ public class InternetAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpload(Attack attack) {
-        Log.d(TAG, "onAttackUpload()");
         if (attack.getNetworkType() == INTERNET) {
             cacheAttackAccordingToContentType(attack);
             viewMvc.bindAttacks(cachedAttacks);
@@ -20,7 +19,6 @@ public class InternetAttackListFragment extends AttackListFragment {
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
-        Log.d(TAG, "OnAttackUpdate()");
         if (changedAttack.getNetworkType() == INTERNET) {
             cachedAttacks.remove(changedAttack);
             cacheAttackAccordingToContentType(changedAttack);

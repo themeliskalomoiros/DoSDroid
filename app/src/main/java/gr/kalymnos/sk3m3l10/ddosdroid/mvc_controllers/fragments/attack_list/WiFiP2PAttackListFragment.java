@@ -5,7 +5,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.WIFI_P2P;
 
 public class WiFiP2PAttackListFragment extends AttackListFragment {
-    private static final String TAG = AttackListFragment.TAG + "WiFiP2P";
 
     @Override
     public void onAttackUpload(Attack attack) {
