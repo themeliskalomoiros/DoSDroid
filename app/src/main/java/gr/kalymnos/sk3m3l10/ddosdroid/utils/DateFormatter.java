@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public final class DateFormatter {
 
-    public static String getDate(Configuration configuration, long timeMillis) {
+    public static String stringDateFrom(long timeMillis, Configuration configuration) {
         Date today = new Date(timeMillis);
         DateFormat dateFormatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getCurrentLocale(configuration));
         return dateFormatter.format(today);

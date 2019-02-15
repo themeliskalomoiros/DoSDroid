@@ -52,7 +52,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         viewMvc.bindAttackForce(attack.getBotIds().size());
         viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
-        viewMvc.bindWebsiteDate(DateFormatter.getDate(getContext().getResources().getConfiguration(), attack.getTimeMillis()));
+        viewMvc.bindWebsiteDate(DateFormatter.stringDateFrom(attack.getTimeMillis(), getContext().getResources().getConfiguration()));
     }
 
     @Override
