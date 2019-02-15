@@ -25,17 +25,17 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
         this.contentType = contentType;
-        initializeViews(inflater, container, fragmentManager);
+        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
+        initializeViews(inflater, container);
     }
 
-    private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
+    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
         toolbar = root.findViewById(R.id.toolBar);
-        initializeViewPagerWithTabLayout(fragmentManager);
+        initializeViewPagerWithTabLayout();
     }
 
-    private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
-        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
+    private void initializeViewPagerWithTabLayout() {
         viewPager = root.findViewById(R.id.viewPager);
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = root.findViewById(R.id.tabLayout);
