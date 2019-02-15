@@ -14,14 +14,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter.stringDateFrom;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
-
-    private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
+    private JoinAttackInfoViewMvc viewMvc;
     private OnJoinAttackButtonClickListener callback;
 
     public interface OnJoinAttackButtonClickListener {
@@ -31,6 +30,10 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeAttack();
+    }
+
+    private void initializeAttack() {
         Bundle bundle = getActivity().getIntent().getBundleExtra(Special.BUNDLE_SAMSUNG_BUG_KEY);
         attack = bundle.getParcelable(EXTRA_ATTACK);
     }
@@ -52,7 +55,8 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         viewMvc.bindAttackForce(attack.getBotIds().size());
         viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
-        viewMvc.bindWebsiteDate(DateFormatter.stringDateFrom(attack.getTimeMillis(), getContext().getResources().getConfiguration()));
+        String date = stringDateFrom(attack.getTimeMillis(), getContext().getResources().getConfiguration());
+        viewMvc.bindWebsiteDate(date);
     }
 
     @Override
