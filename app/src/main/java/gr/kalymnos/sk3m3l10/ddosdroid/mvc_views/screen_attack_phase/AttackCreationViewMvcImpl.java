@@ -53,18 +53,18 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     private void initializeSpinner(LayoutInflater inflater) {
         spinner = root.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = getArrayAdapter(inflater);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(createOnItemSelectedListenerForSpinner(inflater));
+        spinner.setAdapter(getArrayAdapter(inflater));
+        spinner.setOnItemSelectedListener(getSpinnerItemSelectedListener(inflater));
     }
 
     private ArrayAdapter<CharSequence> getArrayAdapter(LayoutInflater inflater) {
-        return ArrayAdapter.createFromResource(inflater.getContext(),
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(inflater.getContext(),
                 R.array.network_technologies_titles, R.layout.item_spinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return adapter;
     }
 
-    private AdapterView.OnItemSelectedListener createOnItemSelectedListenerForSpinner(LayoutInflater inflater) {
+    private AdapterView.OnItemSelectedListener getSpinnerItemSelectedListener(LayoutInflater inflater) {
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
