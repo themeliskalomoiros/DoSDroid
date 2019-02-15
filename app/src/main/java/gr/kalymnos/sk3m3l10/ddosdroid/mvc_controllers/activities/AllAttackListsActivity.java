@@ -24,19 +24,19 @@ public class AllAttackListsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupUi();
-    }
-
-    private void setupUi() {
         initializeViewMvc();
-        viewMvc.bindToolbarTitle(getIntent().getStringExtra(Extras.EXTRA_TITLE));
-        setSupportActionBar(viewMvc.getToolbar());
-        setContentView(viewMvc.getRootView());
+        setupUi();
     }
 
     private void initializeViewMvc() {
         viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null,
                 getSupportFragmentManager(), getResources().getStringArray(R.array.network_technologies_titles), getContentType(getIntent().getExtras()));
+    }
+
+    private void setupUi() {
+        viewMvc.bindToolbarTitle(getIntent().getStringExtra(Extras.EXTRA_TITLE));
+        setSupportActionBar(viewMvc.getToolbar());
+        setContentView(viewMvc.getRootView());
     }
 
     private int getContentType(Bundle bundle) {
