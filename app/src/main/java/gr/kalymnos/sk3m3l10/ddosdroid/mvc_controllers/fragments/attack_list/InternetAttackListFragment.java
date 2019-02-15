@@ -14,7 +14,7 @@ public class InternetAttackListFragment extends AttackListFragment {
         Log.d(TAG, "onAttackUpload()");
         if (attack.getNetworkType() == INTERNET) {
             cacheAttackAccordingToContentType(attack);
-            displayAttacks();
+            viewMvc.bindAttacks(cachedAttacks);
         }
     }
 
@@ -24,7 +24,7 @@ public class InternetAttackListFragment extends AttackListFragment {
         if (changedAttack.getNetworkType() == INTERNET) {
             deleteFromCacheAttackWith(changedAttack.getPushId());
             cacheAttackAccordingToContentType(changedAttack);
-            displayAttacks();
+            viewMvc.bindAttacks(cachedAttacks);
         }
     }
 }

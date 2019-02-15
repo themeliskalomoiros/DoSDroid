@@ -17,35 +17,35 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.ClientHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.repository.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client.ClientHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.isAttackOwnedByBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
+import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.isAttackOwnedByBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
         AttackRepository.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
 
-    private AttackListViewMvc viewMvc;
+    protected AttackListViewMvc viewMvc;
     private AttackRepository repository;
-    private LinkedHashSet<Attack> cachedAttacks;
+    protected LinkedHashSet<Attack> cachedAttacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,24 +81,22 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (cachedAttacksExist(savedInstanceState)) {
-            displayAttacks();
+        List<Attack> savedAttacks = getAttacksFrom(savedInstanceState);
+        if (hasItems(savedAttacks)) {
+            cacheAndDisplay(savedAttacks);
         }
     }
 
-    private boolean cachedAttacksExist(Bundle savedInstanceState) {
+    private List<Attack> getAttacksFrom(Bundle savedInstanceState) {
         if (containsKey(savedInstanceState, EXTRA_ATTACKS)) {
-            List<Attack> temp = savedInstanceState.getParcelableArrayList(EXTRA_ATTACKS);
-            if (hasItems(temp)) {
-                cachedAttacks.clear();
-                cachedAttacks.addAll(temp);
-                return true;
-            }
+            return getAttacksFrom(savedInstanceState);
         }
-        return false;
+        return null;
     }
 
-    protected final void displayAttacks() {
+    private void cacheAndDisplay(List<Attack> savedAttacks) {
+        cachedAttacks.clear();
+        cachedAttacks.addAll(savedAttacks);
         viewMvc.bindAttacks(cachedAttacks);
     }
 
@@ -152,7 +150,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public final void onAttackDelete(Attack deletedAttack) {
         deleteFromCacheAttackWith(deletedAttack.getPushId());
-        displayAttacks();
+        viewMvc.bindAttacks(cachedAttacks);
     }
 
     protected final void deleteFromCacheAttackWith(String attackId) {
