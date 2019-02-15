@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvc_model.attack.connectivity.client.RequestLocationPermissionForBluetoothActivity"></activity>
+        <activity android:name=".mvc_model.connectivity.client.RequestLocationPermissionForBluetoothActivity"></activity>
         <activity android:name=".mvc_controllers.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,17 +33,17 @@
         <activity android:name=".mvc_controllers.activities.JoinAttackActivity" />
 
         <service
-            android:name=".mvc_model.attack.connectivity.client.ClientHost"
+            android:name=".mvc_model.connectivity.client.ClientHost"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".mvc_model.attack.connectivity.server.ServerHost"
+            android:name=".mvc_model.connectivity.server.ServerHost"
             android:enabled="true"
             android:exported="false" />
 
         <activity android:name=".mvc_controllers.activities.WifiScanResultsActivity" />
-        <activity android:name=".mvc_model.attack.connectivity.network_constraints.bluetooth.EnableBluetoothActivity" />
-        <activity android:name=".mvc_model.attack.connectivity.network_constraints.bluetooth.BluetoothDiscoverabilityActivity" />
+        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.EnableBluetoothActivity" />
+        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.BluetoothDiscoverabilityActivity" />
     </application>
 
 </manifest>
