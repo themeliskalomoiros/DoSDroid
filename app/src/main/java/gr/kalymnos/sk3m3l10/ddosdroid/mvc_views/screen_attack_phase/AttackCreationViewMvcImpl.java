@@ -21,12 +21,11 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
 import static android.support.constraint.Constraints.TAG;
 
 public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
-
     private View root;
-    private FloatingActionButton fab;
     private EditText websiteEditText;
     private TextView websiteHint, networkConfigHint;
     private Spinner spinner;
+    private FloatingActionButton fab;
     private ProgressBar progressBar;
 
     private OnAttackCreationButtonClickListener onAttackCreationButtonClickListener;
@@ -35,7 +34,69 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     public AttackCreationViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
-        setupUi(inflater);
+    }
+
+    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+        root = inflater.inflate(R.layout.screen_attack_creation, container, false);
+        websiteHint = root.findViewById(R.id.tv_website_hint);
+        networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
+        progressBar = root.findViewById(R.id.progressBar);
+        initializeEditText();
+        initializeSpinner(inflater);
+        initializeFab();
+    }
+
+    private void initializeEditText() {
+        websiteEditText = root.findViewById(R.id.ed_website);
+        websiteEditText.addTextChangedListener(createTextChangedListenerForEditText());
+    }
+
+    private void initializeSpinner(LayoutInflater inflater) {
+        spinner = root.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = createNetworkArrayAdapter(inflater);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(createOnItemSelectedListenerForSpinner(inflater));
+    }
+
+    private ArrayAdapter<CharSequence> createNetworkArrayAdapter(LayoutInflater inflater) {
+        return ArrayAdapter.createFromResource(inflater.getContext(),
+                R.array.network_technologies_titles, R.layout.item_spinner);
+    }
+
+    private AdapterView.OnItemSelectedListener createOnItemSelectedListenerForSpinner(LayoutInflater inflater) {
+        return new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (onSpinnerItemSelectedListener != null) {
+                    onSpinnerItemSelectedListener.onSpinnerItemSelected(getNetworkConfigHint()
+                            + " " + getNetworkConfigDescription(pos));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.d(AttackCreationViewMvc.class.getSimpleName(), "Nothing selected");
+            }
+
+            private String getNetworkConfigDescription(int pos) {
+                return inflater.getContext().getResources().getStringArray(R.array.network_technologies_description)[pos];
+            }
+
+            @NonNull
+            private String getNetworkConfigHint() {
+                return inflater.getContext().getString(R.string.network_configuration_set_label);
+            }
+        };
+    }
+
+    private void initializeFab() {
+        fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener((view -> {
+            if (onAttackCreationButtonClickListener != null) {
+                onAttackCreationButtonClickListener.onAttackCreationButtonClicked(websiteEditText.getText().toString());
+            }
+        }));
     }
 
     @Override
@@ -94,33 +155,6 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         }
     }
 
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_attack_creation, container, false);
-        websiteHint = root.findViewById(R.id.tv_website_hint);
-        networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
-        websiteEditText = root.findViewById(R.id.ed_website);
-        spinner = root.findViewById(R.id.spinner);
-        fab = root.findViewById(R.id.fab);
-        progressBar = root.findViewById(R.id.progressBar);
-    }
-
-    private void setupUi(LayoutInflater inflater) {
-        setupEditText();
-        setupSpinner(inflater);
-        setupFab();
-    }
-
-    private void setupEditText() {
-        websiteEditText.addTextChangedListener(createTextChangedListenerForEditText());
-    }
-
-    private void setupSpinner(LayoutInflater inflater) {
-        ArrayAdapter<CharSequence> adapter = createNetworkArrayAdapter(inflater);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(createOnItemSelectedListenerForSpinner(inflater));
-    }
-
     private TextWatcher createTextChangedListenerForEditText() {
         return new TextWatcher() {
             @Override
@@ -140,44 +174,5 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
                 }
             }
         };
-    }
-
-    private void setupFab() {
-        fab.setOnClickListener((view -> {
-            if (onAttackCreationButtonClickListener != null) {
-                onAttackCreationButtonClickListener.onAttackCreationButtonClicked(websiteEditText.getText().toString());
-            }
-        }));
-    }
-
-    private AdapterView.OnItemSelectedListener createOnItemSelectedListenerForSpinner(LayoutInflater inflater) {
-        return new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (onSpinnerItemSelectedListener != null) {
-                    onSpinnerItemSelectedListener.onSpinnerItemSelected(getNetworkConfigHint()
-                            + " " + getNetworkConfigDescription(pos));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d(AttackCreationViewMvc.class.getSimpleName(), "Nothing selected");
-            }
-
-            private String getNetworkConfigDescription(int pos) {
-                return inflater.getContext().getResources().getStringArray(R.array.network_technologies_description)[pos];
-            }
-
-            @NonNull
-            private String getNetworkConfigHint() {
-                return inflater.getContext().getString(R.string.network_configuration_set_label);
-            }
-        };
-    }
-
-    private ArrayAdapter<CharSequence> createNetworkArrayAdapter(LayoutInflater inflater) {
-        return ArrayAdapter.createFromResource(inflater.getContext(),
-                R.array.network_technologies_titles, R.layout.item_spinner);
     }
 }
