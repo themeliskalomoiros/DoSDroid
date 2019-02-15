@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
-public class CreateAttackViewMvcImpl implements CreateAttackViewMvc {
+public class AttackPhaseViewMvcImp implements AttackPhaseViewMvc {
     private View root;
     private Toolbar toolbar;
 
-    public CreateAttackViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+    public AttackPhaseViewMvcImp(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_create_attack, container, false);
         toolbar = root.findViewById(R.id.toolBar);
     }

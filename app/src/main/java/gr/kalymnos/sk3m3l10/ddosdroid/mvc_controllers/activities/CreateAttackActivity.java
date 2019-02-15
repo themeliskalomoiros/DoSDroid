@@ -6,14 +6,14 @@ import android.view.LayoutInflater;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFragment;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.ServerHost;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvc;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.CreateAttackViewMvcImpl;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseViewMvc;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class CreateAttackActivity extends AppCompatActivity implements
         AttackCreationFragment.OnAttackCreationListener {
 
-    private CreateAttackViewMvc viewMvc;
+    private AttackPhaseViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class CreateAttackActivity extends AppCompatActivity implements
     }
 
     private void setupUi() {
-        viewMvc = new CreateAttackViewMvcImpl(LayoutInflater.from(this), null);
+        viewMvc = new AttackPhaseViewMvcImp(LayoutInflater.from(this), null);
         setContentView(viewMvc.getRootView());
     }
 
