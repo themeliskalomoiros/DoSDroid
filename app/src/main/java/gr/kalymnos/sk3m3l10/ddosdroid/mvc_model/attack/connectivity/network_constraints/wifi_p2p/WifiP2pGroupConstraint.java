@@ -7,7 +7,7 @@ import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_constraints.NetworkConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.wifi_p2p.WifiP2pServer;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtils;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtil;
 
 // Resolves when the group is created successfully.
 
@@ -41,7 +41,7 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
 
             @Override
             public void onFailure(int reason) {
-                Log.d(TAG, "WifiP2pGroupConstraint failed to resolve because of \"" + WifiP2pUtils.getFailureTextFrom(reason) + "\"");
+                Log.d(TAG, "WifiP2pGroupConstraint failed to resolve because of \"" + WifiP2pUtil.getFailureTextFrom(reason) + "\"");
                 callback.onConstraintResolveFailed(context, WifiP2pGroupConstraint.this);
             }
         };

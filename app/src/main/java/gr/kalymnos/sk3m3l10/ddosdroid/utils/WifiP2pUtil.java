@@ -2,7 +2,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
 import android.net.wifi.p2p.WifiP2pManager;
 
-public class WifiP2pUtils {
+public class WifiP2pUtil {
     public static String getFailureTextFrom(int reason) {
         if (reason == WifiP2pManager.BUSY)
             return "the operation failed because the framework is busy and unable to service the request";
