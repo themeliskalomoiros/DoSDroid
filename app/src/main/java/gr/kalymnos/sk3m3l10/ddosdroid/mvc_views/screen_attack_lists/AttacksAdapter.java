@@ -26,7 +26,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLin
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
-    private static final String TAG = AttacksAdapter.class.getSimpleName();
+    private static final String TAG = "AttacksAdapter";
     private static final int ITEM_VIEW_TYPE_SIMPLE_ATTACK = 0;
     private static final int ITEM_VIEW_TYPE_JOINED_ATTACK = 1;
     private static final int ITEM_VIEW_TYPE_OWNER_ATTACK = 2;
