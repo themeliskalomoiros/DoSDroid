@@ -16,12 +16,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment;
 
 public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
-
     private View root;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
-    private int contentType;
 
     public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
         initializeFields(inflater, container, fragmentManager, contentType);
@@ -30,7 +28,6 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     private void initializeFields(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
         initializeViews(inflater, container);
-        this.contentType = contentType;
         pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
     }
 
