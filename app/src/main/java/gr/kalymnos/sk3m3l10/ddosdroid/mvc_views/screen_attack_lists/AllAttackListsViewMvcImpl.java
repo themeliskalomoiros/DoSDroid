@@ -1,6 +1,5 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,14 +20,14 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
 
-    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
-        initializeFields(inflater, container, fragmentManager, contentType);
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, String[] tabTitles, int contentType) {
+        initializeFields(inflater, container, fragmentManager, tabTitles, contentType);
         setupViewPager();
     }
 
-    private void initializeFields(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
+    private void initializeFields(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, String[] tabTitles, int contentType) {
+        pagerAdapter = new MyPagerAdapter(fragmentManager, tabTitles, contentType);
         initializeViews(inflater, container);
-        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
     }
 
     private void initializeViews(LayoutInflater inflater, ViewGroup container) {
@@ -61,11 +60,6 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     @Override
     public View getRootView() {
         return root;
-    }
-
-    @NonNull
-    private String[] getTabTitlesFromResources() {
-        return root.getContext().getResources().getStringArray(R.array.network_technologies_titles);
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
