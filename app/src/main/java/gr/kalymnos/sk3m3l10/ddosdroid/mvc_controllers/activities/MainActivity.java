@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_main.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_main.MainScreenViewMvcImpl;
 
-public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnOptionClickListener {
+public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnMainActionClickListener {
 
     private MainScreenViewMvc viewMvc;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
 
     private void initializeViewMvc() {
         viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
-        viewMvc.setOnOptionClickListener(this);
+        viewMvc.setOnMainActionClickListener(this);
     }
 
     @Override
