@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Attack implements Parcelable {
-    public static final String STARTED_PASS = "this_attack_has_started";
     public static final Creator<Attack> CREATOR = new Creator<Attack>() {
         @Override
         public Attack createFromParcel(Parcel in) {

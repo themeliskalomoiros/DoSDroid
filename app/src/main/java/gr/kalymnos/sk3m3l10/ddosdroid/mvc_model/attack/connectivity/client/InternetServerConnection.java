@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.client;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
@@ -26,7 +27,7 @@ class InternetServerConnection extends ServerConnection {
 
     private boolean isAttackStarted() {
         String attackStartedPass = attack.getHostInfo().get(EXTRA_ATTACK_STARTED);
-        return attackStartedPass.equals(Attack.STARTED_PASS);
+        return attackStartedPass.equals(Server.RESPONSE);
     }
 
     private ConnectivityManager getConnectivityManager() {

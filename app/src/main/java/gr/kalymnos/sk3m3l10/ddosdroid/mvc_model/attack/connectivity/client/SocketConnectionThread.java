@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 
 public class SocketConnectionThread extends Thread {
     private static final String TAG = "SocketConnectionThread";
@@ -67,7 +67,7 @@ public class SocketConnectionThread extends Thread {
     private void handleConnectionSuccess() {
         BufferedReader reader = getBufferedReader();
         String serverResponse = readServerResponse(reader);
-        boolean isValidResponse = serverResponse.equals(Attack.STARTED_PASS);
+        boolean isValidResponse = serverResponse.equals(Server.RESPONSE);
         if (isValidResponse) {
             serverResponseListener.onServerResponseReceived();
             Log.d(TAG, "Connection success");
@@ -99,7 +99,7 @@ public class SocketConnectionThread extends Thread {
              * */
             return response.toString();
         } catch (IOException e) {
-            boolean responseIsValid = response.toString().equals(Attack.STARTED_PASS);
+            boolean responseIsValid = response.toString().equals(Server.RESPONSE);
             if (responseIsValid) {
                 return response.toString();
             } else {

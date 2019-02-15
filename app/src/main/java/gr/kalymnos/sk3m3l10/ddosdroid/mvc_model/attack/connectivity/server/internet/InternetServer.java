@@ -60,7 +60,7 @@ public class InternetServer extends Server {
 
     private void uploadAttack() {
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.getLocalUser().getId());
-        attack.addSingleHostInfo(EXTRA_ATTACK_STARTED, Attack.STARTED_PASS);
+        attack.addSingleHostInfo(EXTRA_ATTACK_STARTED, Server.RESPONSE);
         repository.upload(attack);
     }
 

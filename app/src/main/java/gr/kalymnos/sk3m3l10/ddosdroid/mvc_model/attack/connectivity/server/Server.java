@@ -27,6 +27,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.
 
 public abstract class Server implements NetworkConstraintsResolver.OnConstraintsResolveListener {
     protected static final String TAG = "MyServer";
+    public static final String RESPONSE = "this_attack_has_started";
     private static final int THREAD_POOL_SIZE = 10;
     public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
     public static final String EXTRA_SERVER_STATUS = "extra server status";

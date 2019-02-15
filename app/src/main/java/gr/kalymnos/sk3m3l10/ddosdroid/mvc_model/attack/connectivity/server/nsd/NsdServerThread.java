@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 
 public class NsdServerThread implements Runnable {
     private static final String TAG = "NsdServerThread";
@@ -33,7 +33,7 @@ public class NsdServerThread implements Runnable {
 
     @Override
     public void run() {
-        out.println(Attack.STARTED_PASS);
+        out.println(Server.RESPONSE);
         closeSocket();
     }
 

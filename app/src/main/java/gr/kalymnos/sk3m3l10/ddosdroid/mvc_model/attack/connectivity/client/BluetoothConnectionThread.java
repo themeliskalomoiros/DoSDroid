@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 
 class BluetoothConnectionThread extends Thread {
     private static final String TAG = "BluetoothConnectionThre";
@@ -80,7 +80,7 @@ class BluetoothConnectionThread extends Thread {
     }
 
     private void handleResponse(String response) {
-        boolean isValidResponse = response.equals(Attack.STARTED_PASS);
+        boolean isValidResponse = response.equals(Server.RESPONSE);
         if (isValidResponse) {
             Log.d(TAG, "Received valid server response");
             serverResponseListener.onServerResponseReceived();
@@ -112,7 +112,7 @@ class BluetoothConnectionThread extends Thread {
              * */
             return response.toString();
         } catch (IOException e) {
-            boolean responseIsValid = response.toString().equals(Attack.STARTED_PASS);
+            boolean responseIsValid = response.toString().equals(Server.RESPONSE);
             if (responseIsValid) {
                 return response.toString();
             } else {

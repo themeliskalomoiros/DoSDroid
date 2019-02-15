@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Server;
 
 class BluetoothServerThread implements Runnable {
     private static final String TAG = "BluetoothServerThread";
@@ -37,7 +37,7 @@ class BluetoothServerThread implements Runnable {
 
     @Override
     public void run() {
-        out.println(Attack.STARTED_PASS);
+        out.println(Server.RESPONSE);
         closeSocket();
     }
 
