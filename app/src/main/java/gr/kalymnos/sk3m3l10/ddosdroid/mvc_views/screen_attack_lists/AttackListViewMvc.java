@@ -6,8 +6,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public interface AttackListViewMvc extends ViewMvc {
-    interface OnAttackItemClickListener {
-        void onAttackItemClick(int position);
+    interface OnAttackClickListener {
+        void onAttackClick(int position);
     }
 
     interface OnJoinSwitchCheckedStateListener {
@@ -24,7 +24,7 @@ public interface AttackListViewMvc extends ViewMvc {
 
     void hideLoadingIndicator();
 
-    void setOnAttackItemClickListener(OnAttackItemClickListener listener);
+    void setOnAttackClickListener(OnAttackClickListener listener);
 
     void setOnJoinSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener);
 

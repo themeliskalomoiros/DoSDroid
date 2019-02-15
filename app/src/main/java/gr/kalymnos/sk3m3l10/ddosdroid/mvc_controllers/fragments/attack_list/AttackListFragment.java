@@ -38,7 +38,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
 
-public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackItemClickListener,
+public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackClickListener,
         AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
         AttackRepository.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
@@ -69,7 +69,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackListViewMvcImpl(inflater, container);
-        viewMvc.setOnAttackItemClickListener(this);
+        viewMvc.setOnAttackClickListener(this);
         viewMvc.setOnJoinSwitchCheckedStateListener(this);
         viewMvc.setOnActivateSwitchCheckedStateListener(this);
     }
@@ -113,7 +113,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void onAttackItemClick(int position) {
+    public void onAttackClick(int position) {
         if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
             JoinAttackActivity.startAnInstance(getContext(), attack);

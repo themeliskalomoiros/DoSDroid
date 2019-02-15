@@ -20,7 +20,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackItemClickListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
@@ -33,7 +33,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
     private Context context;
     private LinkedHashSet<Attack> attacks;
-    private OnAttackItemClickListener itemClickListener;
+    private OnAttackClickListener itemClickListener;
     private OnJoinSwitchCheckedStateListener switchCheckedStateListener;
     private OnActivateSwitchCheckedStateListener activateSwitchCheckedStateListener;
 
@@ -86,7 +86,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         return FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
     }
 
-    public void setOnItemClickListener(OnAttackItemClickListener listener) {
+    public void setOnItemClickListener(OnAttackClickListener listener) {
         itemClickListener = listener;
     }
 
@@ -110,7 +110,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         protected void initializeViews(@NonNull View itemView) {
             itemView.setOnClickListener((view) -> {
                 if (itemClickListener != null) {
-                    itemClickListener.onAttackItemClick(getAdapterPosition());
+                    itemClickListener.onAttackClick(getAdapterPosition());
                 }
             });
             websiteTitle = itemView.findViewById(R.id.website_textview);

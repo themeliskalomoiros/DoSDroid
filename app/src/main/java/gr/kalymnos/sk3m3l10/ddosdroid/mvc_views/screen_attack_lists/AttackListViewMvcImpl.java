@@ -58,7 +58,7 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     }
 
     @Override
-    public void setOnAttackItemClickListener(OnAttackItemClickListener listener) {
+    public void setOnAttackClickListener(OnAttackClickListener listener) {
         if (attacksAdapter != null) {
             attacksAdapter.setOnItemClickListener(listener);
         }
