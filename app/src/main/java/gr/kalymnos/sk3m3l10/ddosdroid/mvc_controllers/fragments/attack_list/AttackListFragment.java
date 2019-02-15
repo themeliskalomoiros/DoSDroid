@@ -50,9 +50,13 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeFieldsExceptViewMvc();
+        repository.startListenForChanges();
+    }
+
+    private void initializeFieldsExceptViewMvc() {
         cachedAttacks = new LinkedHashSet<>();
         initializeRepository();
-        repository.startListenForChanges();
     }
 
     private void initializeRepository() {
