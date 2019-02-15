@@ -25,18 +25,14 @@ public class AllAttackListsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeViewMvc();
-        setupUi();
+        setupUiFrom(viewMvc);
     }
 
     private void initializeViewMvc() {
-        viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null,
-                getSupportFragmentManager(), getResources().getStringArray(R.array.network_technologies_titles), getContentType(getIntent().getExtras()));
-    }
-
-    private void setupUi() {
-        viewMvc.bindToolbarTitle(getIntent().getStringExtra(Extras.EXTRA_TITLE));
-        setSupportActionBar(viewMvc.getToolbar());
-        setContentView(viewMvc.getRootView());
+        int contentType = getContentType(getIntent().getExtras());
+        String[] tabTitles = getResources().getStringArray(R.array.network_technologies_titles);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        viewMvc = new AllAttackListsViewMvcImpl(inflater, null, getSupportFragmentManager(), tabTitles, contentType);
     }
 
     private int getContentType(Bundle bundle) {
@@ -46,8 +42,13 @@ public class AllAttackListsActivity extends AppCompatActivity {
         return INVALID_CONTENT_TYPE;
     }
 
-    public static class Action {
+    private void setupUiFrom(AllAttackListsViewMvc viewMvc) {
+        viewMvc.bindToolbarTitle(getIntent().getStringExtra(Extras.EXTRA_TITLE));
+        setSupportActionBar(viewMvc.getToolbar());
+        setContentView(viewMvc.getRootView());
+    }
 
+    public static class Action {
         public static void startForJoinedAttacks(Context context) {
             context.startActivity(createIntent(context, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.contributions_label));
         }

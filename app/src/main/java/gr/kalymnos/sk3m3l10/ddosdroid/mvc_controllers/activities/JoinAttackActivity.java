@@ -15,8 +15,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackVie
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class JoinAttackActivity extends AppCompatActivity implements
-        JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
+public class JoinAttackActivity extends AppCompatActivity implements JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
     private JoinAttackViewMvc viewMvc;
 
     public static void startAnInstance(Context context, Attack attack) {
@@ -37,11 +36,11 @@ public class JoinAttackActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewMvc = new JoinAttackViewMvcImp(LayoutInflater.from(this), null);
         setupUi();
     }
 
     private void setupUi() {
-        viewMvc = new JoinAttackViewMvcImp(LayoutInflater.from(this), null);
         setSupportActionBar(viewMvc.getToolbar());
         setContentView(viewMvc.getRootView());
         showJoinAttackInfoFragment();
