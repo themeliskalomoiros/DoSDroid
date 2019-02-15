@@ -8,8 +8,8 @@ public interface AttackCreationViewMvc extends ViewMvc {
         void onAttackCreationButtonClicked(String website);
     }
 
-    interface OnSpinnerItemSelectedListener {
-        void onSpinnerItemSelected(String hint);
+    interface OnNetworkConfigurationSelectedListener {
+        void onNetworkSelected(String hint);
     }
 
     interface OnWebsiteTextChangeListener {
@@ -22,7 +22,7 @@ public interface AttackCreationViewMvc extends ViewMvc {
 
     void setOnAttackCreationButtonClickListener(OnAttackCreationButtonClickListener listener);
 
-    void setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener listener);
+    void setOnNetworkConfigurationSelectedListener(OnNetworkConfigurationSelectedListener listener);
 
     void setOnWebsiteTextChangeListener(OnWebsiteTextChangeListener listener);
 

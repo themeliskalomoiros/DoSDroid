@@ -29,7 +29,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private ProgressBar progressBar;
 
     private OnAttackCreationButtonClickListener onAttackCreationButtonClickListener;
-    private OnSpinnerItemSelectedListener onSpinnerItemSelectedListener;
+    private OnNetworkConfigurationSelectedListener onNetworkConfigurationSelectedListener;
     private OnWebsiteTextChangeListener onWebsiteTextChangeListener;
 
     public AttackCreationViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
@@ -68,8 +68,8 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (onSpinnerItemSelectedListener != null) {
-                    onSpinnerItemSelectedListener.onSpinnerItemSelected(getNetworkConfigHint()
+                if (onNetworkConfigurationSelectedListener != null) {
+                    onNetworkConfigurationSelectedListener.onNetworkSelected(getNetworkConfigHint()
                             + " " + getNetworkConfigDescription(pos));
                 }
             }
@@ -115,8 +115,8 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     @Override
-    public void setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener listener) {
-        onSpinnerItemSelectedListener = listener;
+    public void setOnNetworkConfigurationSelectedListener(OnNetworkConfigurationSelectedListener listener) {
+        onNetworkConfigurationSelectedListener = listener;
     }
 
     @Override

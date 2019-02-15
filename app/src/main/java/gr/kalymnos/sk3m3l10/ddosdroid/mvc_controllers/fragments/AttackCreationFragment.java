@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreati
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
+public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
         AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
 
     private AttackCreationViewMvc viewMvc;
@@ -38,7 +38,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackCreationViewMvcImpl(inflater, container);
         viewMvc.setOnAttackCreationButtonClickListener(this);
-        viewMvc.setOnSpinnerItemSelectedListener(this);
+        viewMvc.setOnNetworkConfigurationSelectedListener(this);
         viewMvc.setOnWebsiteTextChangeListener(this);
     }
 
@@ -70,7 +70,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onSpinnerItemSelected(String hint) {
+    public void onNetworkSelected(String hint) {
         viewMvc.setNetworkConfigHint(hint);
     }
 
