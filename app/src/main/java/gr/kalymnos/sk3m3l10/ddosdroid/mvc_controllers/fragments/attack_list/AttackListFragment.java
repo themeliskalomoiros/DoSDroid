@@ -34,7 +34,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.ContentType.INVALID_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_CONTENT_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.NetworkType.INTERNET;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.ValidationUtils.bundleContainsKey;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.collectionHasItems;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtils.getItemFromLinkedHashSet;
@@ -164,16 +163,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     protected final void cacheAttackAccordingToContentType(Attack attack) {
         if (getContentType() == FETCH_ONLY_USER_JOINED_ATTACKS) {
-            if (includesBot(attack, Bots.getLocalUser())) {
+            if (includesBot(attack, Bots.local())) {
                 cachedAttacks.add(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_NOT_JOINED_ATTACKS) {
-            boolean attackNotJoinedOrOwnedByUser = !includesBot(attack, Bots.getLocalUser()) && !isAttackOwnedByBot(attack, Bots.getLocalUser());
+            boolean attackNotJoinedOrOwnedByUser = !includesBot(attack, Bots.local()) && !isAttackOwnedByBot(attack, Bots.local());
             if (attackNotJoinedOrOwnedByUser) {
                 cachedAttacks.add(attack);
             }
         } else if (getContentType() == FETCH_ONLY_USER_OWN_ATTACKS) {
-            boolean userOwnsThisAttack = isAttackOwnedByBot(attack, Bots.getLocalUser()) && !includesBot(attack, Bots.getLocalUser());
+            boolean userOwnsThisAttack = isAttackOwnedByBot(attack, Bots.local()) && !includesBot(attack, Bots.local());
             if (userOwnsThisAttack) {
                 cachedAttacks.add(attack);
             }

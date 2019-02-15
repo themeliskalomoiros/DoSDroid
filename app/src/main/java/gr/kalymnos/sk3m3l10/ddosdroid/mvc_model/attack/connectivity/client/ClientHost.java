@@ -100,7 +100,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
-        Attacks.addBot(attack, Bots.getLocalUser());
+        Attacks.addBot(attack, Bots.local());
         repo.update(attack);
     }
 
