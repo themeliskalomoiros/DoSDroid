@@ -1,6 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.instance_id.FirebaseInstanceId;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.bot.FirebaseInstanceId;
 
 public final class Bots {
     public static Bot local() {
