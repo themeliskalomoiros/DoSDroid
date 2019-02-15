@@ -108,8 +108,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public final void onSaveInstanceState(@NonNull Bundle outState) {
-        List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
-        if (hasItems(attacksCopy)) {
+        if (hasItems(cachedAttacks)) {
+            List<Attack> attacksCopy = new ArrayList<>(cachedAttacks);
             outState.putParcelableArrayList(EXTRA_ATTACKS, (ArrayList<? extends Parcelable>) attacksCopy);
         }
     }
