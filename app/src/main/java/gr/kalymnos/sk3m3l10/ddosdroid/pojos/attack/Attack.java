@@ -48,32 +48,16 @@ public class Attack implements Parcelable {
         return website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
     public int getNetworkType() {
         return networkType;
-    }
-
-    public void setNetworkType(int networkType) {
-        this.networkType = networkType;
     }
 
     public long getTimeMillis() {
         return timeMillis;
     }
 
-    public void setTimeMillis(long timeMillis) {
-        this.timeMillis = timeMillis;
-    }
-
     public List<String> getBotIds() {
         return botIds;
-    }
-
-    public void setBotIds(List<String> botIds) {
-        this.botIds = botIds;
     }
 
     public Map<String, String> getHostInfo() {
