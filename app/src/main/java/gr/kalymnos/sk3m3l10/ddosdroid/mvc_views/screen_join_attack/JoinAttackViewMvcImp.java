@@ -9,13 +9,14 @@ import android.widget.FrameLayout;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
 public class JoinAttackViewMvcImp implements JoinAttackViewMvc {
-
     private View root;
     private Toolbar toolbar;
     private FrameLayout fragmentContainer;
 
     public JoinAttackViewMvcImp(LayoutInflater inflater, ViewGroup container) {
-        initializeViews(inflater, container);
+        root = inflater.inflate(R.layout.screen_join_attack, container, false);
+        toolbar = root.findViewById(R.id.toolBar);
+        fragmentContainer = root.findViewById(R.id.fragment_container);
     }
 
     @Override
@@ -31,11 +32,5 @@ public class JoinAttackViewMvcImp implements JoinAttackViewMvc {
     @Override
     public View getRootView() {
         return root;
-    }
-
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_join_attack, container, false);
-        toolbar = root.findViewById(R.id.toolBar);
-        fragmentContainer = root.findViewById(R.id.fragment_container);
     }
 }
