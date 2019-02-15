@@ -7,7 +7,7 @@ public final class Bots {
         return new Bot(new FirebaseInstanceId().getInstanceId());
     }
 
-    public static String getLocalUserId() {
+    public static String localId() {
         return local().getId();
     }
 }

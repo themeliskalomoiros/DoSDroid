@@ -126,7 +126,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     private void updateAttackWithoutCurrentUser(Attack attack) {
-        attack.getBotIds().remove(Bots.getLocalUserId());
+        attack.getBotIds().remove(Bots.localId());
         repo.update(attack);
     }
 
