@@ -9,7 +9,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -34,7 +33,6 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
         if (!addedChildEventListener) {
             allAttacksRef.addChildEventListener(this);
             addedChildEventListener = true;
-            Log.d(TAG, "Added childEventListener to attacks ref");
         }
     }
 
@@ -42,7 +40,6 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     public void stopListenForChanges() {
         if (addedChildEventListener) {
             allAttacksRef.removeEventListener(this);
-            Log.d(TAG, "Removed childEventListener to attacks ref");
         }
     }
 
@@ -53,28 +50,16 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
 
     @Override
     public void update(Attack attack) {
-        //  TODO: maybe can be refactored to allAttacksRef.child(attack.getPushId()).setValue(attack);
-        allAttacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                    if (snapshot.getKey().equals(attack.getPushId()))
-                        snapshot.getRef().setValue(attack);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+        upload(attack); // For firebase its pretty much the same, this database is kind of json file
     }
 
-    //  Firebase's ChildEventListener methods
     @Override
     public void delete(String attackId) {
         DatabaseReference attackRef = allAttacksRef.child(attackId);
         attackRef.removeValue();
     }
 
+    //  Firebase's ChildEventListener methods
     @Override
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Log.d(TAG, "onChildAdded()");
