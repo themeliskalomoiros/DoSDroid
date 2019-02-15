@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants.Extra.EXTRA_ATTACK;
 
-public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackButtonClickListener {
+public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
 
     private JoinAttackInfoViewMvc viewMvc;
     private Attack attack;
@@ -66,7 +66,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     @Override
-    public void onJoinAttackButtonClicked() {
+    public void onJoinAttackClicked() {
         callback.onJoinAttackButtonClicked(attack);
     }
 

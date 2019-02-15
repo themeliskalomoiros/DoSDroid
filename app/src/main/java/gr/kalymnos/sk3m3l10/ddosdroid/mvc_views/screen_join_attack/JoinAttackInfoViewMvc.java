@@ -3,11 +3,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 
 public interface JoinAttackInfoViewMvc extends ViewMvc {
-    interface OnJoinAttackButtonClickListener {
-        void onJoinAttackButtonClicked();
+    interface OnJoinAttackClickListener {
+        void onJoinAttackClicked();
     }
 
-    void setOnJoinAttackClickListener(OnJoinAttackButtonClickListener listener);
+    void setOnJoinAttackClickListener(OnJoinAttackClickListener listener);
 
     void bindWebsite(String website);
 
