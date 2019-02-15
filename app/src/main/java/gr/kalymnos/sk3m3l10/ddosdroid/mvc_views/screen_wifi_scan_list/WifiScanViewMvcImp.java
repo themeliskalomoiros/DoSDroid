@@ -43,7 +43,7 @@ public class WifiScanViewMvcImp implements WifiScanViewMvc {
     }
 
     @Override
-    public void setOnWifiScanItemClickListener(OnWifiScanItemClickListener listener) {
+    public void setOnWifiScanItemClickListener(OnWifiScanResultItemClickListener listener) {
         adapter.setItemClickListener(listener);
     }
 
