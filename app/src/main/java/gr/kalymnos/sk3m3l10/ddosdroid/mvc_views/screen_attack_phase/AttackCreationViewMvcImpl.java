@@ -53,13 +53,13 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     private void initializeSpinner(LayoutInflater inflater) {
         spinner = root.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = createNetworkArrayAdapter(inflater);
+        ArrayAdapter<CharSequence> adapter = getArrayAdapter(inflater);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(createOnItemSelectedListenerForSpinner(inflater));
     }
 
-    private ArrayAdapter<CharSequence> createNetworkArrayAdapter(LayoutInflater inflater) {
+    private ArrayAdapter<CharSequence> getArrayAdapter(LayoutInflater inflater) {
         return ArrayAdapter.createFromResource(inflater.getContext(),
                 R.array.network_technologies_titles, R.layout.item_spinner);
     }
