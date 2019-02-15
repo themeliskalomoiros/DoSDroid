@@ -28,7 +28,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private FloatingActionButton fab;
     private ProgressBar progressBar;
 
-    private OnAttackCreationButtonClickListener onAttackCreationButtonClickListener;
+    private OnAttackCreationClickListener onAttackCreationClickListener;
     private OnNetworkConfigurationSelectedListener onNetworkConfigurationSelectedListener;
     private OnWebsiteTextChangeListener onWebsiteTextChangeListener;
 
@@ -93,8 +93,8 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private void initializeFab() {
         fab = root.findViewById(R.id.fab);
         fab.setOnClickListener((view -> {
-            if (onAttackCreationButtonClickListener != null) {
-                onAttackCreationButtonClickListener.onAttackCreationButtonClicked(websiteEditText.getText().toString());
+            if (onAttackCreationClickListener != null) {
+                onAttackCreationClickListener.onAttackCreationClicked(websiteEditText.getText().toString());
             }
         }));
     }
@@ -110,8 +110,8 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     @Override
-    public void setOnAttackCreationButtonClickListener(OnAttackCreationButtonClickListener listener) {
-        onAttackCreationButtonClickListener = listener;
+    public void setOnAttackCreationClickListener(OnAttackCreationClickListener listener) {
+        onAttackCreationClickListener = listener;
     }
 
     @Override

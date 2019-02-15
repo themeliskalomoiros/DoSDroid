@@ -19,7 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
-        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
+        AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
 
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
@@ -37,7 +37,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackCreationViewMvcImpl(inflater, container);
-        viewMvc.setOnAttackCreationButtonClickListener(this);
+        viewMvc.setOnAttackCreationClickListener(this);
         viewMvc.setOnNetworkConfigurationSelectedListener(this);
         viewMvc.setOnWebsiteTextChangeListener(this);
     }
@@ -53,7 +53,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onAttackCreationButtonClicked(String website) {
+    public void onAttackCreationClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
             Attack attack = createAttack(website);
             callback.onAttackCreated(attack);
