@@ -99,7 +99,6 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     }
 
     abstract class AttackHolder extends RecyclerView.ViewHolder {
-
         private TextView websiteTitle, websiteSubtitle;
         private ImageView websiteIcon;
 
@@ -130,14 +129,13 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
     }
 
-    private class SimpleAttackHolder extends AttackHolder {
-        SimpleAttackHolder(@NonNull View itemView) {
+    private class NotJoinedAttackHolder extends AttackHolder {
+        NotJoinedAttackHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
     private class JoinedAttackHolder extends AttackHolder {
-
         private Switch joinSwitch;
 
         JoinedAttackHolder(@NonNull View itemView) {
@@ -207,7 +205,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
                 case FETCH_ONLY_USER_OWN_ATTACKS:
                     return new OwnerAttackHolder(createViewFrom(R.layout.list_item_attack_owner, parent));
                 case FETCH_ONLY_USER_NOT_JOINED_ATTACKS:
-                    return new SimpleAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
+                    return new NotJoinedAttackHolder(createViewFrom(R.layout.list_item_attack, parent));
                 default:
                     throw new UnsupportedOperationException(TAG + ": Unknown ITEM_VIEW_TYPE");
             }
