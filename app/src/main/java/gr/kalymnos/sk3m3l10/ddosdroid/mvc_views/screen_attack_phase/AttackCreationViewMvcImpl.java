@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,10 +50,29 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         websiteEditText.addTextChangedListener(createTextChangedListenerForEditText());
     }
 
+    private TextWatcher createTextChangedListenerForEditText() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (onWebsiteTextChangeListener != null) {
+                    onWebsiteTextChangeListener.websiteTextChanged(editable.toString());
+                }
+            }
+        };
+    }
+
     private void initializeSpinner(LayoutInflater inflater) {
         spinner = root.findViewById(R.id.spinner);
         spinner.setAdapter(getArrayAdapter(inflater));
-        spinner.setOnItemSelectedListener(getSpinnerItemSelectedListener(inflater));
+        spinner.setOnItemSelectedListener(getItemSelectedListener(inflater));
     }
 
     private ArrayAdapter<CharSequence> getArrayAdapter(LayoutInflater inflater) {
@@ -64,28 +82,31 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         return adapter;
     }
 
-    private AdapterView.OnItemSelectedListener getSpinnerItemSelectedListener(LayoutInflater inflater) {
+    private AdapterView.OnItemSelectedListener getItemSelectedListener(LayoutInflater inflater) {
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (onNetworkConfigurationSelectedListener != null) {
-                    onNetworkConfigurationSelectedListener.onNetworkSelected(getNetworkConfigHint()
-                            + " " + getNetworkConfigDescription(pos));
+                    setNetworkHintAccordingTo(pos);
                 }
+            }
+
+            private void setNetworkHintAccordingTo(int pos) {
+                String hint = getNetworkPrefix() + " " + getNetworkDescription(pos);
+                onNetworkConfigurationSelectedListener.onNetworkSelected(hint);
+            }
+
+            @NonNull
+            private String getNetworkPrefix() {
+                return inflater.getContext().getString(R.string.network_configuration_prefix);
+            }
+
+            private String getNetworkDescription(int pos) {
+                return inflater.getContext().getResources().getStringArray(R.array.network_technologies_description)[pos];
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.d(AttackCreationViewMvc.class.getSimpleName(), "Nothing selected");
-            }
-
-            private String getNetworkConfigDescription(int pos) {
-                return inflater.getContext().getResources().getStringArray(R.array.network_technologies_description)[pos];
-            }
-
-            @NonNull
-            private String getNetworkConfigHint() {
-                return inflater.getContext().getString(R.string.network_configuration_set_label);
             }
         };
     }
@@ -153,26 +174,5 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
             default:
                 throw new UnsupportedOperationException(TAG + ": No such network configuration");
         }
-    }
-
-    private TextWatcher createTextChangedListenerForEditText() {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (onWebsiteTextChangeListener != null) {
-                    onWebsiteTextChangeListener.websiteTextChanged(editable.toString());
-                }
-            }
-        };
     }
 }

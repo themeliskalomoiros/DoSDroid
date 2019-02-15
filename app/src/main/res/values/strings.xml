@@ -21,7 +21,7 @@
     <string name="create_attack_label_subtitle">Set your target and unleash full power!</string>
     <string name="join_attack_label_subtitle">Place your service to strengthen other attacks.</string>
     <string name="joined_attacks_label_subtitle">View all attacks where you are taking part.</string>
-    <string name="network_configuration_set_label">Botnet will be created through</string>
+    <string name="network_configuration_prefix">Botnet will be created over</string>
     <string name="target_set_to_label">Target set to</string>
     <string name="stop_attack_label">Stop the attack</string>
     <string name="users_joined">Users joined:</string>
@@ -69,7 +69,7 @@
         <item>Bluetooth</item>
     </string-array>
     <string-array name="network_technologies_description">
-        <item>Use the internet as your network.</item>
+        <item>the Internet.</item>
         <item>WiFi peer to peer.</item>
         <item>Network Service Discovery.</item>
         <item>Bluetooth wireless technology.</item>
