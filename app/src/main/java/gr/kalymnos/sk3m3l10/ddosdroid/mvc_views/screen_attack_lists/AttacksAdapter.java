@@ -121,11 +121,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
         void bind(Attack attack) {
             websiteTitle.setText(attack.getWebsite());
-            websiteSubtitle.setText(createUsersJoinedTextFrom(attack.getBotIds().size()));
+            websiteSubtitle.setText(createTextFrom(attack.getBotIds().size()));
             //  TODO: if a website has a favicon.ico then display it in websiteIcon
         }
 
-        private String createUsersJoinedTextFrom(int usersJoined) {
+        private String createTextFrom(int usersJoined) {
             return context.getString(R.string.users_joined) + " " + usersJoined;
         }
     }
