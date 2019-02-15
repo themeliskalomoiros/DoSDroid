@@ -38,7 +38,7 @@ public class AllAttackListsActivity extends AppCompatActivity {
 
     private void initializeViewMvc() {
         viewMvc = new AllAttackListsViewMvcImpl(LayoutInflater.from(this), null,
-                getSupportFragmentManager(), getContentType(getIntent().getExtras()));
+                getSupportFragmentManager(), getResources().getStringArray(R.array.network_technologies_titles), getContentType(getIntent().getExtras()));
     }
 
     private int getContentType(Bundle bundle) {

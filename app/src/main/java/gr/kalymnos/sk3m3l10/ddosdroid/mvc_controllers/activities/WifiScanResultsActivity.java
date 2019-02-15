@@ -15,7 +15,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_wifi_scan_list.WifiScanViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_wifi_scan_list.WifiScanViewMvcImp;
 
-public class WifiScanResultsActivity extends AppCompatActivity implements WifiScanViewMvc.OnWifiScanItemClickListener {
+public class WifiScanResultsActivity extends AppCompatActivity implements WifiScanViewMvc.OnWifiScanResultItemClickListener {
     private static final String EXTRA_WIFI_SCAN_RESULTS = "extra wifi scan results";
     public static final String ACTION_SCAN_RESULT_CHOSEN = "action scan result chosen from user";
     public static final String ACTION_SCAN_RESULT_CANCELLED = "action scan result cancelled from user";

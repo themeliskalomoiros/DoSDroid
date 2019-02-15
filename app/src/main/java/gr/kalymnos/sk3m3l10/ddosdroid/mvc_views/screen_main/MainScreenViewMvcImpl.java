@@ -18,7 +18,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
             createAttackSubtitle, joinAttackSubtitle, contributionSubtitle;
     private ViewGroup createAttackParentView, joinAttackParentView, contributionParentView;
 
-    private OnOptionClickListener optionClickListener;
+    private OnMainActionClickListener optionClickListener;
 
     public MainScreenViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_main, container, false);
@@ -26,7 +26,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
     }
 
     @Override
-    public void setOnOptionClickListener(OnOptionClickListener listener) {
+    public void setOnMainActionClickListener(OnMainActionClickListener listener) {
         optionClickListener = listener;
     }
 

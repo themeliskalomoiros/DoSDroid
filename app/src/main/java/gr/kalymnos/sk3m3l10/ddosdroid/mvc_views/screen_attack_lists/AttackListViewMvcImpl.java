@@ -13,14 +13,32 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class AttackListViewMvcImpl implements AttackListViewMvc {
-
     private View root;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private AttacksAdapter attacksAdapter;
 
     public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
+        initializeFields(inflater, container);
+        setupRecyclerView();
+    }
+
+    private void initializeFields(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
+        attacksAdapter = new AttacksAdapter(root.getContext());
+    }
+
+    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+        root = inflater.inflate(R.layout.screen_attack_list, container, false);
+        progressBar = root.findViewById(R.id.progressBar);
+        recyclerView = root.findViewById(R.id.recyclerView);
+    }
+
+    private void setupRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView.setAdapter(attacksAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -59,20 +77,5 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     @Override
     public View getRootView() {
         return root;
-    }
-
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_attack_list, container, false);
-        progressBar = root.findViewById(R.id.progressBar);
-        initializeRecyclerView();
-    }
-
-    private void initializeRecyclerView() {
-        recyclerView = root.findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext());
-        attacksAdapter = new AttacksAdapter(root.getContext());
-        recyclerView.setAdapter(attacksAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
     }
 }

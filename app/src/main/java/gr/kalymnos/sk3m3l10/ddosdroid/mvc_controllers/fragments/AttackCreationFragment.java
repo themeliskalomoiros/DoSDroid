@@ -18,8 +18,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreati
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnSpinnerItemSelectedListener,
-        AttackCreationViewMvc.OnAttackCreationButtonClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
+public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
+        AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
 
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
@@ -37,8 +37,8 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackCreationViewMvcImpl(inflater, container);
-        viewMvc.setOnAttackCreationButtonClickListener(this);
-        viewMvc.setOnSpinnerItemSelectedListener(this);
+        viewMvc.setOnAttackCreationClickListener(this);
+        viewMvc.setOnNetworkConfigurationSelectedListener(this);
         viewMvc.setOnWebsiteTextChangeListener(this);
     }
 
@@ -53,7 +53,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onAttackCreationButtonClicked(String website) {
+    public void onAttackCreationClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
             Attack attack = createAttack(website);
             callback.onAttackCreated(attack);
@@ -70,7 +70,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onSpinnerItemSelected(String hint) {
+    public void onNetworkSelected(String hint) {
         viewMvc.setNetworkConfigHint(hint);
     }
 

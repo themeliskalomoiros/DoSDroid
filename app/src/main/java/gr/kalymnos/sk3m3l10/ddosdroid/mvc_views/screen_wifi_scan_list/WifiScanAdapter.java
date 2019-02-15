@@ -17,7 +17,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 public class WifiScanAdapter extends RecyclerView.Adapter<WifiScanAdapter.ScanResultHolder> {
     private Context context;
     private List<String> scanResults;
-    private WifiScanViewMvc.OnWifiScanItemClickListener itemClickListener;
+    private WifiScanViewMvc.OnWifiScanResultItemClickListener itemClickListener;
 
     public WifiScanAdapter(Context context) {
         this.context = context;
@@ -27,7 +27,7 @@ public class WifiScanAdapter extends RecyclerView.Adapter<WifiScanAdapter.ScanRe
         this.scanResults = scanResults;
     }
 
-    public void setItemClickListener(WifiScanViewMvc.OnWifiScanItemClickListener itemClickListener) {
+    public void setItemClickListener(WifiScanViewMvc.OnWifiScanResultItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 

@@ -3,8 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_main;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvcWithToolbar;
 
 public interface MainScreenViewMvc extends ViewMvcWithToolbar {
-
-    interface OnOptionClickListener {
+    interface OnMainActionClickListener {
         void onCreateAttackClick();
 
         void onJoinAttackClick();
@@ -12,5 +11,5 @@ public interface MainScreenViewMvc extends ViewMvcWithToolbar {
         void onContributionClick();
     }
 
-    void setOnOptionClickListener(OnOptionClickListener listener);
+    void setOnMainActionClickListener(OnMainActionClickListener listener);
 }

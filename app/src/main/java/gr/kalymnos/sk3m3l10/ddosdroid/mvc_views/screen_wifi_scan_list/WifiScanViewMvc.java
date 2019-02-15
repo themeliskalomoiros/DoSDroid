@@ -5,12 +5,11 @@ import java.util.List;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvcWithToolbar;
 
 public interface WifiScanViewMvc extends ViewMvcWithToolbar {
-
-    public interface OnWifiScanItemClickListener {
+    interface OnWifiScanResultItemClickListener {
         void onWifiScanItemClick(int position);
     }
 
     void bindResults(List<String> wifiScanResultTitles);
 
-    void setOnWifiScanItemClickListener(OnWifiScanItemClickListener listener);
+    void setOnWifiScanItemClickListener(OnWifiScanResultItemClickListener listener);
 }

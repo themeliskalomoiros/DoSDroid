@@ -4,12 +4,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 
 public interface AttackCreationViewMvc extends ViewMvc {
 
-    interface OnAttackCreationButtonClickListener {
-        void onAttackCreationButtonClicked(String website);
+    interface OnAttackCreationClickListener {
+        void onAttackCreationClicked(String website);
     }
 
-    interface OnSpinnerItemSelectedListener {
-        void onSpinnerItemSelected(String hint);
+    interface OnNetworkConfigurationSelectedListener {
+        void onNetworkSelected(String hint);
     }
 
     interface OnWebsiteTextChangeListener {
@@ -20,15 +20,15 @@ public interface AttackCreationViewMvc extends ViewMvc {
 
     void setNetworkConfigHint(String hint);
 
-    void setOnAttackCreationButtonClickListener(OnAttackCreationButtonClickListener listener);
+    void setOnAttackCreationClickListener(OnAttackCreationClickListener listener);
 
-    void setOnSpinnerItemSelectedListener(OnSpinnerItemSelectedListener listener);
+    void setOnNetworkConfigurationSelectedListener(OnNetworkConfigurationSelectedListener listener);
 
     void setOnWebsiteTextChangeListener(OnWebsiteTextChangeListener listener);
+
+    int getNetworkConf();
 
     void showLoadingIndicator();
 
     void hideLoadingIndicator();
-
-    int getNetworkConf();
 }

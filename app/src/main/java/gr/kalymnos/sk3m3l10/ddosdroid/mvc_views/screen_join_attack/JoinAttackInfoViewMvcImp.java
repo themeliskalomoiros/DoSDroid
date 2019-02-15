@@ -9,20 +9,28 @@ import android.widget.TextView;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
 public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
-
     private View root;
     private TextView website, date, attackForce, networkConf;
-    private FloatingActionButton joinFab;
+    private FloatingActionButton fab;
 
     public JoinAttackInfoViewMvcImp(LayoutInflater inflater, ViewGroup container) {
         initializeViews(inflater, container);
     }
 
+    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+        root = inflater.inflate(R.layout.screen_join_attack_info, container, false);
+        website = root.findViewById(R.id.website_textview);
+        date = root.findViewById(R.id.tv_website_hint);
+        attackForce = root.findViewById(R.id.tv_attack_force);
+        networkConf = root.findViewById(R.id.network_configuration);
+        fab = root.findViewById(R.id.fab);
+    }
+
     @Override
-    public void setOnJoinAttackClickListener(OnJoinAttackButtonClickListener listener) {
-        joinFab.setOnClickListener(view -> {
+    public void setOnJoinAttackClickListener(OnJoinAttackClickListener listener) {
+        fab.setOnClickListener(view -> {
             if (listener != null) {
-                listener.onJoinAttackButtonClicked();
+                listener.onJoinAttackClicked();
             }
         });
     }
@@ -51,14 +59,5 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     @Override
     public View getRootView() {
         return root;
-    }
-
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_join_attack_info, container, false);
-        website = root.findViewById(R.id.website_textview);
-        date = root.findViewById(R.id.tv_website_hint);
-        attackForce = root.findViewById(R.id.tv_attack_force);
-        networkConf = root.findViewById(R.id.network_configuration);
-        joinFab = root.findViewById(R.id.fab);
     }
 }

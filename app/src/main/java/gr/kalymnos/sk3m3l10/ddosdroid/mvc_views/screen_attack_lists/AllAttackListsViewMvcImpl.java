@@ -1,6 +1,5 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,16 +15,31 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_list.AttackListFragment;
 
 public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
-
     private View root;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
-    private int contentType;
 
-    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, int contentType) {
-        this.contentType = contentType;
-        initializeViews(inflater, container, fragmentManager);
+    public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, String[] tabTitles, int contentType) {
+        initializeFields(inflater, container, fragmentManager, tabTitles, contentType);
+        setupViewPager();
+    }
+
+    private void initializeFields(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, String[] tabTitles, int contentType) {
+        pagerAdapter = new MyPagerAdapter(fragmentManager, tabTitles, contentType);
+        initializeViews(inflater, container);
+    }
+
+    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+        root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
+        toolbar = root.findViewById(R.id.toolBar);
+        viewPager = root.findViewById(R.id.viewPager);
+    }
+
+    private void setupViewPager() {
+        viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = root.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -46,25 +60,6 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
     @Override
     public View getRootView() {
         return root;
-    }
-
-    private void initializeViews(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager) {
-        root = inflater.inflate(R.layout.screen_all_attack_lists, container, false);
-        toolbar = root.findViewById(R.id.toolBar);
-        initializeViewPagerWithTabLayout(fragmentManager);
-    }
-
-    private void initializeViewPagerWithTabLayout(FragmentManager fragmentManager) {
-        pagerAdapter = new MyPagerAdapter(fragmentManager, getTabTitlesFromResources(), contentType);
-        viewPager = root.findViewById(R.id.viewPager);
-        viewPager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = root.findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @NonNull
-    private String[] getTabTitlesFromResources() {
-        return root.getContext().getResources().getStringArray(R.array.network_technologies_titles);
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
