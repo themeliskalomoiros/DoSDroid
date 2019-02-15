@@ -10,9 +10,9 @@ public class InternetAttackListFragment extends AttackListFragment {
     private static final String TAG = AttackListFragment.TAG + "Internet";
 
     @Override
-    public void onAttackUpload(Attack attack) {
-        if (attack.getNetworkType() == INTERNET) {
-            cacheAttackAccordingToContentType(attack);
+    public void onAttackUpload(Attack uploadedAttack) {
+        if (uploadedAttack.getNetworkType() == INTERNET) {
+            cacheAttackAccordingToContentType(uploadedAttack);
             viewMvc.bindAttacks(cachedAttacks);
         }
     }

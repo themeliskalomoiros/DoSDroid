@@ -45,7 +45,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
         this.repository = new FirebaseRepository();
-        this.repository.addOnRepositoryChangeListener(this);
+        this.repository.setOnRepositoryChangeListener(this);
         initializeServerConnection();
     }
 
@@ -100,7 +100,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
     }
 
     @Override
-    public void onAttackUpload(Attack attack) {
+    public void onAttackUpload(Attack uploadedAttack) {
         Log.d(TAG, "onAttackUpload()");
     }
 

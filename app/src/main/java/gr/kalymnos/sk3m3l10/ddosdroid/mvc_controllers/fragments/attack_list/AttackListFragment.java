@@ -69,7 +69,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     private void initializeRepository() {
         repository = new FirebaseRepository();
-        repository.addOnRepositoryChangeListener(this);
+        repository.setOnRepositoryChangeListener(this);
     }
 
     @Nullable

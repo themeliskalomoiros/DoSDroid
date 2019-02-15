@@ -7,9 +7,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.WIFI_P2P;
 public class WiFiP2PAttackListFragment extends AttackListFragment {
 
     @Override
-    public void onAttackUpload(Attack attack) {
-        if (attack.getNetworkType() == WIFI_P2P) {
-            cacheAttackAccordingToContentType(attack);
+    public void onAttackUpload(Attack uploadedAttack) {
+        if (uploadedAttack.getNetworkType() == WIFI_P2P) {
+            cacheAttackAccordingToContentType(uploadedAttack);
             viewMvc.bindAttacks(cachedAttacks);
         }
     }

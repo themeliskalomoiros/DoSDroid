@@ -79,21 +79,21 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Log.d(TAG, "onChildAdded()");
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onRepositoryChangeListener.onAttackUpload(attack);
+        repositoryListener.onAttackUpload(attack);
     }
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
         Log.d(TAG, "onChildChanged()");
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onRepositoryChangeListener.onAttackUpdate(attack);
+        repositoryListener.onAttackUpdate(attack);
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
         Log.d(TAG, "onChildRemoved()");
         Attack attack = dataSnapshot.getValue(Attack.class);
-        onRepositoryChangeListener.onAttackDelete(attack);
+        repositoryListener.onAttackDelete(attack);
     }
 
     @Override

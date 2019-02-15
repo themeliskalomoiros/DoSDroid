@@ -1,27 +1,24 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository;
 
-/*  Reports when a change occured in the attack repository.
- * For example an attack was added, changed, removed, etc...*/
-
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public abstract class AttackRepository {
-    protected OnRepositoryChangeListener onRepositoryChangeListener;
+    protected OnRepositoryChangeListener repositoryListener;
 
     public interface OnRepositoryChangeListener {
-        void onAttackUpload(Attack attack);
+        void onAttackUpload(Attack uploadedAttack);
 
         void onAttackUpdate(Attack changedAttack);
 
         void onAttackDelete(Attack deletedAttack);
     }
 
-    public final void addOnRepositoryChangeListener(OnRepositoryChangeListener listener) {
-        this.onRepositoryChangeListener = listener;
+    public final void setOnRepositoryChangeListener(OnRepositoryChangeListener listener) {
+        this.repositoryListener = listener;
     }
 
     public final void removeOnRepositoryChangeListener() {
-        onRepositoryChangeListener = null;
+        repositoryListener = null;
     }
 
     public abstract void startListenForChanges();
