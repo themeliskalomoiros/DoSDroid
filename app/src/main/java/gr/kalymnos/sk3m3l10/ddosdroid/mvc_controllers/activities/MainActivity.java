@@ -9,24 +9,23 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_main.MainScreenViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_main.MainScreenViewMvcImpl;
 
 public class MainActivity extends AppCompatActivity implements MainScreenViewMvc.OnMainActionClickListener {
-
     private MainScreenViewMvc viewMvc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupUi();
-    }
-
-    private void setupUi() {
         initializeViewMvc();
-        setSupportActionBar(viewMvc.getToolbar());
-        setContentView(viewMvc.getRootView());
+        setupUiFrom(viewMvc);
     }
 
     private void initializeViewMvc() {
         viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
         viewMvc.setOnMainActionClickListener(this);
+    }
+
+    private void setupUiFrom(MainScreenViewMvc viewMvc) {
+        setSupportActionBar(viewMvc.getToolbar());
+        setContentView(viewMvc.getRootView());
     }
 
     @Override
