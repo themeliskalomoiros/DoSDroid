@@ -14,7 +14,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.network_cons
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Constants;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtils;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 
 class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothServerResoinseListener {
@@ -154,9 +154,9 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
     @Override
     public void onConstraintsResolved() {
         String serverMacAddress = Attacks.getHostMacAddress(attack);
-        if (BluetoothDeviceUtils.isLocalDevicePairedWith(serverMacAddress)) {
+        if (BluetoothDeviceUtil.isLocalDevicePairedWith(serverMacAddress)) {
             Log.d(TAG, "Server device is already paired with device, proceeding to connection");
-            BluetoothConnectionThread.startAnInstance(BluetoothDeviceUtils.getPairedBluetoothDeviceOf(serverMacAddress),
+            BluetoothConnectionThread.startAnInstance(BluetoothDeviceUtil.getPairedBluetoothDeviceOf(serverMacAddress),
                     Attacks.getHostUUID(attack), this);
         } else {
             Log.d(TAG, "Server device was not paired with local device. proceeding to device discovery to find it");

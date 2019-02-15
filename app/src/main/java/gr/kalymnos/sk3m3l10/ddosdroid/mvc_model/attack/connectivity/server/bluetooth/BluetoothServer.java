@@ -19,7 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.Serve
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtils;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
@@ -114,7 +114,7 @@ public class BluetoothServer extends Server {
 
     private void setAttackHostInfo() {
         UUID uuid = UUID.randomUUID();
-        String macAddress = BluetoothDeviceUtils.getLocalMacAddress(context);
+        String macAddress = BluetoothDeviceUtil.getLocalMacAddress(context);
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
     }

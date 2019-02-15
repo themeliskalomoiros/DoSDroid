@@ -6,8 +6,8 @@ import android.content.Context;
 
 import java.util.Set;
 
-public class BluetoothDeviceUtils {
-    private static final String TAG = "BluetoothDeviceUtils";
+public class BluetoothDeviceUtil {
+    private static final String TAG = "BluetoothDeviceUtil";
 
     public static boolean isLocalDevicePairedWith(String deviceAddress /*MAC Address*/) {
         for (BluetoothDevice device : getPairedDevices()) {
