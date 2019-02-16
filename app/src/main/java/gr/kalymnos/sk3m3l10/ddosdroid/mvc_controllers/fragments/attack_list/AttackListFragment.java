@@ -26,9 +26,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.INVALID_CONTENT_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.showingJoinedAttacks;
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.showingNotJoinedAttacks;
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.showingOwnAttacks;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.joinedAttacks;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.notJoinedAttacks;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.ownAttacks;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
@@ -124,7 +124,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
 
     @Override
     public void onAttackClick(int position) {
-        if (showingNotJoinedAttacks(contentType)) {
+        if (notJoinedAttacks(contentType)) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
             JoinAttackActivity.startAnInstance(getContext(), attack);
         }
@@ -155,16 +155,16 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     protected final void cacheAttackAccordingToContentType(Attack attack) {
-        if (showingJoinedAttacks(contentType)) {
+        if (joinedAttacks(contentType)) {
             if (includesBot(attack, Bots.local())) {
                 cachedAttacks.add(attack);
             }
-        } else if (showingNotJoinedAttacks(contentType)) {
+        } else if (notJoinedAttacks(contentType)) {
             boolean attackNotJoinedOrOwnedByUser = !includesBot(attack, Bots.local()) && !isAttackOwnedByBot(attack, Bots.local());
             if (attackNotJoinedOrOwnedByUser) {
                 cachedAttacks.add(attack);
             }
-        } else if (showingOwnAttacks(contentType)) {
+        } else if (ownAttacks(contentType)) {
             boolean userOwnsThisAttack = isAttackOwnedByBot(attack, Bots.local()) && !includesBot(attack, Bots.local());
             if (userOwnsThisAttack) {
                 cachedAttacks.add(attack);

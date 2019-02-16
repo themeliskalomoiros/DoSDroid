@@ -9,14 +9,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-    /*
-        This class works only with an existing website.
-        Otherwise readUrl() obtains null InputStream.
-        Ideally the app should inform the user on that case.
-    */
-
 public class AttackScript extends Thread {
     private static final String TAG = "AttackScript";
+
     private URL url;
     private AtomicBoolean stopped = new AtomicBoolean(false);
 
@@ -34,15 +29,17 @@ public class AttackScript extends Thread {
 
     @Override
     public void run() {
+        //  Why not using interruption? Check own question "Can't interrupt tasks of
+        //  ExecutorService" on StackOverflow.
         while (!stopped.get()) {
             readUrl();
         }
-        Log.d(TAG, "Exited from thread");
     }
 
     private void readUrl() {
         InputStream in = null;
         try {
+            //  In case of a non-existing website InputStream is null.
             in = url.openStream();
         } catch (FileNotFoundException e) {
             Log.w(TAG, "Website " + url + " not found.");
