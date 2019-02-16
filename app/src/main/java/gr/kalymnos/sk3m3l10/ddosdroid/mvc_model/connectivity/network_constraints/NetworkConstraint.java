@@ -3,19 +3,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraint
 import android.content.Context;
 
 public abstract class NetworkConstraint {
-    protected OnResolveConstraintListener onResolveConstraintListener;
     protected Context context;
+    protected OnResolveConstraintListener onResolveConstraintListener;  //  TODO: Leaks, never removed!
 
     public NetworkConstraint(Context context) {
         this.context = context;
-    }
-
-    public abstract void resolve();
-
-    public abstract boolean isResolved();
-
-    public void releaseResources() {
-        context = null;
     }
 
     public interface OnResolveConstraintListener {
@@ -24,7 +16,16 @@ public abstract class NetworkConstraint {
         void onConstraintResolveFailed(Context context, NetworkConstraint constraint);
     }
 
-    public void setOnResolveConstraintListener(OnResolveConstraintListener listener) {
+    public final void setOnResolveConstraintListener(OnResolveConstraintListener listener) {
         onResolveConstraintListener = listener;
+    }
+
+    public abstract void resolve();
+
+    public abstract boolean isResolved();
+
+    //  TODO: Can be declared abstract and all resources should released in implementations
+    public void releaseResources() {
+        context = null;
     }
 }
