@@ -10,14 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 
 /*
  * The plan was to ask for infinite discoverability, but apart from the security hole there
- * is also one in the API. I asked at StackOverflow. Long story short DISCOVERABILITY_DURATION
+ * is also one in the API. I asked at StackOverflow. Long story short DURATION
  * and RESULT_CANCELED are both zero which results in a compilation error for switch statement.
  * */
 
 public class BluetoothDiscoverableActivity extends AppCompatActivity {
     private static final String TAG = "BluetoothDiscoverabilit";
-    private static final int DISCOVERABILITY_REQUEST_CODE = 1313;
-    private static final int DISCOVERABILITY_DURATION = 3600;
+    private static final int RC = 1313;
+    private static final int DURATION = 3600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +26,21 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
     }
 
     private void requestDiscoverability() {
-        startActivityForResult(getDiscoverabilityIntent(), DISCOVERABILITY_REQUEST_CODE);
+        startActivityForResult(getDiscoverabilityIntent(), RC);
     }
 
     @NonNull
     private Intent getDiscoverabilityIntent() {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERABILITY_DURATION);
+        intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DURATION);
         return intent;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == DISCOVERABILITY_REQUEST_CODE) {
+        if (requestCode == RC) {
             switch (resultCode) {
-                case DISCOVERABILITY_DURATION:
+                case DURATION:
                     broadcastDiscoverability();
                     break;
                 case RESULT_CANCELED:
