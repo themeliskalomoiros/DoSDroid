@@ -41,10 +41,10 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
         if (requestCode == RC) {
             switch (resultCode) {
                 case DURATION:
-                    broadcastDiscoverability();
+                    broadcastDiscoverable();
                     break;
                 case RESULT_CANCELED:
-                    broadcastDiscoverabilityFailure();
+                    broadcastFailure();
                     break;
                 default:
                     throw new IllegalArgumentException(TAG + "Unknown result code");
@@ -53,15 +53,13 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
         finish();
     }
 
-    private void broadcastDiscoverability() {
+    private void broadcastDiscoverable() {
         Intent intent = new Intent(BluetoothDiscoverableConstraint.ACTION_DISCOVERABILITY_ENABLED);
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    private void broadcastDiscoverabilityFailure() {
+    private void broadcastFailure() {
         Intent intent = new Intent(BluetoothDiscoverableConstraint.ACTION_DISCOVERABILITY_DISABLED);
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
