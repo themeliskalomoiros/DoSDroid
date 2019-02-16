@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.bluetooth.discoverable;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,17 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
     private static final int DURATION = 3600;
     public static final String ACTION_DISCOVERABLE = "action discoverability enabled";
     public static final String ACTION_NOT_DISCOVERABLE = "action discoverability disabled";
+
+    public static void startAnInstance(Context context) {
+        context.startActivity(getIntent(context));
+    }
+
+    @NonNull
+    private static Intent getIntent(Context context) {
+        Intent intent = new Intent(context, BluetoothDiscoverableActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
