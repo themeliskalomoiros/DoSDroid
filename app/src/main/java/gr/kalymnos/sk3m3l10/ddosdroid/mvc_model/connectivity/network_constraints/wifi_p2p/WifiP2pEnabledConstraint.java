@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraint;
 
@@ -40,10 +39,8 @@ public class WifiP2pEnabledConstraint extends NetworkConstraint {
             private void handleWifiState(Context context, int state) {
                 if (state == WIFI_P2P_STATE_ENABLED) {
                     onResolveConstraintListener.onConstraintResolved(context, WifiP2pEnabledConstraint.this);
-                    Log.d(TAG, "WifiP2pEnabledConstraint is resolved.");
                 } else {
                     onResolveConstraintListener.onConstraintResolveFailed(context, WifiP2pEnabledConstraint.this);
-                    Log.d(TAG, "WifiP2pEnabledConstraint failed to resolved.");
                 }
             }
         };
