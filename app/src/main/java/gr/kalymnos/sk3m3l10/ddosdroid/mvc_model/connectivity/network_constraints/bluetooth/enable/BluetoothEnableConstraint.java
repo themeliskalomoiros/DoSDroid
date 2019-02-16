@@ -69,16 +69,10 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
         if (isResolved()) {
             onResolveConstraintListener.onConstraintResolved(context, this);
         } else {
-            context.startActivity(createEnableBluetoothIntent());
+            EnableBluetoothActivity.startInstance(context);
         }
     }
 
-    private Intent createEnableBluetoothIntent() {
-        Intent enableIntent = new Intent(context, EnableBluetoothActivity.class);
-        enableIntent.setAction(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        enableIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return enableIntent;
-    }
 
     @Override
     public boolean isResolved() {
