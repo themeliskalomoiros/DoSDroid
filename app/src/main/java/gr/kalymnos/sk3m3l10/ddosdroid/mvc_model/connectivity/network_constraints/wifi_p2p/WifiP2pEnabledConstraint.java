@@ -51,13 +51,7 @@ public class WifiP2pEnabledConstraint extends NetworkConstraint {
 
     @Override
     public void resolve() {
-        registerWifiStateReceiver(context);
-    }
-
-    private void registerWifiStateReceiver(Context context) {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WIFI_P2P_STATE_CHANGED_ACTION);
-        context.registerReceiver(wifiStateReceiver, filter);
+        context.registerReceiver(wifiStateReceiver, new IntentFilter(WIFI_P2P_STATE_CHANGED_ACTION));
     }
 
     @Override
