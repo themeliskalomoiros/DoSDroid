@@ -9,14 +9,14 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraint;
 
-public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
+public class BluetoothDiscoverableConstraint extends NetworkConstraint {
     private static final String TAG = "BluetoothDiscoverabilit";
     public static final String ACTION_DISCOVERABILITY_ENABLED = "action discoverability enabled";
     public static final String ACTION_DISCOVERABILITY_DISABLED = "action discoverability disabled";
 
     private BroadcastReceiver discoverabilityReceiver;
 
-    public BluetoothDiscoverabilityConstraint(Context context) {
+    public BluetoothDiscoverableConstraint(Context context) {
         super(context);
         initializeDiscoverabilityReceiver();
         registerDiscoverabilityReceiver(context);
@@ -28,10 +28,10 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case ACTION_DISCOVERABILITY_ENABLED:
-                        onResolveConstraintListener.onConstraintResolved(context, BluetoothDiscoverabilityConstraint.this);
+                        onResolveConstraintListener.onConstraintResolved(context, BluetoothDiscoverableConstraint.this);
                         break;
                     case ACTION_DISCOVERABILITY_DISABLED:
-                        onResolveConstraintListener.onConstraintResolveFailed(context, BluetoothDiscoverabilityConstraint.this);
+                        onResolveConstraintListener.onConstraintResolveFailed(context, BluetoothDiscoverableConstraint.this);
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + "Unknown action");
@@ -61,7 +61,7 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
 
     @NonNull
     private Intent getDiscoverabilityIntent() {
-        Intent intent = new Intent(context, BluetoothDiscoverabilityActivity.class);
+        Intent intent = new Intent(context, BluetoothDiscoverableActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }

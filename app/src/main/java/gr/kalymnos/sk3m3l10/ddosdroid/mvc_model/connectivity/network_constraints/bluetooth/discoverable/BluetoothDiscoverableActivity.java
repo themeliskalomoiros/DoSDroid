@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
  * and RESULT_CANCELED are both zero which results in a compilation error for switch statement.
  * */
 
-public class BluetoothDiscoverabilityActivity extends AppCompatActivity {
+public class BluetoothDiscoverableActivity extends AppCompatActivity {
     private static final String TAG = "BluetoothDiscoverabilit";
     private static final int DISCOVERABILITY_REQUEST_CODE = 1313;
     private static final int DISCOVERABILITY_DURATION = 3600;
@@ -54,13 +54,13 @@ public class BluetoothDiscoverabilityActivity extends AppCompatActivity {
     }
 
     private void broadcastDiscoverability() {
-        Intent intent = new Intent(BluetoothDiscoverabilityConstraint.ACTION_DISCOVERABILITY_ENABLED);
+        Intent intent = new Intent(BluetoothDiscoverableConstraint.ACTION_DISCOVERABILITY_ENABLED);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.sendBroadcast(intent);
     }
 
     private void broadcastDiscoverabilityFailure() {
-        Intent intent = new Intent(BluetoothDiscoverabilityConstraint.ACTION_DISCOVERABILITY_DISABLED);
+        Intent intent = new Intent(BluetoothDiscoverableConstraint.ACTION_DISCOVERABILITY_DISABLED);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.sendBroadcast(intent);
     }

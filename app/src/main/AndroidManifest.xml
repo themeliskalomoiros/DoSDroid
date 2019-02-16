@@ -43,7 +43,7 @@
 
         <activity android:name=".mvc_controllers.activities.WifiScanResultsActivity" />
         <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.enable.EnableBluetoothActivity" />
-        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverabilityActivity" />
+        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverableActivity" />
     </application>
 
 </manifest>

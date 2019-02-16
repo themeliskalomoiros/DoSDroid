@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverabilityConstraint;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.bluetooth.enable.BluetoothEnableConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.bluetooth.setup.BluetoothSetupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.internet.InternetConstraint;
@@ -140,8 +140,8 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
             }
 
             @NonNull
-            private BluetoothDiscoverabilityConstraint getBluetoothDiscoverabilityConstraint(Context context) {
-                BluetoothDiscoverabilityConstraint constraint = new BluetoothDiscoverabilityConstraint(context);
+            private BluetoothDiscoverableConstraint getBluetoothDiscoverabilityConstraint(Context context) {
+                BluetoothDiscoverableConstraint constraint = new BluetoothDiscoverableConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
             }
