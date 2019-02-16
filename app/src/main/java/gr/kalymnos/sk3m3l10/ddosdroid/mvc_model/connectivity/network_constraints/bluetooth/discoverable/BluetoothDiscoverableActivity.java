@@ -18,6 +18,8 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
     private static final String TAG = "BluetoothDiscoverabilit";
     private static final int RC = 1313;
     private static final int DURATION = 3600;
+    public static final String ACTION_DISCOVERABLE = "action discoverability enabled";
+    public static final String ACTION_NOT_DISCOVERABLE = "action discoverability disabled";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +56,12 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
     }
 
     private void broadcastDiscoverable() {
-        Intent intent = new Intent(BluetoothDiscoverableConstraint.ACTION_DISCOVERABILITY_ENABLED);
+        Intent intent = new Intent(ACTION_DISCOVERABLE);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void broadcastFailure() {
-        Intent intent = new Intent(BluetoothDiscoverableConstraint.ACTION_DISCOVERABILITY_DISABLED);
+        Intent intent = new Intent(ACTION_NOT_DISCOVERABLE);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

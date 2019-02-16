@@ -11,8 +11,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints
 
 public class BluetoothDiscoverableConstraint extends NetworkConstraint {
     private static final String TAG = "BluetoothDiscoverabilit";
-    public static final String ACTION_DISCOVERABILITY_ENABLED = "action discoverability enabled";
-    public static final String ACTION_DISCOVERABILITY_DISABLED = "action discoverability disabled";
 
     private BroadcastReceiver discoverabilityReceiver;
 
@@ -27,10 +25,10 @@ public class BluetoothDiscoverableConstraint extends NetworkConstraint {
             @Override
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
-                    case ACTION_DISCOVERABILITY_ENABLED:
+                    case BluetoothDiscoverableActivity.ACTION_DISCOVERABLE:
                         onResolveConstraintListener.onConstraintResolved(context, BluetoothDiscoverableConstraint.this);
                         break;
-                    case ACTION_DISCOVERABILITY_DISABLED:
+                    case BluetoothDiscoverableActivity.ACTION_NOT_DISCOVERABLE:
                         onResolveConstraintListener.onConstraintResolveFailed(context, BluetoothDiscoverableConstraint.this);
                         break;
                     default:
@@ -49,8 +47,8 @@ public class BluetoothDiscoverableConstraint extends NetworkConstraint {
     @NonNull
     private IntentFilter getIntentFilter() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_DISCOVERABILITY_ENABLED);
-        filter.addAction(ACTION_DISCOVERABILITY_DISABLED);
+        filter.addAction(BluetoothDiscoverableActivity.ACTION_DISCOVERABLE);
+        filter.addAction(BluetoothDiscoverableActivity.ACTION_NOT_DISCOVERABLE);
         return filter;
     }
 
