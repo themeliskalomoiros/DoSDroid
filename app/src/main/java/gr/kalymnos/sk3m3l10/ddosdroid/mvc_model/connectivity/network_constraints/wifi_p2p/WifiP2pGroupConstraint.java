@@ -36,7 +36,6 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
             @Override
             public void onSuccess() {
                 onResolveConstraintListener.onConstraintResolved(context, WifiP2pGroupConstraint.this);
-                Log.d(TAG, "WifiP2pEnabledConstraint is resolved.");
             }
 
             @Override
