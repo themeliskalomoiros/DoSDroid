@@ -12,8 +12,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints
 
 public class BluetoothEnableConstraint extends NetworkConstraint {
     private static final String TAG = "BluetoothEnableConstrai";
-    public static final String ACTION_BLUETOOTH_ENABLED = "action bluetooth enabled";
-    public static final String ACTION_BLUETOOTH_DISABLED = "action bluetooth disabled";
 
     private BluetoothAdapter bluetoothAdapter;
     private BroadcastReceiver bluetoothEnableReceiver;
@@ -34,10 +32,10 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
             @Override
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
-                    case ACTION_BLUETOOTH_ENABLED:
+                    case EnableBluetoothActivity.ACTION_ENABLED:
                         onResolveConstraintListener.onConstraintResolved(context, BluetoothEnableConstraint.this);
                         break;
-                    case ACTION_BLUETOOTH_DISABLED:
+                    case EnableBluetoothActivity.ACTION_DISABLED:
                         onResolveConstraintListener.onConstraintResolveFailed(context, BluetoothEnableConstraint.this);
                         break;
                     default:
@@ -61,8 +59,8 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
     @NonNull
     private IntentFilter getIntentFilter() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_BLUETOOTH_ENABLED);
-        filter.addAction(ACTION_BLUETOOTH_DISABLED);
+        filter.addAction(EnableBluetoothActivity.ACTION_ENABLED);
+        filter.addAction(EnableBluetoothActivity.ACTION_DISABLED);
         return filter;
     }
 

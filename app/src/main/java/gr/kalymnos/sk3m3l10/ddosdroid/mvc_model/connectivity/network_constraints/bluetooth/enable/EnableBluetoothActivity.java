@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 
 public class EnableBluetoothActivity extends AppCompatActivity {
     private static final int RC = 1010;
+    public static final String ACTION_ENABLED = "action bluetooth enabled";
+    public static final String ACTION_DISABLED = "action bluetooth disabled";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,12 @@ public class EnableBluetoothActivity extends AppCompatActivity {
     }
 
     private void broadcastEnabled() {
-        Intent intent = new Intent(BluetoothEnableConstraint.ACTION_BLUETOOTH_ENABLED);
+        Intent intent = new Intent(ACTION_ENABLED);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void broadcastDisabled() {
-        Intent intent = new Intent(BluetoothEnableConstraint.ACTION_BLUETOOTH_DISABLED);
+        Intent intent = new Intent(ACTION_DISABLED);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
