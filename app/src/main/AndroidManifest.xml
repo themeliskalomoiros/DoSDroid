@@ -42,8 +42,8 @@
             android:exported="false" />
 
         <activity android:name=".mvc_controllers.activities.WifiScanResultsActivity" />
-        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.EnableBluetoothActivity" />
-        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.BluetoothDiscoverabilityActivity" />
+        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.enable.EnableBluetoothActivity" />
+        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverabilityActivity" />
     </application>
 
 </manifest>
