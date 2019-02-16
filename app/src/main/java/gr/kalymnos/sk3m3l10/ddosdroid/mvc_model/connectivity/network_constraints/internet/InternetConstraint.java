@@ -4,12 +4,16 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraint;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity.hasInternetConnection;
 
 public class InternetConstraint extends NetworkConstraint {
 
+    private ConnectivityManager connectivityManager;
+
     public InternetConstraint(Context context) {
         super(context);
+        connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     @Override
@@ -23,11 +27,6 @@ public class InternetConstraint extends NetworkConstraint {
 
     @Override
     public boolean isResolved() {
-        return isConnected();
-    }
-
-    private boolean isConnected() {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return InternetConnectivity.isConnectionEstablishedOverWifi(cm.getActiveNetworkInfo());
+        return hasInternetConnection(connectivityManager);
     }
 }
