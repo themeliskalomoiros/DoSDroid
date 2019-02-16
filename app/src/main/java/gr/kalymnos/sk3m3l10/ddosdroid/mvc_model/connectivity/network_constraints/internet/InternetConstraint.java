@@ -25,8 +25,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.WifiScan
 public class InternetConstraint extends NetworkConstraint {
     private static final String TAG = "InternetConstraint";
 
-    private BroadcastReceiver wifiScanReceiver, wifiConnectionReceiver;
     private WifiManager wifiManager;
+    private BroadcastReceiver wifiScanReceiver, wifiConnectionReceiver;
 
     public InternetConstraint(Context context) {
         super(context);
@@ -43,8 +43,8 @@ public class InternetConstraint extends NetworkConstraint {
         wifiScanReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                boolean success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
-                if (success) {
+                boolean resultsUpdated = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
+                if (resultsUpdated) {
                     handleScanSuccess();
                 } else {
                     handleScanFailure();
