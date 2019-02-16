@@ -36,15 +36,11 @@ public class EnableBluetoothActivity extends AppCompatActivity {
 
     private void broadcastEnabled() {
         Intent intent = new Intent(BluetoothEnableConstraint.ACTION_BLUETOOTH_ENABLED);
-        getLocalBroadcastManager().sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void broadcastDisabled() {
         Intent intent = new Intent(BluetoothEnableConstraint.ACTION_BLUETOOTH_DISABLED);
-        getLocalBroadcastManager().sendBroadcast(intent);
-    }
-
-    private LocalBroadcastManager getLocalBroadcastManager() {
-        return LocalBroadcastManager.getInstance(this);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
