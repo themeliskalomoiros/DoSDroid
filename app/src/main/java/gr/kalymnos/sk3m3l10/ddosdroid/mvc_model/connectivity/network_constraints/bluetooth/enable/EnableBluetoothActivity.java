@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
 public class EnableBluetoothActivity extends AppCompatActivity {
-    private static final int REQUEST_CODE_ENABLE_BLUETOOTH = 1010;
+    private static final int RC = 1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +21,12 @@ public class EnableBluetoothActivity extends AppCompatActivity {
 
     private void requestBluetoothEnable() {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(intent, REQUEST_CODE_ENABLE_BLUETOOTH);
+        startActivityForResult(intent, RC);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE_ENABLE_BLUETOOTH) {
+        if (requestCode == RC) {
             if (resultCode == RESULT_OK) {
                 sendEnableBroadcast();
             }
