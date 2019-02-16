@@ -66,7 +66,7 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         Log.d(TAG, "Server device discovered, proceeding to connection");
                         if (firstTimeDiscoveredServer) {
-                            BluetoothConnectionThread.startAnInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothServerConnection.this);
+                            BluetoothConnectionThread.startInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothServerConnection.this);
                             firstTimeDiscoveredServer = false;
                         }
                     }
@@ -156,7 +156,7 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
         String serverMacAddress = Attacks.getHostMacAddress(attack);
         if (BluetoothDeviceUtil.isLocalDevicePairedWith(serverMacAddress)) {
             Log.d(TAG, "Server device is already paired with device, proceeding to connection");
-            BluetoothConnectionThread.startAnInstance(BluetoothDeviceUtil.getPairedBluetoothDeviceOf(serverMacAddress),
+            BluetoothConnectionThread.startInstance(BluetoothDeviceUtil.getPairedBluetoothDeviceOf(serverMacAddress),
                     Attacks.getHostUUID(attack), this);
         } else {
             Log.d(TAG, "Server device was not paired with local device. proceeding to device discovery to find it");

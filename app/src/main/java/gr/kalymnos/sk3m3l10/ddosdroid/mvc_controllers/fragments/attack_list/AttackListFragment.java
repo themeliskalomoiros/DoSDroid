@@ -126,7 +126,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onAttackClick(int position) {
         if (notJoinedAttacks(contentType)) {
             Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
-            JoinAttackActivity.startAnInstance(getContext(), attack);
+            JoinAttackActivity.startInstance(getContext(), attack);
         }
     }
 

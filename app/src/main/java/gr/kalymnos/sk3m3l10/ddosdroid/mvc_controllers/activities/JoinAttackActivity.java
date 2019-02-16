@@ -18,7 +18,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 public class JoinAttackActivity extends AppCompatActivity implements JoinAttackInfoFragment.OnJoinAttackButtonClickListener {
     private JoinAttackViewMvc viewMvc;
 
-    public static void startAnInstance(Context context, Attack attack) {
+    public static void startInstance(Context context, Attack attack) {
         Intent intent = getIntent(context, attack);
         context.startActivity(intent);
     }

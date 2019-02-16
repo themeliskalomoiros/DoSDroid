@@ -54,7 +54,7 @@ public class BluetoothDiscoverableConstraint extends NetworkConstraint {
 
     @Override
     public void resolve() {
-        BluetoothDiscoverableActivity.startAnInstance(context);
+        BluetoothDiscoverableActivity.startInstance(context);
     }
 
     @Override

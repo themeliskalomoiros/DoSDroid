@@ -22,7 +22,7 @@ public class BluetoothDiscoverableActivity extends AppCompatActivity {
     public static final String ACTION_DISCOVERABLE = "action discoverability enabled";
     public static final String ACTION_NOT_DISCOVERABLE = "action discoverability disabled";
 
-    public static void startAnInstance(Context context) {
+    public static void startInstance(Context context) {
         context.startActivity(getIntent(context));
     }
 
