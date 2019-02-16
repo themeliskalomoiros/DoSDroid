@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.R;
-
 public class EnableBluetoothActivity extends AppCompatActivity {
     private static final int RC = 1010;
 
@@ -27,21 +25,21 @@ public class EnableBluetoothActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == RC) {
             if (resultCode == RESULT_OK) {
-                sendEnableBroadcast();
+                broadcastEnabled();
             }
             if (resultCode == RESULT_CANCELED) {
-                sendDisableBroadcast();
+                broadcastDisabled();
             }
             finish();
         }
     }
 
-    private void sendEnableBroadcast() {
+    private void broadcastEnabled() {
         Intent intent = new Intent(BluetoothEnableConstraint.ACTION_BLUETOOTH_ENABLED);
         getLocalBroadcastManager().sendBroadcast(intent);
     }
 
-    private void sendDisableBroadcast() {
+    private void broadcastDisabled() {
         Intent intent = new Intent(BluetoothEnableConstraint.ACTION_BLUETOOTH_DISABLED);
         getLocalBroadcastManager().sendBroadcast(intent);
     }
