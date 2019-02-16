@@ -109,11 +109,11 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private static class InternetServerResolver extends NetworkConstraintsResolver {
             public InternetServerResolver(Context context) {
-                addConstraint(createInternetConstraint(context));
+                addConstraint(getInternetConstraint(context));
             }
 
             @NonNull
-            private InternetConstraint createInternetConstraint(Context context) {
+            private InternetConstraint getInternetConstraint(Context context) {
                 InternetConstraint constraint = new InternetConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
@@ -122,25 +122,25 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private static class BluetoothServerResolver extends NetworkConstraintsResolver {
             public BluetoothServerResolver(Context context) {
-                addConstraint(createSetupConstraint(context));
-                addConstraint(createBluetoothEnableConstraint(context));
-                addConstraint(createBluetoothDiscoverabilityConstraint(context));
+                addConstraint(getSetupConstraint(context));
+                addConstraint(getBluetoothEnableConstraint(context));
+                addConstraint(getBluetoothDiscoverabilityConstraint(context));
             }
 
-            private BluetoothSetupConstraint createSetupConstraint(Context context) {
+            private BluetoothSetupConstraint getSetupConstraint(Context context) {
                 BluetoothSetupConstraint constraint = new BluetoothSetupConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
             }
 
-            private BluetoothEnableConstraint createBluetoothEnableConstraint(Context context) {
+            private BluetoothEnableConstraint getBluetoothEnableConstraint(Context context) {
                 BluetoothEnableConstraint constraint = new BluetoothEnableConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
             }
 
             @NonNull
-            private BluetoothDiscoverabilityConstraint createBluetoothDiscoverabilityConstraint(Context context) {
+            private BluetoothDiscoverabilityConstraint getBluetoothDiscoverabilityConstraint(Context context) {
                 BluetoothDiscoverabilityConstraint constraint = new BluetoothDiscoverabilityConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
@@ -149,19 +149,19 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private static class WifiP2pServerResolver extends NetworkConstraintsResolver {
             public WifiP2pServerResolver(Context context, Server server) {
-                addConstraint(createWifiP2pSetupConstraint(context));
-                addConstraint(createWifiP2pGroupConstraint(context, (WifiP2pServer) server));
+                addConstraint(getWifiP2pSetupConstraint(context));
+                addConstraint(getWifiP2pGroupConstraint(context, (WifiP2pServer) server));
             }
 
             @NonNull
-            private WifiP2pGroupConstraint createWifiP2pGroupConstraint(Context context, WifiP2pServer server) {
+            private WifiP2pGroupConstraint getWifiP2pGroupConstraint(Context context, WifiP2pServer server) {
                 WifiP2pGroupConstraint constraint = new WifiP2pGroupConstraint(context, server);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
             }
 
             @NonNull
-            private WifiP2pEnabledConstraint createWifiP2pSetupConstraint(Context context) {
+            private WifiP2pEnabledConstraint getWifiP2pSetupConstraint(Context context) {
                 WifiP2pEnabledConstraint constraint = new WifiP2pEnabledConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
@@ -195,17 +195,17 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private class BluetoothClientResolver extends NetworkConstraintsResolver {
             public BluetoothClientResolver(Context context) {
-                addConstraint(createSetupConstraint(context));
-                addConstraint(createBluetoothEnableConstraint(context));
+                addConstraint(getSetupConstraint(context));
+                addConstraint(getBluetoothEnableConstraint(context));
             }
 
-            private BluetoothSetupConstraint createSetupConstraint(Context context) {
+            private BluetoothSetupConstraint getSetupConstraint(Context context) {
                 BluetoothSetupConstraint constraint = new BluetoothSetupConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
             }
 
-            private BluetoothEnableConstraint createBluetoothEnableConstraint(Context context) {
+            private BluetoothEnableConstraint getBluetoothEnableConstraint(Context context) {
                 BluetoothEnableConstraint constraint = new BluetoothEnableConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
@@ -214,11 +214,11 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
 
         private class WifiP2pClientResolver extends NetworkConstraintsResolver {
             public WifiP2pClientResolver(Context context) {
-                addConstraint(createWifiP2pSetupConstraint(context));
+                addConstraint(getWifiP2pSetupConstraint(context));
             }
 
             @NonNull
-            private NetworkConstraint createWifiP2pSetupConstraint(Context context) {
+            private NetworkConstraint getWifiP2pSetupConstraint(Context context) {
                 NetworkConstraint constraint = new WifiP2pEnabledConstraint(context);
                 constraint.setOnResolveConstraintListener(this);
                 return constraint;
