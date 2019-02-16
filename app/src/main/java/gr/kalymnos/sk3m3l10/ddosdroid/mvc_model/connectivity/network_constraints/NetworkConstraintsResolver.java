@@ -74,6 +74,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
     }
 
     public void releaseResources() {
+        releaseConstraintsResources();
+    }
+
+    private void releaseConstraintsResources() {
         for (NetworkConstraint constraint : constraints) {
             constraint.releaseResources();
         }
