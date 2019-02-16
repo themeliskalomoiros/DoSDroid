@@ -28,10 +28,10 @@ public class BluetoothDiscoverabilityConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case ACTION_DISCOVERABILITY_ENABLED:
-                        callback.onConstraintResolved(context, BluetoothDiscoverabilityConstraint.this);
+                        onResolveConstraintListener.onConstraintResolved(context, BluetoothDiscoverabilityConstraint.this);
                         break;
                     case ACTION_DISCOVERABILITY_DISABLED:
-                        callback.onConstraintResolveFailed(context, BluetoothDiscoverabilityConstraint.this);
+                        onResolveConstraintListener.onConstraintResolveFailed(context, BluetoothDiscoverabilityConstraint.this);
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + "Unknown action");

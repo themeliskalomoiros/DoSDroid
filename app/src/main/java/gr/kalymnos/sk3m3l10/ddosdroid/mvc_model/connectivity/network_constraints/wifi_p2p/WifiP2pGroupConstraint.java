@@ -35,14 +35,14 @@ public class WifiP2pGroupConstraint extends NetworkConstraint {
         return new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                callback.onConstraintResolved(context, WifiP2pGroupConstraint.this);
+                onResolveConstraintListener.onConstraintResolved(context, WifiP2pGroupConstraint.this);
                 Log.d(TAG, "WifiP2pEnabledConstraint is resolved.");
             }
 
             @Override
             public void onFailure(int reason) {
                 Log.d(TAG, "WifiP2pGroupConstraint failed to resolve because of \"" + WifiP2pUtil.failureTextFrom(reason) + "\"");
-                callback.onConstraintResolveFailed(context, WifiP2pGroupConstraint.this);
+                onResolveConstraintListener.onConstraintResolveFailed(context, WifiP2pGroupConstraint.this);
             }
         };
     }

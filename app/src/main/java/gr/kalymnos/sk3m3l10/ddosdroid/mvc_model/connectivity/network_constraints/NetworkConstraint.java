@@ -3,7 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraint
 import android.content.Context;
 
 public abstract class NetworkConstraint {
-    protected OnResolveConstraintListener callback;
+    protected OnResolveConstraintListener onResolveConstraintListener;
     protected Context context;
 
     public NetworkConstraint(Context context) {
@@ -25,6 +25,6 @@ public abstract class NetworkConstraint {
     }
 
     public void setOnResolveConstraintListener(OnResolveConstraintListener listener) {
-        callback = listener;
+        onResolveConstraintListener = listener;
     }
 }

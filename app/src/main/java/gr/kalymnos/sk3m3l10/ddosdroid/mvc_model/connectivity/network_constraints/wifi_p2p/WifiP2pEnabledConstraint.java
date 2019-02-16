@@ -39,10 +39,10 @@ public class WifiP2pEnabledConstraint extends NetworkConstraint {
 
             private void handleWifiState(Context context, int state) {
                 if (state == WIFI_P2P_STATE_ENABLED) {
-                    callback.onConstraintResolved(context, WifiP2pEnabledConstraint.this);
+                    onResolveConstraintListener.onConstraintResolved(context, WifiP2pEnabledConstraint.this);
                     Log.d(TAG, "WifiP2pEnabledConstraint is resolved.");
                 } else {
-                    callback.onConstraintResolveFailed(context, WifiP2pEnabledConstraint.this);
+                    onResolveConstraintListener.onConstraintResolveFailed(context, WifiP2pEnabledConstraint.this);
                     Log.d(TAG, "WifiP2pEnabledConstraint failed to resolved.");
                 }
             }

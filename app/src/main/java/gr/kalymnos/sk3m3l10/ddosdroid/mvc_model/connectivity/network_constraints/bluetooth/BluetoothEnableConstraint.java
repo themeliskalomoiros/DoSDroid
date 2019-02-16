@@ -36,11 +36,11 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
                 switch (intent.getAction()) {
                     case ACTION_BLUETOOTH_ENABLED:
                         unregisterBluetoothEnableReceiver(context);
-                        callback.onConstraintResolved(context, BluetoothEnableConstraint.this);
+                        onResolveConstraintListener.onConstraintResolved(context, BluetoothEnableConstraint.this);
                         break;
                     case ACTION_BLUETOOTH_DISABLED:
                         unregisterBluetoothEnableReceiver(context);
-                        callback.onConstraintResolveFailed(context, BluetoothEnableConstraint.this);
+                        onResolveConstraintListener.onConstraintResolveFailed(context, BluetoothEnableConstraint.this);
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + "Unknown action");
@@ -70,7 +70,7 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
     @Override
     public void resolve() {
         if (isResolved()) {
-            callback.onConstraintResolved(context, this);
+            onResolveConstraintListener.onConstraintResolved(context, this);
         } else {
             /*Hacky solution. We start a new activity that will
              * call startActivityForResult() to enable the Bluetooth.

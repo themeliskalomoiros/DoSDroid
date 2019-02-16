@@ -16,9 +16,9 @@ public class BluetoothSetupConstraint extends NetworkConstraint {
     @Override
     public void resolve() {
         if (isResolved()) {
-            callback.onConstraintResolved(context, this);
+            onResolveConstraintListener.onConstraintResolved(context, this);
         } else {
-            callback.onConstraintResolveFailed(context, this);
+            onResolveConstraintListener.onConstraintResolveFailed(context, this);
         }
     }
 

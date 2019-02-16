@@ -93,11 +93,11 @@ public class InternetConstraint extends NetworkConstraint {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case ACTION_SCAN_RESULT_CHOSEN:
-                        callback.onConstraintResolved(context, InternetConstraint.this);
+                        onResolveConstraintListener.onConstraintResolved(context, InternetConstraint.this);
                         break;
                     case ACTION_SCAN_RESULT_CANCELLED:
                         // TODO: implementation needed
-                        callback.onConstraintResolveFailed(context, InternetConstraint.this);
+                        onResolveConstraintListener.onConstraintResolveFailed(context, InternetConstraint.this);
                         break;
                     case ACTION_SCAN_RESULT_CONNECTION_ERROR:
                         // TODO: implementation needed
@@ -112,7 +112,7 @@ public class InternetConstraint extends NetworkConstraint {
     @Override
     public void resolve() {
         if (isResolved()) {
-            callback.onConstraintResolved(context, this);
+            onResolveConstraintListener.onConstraintResolved(context, this);
         } else {
             registeWifiScanReceiver();
         }
