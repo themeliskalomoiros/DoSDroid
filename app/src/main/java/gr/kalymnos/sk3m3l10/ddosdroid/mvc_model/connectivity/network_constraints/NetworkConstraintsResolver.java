@@ -23,11 +23,8 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.WIFI_P2P;
 /*
  * Resolving Mechanism:
  *
- * Resolves the next constraint the queue. The step is repeated until all constraints in the queue
- * are met and then the Server is notified.
- *
- * On the other hand it takes just one failure and the process stops immediately. Server is also
- * notified about the failure.
+ * Resolves the next constraint in queue, until all constraints are met. Then notifies Server.
+ * One constraint fails to resolve and the process stops. Notifies Server about the failure.
  */
 
 public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveConstraintListener {
@@ -46,6 +43,10 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         constraints = new LinkedList<>();
     }
 
+    public final void setOnConstraintsResolveListener(OnConstraintsResolveListener listener) {
+        callback = listener;
+    }
+
     public void resolveConstraints() {
         resolveNextConstraint();
     }
@@ -55,12 +56,6 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
             callback.onConstraintsResolved();
         } else {
             constraints.poll().resolve();
-        }
-    }
-
-    public void releaseResources() {
-        for (NetworkConstraint constraint : constraints) {
-            constraint.releaseResources();
         }
     }
 
@@ -74,12 +69,14 @@ public class NetworkConstraintsResolver implements NetworkConstraint.OnResolveCo
         callback.onConstraintResolveFailure();
     }
 
-    protected void addConstraint(NetworkConstraint constraint) {
+    protected final void addConstraint(NetworkConstraint constraint) {
         constraints.add(constraint);
     }
 
-    public void setOnConstraintsResolveListener(OnConstraintsResolveListener listener) {
-        callback = listener;
+    public void releaseResources() {
+        for (NetworkConstraint constraint : constraints) {
+            constraint.releaseResources();
+        }
     }
 
     public interface Builder {
