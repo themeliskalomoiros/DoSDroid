@@ -4,7 +4,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-public class CollectionUtil {
+public final class CollectionUtil {
+
+    private CollectionUtil() {
+    }
 
     public static boolean hasItems(Collection collection) {
         if (collection != null && collection.size() > 0) {

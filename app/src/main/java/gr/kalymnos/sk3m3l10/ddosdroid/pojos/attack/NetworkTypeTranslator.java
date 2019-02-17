@@ -5,6 +5,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
 public final class NetworkTypeTranslator {
     private static final String TAG = "NetworkTypeTranslator";
 
+    private NetworkTypeTranslator() {
+    }
+
     public static String translate(int networkType) {
         switch (networkType) {
             case NetworkTypes.BLUETOOTH:

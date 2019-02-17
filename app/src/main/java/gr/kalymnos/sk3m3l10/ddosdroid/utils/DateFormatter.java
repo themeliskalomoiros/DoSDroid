@@ -9,6 +9,9 @@ import java.util.Locale;
 
 public final class DateFormatter {
 
+    private DateFormatter() {
+    }
+
     public static String stringDateFrom(long timeMillis, Configuration configuration) {
         Date date = new Date(timeMillis);
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getCurrentLocale(configuration));

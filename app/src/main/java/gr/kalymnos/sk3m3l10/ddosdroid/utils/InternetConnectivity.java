@@ -3,7 +3,10 @@ package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-public class InternetConnectivity {
+public final class InternetConnectivity {
+
+    private InternetConnectivity() {
+    }
 
     public static boolean hasInternetConnection(ConnectivityManager manager) {
         // Determine and monitor the connectivitty status, developer.android.com.

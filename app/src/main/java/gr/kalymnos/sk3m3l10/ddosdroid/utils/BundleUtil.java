@@ -8,6 +8,9 @@ import java.util.LinkedHashSet;
 
 public final class BundleUtil {
 
+    private BundleUtil() {
+    }
+
     public static boolean containsKey(Bundle bundle, String key) {
         if (bundle != null && bundle.containsKey(key)) {
             return true;

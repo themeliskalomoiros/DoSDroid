@@ -2,7 +2,10 @@ package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
 import android.net.wifi.p2p.WifiP2pManager;
 
-public class WifiP2pUtil {
+public final class WifiP2pUtil {
+
+    private WifiP2pUtil() {
+    }
 
     public static String failureTextFrom(int reason) {
         switch (reason) {
