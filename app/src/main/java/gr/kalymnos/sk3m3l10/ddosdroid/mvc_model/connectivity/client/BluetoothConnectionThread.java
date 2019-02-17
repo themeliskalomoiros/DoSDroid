@@ -50,20 +50,13 @@ class BluetoothConnectionThread extends Thread {
     public void run() {
         //  First cancel device discovery because it slows down the connection
         BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-
         if (bluetoothSocket == null) {
             serverResponseListener.onServerResponseError();
             return;
         }
 
         boolean connected = connectToServer();
-        if (connected) {
-            String response = readServerResponse(getBufferedReader());
-            handleResponse(response);
-        } else {
-            serverResponseListener.onServerResponseError();
-        }
-
+        handleConnectionResult(connected);
         releaseResources();
     }
 
@@ -77,13 +70,12 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private void handleResponse(String response) {
-        boolean isValidResponse = response.equals(Server.RESPONSE);
-        if (isValidResponse) {
-            Log.d(TAG, "Received valid server response");
-            serverResponseListener.onServerResponseReceived();
+    private void handleConnectionResult(boolean connected) {
+        if (connected) {
+            BufferedReader bufferedReader = getBufferedReader();
+            String response = readServerResponse(bufferedReader);
+            handleResponse(response);
         } else {
-            Log.d(TAG, "Received wrong server response");
             serverResponseListener.onServerResponseError();
         }
     }
@@ -97,17 +89,14 @@ class BluetoothConnectionThread extends Thread {
     }
 
     private String readServerResponse(BufferedReader reader) {
-        Log.d(TAG, "readServerResponse() called");
         StringBuilder response = new StringBuilder();
         String data = null;
         try {
             while ((data = reader.readLine()) != null) {
                 response.append(data);
             }
-            /*May never reach this statement:
-             * Server is sending its response to the client and quickly closing its socket.
-             * This results the client socket closes as well (throwing an IOException)
-             * */
+            // May never reach: Server after sending response closes its socket.
+            // Then client socket is throwing IOException.
             return response.toString();
         } catch (IOException e) {
             boolean responseIsValid = response.toString().equals(Server.RESPONSE);
@@ -118,6 +107,16 @@ class BluetoothConnectionThread extends Thread {
                 Log.w(TAG, "Error reading line from BufferedReader", e);
                 return "";
             }
+        }
+    }
+
+
+    private void handleResponse(String response) {
+        boolean isValidResponse = response.equals(Server.RESPONSE);
+        if (isValidResponse) {
+            serverResponseListener.onServerResponseReceived();
+        } else {
+            serverResponseListener.onServerResponseError();
         }
     }
 
