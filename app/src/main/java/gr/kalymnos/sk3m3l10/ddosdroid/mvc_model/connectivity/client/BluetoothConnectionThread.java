@@ -16,15 +16,15 @@ class BluetoothConnectionThread extends Thread {
     private static final String TAG = "BluetoothConnectionThre";
 
     private BluetoothSocket bluetoothSocket;
-    private OnBluetoothServerResoinseListener serverResponseListener;
+    private OnBluetoothServerResponseListener serverResponseListener;
 
-    interface OnBluetoothServerResoinseListener {
+    interface OnBluetoothServerResponseListener {
         void onServerResponseReceived();
 
         void onServerResponseError();
     }
 
-    static void startInstance(BluetoothDevice discoveredDevice, UUID uuid, OnBluetoothServerResoinseListener listener) {
+    static void startInstance(BluetoothDevice discoveredDevice, UUID uuid, OnBluetoothServerResponseListener listener) {
         BluetoothConnectionThread instance = new BluetoothConnectionThread(discoveredDevice, uuid);
         instance.setOnBluetoothConnectionListener(listener);
         instance.start();
@@ -42,7 +42,7 @@ class BluetoothConnectionThread extends Thread {
         }
     }
 
-    private void setOnBluetoothConnectionListener(OnBluetoothServerResoinseListener listener) {
+    private void setOnBluetoothConnectionListener(OnBluetoothServerResponseListener listener) {
         this.serverResponseListener = listener;
     }
 

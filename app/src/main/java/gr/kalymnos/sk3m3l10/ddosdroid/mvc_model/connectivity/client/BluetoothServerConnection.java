@@ -17,7 +17,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 
 class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
-        BluetoothConnectionThread.OnBluetoothServerResoinseListener {
+        BluetoothConnectionThread.OnBluetoothServerResponseListener {
     private Thread discoveryTask;
     private NetworkConstraintsResolver constraintsResolver;
     private BroadcastReceiver deviceDiscoveryReceiver, permissionReceiver;
