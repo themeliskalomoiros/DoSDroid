@@ -56,13 +56,11 @@ class BluetoothConnectionThread extends Thread {
             return;
         }
 
-        boolean connectionSuccess = connectToServer();
-        if (connectionSuccess) {
-            Log.d(TAG, "Connection was successfull");
+        boolean connected = connectToServer();
+        if (connected) {
             String response = readServerResponse(getBufferedReader());
             handleResponse(response);
         } else {
-            Log.d(TAG, "Connection failed");
             serverResponseListener.onServerResponseError();
         }
 
