@@ -39,6 +39,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected NetworkConstraintsResolver constraintsResolver;
     protected ExecutorService executor;
 
+    public static boolean isValid(String serverResponse) {
+        return serverResponse.equals(RESPONSE);
+    }
+
     public Server(Context context, Attack attack) {
         initializeFields(context, attack);
     }

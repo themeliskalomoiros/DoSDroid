@@ -67,8 +67,7 @@ public class SocketConnectionThread extends Thread {
     private void handleConnectionSuccess() {
         BufferedReader reader = getBufferedReader();
         String serverResponse = readServerResponse(reader);
-        boolean isValidResponse = serverResponse.equals(Server.RESPONSE);
-        if (isValidResponse) {
+        if (Server.isValid(serverResponse)) {
             serverResponseListener.onServerResponseReceived();
             Log.d(TAG, "Connection success");
         } else {
@@ -99,8 +98,7 @@ public class SocketConnectionThread extends Thread {
              * */
             return response.toString();
         } catch (IOException e) {
-            boolean responseIsValid = response.toString().equals(Server.RESPONSE);
-            if (responseIsValid) {
+            if (Server.isValid(response.toString())) {
                 return response.toString();
             } else {
                 Log.d(TAG, "response = " + response);

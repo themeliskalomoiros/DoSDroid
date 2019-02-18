@@ -27,7 +27,7 @@ class InternetServerConnection extends ServerConnection {
 
     private boolean isAttackStarted() {
         String attackStartedPass = attack.getHostInfo().get(EXTRA_ATTACK_STARTED);
-        return attackStartedPass.equals(Server.RESPONSE);
+        return Server.isValid(attackStartedPass);
     }
 
     private ConnectivityManager getConnectivityManager() {

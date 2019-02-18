@@ -99,8 +99,7 @@ class BluetoothConnectionThread extends Thread {
             // Then client socket is throwing IOException.
             return response.toString();
         } catch (IOException e) {
-            boolean responseIsValid = response.toString().equals(Server.RESPONSE);
-            if (responseIsValid) {
+            if (Server.isValid(response.toString())) {
                 return response.toString();
             } else {
                 Log.d(TAG, "response = " + response);
@@ -112,8 +111,7 @@ class BluetoothConnectionThread extends Thread {
 
 
     private void handleResponse(String response) {
-        boolean isValidResponse = response.equals(Server.RESPONSE);
-        if (isValidResponse) {
+        if (Server.isValid(response)) {
             serverResponseListener.onServerResponseReceived();
         } else {
             serverResponseListener.onServerResponseError();
