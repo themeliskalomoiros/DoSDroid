@@ -83,11 +83,10 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     @Override
     public void onClientConnected(Client thisClient, Attack attack) {
         //  TODO: This is not called from main thread, maybe it will arise problems!
-        boolean clientAdded = clients.add(thisClient);
-        if (clientAdded) {
-            updateAttackWithCurrentUser(attack);
-            startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
-        }
+        clients.put(attack.getWebsite(), thisClient);
+        updateAttackWithCurrentUser(attack);
+        //  TODO: Better way to do is waiting for the attack to update and then start foreground
+        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
