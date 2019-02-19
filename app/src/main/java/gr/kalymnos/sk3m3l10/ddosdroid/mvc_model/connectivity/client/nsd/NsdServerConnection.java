@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.nsd;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
@@ -8,10 +8,12 @@ import android.util.Log;
 
 import java.net.InetAddress;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p.SocketConnectionThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener,
+public class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener,
         SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "NsdServerConnection";
 
@@ -23,12 +25,12 @@ class NsdServerConnection extends ServerConnection implements NsdManager.Discove
     }
 
     @Override
-    void connectToServer() {
+    public void connectToServer() {
         manager.discoverServices(Attacks.getNsdServiceType(attack), NsdManager.PROTOCOL_DNS_SD, this);
     }
 
     @Override
-    void disconnectFromServer() {
+    public void disconnectFromServer() {
         serverConnectionListener.onServerDisconnection();
     }
 

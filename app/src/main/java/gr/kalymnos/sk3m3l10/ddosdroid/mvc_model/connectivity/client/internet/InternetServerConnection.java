@@ -1,22 +1,23 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.internet;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_STARTED;
 
-class InternetServerConnection extends ServerConnection {
+public class InternetServerConnection extends ServerConnection {
 
     InternetServerConnection(Context context, Attack attack) {
         super(context, attack);
     }
 
     @Override
-    void connectToServer() {
+    public void connectToServer() {
         boolean hasInternet = InternetConnectivity.hasInternetConnection(getConnectivityManager());
         if (hasInternet && isAttackStarted()) {
             serverConnectionListener.onServerConnection();
@@ -35,7 +36,7 @@ class InternetServerConnection extends ServerConnection {
     }
 
     @Override
-    void disconnectFromServer() {
+    public void disconnectFromServer() {
         serverConnectionListener.onServerDisconnection();
         releaseResources();
     }

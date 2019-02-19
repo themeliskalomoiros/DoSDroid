@@ -1,12 +1,13 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p;
 
 import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-class WifiP2PServerConnection extends ServerConnection {
+public class WifiP2PServerConnection extends ServerConnection {
     private WifiDirectReceiver receiver;
 
     WifiP2PServerConnection(Context context, Attack attack) {
@@ -21,12 +22,12 @@ class WifiP2PServerConnection extends ServerConnection {
     }
 
     @Override
-    void connectToServer() {
+    public void connectToServer() {
         context.registerReceiver(receiver, WifiDirectReceiver.getIntentFilter());
     }
 
     @Override
-    void disconnectFromServer() {
+    public void disconnectFromServer() {
         serverConnectionListener.onServerDisconnection();
     }
 

@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -11,12 +11,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.RequestLocationPermissionForBluetoothActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 
-class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
+public class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothServerResponseListener {
     private Thread discoveryTask;
     private NetworkConstraintsResolver constraintsResolver;
@@ -126,12 +128,12 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
     }
 
     @Override
-    void connectToServer() {
+    public void connectToServer() {
         constraintsResolver.resolveConstraints();
     }
 
     @Override
-    void disconnectFromServer() {
+    public void disconnectFromServer() {
         serverConnectionListener.onServerDisconnection();
     }
 
