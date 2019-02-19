@@ -24,6 +24,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_DISABLED;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_DEVICE_NAME;
+import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_LOCAL_PORT;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
 
 public class WifiP2pServer extends Server {
@@ -91,9 +92,16 @@ public class WifiP2pServer extends Server {
         portReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED)){
-
+                boolean isPortAction = intent.getAction().equals(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED);
+                if (isPortAction) {
+                    addPortToAttack(intent);
+                    ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), localBroadcastManager);
                 }
+            }
+
+            private void addPortToAttack(Intent intent) {
+                int port = intent.getIntExtra(EXTRA_LOCAL_PORT, -1);
+                attack.addSingleHostInfo(EXTRA_LOCAL_PORT, String.valueOf(port));
             }
         };
     }
