@@ -126,9 +126,8 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     private void disconnectClients() {
-        for (Map.Entry<String, Client> entry : clients.entrySet()) {
+        for (Map.Entry<String, Client> entry : clients.entrySet())
             entry.getValue().disconnect();
-        }
     }
 
     public static class Action {

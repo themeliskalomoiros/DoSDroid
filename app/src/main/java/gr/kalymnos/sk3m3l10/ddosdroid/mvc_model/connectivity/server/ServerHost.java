@@ -13,8 +13,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
@@ -31,8 +31,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Serve
 public class ServerHost extends Service {
     private static final String TAG = "MyServerHost";
 
-    private Set<Server> servers;
-    private Server cachedStartedServer;
+    private Map<String, Server> servers;
     private StatusRepository statusRepo;
     private ServerStatusReceiver statusReceiver;
 
@@ -44,7 +43,7 @@ public class ServerHost extends Service {
     }
 
     private void initFields() {
-        servers = new HashSet<>();
+        servers = new HashMap<>();
         statusRepo = new SharedPrefsStatusRepository(this);
         initStatusReceiver();
     }
@@ -55,22 +54,18 @@ public class ServerHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
-                        boolean serverAdded = servers.add(cachedStartedServer);
-                        if (serverAdded) {
-                            statusRepo.setToStarted(getServerWebsiteFrom(intent));
-                            startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
-                        }
+                        statusRepo.setToStarted(getServerWebsiteFrom(intent));
+                        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         break;
                     case Server.Status.STOPPED:
-                        Server stoppedServer = getServerFromCache(getServerWebsiteFrom(intent));
-                        servers.remove(stoppedServer);
-                        statusRepo.setToStopped(stoppedServer.getAttackingWebsite());
+                        servers.remove(getServerWebsiteFrom(intent));
+                        statusRepo.setToStopped(getServerWebsiteFrom(intent));
                         if (servers.size() == 0) {
                             stopSelf();
                         }
                         break;
                     case Server.Status.ERROR:
-                        Log.d(TAG, "Server.Status.ERROR");
+                        servers.remove(getServerWebsiteFrom(intent));
                         Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
                         break;
                 }
@@ -105,9 +100,10 @@ public class ServerHost extends Service {
 
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
-        if (!servers.contains(server)) {
-            cachedStartedServer = server;
-            cachedStartedServer.start();
+        String website = server.getAttackingWebsite();
+        if (!servers.containsKey(website)) {
+            servers.put(website, server);
+            server.start();
         } else {
             Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getAttackingWebsite(), Toast.LENGTH_SHORT).show();
         }
@@ -119,17 +115,9 @@ public class ServerHost extends Service {
     }
 
     private void handleStopServerAction(Intent intent) {
-        String serverWebsite = intent.getStringExtra(Extras.EXTRA_WEBSITE);
-        Server server = getServerFromCache(serverWebsite);
+        String website = intent.getStringExtra(Extras.EXTRA_WEBSITE);
+        Server server = servers.get(website);
         server.stop();
-    }
-
-    private Server getServerFromCache(String serverWebsite) {
-        for (Server server : servers) {
-            if (serverWebsite.equals(server.getAttackingWebsite()))
-                return server;
-        }
-        throw new IllegalArgumentException(TAG + ": No server with " + serverWebsite + " exists in " + servers);
     }
 
     @Override
@@ -137,17 +125,18 @@ public class ServerHost extends Service {
         super.onDestroy();
         stopServers();
         setServersToStoppedStatus();
+        servers.clear();
         unregisterStatusReceiver();
     }
 
     private void stopServers() {
-        for (Server server : servers)
-            server.stop();
+        for (Map.Entry<String, Server> entry : servers.entrySet())
+            entry.getValue().stop();
     }
 
     private void setServersToStoppedStatus() {
-        for (Server server : servers)
-            statusRepo.setToStopped(server.getAttackingWebsite());
+        for (Map.Entry<String, Server> entry : servers.entrySet())
+            statusRepo.setToStopped(entry.getKey());
     }
 
     private void unregisterStatusReceiver() {
