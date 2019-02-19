@@ -12,9 +12,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
@@ -25,19 +26,19 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ClientHost.ForegroundNotification.NOTIFICATION_ID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ClientHost.ForegroundNotification.NOTIFICATION_ID;
 
 public class ClientHost extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "ClientHost";
 
-    private Set<Client> clients;
+    private Map<String, Client> clients;
     private AttackRepository repo;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        clients = new HashSet<>();
+        clients = new HashMap<>();
         repo = new FirebaseRepository();
     }
 
@@ -67,7 +68,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     private void handleStartAttackAction(Attack attack) {
         Client client = new Client(this, attack);
         client.setClientConnectionListener(this);
-        if (clients.contains(client)) {
+        if (clients.containsKey(attack.getWebsite())) {
             Toast.makeText(this, getString(R.string.already_attacking_label) + " " + client.getAttackedWebsite(), Toast.LENGTH_SHORT).show();
         } else {
             client.connect();
