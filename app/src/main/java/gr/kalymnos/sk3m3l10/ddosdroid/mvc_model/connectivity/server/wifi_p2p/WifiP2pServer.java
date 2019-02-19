@@ -34,7 +34,7 @@ public class WifiP2pServer extends Server {
 
     private BroadcastReceiver wifiDirectReceiver, portReceiver;
     private LocalBroadcastManager localBroadcastManager;
-    private boolean isReceiverRegistered = false;
+    private boolean receiversRegistered = false;
 
     private AcceptClientThread acceptClientThread;
 
@@ -130,8 +130,10 @@ public class WifiP2pServer extends Server {
     @Override
     public void stop() {
         acceptClientThread.close();
-        if (isReceiverRegistered)
+        if (receiversRegistered) {
+            localBroadcastManager.unregisterReceiver(portReceiver);
             context.unregisterReceiver(wifiDirectReceiver);
+        }
         removeGroup();
         super.stop();
     }
@@ -153,12 +155,13 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        registerWifiDirectReceiver();
+        registerReceivers();
     }
 
-    private void registerWifiDirectReceiver() {
+    private void registerReceivers() {
+        localBroadcastManager.registerReceiver(portReceiver, new IntentFilter(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED));
         context.registerReceiver(wifiDirectReceiver, getIntentFilter());
-        isReceiverRegistered = true;
+        receiversRegistered = true;
     }
 
     @NonNull
