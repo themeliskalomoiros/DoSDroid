@@ -38,17 +38,17 @@ public class ServerHost extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        initializeFields();
+        initFields();
         registerServerStatusReceiver();
     }
 
-    private void initializeFields() {
+    private void initFields() {
         servers = new HashSet<>();
         statusRepo = new SharedPrefsStatusRepository(this);
-        initializeStatusReceiver();
+        initStatusReceiver();
     }
 
-    private void initializeStatusReceiver() {
+    private void initStatusReceiver() {
         statusReceiver = new ServerStatusReceiver() {
             @Override
             protected void handleServerStatusAction(Intent intent) {

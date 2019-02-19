@@ -20,10 +20,10 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     private boolean addedChildEventListener;
 
     public FirebaseRepository() {
-        initializeAllAttacksRef();
+        initAllAttacksRef();
     }
 
-    private void initializeAllAttacksRef() {
+    private void initAllAttacksRef() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         allAttacksRef = firebaseDatabase.getReference().child(NODE_ATTACKS);
     }

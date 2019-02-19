@@ -19,16 +19,16 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     private AttacksAdapter attacksAdapter;
 
     public AttackListViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
-        initializeFields(inflater, container);
+        initFields(inflater, container);
         setupRecyclerView();
     }
 
-    private void initializeFields(LayoutInflater inflater, ViewGroup container) {
-        initializeViews(inflater, container);
+    private void initFields(LayoutInflater inflater, ViewGroup container) {
+        initViews(inflater, container);
         attacksAdapter = new AttacksAdapter(root.getContext());
     }
 
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+    private void initViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_attack_list, container, false);
         progressBar = root.findViewById(R.id.progressBar);
         recyclerView = root.findViewById(R.id.recyclerView);

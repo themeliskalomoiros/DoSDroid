@@ -14,11 +14,11 @@ public class MainActivity extends AppCompatActivity implements MainScreenViewMvc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeViewMvc();
+        initViewMvc();
         setupUiFrom(viewMvc);
     }
 
-    private void initializeViewMvc() {
+    private void initViewMvc() {
         viewMvc = new MainScreenViewMvcImpl(LayoutInflater.from(this), null);
         viewMvc.setOnMainActionClickListener(this);
     }

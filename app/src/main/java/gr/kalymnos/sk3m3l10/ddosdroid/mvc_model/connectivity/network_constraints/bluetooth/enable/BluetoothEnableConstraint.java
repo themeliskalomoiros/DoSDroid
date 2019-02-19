@@ -18,16 +18,16 @@ public class BluetoothEnableConstraint extends NetworkConstraint {
 
     public BluetoothEnableConstraint(Context context) {
         super(context);
-        initializeFields();
+        initFields();
         registerBluetoothEnableReceiver(context);
     }
 
-    private void initializeFields() {
+    private void initFields() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        initializeBluetoothEnableReceiver();
+        initBluetoothEnableReceiver();
     }
 
-    private void initializeBluetoothEnableReceiver() {
+    private void initBluetoothEnableReceiver() {
         bluetoothEnableReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

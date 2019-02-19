@@ -31,10 +31,10 @@ class BluetoothConnectionThread extends Thread {
     }
 
     private BluetoothConnectionThread(BluetoothDevice device, UUID serverUUID) {
-        initializeBluetoothSocket(device, serverUUID);
+        initBluetoothSocket(device, serverUUID);
     }
 
-    private void initializeBluetoothSocket(BluetoothDevice device, UUID serverUUID) {
+    private void initBluetoothSocket(BluetoothDevice device, UUID serverUUID) {
         try {
             this.bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(serverUUID);
         } catch (IOException e) {

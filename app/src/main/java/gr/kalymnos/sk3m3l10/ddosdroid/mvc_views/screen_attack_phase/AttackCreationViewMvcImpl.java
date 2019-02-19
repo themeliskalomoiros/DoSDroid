@@ -32,20 +32,20 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private OnWebsiteTextChangeListener onWebsiteTextChangeListener;
 
     public AttackCreationViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
-        initializeViews(inflater, container);
+        initViews(inflater, container);
     }
 
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+    private void initViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_attack_creation, container, false);
         websiteHint = root.findViewById(R.id.tv_website_hint);
         networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
         progressBar = root.findViewById(R.id.progressBar);
-        initializeEditText();
-        initializeSpinner(inflater);
-        initializeFab();
+        initEditText();
+        initSpinner(inflater);
+        initFab();
     }
 
-    private void initializeEditText() {
+    private void initEditText() {
         websiteEditText = root.findViewById(R.id.ed_website);
         websiteEditText.addTextChangedListener(createTextChangedListenerForEditText());
     }
@@ -69,7 +69,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         };
     }
 
-    private void initializeSpinner(LayoutInflater inflater) {
+    private void initSpinner(LayoutInflater inflater) {
         spinner = root.findViewById(R.id.spinner);
         spinner.setAdapter(getArrayAdapter(inflater));
         spinner.setOnItemSelectedListener(getItemSelectedListener(inflater));
@@ -111,7 +111,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         };
     }
 
-    private void initializeFab() {
+    private void initFab() {
         fab = root.findViewById(R.id.fab);
         fab.setOnClickListener((view -> {
             if (onAttackCreationClickListener != null) {

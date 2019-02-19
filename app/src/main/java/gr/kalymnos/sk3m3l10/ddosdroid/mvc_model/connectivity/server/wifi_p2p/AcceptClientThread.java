@@ -24,11 +24,11 @@ class AcceptClientThread extends Thread {
     AcceptClientThread(ExecutorService executor, LocalBroadcastManager manager) {
         this.executor = executor;
         this.manager = manager;
-        initializeServerSocket();
+        initServerSocket();
         localPort = serverSocket.getLocalPort();
     }
 
-    private void initializeServerSocket() {
+    private void initServerSocket() {
         try {
             serverSocket = new ServerSocket(0);
         } catch (IOException e) {

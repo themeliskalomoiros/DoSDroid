@@ -22,7 +22,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
 
     public MainScreenViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_main, container, false);
-        initializeViews();
+        initViews();
     }
 
     @Override
@@ -40,14 +40,14 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         return root;
     }
 
-    private void initializeViews() {
+    private void initViews() {
         toolbar = root.findViewById(R.id.toolBar);
-        initializeCreateAttackViews();
-        initializeJoinAttackViews();
-        initializeContributionViews();
+        initCreateAttackViews();
+        initJoinAttackViews();
+        initContributionViews();
     }
 
-    private void initializeCreateAttackViews() {
+    private void initCreateAttackViews() {
         createAttackParentView = root.findViewById(R.id.create_attack_menu_item);
         createAttackParentView.setOnClickListener((view) -> {
             if (optionClickListener != null) {
@@ -62,7 +62,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         createAttackSubtitle.setText(R.string.create_attack_label_subtitle);
     }
 
-    private void initializeJoinAttackViews() {
+    private void initJoinAttackViews() {
         joinAttackParentView = root.findViewById(R.id.join_attack_menu_item);
         joinAttackParentView.setOnClickListener((view) -> {
             if (optionClickListener != null) {
@@ -77,7 +77,7 @@ public class MainScreenViewMvcImpl implements MainScreenViewMvc {
         joinAttackSubtitle.setText(R.string.join_attack_label_subtitle);
     }
 
-    private void initializeContributionViews() {
+    private void initContributionViews() {
         contributionParentView = root.findViewById(R.id.contribution_menu_item);
         contributionParentView.setOnClickListener((view) -> {
             if (optionClickListener != null) {

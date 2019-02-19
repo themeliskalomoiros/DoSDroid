@@ -44,18 +44,18 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     }
 
     public Server(Context context, Attack attack) {
-        initializeFields(context, attack);
+        initFields(context, attack);
     }
 
-    private void initializeFields(Context context, Attack attack) {
+    private void initFields(Context context, Attack attack) {
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         this.repository = new FirebaseRepository();
-        initializeConstraintsResolver();
+        initConstraintsResolver();
     }
 
-    private void initializeConstraintsResolver() {
+    private void initConstraintsResolver() {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
         constraintsResolver = builder.build(context, attack.getNetworkType(), this);
         constraintsResolver.setOnConstraintsResolveListener(this);

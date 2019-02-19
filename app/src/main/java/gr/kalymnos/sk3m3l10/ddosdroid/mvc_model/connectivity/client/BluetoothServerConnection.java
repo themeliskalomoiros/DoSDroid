@@ -24,25 +24,25 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
 
     BluetoothServerConnection(Context context, Attack attack) {
         super(context, attack);
-        initializeFields(context, attack);
+        initFields(context, attack);
         registerReceivers(context);
 
     }
 
-    private void initializeFields(Context context, Attack attack) {
-        initializeResolver(context);
-        initializeDiscoveryTask();
-        initializeDiscoveryReceiver(attack);
-        initializePermissionReceiver();
+    private void initFields(Context context, Attack attack) {
+        initResolver(context);
+        initDiscoveryTask();
+        initDiscoveryReceiver(attack);
+        initPermissionReceiver();
     }
 
-    private void initializeResolver(Context context) {
+    private void initResolver(Context context) {
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
         constraintsResolver = builder.build(context, NetworkTypes.BLUETOOTH);
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
-    private void initializeDiscoveryTask() {
+    private void initDiscoveryTask() {
         discoveryTask = new Thread(() -> {
             BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
             boolean discoveryInitiated = adapter.startDiscovery();
@@ -53,7 +53,7 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
         });
     }
 
-    private void initializeDiscoveryReceiver(Attack attack) {
+    private void initDiscoveryReceiver(Attack attack) {
         deviceDiscoveryReceiver = new BroadcastReceiver() {
             private boolean firstTimeDiscoveredServer = true;
 
@@ -81,7 +81,7 @@ class BluetoothServerConnection extends ServerConnection implements NetworkConst
         };
     }
 
-    private void initializePermissionReceiver() {
+    private void initPermissionReceiver() {
         permissionReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

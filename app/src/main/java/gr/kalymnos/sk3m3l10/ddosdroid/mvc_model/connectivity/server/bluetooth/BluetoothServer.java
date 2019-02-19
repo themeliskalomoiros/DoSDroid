@@ -34,16 +34,16 @@ public class BluetoothServer extends Server {
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
-        initializeFields();
+        initFields();
         context.registerReceiver(bluetoothStateReceiver, new IntentFilter(ACTION_STATE_CHANGED));
     }
 
-    private void initializeFields() {
-        initializeAcceptClientThread();
-        initializeBluetoothReceiver();
+    private void initFields() {
+        initAcceptClientThread();
+        initBluetoothReceiver();
     }
 
-    private void initializeAcceptClientThread() {
+    private void initAcceptClientThread() {
         acceptClientThread = new Thread(() -> {
             while (true) {
                 try {
@@ -60,7 +60,7 @@ public class BluetoothServer extends Server {
         });
     }
 
-    private void initializeBluetoothReceiver() {
+    private void initBluetoothReceiver() {
         bluetoothStateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -102,7 +102,7 @@ public class BluetoothServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        boolean serverSocketInitialized = initializeServerSocket();
+        boolean serverSocketInitialized = initServerSocket();
         if (serverSocketInitialized) {
             acceptClientThread.start();
             repository.upload(attack);
@@ -119,7 +119,7 @@ public class BluetoothServer extends Server {
         attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
     }
 
-    private boolean initializeServerSocket() {
+    private boolean initServerSocket() {
         //  Tip: can be initialized inside constructor if attackHostInfo can be set inside constructor
         try {
             setAttackHostInfo();

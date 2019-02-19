@@ -14,10 +14,10 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     private FloatingActionButton fab;
 
     public JoinAttackInfoViewMvcImp(LayoutInflater inflater, ViewGroup container) {
-        initializeViews(inflater, container);
+        initViews(inflater, container);
     }
 
-    private void initializeViews(LayoutInflater inflater, ViewGroup container) {
+    private void initViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_join_attack_info, container, false);
         website = root.findViewById(R.id.website_textview);
         date = root.findViewById(R.id.tv_website_hint);

@@ -34,16 +34,16 @@ public class NsdServer extends Server {
 
     public NsdServer(Context context, Attack attack) {
         super(context, attack);
-        initializeFields();
+        initFields();
     }
 
-    private void initializeFields() {
-        initializeServerSocketAndCachePort();
-        initializeAcceptClientThread();
-        initializeRegistrationListener(context);
+    private void initFields() {
+        initServerSocketAndCachePort();
+        initAcceptClientThread();
+        initRegistrationListener(context);
     }
 
-    private void initializeServerSocketAndCachePort() {
+    private void initServerSocketAndCachePort() {
         try {
             serverSocket = new ServerSocket(0); // system chooses an available port
             localPort = serverSocket.getLocalPort();
@@ -52,7 +52,7 @@ public class NsdServer extends Server {
         }
     }
 
-    private void initializeAcceptClientThread() {
+    private void initAcceptClientThread() {
         acceptClientThread = new Thread(() -> {
             while (true) {
                 try {
@@ -69,7 +69,7 @@ public class NsdServer extends Server {
         });
     }
 
-    private void initializeRegistrationListener(Context context) {
+    private void initRegistrationListener(Context context) {
         registrationListener = new NsdManager.RegistrationListener() {
 
             @Override

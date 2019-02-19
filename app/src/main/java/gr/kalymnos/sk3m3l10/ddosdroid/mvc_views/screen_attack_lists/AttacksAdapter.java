@@ -104,10 +104,10 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
         AttackHolder(@NonNull View itemView) {
             super(itemView);
-            initializeViews(itemView);
+            initViews(itemView);
         }
 
-        protected void initializeViews(@NonNull View itemView) {
+        protected void initViews(@NonNull View itemView) {
             itemView.setOnClickListener((view) -> {
                 if (itemClickListener != null) {
                     itemClickListener.onAttackClick(getAdapterPosition());
@@ -143,12 +143,12 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
 
         @Override
-        protected void initializeViews(@NonNull View itemView) {
-            super.initializeViews(itemView);
-            initializeSwitch(itemView);
+        protected void initViews(@NonNull View itemView) {
+            super.initViews(itemView);
+            initSwitch(itemView);
         }
 
-        private void initializeSwitch(@NonNull View itemView) {
+        private void initSwitch(@NonNull View itemView) {
             joinSwitch = itemView.findViewById(R.id.join_switch);
             joinSwitch.setOnCheckedChangeListener((view, isChecked) -> {
                 if (switchCheckedStateListener != null) {
@@ -163,10 +163,10 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
 
         OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
-            initializeActivationSwitch(itemView);
+            initActivationSwitch(itemView);
         }
 
-        private void initializeActivationSwitch(@NonNull View itemView) {
+        private void initActivationSwitch(@NonNull View itemView) {
             activateSwitch = itemView.findViewById(R.id.activation_switch);
             setCheckedListener();
         }

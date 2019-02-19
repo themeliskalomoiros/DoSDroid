@@ -11,10 +11,10 @@ class WifiP2PServerConnection extends ServerConnection {
 
     WifiP2PServerConnection(Context context, Attack attack) {
         super(context, attack);
-        initializeReceiver(context);
+        initReceiver(context);
     }
 
-    private void initializeReceiver(Context context) {
+    private void initReceiver(Context context) {
         WifiP2pManager manager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         WifiP2pManager.Channel channel = manager.initialize(context, Looper.getMainLooper(), null);
         receiver = new WifiDirectReceiver(this, manager, channel);

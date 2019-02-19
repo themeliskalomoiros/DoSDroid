@@ -30,10 +30,10 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeAttack();
+        initAttack();
     }
 
-    private void initializeAttack() {
+    private void initAttack() {
         Bundle bundle = getActivity().getIntent().getBundleExtra(Special.BUNDLE_SAMSUNG_BUG_KEY);
         attack = bundle.getParcelable(EXTRA_ATTACK);
     }
@@ -41,12 +41,12 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initializeViewMvc(inflater, container);
+        initViewMvc(inflater, container);
         bindAttackToUi();
         return viewMvc.getRootView();
     }
 
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+    private void initViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new JoinAttackInfoViewMvcImp(inflater, container);
         viewMvc.setOnJoinAttackClickListener(this);
     }

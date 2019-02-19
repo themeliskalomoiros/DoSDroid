@@ -24,11 +24,11 @@ public class AllAttackListsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeViewMvc();
+        initiViewMvc();
         setupUiFrom(viewMvc);
     }
 
-    private void initializeViewMvc() {
+    private void initiViewMvc() {
         int contentType = getContentType(getIntent().getExtras());
         String[] tabTitles = getResources().getStringArray(R.array.network_technologies_titles);
         LayoutInflater inflater = LayoutInflater.from(this);

@@ -28,10 +28,10 @@ public class SocketConnectionThread extends Thread {
 
     public SocketConnectionThread(InetAddress host, int port) {
         Log.d(TAG, "Initialized");
-        initializeFields(host, port);
+        initFields(host, port);
     }
 
-    private void initializeFields(InetAddress host, int port) {
+    private void initFields(InetAddress host, int port) {
         this.host = host;
         this.port = port;
         socket = new Socket();

@@ -16,11 +16,11 @@ public class BluetoothDiscoverableConstraint extends NetworkConstraint {
 
     public BluetoothDiscoverableConstraint(Context context) {
         super(context);
-        initializeDiscoverabilityReceiver();
+        initDiscoverabilityReceiver();
         registerDiscoverabilityReceiver(context);
     }
 
-    private void initializeDiscoverabilityReceiver() {
+    private void initDiscoverabilityReceiver() {
         discoverabilityReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

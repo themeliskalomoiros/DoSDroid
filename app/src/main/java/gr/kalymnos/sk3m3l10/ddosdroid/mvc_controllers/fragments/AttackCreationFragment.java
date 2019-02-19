@@ -30,11 +30,11 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initializeViewMvc(inflater, container);
+        initViewMvc(inflater, container);
         return viewMvc.getRootView();
     }
 
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+    private void initViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackCreationViewMvcImpl(inflater, container);
         viewMvc.setOnAttackCreationClickListener(this);
         viewMvc.setOnNetworkConfigurationSelectedListener(this);

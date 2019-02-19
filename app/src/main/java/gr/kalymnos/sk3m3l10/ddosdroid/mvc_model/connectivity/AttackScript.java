@@ -16,10 +16,10 @@ public class AttackScript extends Thread {
     private AtomicBoolean stopped = new AtomicBoolean(false);
 
     public AttackScript(String website) {
-        initializeUrl(website);
+        initUrl(website);
     }
 
-    private void initializeUrl(String website) {
+    private void initUrl(String website) {
         try {
             url = new URL(website);
         } catch (MalformedURLException e) {

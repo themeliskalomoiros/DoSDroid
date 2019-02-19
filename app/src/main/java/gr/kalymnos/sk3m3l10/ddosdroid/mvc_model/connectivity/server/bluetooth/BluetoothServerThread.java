@@ -17,10 +17,10 @@ class BluetoothServerThread implements Runnable {
     private PrintWriter out;
 
     BluetoothServerThread(@NonNull BluetoothSocket socket) {
-        initializeFields(socket);
+        initFields(socket);
     }
 
-    private void initializeFields(@NonNull BluetoothSocket socket) {
+    private void initFields(@NonNull BluetoothSocket socket) {
         this.socket = socket;
         out = new PrintWriter(getOutputStreamFrom(socket), true);
     }

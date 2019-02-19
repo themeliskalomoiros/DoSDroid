@@ -40,20 +40,20 @@ public class WifiP2pServer extends Server {
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
-        initializeFields();
+        initFields();
     }
 
-    private void initializeFields() {
+    private void initFields() {
         localBroadcastManager = LocalBroadcastManager.getInstance(context);
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
         acceptClientThread = new AcceptClientThread(executor, localBroadcastManager);
-        initializeWifiDirectReceiver();
-        initializePortReceiver();
-        initializeGroupInfoListener();
+        initWifiDirectReceiver();
+        initPortReceiver();
+        initGroupInfoListener();
     }
 
-    private void initializeWifiDirectReceiver() {
+    private void initWifiDirectReceiver() {
         wifiDirectReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -88,7 +88,7 @@ public class WifiP2pServer extends Server {
         };
     }
 
-    private void initializePortReceiver() {
+    private void initPortReceiver() {
         portReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -107,7 +107,7 @@ public class WifiP2pServer extends Server {
         };
     }
 
-    private void initializeGroupInfoListener() {
+    private void initGroupInfoListener() {
         groupInfoListener = group -> {
             if (group.isGroupOwner() && !acceptClientThread.isAlive()) {
                 setHostInfoFrom(group);

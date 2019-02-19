@@ -20,10 +20,10 @@ public class InternetServer extends Server {
 
     public InternetServer(Context context, Attack attack) {
         super(context, attack);
-        initializeConnectivityReceiver();
+        initConnectivityReceiver();
     }
 
-    private void initializeConnectivityReceiver() {
+    private void initConnectivityReceiver() {
         //  Is registered only after a successful start, which happens in onConstraintsResolved()
         connectivityReceiver = new BroadcastReceiver() {
             @Override

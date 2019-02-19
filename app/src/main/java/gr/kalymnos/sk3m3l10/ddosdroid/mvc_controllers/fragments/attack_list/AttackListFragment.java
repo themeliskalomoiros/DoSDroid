@@ -50,14 +50,14 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeFieldsExceptViewMvc();
+        initFieldsExceptViewMvc();
         repository.startListenForChanges();
     }
 
-    private void initializeFieldsExceptViewMvc() {
+    private void initFieldsExceptViewMvc() {
         contentType = getContentType();
         cachedAttacks = new LinkedHashSet<>();
-        initializeRepository();
+        initRepository();
     }
 
     protected final int getContentType() {
@@ -67,7 +67,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         return INVALID_CONTENT_TYPE;
     }
 
-    private void initializeRepository() {
+    private void initRepository() {
         repository = new FirebaseRepository();
         repository.setOnRepositoryChangeListener(this);
     }
@@ -75,11 +75,11 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initializeViewMvc(inflater, container);
+        initViewMvc(inflater, container);
         return viewMvc.getRootView();
     }
 
-    private void initializeViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+    private void initViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackListViewMvcImpl(inflater, container);
         viewMvc.setOnAttackClickListener(this);
         viewMvc.setOnJoinSwitchCheckedStateListener(this);

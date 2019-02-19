@@ -37,19 +37,19 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
     }
 
     public Client(Context context, Attack attack) {
-        initializeFields(context, attack);
+        initFields(context, attack);
     }
 
-    private void initializeFields(Context context, Attack attack) {
+    private void initFields(Context context, Attack attack) {
         this.context = context;
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
         this.repository = new FirebaseRepository();
         this.repository.setOnRepositoryChangeListener(this);
-        initializeServerConnection();
+        initServerConnection();
     }
 
-    private void initializeServerConnection() {
+    private void initServerConnection() {
         ServerConnection.Factory factory = new ServerConnection.FactoryImp();
         serverConnection = factory.create(context, attack);
         serverConnection.setServerConnectionListener(this);

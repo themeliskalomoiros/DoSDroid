@@ -13,10 +13,10 @@ public class WifiP2pEnabledConstraint extends NetworkConstraint {
 
     public WifiP2pEnabledConstraint(Context context) {
         super(context);
-        initializeWifiStateReceiver();
+        initWifiStateReceiver();
     }
 
-    private void initializeWifiStateReceiver() {
+    private void initWifiStateReceiver() {
         wifiStateReceiver = new WifiStateReceiver() {
             @Override
             protected void handleWifiState(Context context, int state) {
