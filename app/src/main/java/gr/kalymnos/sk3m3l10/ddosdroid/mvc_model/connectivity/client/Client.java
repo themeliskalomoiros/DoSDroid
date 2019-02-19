@@ -3,9 +3,9 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
 import android.content.Context;
 import android.util.Log;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 /* Note:
@@ -15,16 +15,17 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
  * Details:
  * The above is usually the way where the client knows its server was shutdown.
  * They don't keep a connection for long. Their connection is live until the client
- * received a valid response from server. After that the connection stops and
- * client starts attacking the website.*/
+ * receives a response from server. After that client starts attacking.*/
 
 public class Client implements ServerConnection.ServerConnectionListener, AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "MyClient";
 
     private Context context;
+
     private Attack attack;
     private AttackScript attackScript;
     private AttackRepository repository;
+
     private ServerConnection serverConnection;
     private ClientConnectionListener clientConnectionListener;
 

@@ -11,14 +11,14 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.WIFI_P2P;
 
 /*  This class offloads the connection implementations from Client class.*/
 
-abstract class ServerConnection {
+public abstract class ServerConnection {
     protected static final String TAG = "MyServerConnection";
 
     protected Attack attack;
     protected Context context;
     protected ServerConnectionListener serverConnectionListener;
 
-    interface ServerConnectionListener {
+    public interface ServerConnectionListener {
         void onServerConnection();
 
         void onServerConnectionError();
@@ -27,25 +27,25 @@ abstract class ServerConnection {
         void onServerDisconnection();
     }
 
-    ServerConnection(Context context, Attack attack) {
+    public ServerConnection(Context context, Attack attack) {
         this.context = context;
         this.attack = attack;
     }
 
-    void setServerConnectionListener(ServerConnectionListener listener) {
+    public void setServerConnectionListener(ServerConnectionListener listener) {
         this.serverConnectionListener = listener;
     }
 
-    abstract void connectToServer();
+    public abstract void connectToServer();
 
-    abstract void disconnectFromServer();
+    public abstract void disconnectFromServer();
 
     protected void releaseResources() {
         context = null;
         serverConnectionListener = null;
     }
 
-    interface Factory {
+    public interface Factory {
         ServerConnection create(Context context, Attack attack);
     }
 
