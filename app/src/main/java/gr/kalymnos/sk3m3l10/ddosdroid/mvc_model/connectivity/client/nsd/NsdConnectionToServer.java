@@ -13,6 +13,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p.Soc
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
+/* May don't find a service in a public wifi network.
+*  Many authors find Android's NSD implementation buggy.*/
+
 public class NsdConnectionToServer extends ConnectionToServer implements NsdManager.DiscoveryListener,
         SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "NsdConnectionToServer";
@@ -52,14 +55,19 @@ public class NsdConnectionToServer extends ConnectionToServer implements NsdMana
 
     @Override
     public void onServiceFound(NsdServiceInfo nsdServiceInfo) {
-        Log.d(TAG, "Service found");
-        boolean sameServiceTypeAsServer = nsdServiceInfo.getServiceType().equals(Attacks.getNsdServiceType(attack));
-        boolean sameServiceNameAsServer = nsdServiceInfo.getServiceName().equals(Attacks.getNsdServiceName(attack));
-        if (sameServiceTypeAsServer && sameServiceNameAsServer) {
+        if (sameServiceAsServer(nsdServiceInfo.getServiceName(), nsdServiceInfo.getServiceType())) {
             manager.resolveService(nsdServiceInfo, getResolveListener());
         } else {
             Log.d(TAG, getUnknownServiceText(nsdServiceInfo));
         }
+    }
+
+    private boolean sameServiceAsServer(String deviceServiceName, String deviceServiceType) {
+        String serverServiceName = Attacks.getNsdServiceName(attack);
+        String serverServiceType = Attacks.getNsdServiceType(attack);
+        boolean namesMatch = deviceServiceName.equals(serverServiceName);
+        boolean typesMatch = deviceServiceType.equals(serverServiceType);
+        return namesMatch && typesMatch;
     }
 
     @NonNull
