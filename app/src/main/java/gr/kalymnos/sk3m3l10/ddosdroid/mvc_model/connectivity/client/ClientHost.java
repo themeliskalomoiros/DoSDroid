@@ -13,7 +13,6 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
@@ -110,9 +109,8 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     public void onClientDisconnected(Client thisClient, Attack attack) {
         //  TODO: This is not called from main thread, maybe it will arise problems!
         updateAttackWithoutCurrentUser(attack);
-        if (clients.size() == 0) {
+        if (clients.size() == 0)
             stopSelf();
-        }
     }
 
     private void updateAttackWithoutCurrentUser(Attack attack) {
@@ -123,13 +121,13 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disconnectAndDeleteClients();
+        disconnectClients();
+        clients.clear();
     }
 
-    private void disconnectAndDeleteClients() {
-        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
-            iterator.next().disconnect();
-            iterator.remove();
+    private void disconnectClients() {
+        for (Map.Entry<String, Client> entry : clients.entrySet()) {
+            entry.getValue().disconnect();
         }
     }
 

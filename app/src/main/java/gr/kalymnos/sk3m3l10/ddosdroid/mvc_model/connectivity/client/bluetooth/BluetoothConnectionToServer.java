@@ -27,7 +27,6 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
         super(context, attack);
         initFields(context, attack);
         registerReceivers(context);
-
     }
 
     private void initFields(Context context, Attack attack) {
@@ -60,21 +59,19 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
 
             @Override
             public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                    Log.d(TAG, "A device discovered");
-                    BluetoothDevice discoveredDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    if (isServerDeviceDiscovered(discoveredDevice)) {
-                        Log.d(TAG, "Server device discovered, proceeding to connection");
+                boolean foundDevice = BluetoothDevice.ACTION_FOUND.equals(intent.getAction());
+                if (foundDevice) {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    if (isServer(device)) {
                         if (firstTimeDiscoveredServer) {
-                            BluetoothConnectionThread.startInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothConnectionToServer.this);
+                            BluetoothConnectionThread.startInstance(device, Attacks.getHostUUID(attack), BluetoothConnectionToServer.this);
                             firstTimeDiscoveredServer = false;
                         }
                     }
                 }
             }
 
-            private boolean isServerDeviceDiscovered(BluetoothDevice discoveredDevice) {
+            private boolean isServer(BluetoothDevice discoveredDevice) {
                 String discoveredDeviceMacAddress = discoveredDevice.getAddress();
                 String serverMacAddress = Attacks.getHostMacAddress(attack);
                 return discoveredDeviceMacAddress.equals(serverMacAddress);
