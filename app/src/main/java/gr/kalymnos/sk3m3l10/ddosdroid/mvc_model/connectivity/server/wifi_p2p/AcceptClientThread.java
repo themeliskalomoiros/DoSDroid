@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
+
 class AcceptClientThread extends Thread {
     private static final String TAG = "AcceptClientThread";
     public static final String ACTION_LOCAL_PORT_OBTAINED = "action local port obtained";
@@ -36,7 +38,7 @@ class AcceptClientThread extends Thread {
 
     @Override
     public void run() {
-        manager.sendBroadcast(new Intent(ACTION_LOCAL_PORT_OBTAINED));
+        broadcast(localPort);
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
@@ -49,6 +51,12 @@ class AcceptClientThread extends Thread {
                 break;
             }
         }
+    }
+
+    private void broadcast(int port) {
+        Intent intent = new Intent(ACTION_LOCAL_PORT_OBTAINED);
+        intent.putExtra(Extras.EXTRA_LOCAL_PORT, port);
+        manager.sendBroadcast(intent);
     }
 
     public void close() {
