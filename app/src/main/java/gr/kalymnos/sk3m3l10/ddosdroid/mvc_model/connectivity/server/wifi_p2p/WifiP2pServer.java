@@ -95,6 +95,7 @@ public class WifiP2pServer extends Server {
                 boolean isPortAction = intent.getAction().equals(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED);
                 if (isPortAction) {
                     addPortToAttack(intent);
+                    repository.upload(attack);
                     ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), localBroadcastManager);
                 }
             }
