@@ -31,7 +31,7 @@ public class WifiP2pServer extends Server {
     private WifiP2pManager.Channel channel;
     private WifiP2pManager.GroupInfoListener groupInfoListener;
 
-    private BroadcastReceiver wifiDirectReceiver;
+    private BroadcastReceiver wifiDirectReceiver, portReceiver;
     private LocalBroadcastManager localBroadcastManager;
     private boolean isReceiverRegistered = false;
 
@@ -48,6 +48,7 @@ public class WifiP2pServer extends Server {
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
         acceptClientThread = new AcceptClientThread(executor, localBroadcastManager);
         initializeWifiDirectReceiver();
+        initializePortReceiver();
         initializeGroupInfoListener();
     }
 
@@ -82,6 +83,17 @@ public class WifiP2pServer extends Server {
             private boolean isConnected(Intent intent) {
                 NetworkInfo info = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
                 return info.isConnected();
+            }
+        };
+    }
+
+    private void initializePortReceiver() {
+        portReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED)){
+
+                }
             }
         };
     }
