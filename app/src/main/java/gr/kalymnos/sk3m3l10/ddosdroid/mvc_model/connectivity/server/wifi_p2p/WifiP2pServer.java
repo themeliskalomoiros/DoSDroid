@@ -101,19 +101,13 @@ public class WifiP2pServer extends Server {
     private void initializeGroupInfoListener() {
         groupInfoListener = group -> {
             if (group.isGroupOwner() && !acceptClientThread.isAlive()) {
+                setHostInfoFrom(group);
                 acceptClientThread.start();
-                ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), localBroadcastManager);
-                uploadAttack(group);
             }
         };
     }
 
-    private void uploadAttack(WifiP2pGroup group) {
-        setHostInfoToAttack(group);
-        repository.upload(attack);
-    }
-
-    private void setHostInfoToAttack(WifiP2pGroup group) {
+    private void setHostInfoFrom(WifiP2pGroup group) {
         WifiP2pDevice thisDevice = group.getOwner();
         attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.local().getId());
         attack.addSingleHostInfo(EXTRA_DEVICE_NAME, thisDevice.deviceName);
