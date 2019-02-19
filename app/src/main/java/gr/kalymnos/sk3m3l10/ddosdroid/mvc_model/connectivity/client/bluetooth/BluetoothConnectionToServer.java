@@ -46,13 +46,17 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
 
     private void initDiscoveryTask() {
         discoveryTask = new Thread(() -> {
-            BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-            boolean discoveryInitiated = adapter.startDiscovery();
-            if (!discoveryInitiated) {
+            boolean started = startDiscovery();
+            if (!started) {
                 Log.d(TAG, "Device discovery failed to initiate");
                 connectionListener.onServerConnectionError();
             }
         });
+    }
+
+    private boolean startDiscovery() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        return adapter.startDiscovery();
     }
 
     private void initDiscoveryReceiver(Attack attack) {
