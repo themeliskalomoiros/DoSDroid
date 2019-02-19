@@ -39,16 +39,16 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     @Override
     public void onReceive(Context context, Intent intent) {
         switch (intent.getAction()) {
-            case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
+            case WIFI_P2P_STATE_CHANGED_ACTION:
                 Log.d(TAG, "WIFI_P2P_STATE_CHANGED_ACTION");
                 int state = intent.getIntExtra(EXTRA_WIFI_STATE, -1);
                 handleWifiState(state);
                 break;
-            case WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION:
+            case WIFI_P2P_PEERS_CHANGED_ACTION:
                 Log.d(TAG, "WIFI_P2P_PEERS_CHANGED_ACTION");
                 manager.requestPeers(channel, getPeerListListener());
                 break;
-            case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
+            case WIFI_P2P_CONNECTION_CHANGED_ACTION:
                 Log.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION");
                 handleConnectionChange(intent);
                 break;
@@ -97,9 +97,10 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     }
 
     private boolean isServer(WifiP2pDevice device) {
-        String macAddress = device.deviceAddress;
-        String serverMacAddress = Attacks.getHostMacAddress(serverConnection.attack);
-        return macAddress.equals(serverMacAddress) && device.isGroupOwner();
+        String address = device.deviceAddress;
+        String serverAddress = Attacks.getHostMacAddress(serverConnection.attack);
+        return address.equals(serverAddress) && device.isGroupOwner();
+
     }
 
     private void connectTo(WifiP2pDevice device) {
@@ -119,6 +120,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
             @Override
             public void onFailure(int reason) {
                 Log.d(TAG, "Connection initiation with server device failed: " + failureTextFrom(reason));
+                //  Don't broadcast a server connection error here, onReceive() may called again to establish a connection.
             }
         };
     }
