@@ -43,7 +43,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     protected static final String TAG = "AttackListFrag";
 
     protected AttackListViewMvc viewMvc;
-    private AttackRepository repository;
+    private AttackRepository repo;
     protected LinkedHashSet<Attack> cachedAttacks;
     private int contentType;
 
@@ -51,13 +51,13 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFieldsExceptViewMvc();
-        repository.startListenForChanges();
+        repo.startListenForChanges();
     }
 
     private void initFieldsExceptViewMvc() {
         contentType = getContentType();
         cachedAttacks = new LinkedHashSet<>();
-        initRepository();
+        initRepo();
     }
 
     protected final int getContentType() {
@@ -67,9 +67,9 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
         return INVALID_CONTENT_TYPE;
     }
 
-    private void initRepository() {
-        repository = new FirebaseRepository();
-        repository.setOnRepositoryChangeListener(this);
+    private void initRepo() {
+        repo = new FirebaseRepository();
+        repo.setOnRepositoryChangeListener(this);
     }
 
     @Nullable
@@ -111,7 +111,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onDestroy() {
         super.onDestroy();
-        repository.stopListenForChanges();
+        repo.stopListenForChanges();
     }
 
     @Override

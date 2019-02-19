@@ -35,7 +35,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
 
     protected Context context;
     protected Attack attack;
-    protected AttackRepository repository;
+    protected AttackRepository repo;
     protected NetworkConstraintsResolver constraintsResolver;
     protected ExecutorService executor;
 
@@ -51,7 +51,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         this.context = context;
         this.attack = attack;
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        this.repository = new FirebaseRepository();
+        this.repo = new FirebaseRepository();
         initConstraintsResolver();
     }
 
@@ -66,8 +66,8 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     public void stop() {
         constraintsResolver.releaseResources();
         shutdownThreadPool();
-        repository.delete(attack.getPushId());
-        repository.removeOnRepositoryChangeListener();
+        repo.delete(attack.getPushId());
+        repo.removeOnRepositoryChangeListener();
         context = null;
     }
 

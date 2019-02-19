@@ -24,7 +24,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     private Attack attack;
     private AttackScript attackScript;
-    private AttackRepository repository;
+    private AttackRepository repo;
 
     private ServerConnection serverConnection;
     private ClientConnectionListener clientConnectionListener;
@@ -45,9 +45,13 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
         this.context = context;
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
-        this.repository = new FirebaseRepository();
-        this.repository.setOnRepositoryChangeListener(this);
+        initRepo();
         initServerConnection();
+    }
+
+    private void initRepo() {
+        this.repo = new FirebaseRepository();
+        this.repo.setOnRepositoryChangeListener(this);
     }
 
     private void initServerConnection() {
@@ -70,7 +74,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     @Override
     public void onServerConnection() {
-        repository.startListenForChanges();
+        repo.startListenForChanges();
         if (!attackScript.isAlive())
             attackScript.start();
         clientConnectionListener.onClientConnected(this, attack);
@@ -90,10 +94,10 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
 
     private void releaseResources() {
         serverConnection.releaseResources();
+        attackScript.stopExecution();
+        repo.stopListenForChanges();
         context = null;
         clientConnectionListener = null;
-        attackScript.stopExecution();
-        repository.stopListenForChanges();
     }
 
     public final String getAttackedWebsite() {

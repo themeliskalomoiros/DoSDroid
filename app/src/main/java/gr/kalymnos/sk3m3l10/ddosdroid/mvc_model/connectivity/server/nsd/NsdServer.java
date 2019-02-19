@@ -82,7 +82,7 @@ public class NsdServer extends Server {
 
             private void uploadAttack() {
                 addHostInfoToAttack();
-                repository.upload(attack);
+                repo.upload(attack);
             }
 
             private void addHostInfoToAttack() {

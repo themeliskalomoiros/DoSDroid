@@ -105,7 +105,7 @@ public class BluetoothServer extends Server {
         boolean serverSocketInitialized = initServerSocket();
         if (serverSocketInitialized) {
             acceptClientThread.start();
-            repository.upload(attack);
+            repo.upload(attack);
             ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
         } else {
             ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
