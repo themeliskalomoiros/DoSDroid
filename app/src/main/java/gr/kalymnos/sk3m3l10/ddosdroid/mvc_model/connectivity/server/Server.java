@@ -29,15 +29,16 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected static final String TAG = "MyServer";
     public static final String RESPONSE = "this_attack_has_started";
     private static final int THREAD_POOL_SIZE = 10;
-    public static final String ACTION_SERVER_STATUS = "action server status broadcasted";
-    public static final String EXTRA_SERVER_STATUS = "extra server status";
+    public static final String ACTION_SERVER_STATUS = TAG + "action server status broadcasted";
+    public static final String EXTRA_SERVER_STATUS = TAG + "extra server status";
     public static final String EXTRA_SERVER_WEBSITE = TAG + "extra website";
 
-    protected Context context;
     protected Attack attack;
     protected AttackRepository repo;
-    protected NetworkConstraintsResolver constraintsResolver;
+
+    protected Context context;
     protected ExecutorService executor;
+    protected NetworkConstraintsResolver constraintsResolver;
 
     public static boolean isValid(String serverResponse) {
         return serverResponse.equals(RESPONSE);

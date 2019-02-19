@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -43,10 +44,10 @@ public class SocketConnectionThread extends Thread {
 
     @Override
     public void run() {
-        boolean socketConnected = connectToServer();
-        if (socketConnected) {
+        boolean connected = connectToServer();
+        if (connected) {
             Log.d(TAG, "Connection was successfull");
-            handleConnectionSuccess();
+            reportServerResponse();
         } else {
             Log.d(TAG, "Connection failed");
             serverResponseListener.onServerResponseError();
@@ -64,16 +65,18 @@ public class SocketConnectionThread extends Thread {
         }
     }
 
-    private void handleConnectionSuccess() {
-        BufferedReader reader = getBufferedReader();
-        String serverResponse = readServerResponse(reader);
-        if (Server.isValid(serverResponse)) {
+    private void reportServerResponse() {
+        if (Server.isValid(getResponse())) {
             serverResponseListener.onServerResponseReceived();
-            Log.d(TAG, "Connection success");
         } else {
             serverResponseListener.onServerResponseError();
-            Log.d(TAG, "Connection failure");
         }
+    }
+
+    @NonNull
+    private String getResponse() {
+        BufferedReader reader = getBufferedReader();
+        return readServerResponse(reader);
     }
 
     private BufferedReader getBufferedReader() {
@@ -85,16 +88,15 @@ public class SocketConnectionThread extends Thread {
     }
 
     private String readServerResponse(BufferedReader reader) {
-        Log.d(TAG, "readServerResponse() called");
         StringBuilder response = new StringBuilder();
         String data = null;
         try {
             while ((data = reader.readLine()) != null) {
                 response.append(data);
             }
-            /*May never reach this statement:
-             * Server is sending its response to the client and quickly closing its socket.
-             * This results the client socket closes as well (throwing an IOException)
+            /* Control may never reach this statement.
+             * Server is sending its response to the client and quickly closes its socket.
+             * This results the client socket to be closed as well (throwing IOException)
              * */
             return response.toString();
         } catch (IOException e) {
