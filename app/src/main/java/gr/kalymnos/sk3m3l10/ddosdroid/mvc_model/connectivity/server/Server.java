@@ -29,9 +29,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected static final String TAG = "MyServer";
     public static final String RESPONSE = "this_attack_has_started";
     private static final int THREAD_POOL_SIZE = 10;
-    public static final String ACTION_SERVER_STATUS = TAG + "action server status broadcasted";
-    public static final String EXTRA_SERVER_STATUS = TAG + "extra server status";
-    public static final String EXTRA_SERVER_WEBSITE = TAG + "extra website";
+    public static final String ACTION_SERVER_STATUS = "action_server_status_broadcasted";
 
     protected Attack attack;
     protected AttackRepository repo;

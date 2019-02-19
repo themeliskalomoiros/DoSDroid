@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusReceiver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.SharedPrefsStatusRepository;
@@ -118,7 +119,7 @@ public class ServerHost extends Service {
     }
 
     private void handleStopServerAction(Intent intent) {
-        String serverWebsite = intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
+        String serverWebsite = intent.getStringExtra(Extras.EXTRA_WEBSITE);
         Server server = getServerFromCache(serverWebsite);
         server.stop();
     }
@@ -213,7 +214,7 @@ public class ServerHost extends Service {
         @NonNull
         private static Intent createStopServerIntent(Context context, String serverWebsite) {
             Intent intent = new Intent(context, ServerHost.class);
-            intent.putExtra(Server.EXTRA_SERVER_WEBSITE, serverWebsite);
+            intent.putExtra(Extras.EXTRA_WEBSITE, serverWebsite);
             intent.setAction(ACTION_STOP_SERVER);
             return intent;
         }

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server.ACTION_SERVER_STATUS;
@@ -25,10 +26,10 @@ public abstract class ServerStatusReceiver extends BroadcastReceiver {
     protected abstract void handleServerStatusAction(Intent intent);
 
     protected final String getServerWebsiteFrom(Intent intent) {
-        return intent.getStringExtra(Server.EXTRA_SERVER_WEBSITE);
+        return intent.getStringExtra(Extras.EXTRA_WEBSITE);
     }
 
     protected final int getServerStatusFrom(Intent intent) {
-        return intent.getIntExtra(Server.EXTRA_SERVER_STATUS, Server.Status.ERROR);
+        return intent.getIntExtra(Extras.EXTRA_SERVER_STATUS, Server.Status.ERROR);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server.Status.ERROR;
@@ -30,8 +31,8 @@ public class ServerStatusBroadcaster {
     @NonNull
     private static Intent createIntent(int status, String serverWebsite) {
         Intent intent = new Intent(Server.ACTION_SERVER_STATUS);
-        intent.putExtra(Server.EXTRA_SERVER_STATUS, status);
-        intent.putExtra(Server.EXTRA_SERVER_WEBSITE, serverWebsite);
+        intent.putExtra(Extras.EXTRA_SERVER_STATUS, status);
+        intent.putExtra(Extras.EXTRA_WEBSITE, serverWebsite);
         return intent;
     }
 }
