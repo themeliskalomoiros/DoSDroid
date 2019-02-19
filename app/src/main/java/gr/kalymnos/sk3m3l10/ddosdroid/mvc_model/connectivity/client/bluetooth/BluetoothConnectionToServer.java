@@ -11,19 +11,19 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ConnectionToServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
 
-public class BluetoothServerConnection extends ServerConnection implements NetworkConstraintsResolver.OnConstraintsResolveListener,
+public class BluetoothConnectionToServer extends ConnectionToServer implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothServerResponseListener {
     private Thread discoveryTask;
     private NetworkConstraintsResolver constraintsResolver;
     private BroadcastReceiver deviceDiscoveryReceiver, permissionReceiver;
 
-    public BluetoothServerConnection(Context context, Attack attack) {
+    public BluetoothConnectionToServer(Context context, Attack attack) {
         super(context, attack);
         initFields(context, attack);
         registerReceivers(context);
@@ -49,7 +49,7 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
             boolean discoveryInitiated = adapter.startDiscovery();
             if (!discoveryInitiated) {
                 Log.d(TAG, "Device discovery failed to initiate");
-                serverConnectionListener.onServerConnectionError();
+                connectionListener.onServerConnectionError();
             }
         });
     }
@@ -67,7 +67,7 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
                     if (isServerDeviceDiscovered(discoveredDevice)) {
                         Log.d(TAG, "Server device discovered, proceeding to connection");
                         if (firstTimeDiscoveredServer) {
-                            BluetoothConnectionThread.startInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothServerConnection.this);
+                            BluetoothConnectionThread.startInstance(discoveredDevice, Attacks.getHostUUID(attack), BluetoothConnectionToServer.this);
                             firstTimeDiscoveredServer = false;
                         }
                     }
@@ -93,7 +93,7 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
                         Log.d(TAG, "Permission denied, reporting connection error.");
-                        serverConnectionListener.onServerConnectionError();
+                        connectionListener.onServerConnectionError();
                         break;
                     default:
                         throw new IllegalArgumentException(TAG + ": Unknown action");
@@ -133,7 +133,7 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
 
     @Override
     public void disconnectFromServer() {
-        serverConnectionListener.onServerDisconnection();
+        connectionListener.onServerDisconnection();
     }
 
     @Override
@@ -167,16 +167,16 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
 
     @Override
     public void onConstraintResolveFailure() {
-        serverConnectionListener.onServerConnectionError();
+        connectionListener.onServerConnectionError();
     }
 
     @Override
     public void onServerResponseReceived() {
-        serverConnectionListener.onServerConnection();
+        connectionListener.onServerConnection();
     }
 
     @Override
     public void onServerResponseError() {
-        serverConnectionListener.onServerConnectionError();
+        connectionListener.onServerConnectionError();
     }
 }

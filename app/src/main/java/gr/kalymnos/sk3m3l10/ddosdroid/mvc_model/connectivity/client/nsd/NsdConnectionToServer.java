@@ -8,18 +8,18 @@ import android.util.Log;
 
 import java.net.InetAddress;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ConnectionToServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p.SocketConnectionThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-public class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener,
+public class NsdConnectionToServer extends ConnectionToServer implements NsdManager.DiscoveryListener,
         SocketConnectionThread.OnServerResponseListener {
-    private static final String TAG = "NsdServerConnection";
+    private static final String TAG = "NsdConnectionToServer";
 
     private NsdManager manager;
 
-    public NsdServerConnection(Context context, Attack attack) {
+    public NsdConnectionToServer(Context context, Attack attack) {
         super(context, attack);
         manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
     }
@@ -31,7 +31,7 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
 
     @Override
     public void disconnectFromServer() {
-        serverConnectionListener.onServerDisconnection();
+        connectionListener.onServerDisconnection();
     }
 
     @Override
@@ -75,14 +75,14 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
                 int port = nsdServiceInfo.getPort();
                 InetAddress inetAddress = nsdServiceInfo.getHost();
                 SocketConnectionThread thread = new SocketConnectionThread(inetAddress, port);
-                thread.setServerResponseListener(NsdServerConnection.this);
+                thread.setServerResponseListener(NsdConnectionToServer.this);
                 return thread;
             }
 
             @Override
             public void onResolveFailed(NsdServiceInfo nsdServiceInfo, int errorCode) {
                 Log.d(TAG, "Service resolve failed with error code: " + errorCode);
-                serverConnectionListener.onServerConnectionError();
+                connectionListener.onServerConnectionError();
             }
         };
     }
@@ -102,7 +102,7 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
     @Override
     public void onStartDiscoveryFailed(String s, int errorCode) {
         Log.d(TAG, "Start discovery failed with error code: " + errorCode);
-        serverConnectionListener.onServerConnectionError();
+        connectionListener.onServerConnectionError();
     }
 
     @Override
@@ -112,11 +112,11 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
 
     @Override
     public void onServerResponseReceived() {
-        serverConnectionListener.onServerConnection();
+        connectionListener.onServerConnection();
     }
 
     @Override
     public void onServerResponseError() {
-        serverConnectionListener.onServerConnectionError();
+        connectionListener.onServerConnectionError();
     }
 }

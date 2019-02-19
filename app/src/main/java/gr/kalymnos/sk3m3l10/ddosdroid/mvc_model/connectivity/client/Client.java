@@ -17,7 +17,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
  * They don't keep a connection for long. Their connection is live until the client
  * receives a response from server. After that client starts attacking.*/
 
-public class Client implements ServerConnection.ServerConnectionListener, AttackRepository.OnRepositoryChangeListener {
+public class Client implements ConnectionToServer.ConnectionToServerListener, AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "MyClient";
 
     private Context context;
@@ -26,7 +26,7 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
     private AttackScript attackScript;
     private AttackRepository repo;
 
-    private ServerConnection serverConnection;
+    private ConnectionToServer serverConnection;
     private ClientConnectionListener clientConnectionListener;
 
     public interface ClientConnectionListener {
@@ -55,9 +55,9 @@ public class Client implements ServerConnection.ServerConnectionListener, Attack
     }
 
     private void initServerConnection() {
-        ServerConnection.Factory factory = new ServerConnection.FactoryImp();
+        ConnectionToServer.Factory factory = new ConnectionToServer.FactoryImp();
         serverConnection = factory.create(context, attack);
-        serverConnection.setServerConnectionListener(this);
+        serverConnection.setConnectionToServerListener(this);
     }
 
     public void setClientConnectionListener(ClientConnectionListener listener) {

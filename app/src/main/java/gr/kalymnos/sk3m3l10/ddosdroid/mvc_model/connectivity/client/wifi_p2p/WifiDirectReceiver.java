@@ -26,11 +26,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtil.failureTextFrom;
 public class WifiDirectReceiver extends BroadcastReceiver implements SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";
 
-    private WifiP2PServerConnection serverConnection;
+    private WifiP2PConnectionToServer serverConnection;
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
 
-    public WifiDirectReceiver(WifiP2PServerConnection serverConnection, WifiP2pManager manager, WifiP2pManager.Channel channel) {
+    public WifiDirectReceiver(WifiP2PConnectionToServer serverConnection, WifiP2pManager manager, WifiP2pManager.Channel channel) {
         this.serverConnection = serverConnection;
         this.manager = manager;
         this.channel = channel;
@@ -61,7 +61,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
         if (state == WIFI_P2P_STATE_ENABLED) {
             manager.discoverPeers(channel, getPeerDiscoveryActionListener());
         } else {
-            serverConnection.serverConnectionListener.onServerConnectionError();
+            serverConnection.connectionListener.onServerConnectionError();
         }
     }
 
@@ -76,7 +76,7 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
             @Override
             public void onFailure(int reason) {
                 Log.d(TAG, "Initiating discovering peers process: " + failureTextFrom(reason));
-                serverConnection.serverConnectionListener.onServerConnectionError();
+                serverConnection.connectionListener.onServerConnectionError();
             }
         };
     }
@@ -91,8 +91,8 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
                     return;
                 }
             }
-            if (serverConnection.serverConnectionListener != null)
-                serverConnection.serverConnectionListener.onServerConnectionError();
+            if (serverConnection.connectionListener != null)
+                serverConnection.connectionListener.onServerConnectionError();
         };
     }
 
@@ -156,13 +156,13 @@ public class WifiDirectReceiver extends BroadcastReceiver implements SocketConne
     @Override
     public void onServerResponseReceived() {
         Log.d(TAG, "Received server response");
-        serverConnection.serverConnectionListener.onServerConnection();
+        serverConnection.connectionListener.onServerConnection();
     }
 
     @Override
     public void onServerResponseError() {
         Log.d(TAG, "Did not receive response from server");
-        serverConnection.serverConnectionListener.onServerConnectionError();
+        serverConnection.connectionListener.onServerConnectionError();
     }
 
     public void releaseWifiP2pResources() {
