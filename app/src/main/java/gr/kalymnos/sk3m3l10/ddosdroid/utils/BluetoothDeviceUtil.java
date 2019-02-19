@@ -12,7 +12,7 @@ public final class BluetoothDeviceUtil {
     private BluetoothDeviceUtil() {
     }
 
-    public static boolean isLocalDevicePairedWith(String deviceAddress /*MAC Address*/) {
+    public static boolean isLocalDevicePairedWithServerOf(String deviceAddress /*MAC Address*/) {
         for (BluetoothDevice device : getPairedDevices()) {
             if (device.getAddress().equals(deviceAddress)) {
                 return true;
@@ -21,7 +21,7 @@ public final class BluetoothDeviceUtil {
         return false;
     }
 
-    public static BluetoothDevice getPairedBluetoothDeviceOf(String deviceAddress) {
+    public static BluetoothDevice getPairedDeviceOf(String deviceAddress) {
         for (BluetoothDevice device : getPairedDevices()) {
             if (device.getAddress().equals(deviceAddress)) {
                 return device;

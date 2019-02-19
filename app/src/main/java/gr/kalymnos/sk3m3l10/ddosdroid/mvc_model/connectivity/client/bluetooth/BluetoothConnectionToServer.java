@@ -15,7 +15,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ConnectionTo
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
+
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil.getPairedDeviceOf;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil.isLocalDevicePairedWithServerOf;
 
 public class BluetoothConnectionToServer extends ConnectionToServer implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothServerResponseListener {
@@ -85,11 +87,9 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED:
-                        Log.d(TAG, "Permission granted, starting device discovery.");
                         discoveryTask.start();
                         break;
                     case RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED:
-                        Log.d(TAG, "Permission denied, reporting connection error.");
                         connectionListener.onServerConnectionError();
                         break;
                     default:
@@ -105,18 +105,17 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
     }
 
     private void registerDiscoveryReceiver(Context context) {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         context.registerReceiver(deviceDiscoveryReceiver, filter);
     }
 
     private void registerPermissionReceiver(Context context) {
-        IntentFilter filter = getIntentFilterForPermissionReceiver();
+        IntentFilter filter = getPermissionReceiverFilter();
         LocalBroadcastManager.getInstance(context).registerReceiver(permissionReceiver, filter);
     }
 
     @NonNull
-    private IntentFilter getIntentFilterForPermissionReceiver() {
+    private IntentFilter getPermissionReceiverFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_GRANTED);
         filter.addAction(RequestLocationPermissionForBluetoothActivity.ACTION_PERMISSION_DENIED);
@@ -152,12 +151,9 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
     @Override
     public void onConstraintsResolved() {
         String serverMacAddress = Attacks.getHostMacAddress(attack);
-        if (BluetoothDeviceUtil.isLocalDevicePairedWith(serverMacAddress)) {
-            Log.d(TAG, "Server device is already paired with device, proceeding to connection");
-            BluetoothConnectionThread.startInstance(BluetoothDeviceUtil.getPairedBluetoothDeviceOf(serverMacAddress),
-                    Attacks.getHostUUID(attack), this);
+        if (isLocalDevicePairedWithServerOf(serverMacAddress)) {
+            BluetoothConnectionThread.startInstance(getPairedDeviceOf(serverMacAddress), Attacks.getHostUUID(attack), this);
         } else {
-            Log.d(TAG, "Server device was not paired with local device. proceeding to device discovery to find it");
             RequestLocationPermissionForBluetoothActivity.requestPermission(context);
         }
     }
