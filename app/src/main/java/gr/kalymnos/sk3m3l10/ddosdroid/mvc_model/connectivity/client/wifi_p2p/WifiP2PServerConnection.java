@@ -10,7 +10,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 public class WifiP2PServerConnection extends ServerConnection {
     private WifiDirectReceiver receiver;
 
-    WifiP2PServerConnection(Context context, Attack attack) {
+    public WifiP2PServerConnection(Context context, Attack attack) {
         super(context, attack);
         initReceiver(context);
     }

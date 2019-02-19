@@ -11,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.RequestLocationPermissionForBluetoothActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraintsResolver;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -24,7 +23,7 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
     private NetworkConstraintsResolver constraintsResolver;
     private BroadcastReceiver deviceDiscoveryReceiver, permissionReceiver;
 
-    BluetoothServerConnection(Context context, Attack attack) {
+    public BluetoothServerConnection(Context context, Attack attack) {
         super(context, attack);
         initFields(context, attack);
         registerReceivers(context);

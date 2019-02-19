@@ -12,7 +12,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_START
 
 public class InternetServerConnection extends ServerConnection {
 
-    InternetServerConnection(Context context, Attack attack) {
+    public InternetServerConnection(Context context, Attack attack) {
         super(context, attack);
     }
 

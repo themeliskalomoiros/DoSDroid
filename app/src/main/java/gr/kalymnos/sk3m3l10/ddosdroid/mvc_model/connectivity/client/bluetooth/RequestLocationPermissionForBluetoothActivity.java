@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.bluetooth;
 
 import android.Manifest;
 import android.content.Context;

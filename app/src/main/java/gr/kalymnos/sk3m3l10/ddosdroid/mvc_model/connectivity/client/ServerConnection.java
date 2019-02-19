@@ -18,9 +18,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.WIFI_P2P;
 public abstract class ServerConnection {
     protected static final String TAG = "MyServerConnection";
 
-    protected Attack attack;
+    public Attack attack;
     protected Context context;
-    protected ServerConnectionListener serverConnectionListener;
+    public ServerConnectionListener serverConnectionListener;
 
     public interface ServerConnectionListener {
         void onServerConnection();

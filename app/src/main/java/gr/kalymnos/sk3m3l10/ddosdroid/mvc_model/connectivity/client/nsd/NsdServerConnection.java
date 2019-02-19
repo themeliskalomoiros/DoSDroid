@@ -19,7 +19,7 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
 
     private NsdManager manager;
 
-    NsdServerConnection(Context context, Attack attack) {
+    public NsdServerConnection(Context context, Attack attack) {
         super(context, attack);
         manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
     }
