@@ -162,7 +162,7 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
                     Attacks.getHostUUID(attack), this);
         } else {
             Log.d(TAG, "Server device was not paired with local device. proceeding to device discovery to find it");
-            RequestLocationPermissionForBluetoothActivity.requestUserPermission(context);
+            RequestLocationPermissionForBluetoothActivity.requestPermission(context);
         }
     }
 

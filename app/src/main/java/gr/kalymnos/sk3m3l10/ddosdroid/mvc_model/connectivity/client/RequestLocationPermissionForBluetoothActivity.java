@@ -16,7 +16,7 @@ public class RequestLocationPermissionForBluetoothActivity extends AppCompatActi
     public static final String ACTION_PERMISSION_GRANTED = "action_permission_for_bluetooth_scanning_granted";
     public static final String ACTION_PERMISSION_DENIED = "action_permission_for_bluetooth_scanning_denied";
 
-    public static void requestUserPermission(Context context) {
+    public static void requestPermission(Context context) {
         Intent intent = new Intent(context, RequestLocationPermissionForBluetoothActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
