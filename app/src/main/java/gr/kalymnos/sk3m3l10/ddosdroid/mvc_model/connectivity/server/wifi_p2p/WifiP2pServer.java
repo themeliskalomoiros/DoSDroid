@@ -46,7 +46,7 @@ public class WifiP2pServer extends Server {
         localBroadcastManager = LocalBroadcastManager.getInstance(context);
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
-        acceptClientThread = new AcceptClientThread(attack, executor, repository);
+        acceptClientThread = new AcceptClientThread(executor, localBroadcastManager);
         initializeWifiDirectReceiver();
         initializeGroupInfoListener();
     }
@@ -65,7 +65,7 @@ public class WifiP2pServer extends Server {
             private void stopIfStateDisabled(Context context, Intent intent) {
                 if (isStateDisabled(intent)) {
                     stop();
-                    ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                    ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), localBroadcastManager);
                 }
             }
 
@@ -90,7 +90,7 @@ public class WifiP2pServer extends Server {
         groupInfoListener = group -> {
             if (group.isGroupOwner() && !acceptClientThread.isAlive()) {
                 acceptClientThread.start();
-                ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), localBroadcastManager);
                 uploadAttack(group);
             }
         };
@@ -127,7 +127,7 @@ public class WifiP2pServer extends Server {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "Wifi peer to peer group removed.");
-                ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), localBroadcastManager);
             }
 
             @Override
@@ -157,7 +157,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), localBroadcastManager);
     }
 
     public WifiP2pManager getWifiP2pManager() {
