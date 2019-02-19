@@ -1,5 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi_p2p;
 
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -8,24 +9,25 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
-
 class AcceptClientThread extends Thread {
     private static final String TAG = "AcceptClientThread";
+    public static final String ACTION_LOCAL_PORT_OBTAINED = "action local port obtained";
 
     private int localPort;
     private ServerSocket serverSocket;
     private final ExecutorService executor;
+    private final LocalBroadcastManager manager;
 
-    AcceptClientThread(ExecutorService executor) {
+    AcceptClientThread(ExecutorService executor, LocalBroadcastManager manager) {
         this.executor = executor;
+        this.manager = manager;
         initializeServerSocket();
+        localPort = serverSocket.getLocalPort();
     }
 
     private void initializeServerSocket() {
         try {
             serverSocket = new ServerSocket(0);
-            localPort = serverSocket.getLocalPort();
         } catch (IOException e) {
             Log.e(TAG, "Error creating server socket.");
         }
