@@ -16,6 +16,8 @@ public class RequestLocationPermissionForBluetoothActivity extends AppCompatActi
     public static final String ACTION_PERMISSION_GRANTED = "action_permission_for_bluetooth_scanning_granted";
     public static final String ACTION_PERMISSION_DENIED = "action_permission_for_bluetooth_scanning_denied";
 
+    private LocalBroadcastManager manager;
+
     public static void requestPermission(Context context) {
         Intent intent = new Intent(context, RequestLocationPermissionForBluetoothActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -25,6 +27,7 @@ public class RequestLocationPermissionForBluetoothActivity extends AppCompatActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        manager = LocalBroadcastManager.getInstance(this);
         checkLocationPermissionToStartDiscoverDevices();
     }
 
@@ -54,13 +57,11 @@ public class RequestLocationPermissionForBluetoothActivity extends AppCompatActi
 
     private void broadcastPermissionGranted() {
         Intent intent = new Intent(ACTION_PERMISSION_GRANTED);
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.sendBroadcast(intent);
+        manager.sendBroadcast(intent);
     }
 
     private void broadcastPermissionDenied() {
         Intent intent = new Intent(ACTION_PERMISSION_DENIED);
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.sendBroadcast(intent);
+        manager.sendBroadcast(intent);
     }
 }
