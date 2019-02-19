@@ -77,7 +77,7 @@ public class NsdServer extends Server {
                 nsdServiceName = nsdServiceInfo.getServiceName();
                 uploadAttack();
                 acceptClientThread.start();
-                ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
             }
 
             private void uploadAttack() {
@@ -94,7 +94,7 @@ public class NsdServer extends Server {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd registration failed");
-                ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
             }
 
             @Override
@@ -105,7 +105,7 @@ public class NsdServer extends Server {
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
                 Log.d(TAG, "Nsd service unregistered successfully");
-                ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
             }
         };
     }
@@ -155,6 +155,6 @@ public class NsdServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
     }
 }

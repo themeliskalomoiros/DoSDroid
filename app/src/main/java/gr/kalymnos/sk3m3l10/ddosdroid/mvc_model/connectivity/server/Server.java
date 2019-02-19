@@ -84,7 +84,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         }
     }
 
-    public final String getAttackedWebsite() {
+    public final String getAttackingWebsite() {
         return attack.getWebsite();
     }
 
@@ -126,14 +126,14 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
             return false;
 
         Server server = (Server) obj;
-        return this.getAttackedWebsite().equals(server.getAttackedWebsite());
+        return this.getAttackingWebsite().equals(server.getAttackingWebsite());
     }
 
     //  This technique is taken from the book Effective Java, Second Edition, Item 9
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + this.getAttackedWebsite().hashCode();
+        result = 31 * result + this.getAttackingWebsite().hashCode();
         return result;
     }
 }

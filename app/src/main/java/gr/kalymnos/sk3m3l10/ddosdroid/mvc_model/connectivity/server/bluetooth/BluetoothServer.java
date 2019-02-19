@@ -88,7 +88,7 @@ public class BluetoothServer extends Server {
     public void stop() {
         closeServerSocket();
         context.unregisterReceiver(bluetoothStateReceiver);
-        ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
         super.stop();
     }
 
@@ -106,9 +106,9 @@ public class BluetoothServer extends Server {
         if (serverSocketInitialized) {
             acceptClientThread.start();
             repo.upload(attack);
-            ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+            ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
         } else {
-            ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+            ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
         }
     }
 
@@ -134,6 +134,6 @@ public class BluetoothServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
     }
 }

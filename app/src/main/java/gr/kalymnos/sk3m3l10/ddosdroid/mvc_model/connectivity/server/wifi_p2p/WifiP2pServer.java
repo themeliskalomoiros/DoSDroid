@@ -67,7 +67,7 @@ public class WifiP2pServer extends Server {
             private void stopIfStateDisabled(Context context, Intent intent) {
                 if (isStateDisabled(intent)) {
                     stop();
-                    ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), localBroadcastManager);
+                    ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), localBroadcastManager);
                 }
             }
 
@@ -96,7 +96,7 @@ public class WifiP2pServer extends Server {
                 if (isPortAction) {
                     addPortToAttack(intent);
                     repo.upload(attack);
-                    ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), localBroadcastManager);
+                    ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), localBroadcastManager);
                 }
             }
 
@@ -144,7 +144,7 @@ public class WifiP2pServer extends Server {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "Wifi peer to peer group removed.");
-                ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), localBroadcastManager);
+                ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), localBroadcastManager);
             }
 
             @Override
@@ -175,7 +175,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), localBroadcastManager);
+        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), localBroadcastManager);
     }
 
     public WifiP2pManager getWifiP2pManager() {

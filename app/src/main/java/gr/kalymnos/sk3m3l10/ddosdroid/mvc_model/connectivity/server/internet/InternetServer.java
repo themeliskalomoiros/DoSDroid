@@ -29,7 +29,7 @@ public class InternetServer extends Server {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (disconnectionHappened(intent)) {
-                    ServerStatusBroadcaster.broadcastStopped(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+                    ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
                 }
             }
 
@@ -53,7 +53,7 @@ public class InternetServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        ServerStatusBroadcaster.broadcastRunning(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
         uploadAttack();
         registerReceiver();
     }
@@ -70,6 +70,6 @@ public class InternetServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackedWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
     }
 }

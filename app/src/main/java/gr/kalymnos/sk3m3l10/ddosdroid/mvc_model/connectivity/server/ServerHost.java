@@ -60,14 +60,14 @@ public class ServerHost extends Service {
                             statusRepo.setToStarted(getServerWebsiteFrom(intent));
                             startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         } else {
-                            Log.e(TAG, "Server for " + cachedStartedServer.getAttackedWebsite() + " not added to cache");
+                            Log.e(TAG, "Server for " + cachedStartedServer.getAttackingWebsite() + " not added to cache");
                         }
                         break;
                     case Server.Status.STOPPED:
                         Log.d(TAG, "Server.Status.STOPPED");
                         Server stoppedServer = getServerFromCache(getServerWebsiteFrom(intent));
                         servers.remove(stoppedServer);
-                        statusRepo.setToStopped(stoppedServer.getAttackedWebsite());
+                        statusRepo.setToStopped(stoppedServer.getAttackingWebsite());
                         if (servers.size() == 0) {
                             stopSelf();
                         }
@@ -112,7 +112,7 @@ public class ServerHost extends Service {
             cachedStartedServer = server;
             cachedStartedServer.start();
         } else {
-            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getAttackedWebsite(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getAttackingWebsite(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -129,7 +129,7 @@ public class ServerHost extends Service {
 
     private Server getServerFromCache(String serverWebsite) {
         for (Server server : servers) {
-            if (serverWebsite.equals(server.getAttackedWebsite()))
+            if (serverWebsite.equals(server.getAttackingWebsite()))
                 return server;
         }
         throw new IllegalArgumentException(TAG + ": No server with " + serverWebsite + " exists in " + servers);
@@ -150,7 +150,7 @@ public class ServerHost extends Service {
 
     private void setServersToStoppedStatus() {
         for (Server server : servers)
-            statusRepo.setToStopped(server.getAttackedWebsite());
+            statusRepo.setToStopped(server.getAttackingWebsite());
     }
 
     private void unregisterStatusReceiver() {
