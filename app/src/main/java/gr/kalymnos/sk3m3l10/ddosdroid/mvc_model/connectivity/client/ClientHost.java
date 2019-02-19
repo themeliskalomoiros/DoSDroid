@@ -13,7 +13,6 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -76,18 +75,9 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     private void handleStopAttackAction(Attack attack) {
-        Client client = getClientFromCollection(attack);
+        Client client = clients.get(attack.getWebsite());
         clients.remove(client);
         client.disconnect();
-    }
-
-    private Client getClientFromCollection(Attack attack) {
-        for (Client client : clients) {
-            boolean sameWebsite = client.getAttackedWebsite().equals(attack.getWebsite());
-            if (sameWebsite)
-                return client;
-        }
-        throw new UnsupportedOperationException(TAG + ": No Client for attack(" + attack.getPushId() + ") in the collection");
     }
 
     @Override
