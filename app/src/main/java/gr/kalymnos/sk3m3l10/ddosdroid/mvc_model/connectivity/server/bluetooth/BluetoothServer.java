@@ -28,19 +28,21 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
 
 public class BluetoothServer extends Server {
-    private BroadcastReceiver bluetoothStateReceiver;
-    private BluetoothServerSocket serverSocket;
     private Thread acceptClientThread;
+    private BluetoothServerSocket serverSocket;
+    private BroadcastReceiver bluetoothStateReceiver;
+    private LocalBroadcastManager localBroadcastManager;
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
-        initFields();
+        initFields(context);
         context.registerReceiver(bluetoothStateReceiver, new IntentFilter(ACTION_STATE_CHANGED));
     }
 
-    private void initFields() {
+    private void initFields(Context context) {
+        localBroadcastManager = localBroadcastManager;
         initAcceptClientThread();
-        initBluetoothReceiver();
+        initBluetoothStateReceiver();
     }
 
     private void initAcceptClientThread() {
@@ -60,7 +62,7 @@ public class BluetoothServer extends Server {
         });
     }
 
-    private void initBluetoothReceiver() {
+    private void initBluetoothStateReceiver() {
         bluetoothStateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -88,7 +90,7 @@ public class BluetoothServer extends Server {
     public void stop() {
         closeServerSocket();
         context.unregisterReceiver(bluetoothStateReceiver);
-        ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), localBroadcastManager);
         super.stop();
     }
 
@@ -106,17 +108,10 @@ public class BluetoothServer extends Server {
         if (serverSocketInitialized) {
             acceptClientThread.start();
             repo.upload(attack);
-            ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+            ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), localBroadcastManager);
         } else {
-            ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+            ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), localBroadcastManager);
         }
-    }
-
-    private void setAttackHostInfo() {
-        UUID uuid = UUID.randomUUID();
-        String macAddress = BluetoothDeviceUtil.getLocalMacAddress(context);
-        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
-        attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
     }
 
     private boolean initServerSocket() {
@@ -132,8 +127,15 @@ public class BluetoothServer extends Server {
         }
     }
 
+    private void setAttackHostInfo() {
+        UUID uuid = UUID.randomUUID();
+        String macAddress = BluetoothDeviceUtil.getLocalMacAddress(context);
+        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
+        attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
+    }
+
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), localBroadcastManager);
     }
 }
