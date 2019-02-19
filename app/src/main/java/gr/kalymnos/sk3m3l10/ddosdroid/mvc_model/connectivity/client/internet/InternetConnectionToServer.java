@@ -26,13 +26,13 @@ public class InternetConnectionToServer extends ConnectionToServer {
         }
     }
 
+    private ConnectivityManager getConnectivityManager() {
+        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
+
     private boolean isAttackStarted() {
         String attackStartedPass = attack.getHostInfo().get(EXTRA_ATTACK_STARTED);
         return Server.isValid(attackStartedPass);
-    }
-
-    private ConnectivityManager getConnectivityManager() {
-        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     @Override

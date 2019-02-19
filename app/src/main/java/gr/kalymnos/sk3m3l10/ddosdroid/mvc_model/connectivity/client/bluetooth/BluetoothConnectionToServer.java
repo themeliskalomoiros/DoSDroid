@@ -68,19 +68,17 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
                 boolean foundDevice = BluetoothDevice.ACTION_FOUND.equals(intent.getAction());
                 if (foundDevice) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    if (isServer(device)) {
-                        if (firstTimeDiscoveredServer) {
-                            BluetoothConnectionThread.startInstance(device, Attacks.getHostUUID(attack), BluetoothConnectionToServer.this);
-                            firstTimeDiscoveredServer = false;
-                        }
+                    if (isServer(device) && firstTimeDiscoveredServer) {
+                        BluetoothConnectionThread.startInstance(device, Attacks.getHostUUID(attack), BluetoothConnectionToServer.this);
+                        firstTimeDiscoveredServer = false;
                     }
                 }
             }
 
-            private boolean isServer(BluetoothDevice discoveredDevice) {
-                String discoveredDeviceMacAddress = discoveredDevice.getAddress();
-                String serverMacAddress = Attacks.getHostMacAddress(attack);
-                return discoveredDeviceMacAddress.equals(serverMacAddress);
+            private boolean isServer(BluetoothDevice device) {
+                String deviceAddress = device.getAddress(); // MAC address
+                String serverAddress = Attacks.getHostMacAddress(attack);
+                return deviceAddress.equals(serverAddress);
             }
         };
     }
@@ -154,9 +152,9 @@ public class BluetoothConnectionToServer extends ConnectionToServer implements N
 
     @Override
     public void onConstraintsResolved() {
-        String serverMacAddress = Attacks.getHostMacAddress(attack);
-        if (isLocalDevicePairedWithServerOf(serverMacAddress)) {
-            BluetoothConnectionThread.startInstance(getPairedDeviceOf(serverMacAddress), Attacks.getHostUUID(attack), this);
+        String serverAddress = Attacks.getHostMacAddress(attack);
+        if (isLocalDevicePairedWithServerOf(serverAddress)) {
+            BluetoothConnectionThread.startInstance(getPairedDeviceOf(serverAddress), Attacks.getHostUUID(attack), this);
         } else {
             RequestLocationPermissionForBluetoothActivity.requestPermission(context);
         }
