@@ -1,7 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository;
 
-public interface StatusRepository {
-    String TAG = "StatusRepository";
+public interface ServerStatusPersistance {
+    String FILE_NAME = "ServerStatusPersistance";
 
     boolean isStarted(String serverWebsite);
 

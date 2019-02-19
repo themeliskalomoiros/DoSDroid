@@ -3,11 +3,11 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repo
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class SharedPrefsStatusRepository implements StatusRepository {
+public class SharedPrefPersistance implements ServerStatusPersistance {
     private SharedPreferences sharedPreferences;
 
-    public SharedPrefsStatusRepository(Context context) {
-        sharedPreferences = context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+    public SharedPrefPersistance(Context context) {
+        sharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 
     @Override

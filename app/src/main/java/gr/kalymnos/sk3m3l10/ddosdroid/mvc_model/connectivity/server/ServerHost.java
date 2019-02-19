@@ -20,8 +20,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusReceiver;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.SharedPrefsStatusRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.StatusRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.ServerStatusPersistance;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.SharedPrefPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
@@ -32,8 +32,8 @@ public class ServerHost extends Service {
     private static final String TAG = "MyServerHost";
 
     private Map<String, Server> servers;
-    private StatusRepository statusRepo;
     private ServerStatusReceiver statusReceiver;
+    private ServerStatusPersistance statusPersistance;
 
     @Override
     public void onCreate() {
@@ -44,7 +44,7 @@ public class ServerHost extends Service {
 
     private void initFields() {
         servers = new HashMap<>();
-        statusRepo = new SharedPrefsStatusRepository(this);
+        statusPersistance = new SharedPrefPersistance(this);
         initStatusReceiver();
     }
 
@@ -54,12 +54,12 @@ public class ServerHost extends Service {
             protected void handleServerStatusAction(Intent intent) {
                 switch (getServerStatusFrom(intent)) {
                     case Server.Status.RUNNING:
-                        statusRepo.setToStarted(getServerWebsiteFrom(intent));
+                        statusPersistance.setToStarted(getServerWebsiteFrom(intent));
                         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
                         break;
                     case Server.Status.STOPPED:
                         servers.remove(getServerWebsiteFrom(intent));
-                        statusRepo.setToStopped(getServerWebsiteFrom(intent));
+                        statusPersistance.setToStopped(getServerWebsiteFrom(intent));
                         if (servers.size() == 0) {
                             stopSelf();
                         }
@@ -136,7 +136,7 @@ public class ServerHost extends Service {
 
     private void setServersToStoppedStatus() {
         for (Map.Entry<String, Server> entry : servers.entrySet())
-            statusRepo.setToStopped(entry.getKey());
+            statusPersistance.setToStopped(entry.getKey());
     }
 
     private void unregisterStatusReceiver() {
