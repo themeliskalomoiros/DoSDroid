@@ -34,7 +34,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.isAttackOwnedByBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.itemFromLinkedHashSet;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackClickListener,
@@ -125,7 +125,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onAttackClick(int position) {
         if (notJoinedAttacks(contentType)) {
-            Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
+            Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
             JoinAttackActivity.startInstance(getContext(), attack);
         }
     }
@@ -133,7 +133,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onJoinSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
-            Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
+            Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
             ClientHost.Action.stopClientOf(attack, getContext());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }
@@ -142,7 +142,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     @Override
     public void onActivateSwitchCheckedState(int position, boolean isChecked) {
         if (!isChecked) {
-            Attack attack = getItemFromLinkedHashSet(cachedAttacks, position);
+            Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
             ServerHost.Action.stopServerOf(attack.getWebsite(), getContext());
             Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
         }

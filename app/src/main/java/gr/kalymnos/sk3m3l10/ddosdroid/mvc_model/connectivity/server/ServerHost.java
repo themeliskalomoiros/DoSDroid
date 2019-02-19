@@ -155,6 +155,38 @@ public class ServerHost extends Service {
         manager.unregisterReceiver(statusReceiver);
     }
 
+    public static class Action {
+        private static final String ACTION_START_SERVER = TAG + "start server action";
+        private static final String ACTION_STOP_SERVER = TAG + "stop server action";
+        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
+
+        public static void startServerOf(Attack attack, Context context) {
+            Intent intent = createStartServerIntent(context, attack);
+            context.startService(intent);
+        }
+
+        @NonNull
+        private static Intent createStartServerIntent(Context context, Attack attack) {
+            Intent intent = new Intent(context, ServerHost.class);
+            intent.putExtra(EXTRA_ATTACK, attack);
+            intent.setAction(ACTION_START_SERVER);
+            return intent;
+        }
+
+        public static void stopServerOf(String serverWebsite, Context context) {
+            Intent intent = createStopServerIntent(context, serverWebsite);
+            context.startService(intent);
+        }
+
+        @NonNull
+        private static Intent createStopServerIntent(Context context, String serverWebsite) {
+            Intent intent = new Intent(context, ServerHost.class);
+            intent.putExtra(Extras.EXTRA_WEBSITE, serverWebsite);
+            intent.setAction(ACTION_STOP_SERVER);
+            return intent;
+        }
+    }
+
     class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 191919;
@@ -185,38 +217,6 @@ public class ServerHost extends Service {
             Intent intent = new Intent(ServerHost.this, ServerHost.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(ServerHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-    }
-
-    public static class Action {
-        private static final String ACTION_START_SERVER = TAG + "start server action";
-        private static final String ACTION_STOP_SERVER = TAG + "stop server action";
-        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
-
-        public static void startServerOf(Attack attack, Context context) {
-            Intent intent = createStartServerIntent(context, attack);
-            context.startService(intent);
-        }
-
-        @NonNull
-        private static Intent createStartServerIntent(Context context, Attack attack) {
-            Intent intent = new Intent(context, ServerHost.class);
-            intent.putExtra(EXTRA_ATTACK, attack);
-            intent.setAction(ACTION_START_SERVER);
-            return intent;
-        }
-
-        public static void stopServerOf(String serverWebsite, Context context) {
-            Intent intent = createStopServerIntent(context, serverWebsite);
-            context.startService(intent);
-        }
-
-        @NonNull
-        private static Intent createStopServerIntent(Context context, String serverWebsite) {
-            Intent intent = new Intent(context, ServerHost.class);
-            intent.putExtra(Extras.EXTRA_WEBSITE, serverWebsite);
-            intent.setAction(ACTION_STOP_SERVER);
-            return intent;
         }
     }
 

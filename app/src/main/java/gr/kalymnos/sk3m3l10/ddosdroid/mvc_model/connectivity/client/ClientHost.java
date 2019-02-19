@@ -131,6 +131,38 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
         }
     }
 
+    public static class Action {
+        private static final String ACTION_START_ATTACK = TAG + "start attack action";
+        private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
+        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
+
+        public static void createClientOf(Attack attack, Context context) {
+            context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
+        }
+
+        public static void stopClientOf(Attack attack, Context context) {
+            context.startService(createIntentWithAttackExtra(context, attack, ACTION_STOP_ATTACK));
+        }
+
+        private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
+            Intent intent = new Intent(context, ClientHost.class);
+            intent.setAction(action);
+            intent.putExtra(Extras.EXTRA_ATTACK, attack);
+            return intent;
+        }
+
+        public static void stopService(Context context) {
+            context.startService(createStopServiceIntent(context));
+        }
+
+        @NonNull
+        private static Intent createStopServiceIntent(Context context) {
+            Intent intent = new Intent(context, ClientHost.class);
+            intent.setAction(ACTION_STOP_SERVICE);
+            return intent;
+        }
+    }
+
     class ForegroundNotification {
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 291919;
@@ -162,38 +194,5 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
             intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(ClientHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
-    }
-
-    public static class Action {
-        private static final String ACTION_START_ATTACK = TAG + "start attack action";
-        private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
-        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
-
-        public static void createClientOf(Attack attack, Context context) {
-            context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
-        }
-
-        public static void stopClientOf(Attack attack, Context context) {
-            context.startService(createIntentWithAttackExtra(context, attack, ACTION_STOP_ATTACK));
-        }
-
-        private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
-            Intent intent = new Intent(context, ClientHost.class);
-            intent.setAction(action);
-            intent.putExtra(Extras.EXTRA_ATTACK, attack);
-            return intent;
-        }
-
-        public static void stopService(Context context) {
-            context.startService(createStopServiceIntent(context));
-        }
-
-        @NonNull
-        private static Intent createStopServiceIntent(Context context) {
-            Intent intent = new Intent(context, ClientHost.class);
-            intent.setAction(ACTION_STOP_SERVICE);
-            return intent;
-        }
-
     }
 }

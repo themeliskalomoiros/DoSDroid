@@ -16,7 +16,7 @@ public final class CollectionUtil {
         return false;
     }
 
-    public static <T> T getItemFromLinkedHashSet(LinkedHashSet<T> set, int index) {
+    public static <T> T itemFromLinkedHashSet(LinkedHashSet<T> set, int index) {
         if (index < 0 || index >= set.size())
             throw new IllegalArgumentException("Invalid index: " + index + " while set's size is " + set.size() + ".");
 

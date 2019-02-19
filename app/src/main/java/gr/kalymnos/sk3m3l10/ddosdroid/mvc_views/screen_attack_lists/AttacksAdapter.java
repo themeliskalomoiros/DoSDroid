@@ -25,7 +25,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.Attac
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.getItemFromLinkedHashSet;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.itemFromLinkedHashSet;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
@@ -54,7 +54,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public void onBindViewHolder(@NonNull AttackHolder attackHolder, int position) {
         if (hasItems(attacks)) {
-            Attack attack = getItemFromLinkedHashSet(attacks, position);
+            Attack attack = itemFromLinkedHashSet(attacks, position);
             attackHolder.bind(attack);
             attackHolder.itemView.setTag(String.valueOf(position));
         }
@@ -71,7 +71,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     @Override
     public int getItemViewType(int position) {
         if (hasItems(attacks)) {
-            Attack attack = getItemFromLinkedHashSet(attacks, position);
+            Attack attack = itemFromLinkedHashSet(attacks, position);
             return getItemViewTypeFrom(attack);
         }
         throw new UnsupportedOperationException(TAG + ": attacks is null or has no items");
@@ -186,7 +186,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
 
         private void setCheckedState() {
-            Attack attack = getItemFromLinkedHashSet(attacks, getLayoutPosition());
+            Attack attack = itemFromLinkedHashSet(attacks, getLayoutPosition());
             String serverWebsite = attack.getWebsite();
             StatusRepository repo = new SharedPrefsStatusRepository(context);
             boolean serverActive = repo.isStarted(serverWebsite);

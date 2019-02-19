@@ -29,10 +29,10 @@ public class ServerStatusBroadcaster {
     }
 
     @NonNull
-    private static Intent createIntent(int status, String serverWebsite) {
+    private static Intent createIntent(int status, String website) {
         Intent intent = new Intent(Server.ACTION_SERVER_STATUS);
         intent.putExtra(Extras.EXTRA_SERVER_STATUS, status);
-        intent.putExtra(Extras.EXTRA_WEBSITE, serverWebsite);
+        intent.putExtra(Extras.EXTRA_WEBSITE, website);
         return intent;
     }
 }
