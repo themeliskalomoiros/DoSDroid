@@ -118,24 +118,4 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
     public void onAttackDelete(Attack deletedAttack) {
         disconnect();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-
-        if (!(obj instanceof Client))
-            return false;
-
-        Client client = (Client) obj;
-        return this.getAttackedWebsite().equals(client.getAttackedWebsite());
-    }
-
-    //  This technique is taken from the book Effective Java, Second Edition, Item 9
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + getAttackedWebsite().hashCode();
-        return result;
-    }
 }
