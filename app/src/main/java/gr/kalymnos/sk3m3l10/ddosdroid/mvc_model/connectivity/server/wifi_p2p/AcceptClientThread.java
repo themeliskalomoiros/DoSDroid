@@ -9,25 +9,17 @@ import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 class AcceptClientThread extends Thread {
     private static final String TAG = "AcceptClientThread";
 
-    private final Attack attack;
-    private final AttackRepository repository;
+    private int localPort;
+    private ServerSocket serverSocket;
     private final ExecutorService executor;
 
-    private ServerSocket serverSocket;
-    private int localPort;
-
-    AcceptClientThread(Attack attack, ExecutorService executor, AttackRepository repository) {
-        this.attack = attack;
+    AcceptClientThread(ExecutorService executor) {
         this.executor = executor;
-        this.repository = repository;
         initializeServerSocket();
-        updateAttackWithLocalPort();
     }
 
     private void initializeServerSocket() {
@@ -37,11 +29,6 @@ class AcceptClientThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Error creating server socket.");
         }
-    }
-
-    private void updateAttackWithLocalPort() {
-        attack.addSingleHostInfo(Extras.EXTRA_LOCAL_PORT, String.valueOf(localPort));
-        repository.update(attack);
     }
 
     @Override
