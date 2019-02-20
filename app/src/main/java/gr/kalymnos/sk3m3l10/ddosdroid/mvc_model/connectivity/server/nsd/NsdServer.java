@@ -24,12 +24,12 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.statu
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class NsdServer extends Server {
-    private static final String INITIAL_SERVICE_NAME = "DdosDroid"; // It can be change due to colisions
+    private static final String INITIAL_SERVICE_NAME = "DdosDroid"; // May changed due to collisions
     private static final String SERVICE_TYPE = String.format("_%s._%s.", INITIAL_SERVICE_NAME, "tcp");
 
+    private int localPort;
     private ServerSocket serverSocket;
     private Thread acceptClientThread;
-    private int localPort;
 
     private String nsdServiceName;
     private NsdManager.RegistrationListener registrationListener;
@@ -40,12 +40,12 @@ public class NsdServer extends Server {
     }
 
     private void initFields() {
-        initServerSocketAndCachePort();
+        initServerSocketAndPort();
         initAcceptClientThread();
         initRegistrationListener(context);
     }
 
-    private void initServerSocketAndCachePort() {
+    private void initServerSocketAndPort() {
         try {
             serverSocket = new ServerSocket(0); // system chooses an available port
             localPort = serverSocket.getLocalPort();
@@ -83,11 +83,11 @@ public class NsdServer extends Server {
             }
 
             private void uploadAttack() {
-                addHostInfoToAttack();
+                setHostInfoTo(attack);
                 repo.upload(attack);
             }
 
-            private void addHostInfoToAttack() {
+            private void setHostInfoTo(Attack attack) {
                 attack.addSingleHostInfo(EXTRA_SERVICE_NAME, nsdServiceName);
                 attack.addSingleHostInfo(EXTRA_SERVICE_TYPE, SERVICE_TYPE);
                 attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, Bots.local().getId());
