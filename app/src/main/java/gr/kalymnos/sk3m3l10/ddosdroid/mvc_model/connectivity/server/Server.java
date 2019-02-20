@@ -95,12 +95,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         return attack.getWebsite();
     }
 
-    public interface Status {
-        int RUNNING = 10;
-        int STOPPED = 11;
-        int ERROR = 12;
-    }
-
     public interface Builder {
         Server build(Context context, Attack attack);
     }
