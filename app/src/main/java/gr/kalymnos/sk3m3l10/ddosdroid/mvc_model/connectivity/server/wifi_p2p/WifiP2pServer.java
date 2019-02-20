@@ -132,10 +132,14 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void stop() {
+        releaseResources();
+        super.stop();
+    }
+
+    private void releaseResources() {
         acceptClientThread.close();
         unregisterReceivers();
         removeGroup();
-        super.stop();
     }
 
     private void unregisterReceivers() {
