@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.connection_threads;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

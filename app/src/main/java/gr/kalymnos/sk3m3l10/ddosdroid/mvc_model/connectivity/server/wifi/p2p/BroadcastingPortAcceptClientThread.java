@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.AcceptClientThread;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.connection_threads.AcceptClientThread;
 
 /*  This thread first broadcasts the local port and then
  *   starts accepting client connection request.*/
