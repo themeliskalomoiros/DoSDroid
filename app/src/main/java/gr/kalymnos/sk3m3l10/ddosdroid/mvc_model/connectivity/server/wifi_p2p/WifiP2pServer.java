@@ -95,7 +95,7 @@ public class WifiP2pServer extends Server {
             @Override
             public void onReceive(Context context, Intent intent) {
                 boolean isPortAction = intent.getAction().equals(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED);
-                if (isPortAction) {
+                if (isPortAction) { // Local port is broadcasted when accept thread started running.
                     addPortToAttack(intent);
                     repo.upload(attack);
                     broadcastRunning(getAttackingWebsite(), localBroadcastManager);
@@ -133,12 +133,16 @@ public class WifiP2pServer extends Server {
     @Override
     public void stop() {
         acceptClientThread.close();
+        unregisterReceivers();
+        removeGroup();
+        super.stop();
+    }
+
+    private void unregisterReceivers() {
         if (receiversRegistered) {
             localBroadcastManager.unregisterReceiver(portReceiver);
             context.unregisterReceiver(wifiDirectReceiver);
         }
-        removeGroup();
-        super.stop();
     }
 
     private void removeGroup() {
