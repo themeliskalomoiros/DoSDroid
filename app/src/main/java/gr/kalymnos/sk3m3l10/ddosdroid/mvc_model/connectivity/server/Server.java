@@ -40,7 +40,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected ServerStatusListener statusListener;
 
     public interface ServerStatusListener {
-        void onServerStarted(String key);
+        void onServerRunning(String key);
 
         void onServerStopped(String key);
 

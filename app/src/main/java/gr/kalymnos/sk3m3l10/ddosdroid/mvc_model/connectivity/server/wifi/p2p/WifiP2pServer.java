@@ -28,9 +28,6 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_DEVICE_NAME;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_LOCAL_PORT;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.p2p.BroadcastingPortAcceptClientThread.ACTION_LOCAL_PORT_OBTAINED;
 
 public class WifiP2pServer extends Server {
@@ -39,7 +36,6 @@ public class WifiP2pServer extends Server {
     private WifiP2pManager.GroupInfoListener groupInfoListener;
 
     private BroadcastReceiver wifiDirectReceiver, portReceiver;
-    private LocalBroadcastManager localBroadcastManager;
     private boolean receiversRegistered = false;
 
     private ServerSocket serverSocket;
@@ -54,8 +50,7 @@ public class WifiP2pServer extends Server {
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
         initServerSocket();
-        localBroadcastManager = LocalBroadcastManager.getInstance(context);
-        acceptClientThread = new BroadcastingPortAcceptClientThread(executor, serverSocket, localBroadcastManager);
+        acceptClientThread = new BroadcastingPortAcceptClientThread(executor, serverSocket, LocalBroadcastManager.getInstance(context));
         initWifiDirectReceiver();
         initPortReceiver();
         initGroupInfoListener();
@@ -83,7 +78,7 @@ public class WifiP2pServer extends Server {
             private void stopIfStateDisabled(Context context, Intent intent) {
                 if (isStateDisabled(intent)) {
                     stop();
-                    broadcastStopped(getAttackingWebsite(), localBroadcastManager);
+                    statusListener.onServerStopped(attack.getWebsite());
                 }
             }
 
@@ -112,7 +107,7 @@ public class WifiP2pServer extends Server {
                 if (isPortAction) { // Local port is broadcasted when accept thread started running.
                     addPortToAttack(intent);
                     repo.upload(attack);
-                    broadcastRunning(getAttackingWebsite(), localBroadcastManager);
+                    statusListener.onServerRunning(attack.getWebsite());
                 }
             }
 
@@ -166,7 +161,7 @@ public class WifiP2pServer extends Server {
 
     private void unregisterReceivers() {
         if (receiversRegistered) {
-            localBroadcastManager.unregisterReceiver(portReceiver);
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(portReceiver);
             context.unregisterReceiver(wifiDirectReceiver);
         }
     }
@@ -176,7 +171,7 @@ public class WifiP2pServer extends Server {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "Wifi peer to peer group removed.");
-                broadcastStopped(getAttackingWebsite(), localBroadcastManager);
+                statusListener.onServerStopped(attack.getWebsite());
             }
 
             @Override
@@ -192,7 +187,7 @@ public class WifiP2pServer extends Server {
     }
 
     private void registerReceivers() {
-        localBroadcastManager.registerReceiver(portReceiver, new IntentFilter(ACTION_LOCAL_PORT_OBTAINED));
+        LocalBroadcastManager.getInstance(context).registerReceiver(portReceiver, new IntentFilter(ACTION_LOCAL_PORT_OBTAINED));
         context.registerReceiver(wifiDirectReceiver, getIntentFilter());
         receiversRegistered = true;
     }
@@ -207,7 +202,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        broadcastError(getAttackingWebsite(), localBroadcastManager);
+        statusListener.onServerError(attack.getWebsite());
     }
 
     public WifiP2pManager getWifiP2pManager() {

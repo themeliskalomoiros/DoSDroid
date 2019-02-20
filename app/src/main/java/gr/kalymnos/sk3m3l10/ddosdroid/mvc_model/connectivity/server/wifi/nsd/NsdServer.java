@@ -3,14 +3,13 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.nsd;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.connection_threads.AcceptClientThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.connection_threads.AcceptClientThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
@@ -18,9 +17,6 @@ import static android.content.Context.NSD_SERVICE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_SERVICE_NAME;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_SERVICE_TYPE;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class NsdServer extends Server {
     private static final String INITIAL_SERVICE_NAME = "DdosDroid"; // May changed due to collisions
@@ -61,7 +57,7 @@ public class NsdServer extends Server {
                 nsdServiceName = nsdServiceInfo.getServiceName();
                 uploadAttack();
                 acceptClientThread.start();
-                broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                statusListener.onServerRunning(attack.getWebsite());
             }
 
             private void uploadAttack() {
@@ -78,7 +74,7 @@ public class NsdServer extends Server {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd registration failed");
-                broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                statusListener.onServerError(attack.getWebsite());
             }
 
             @Override
@@ -89,7 +85,7 @@ public class NsdServer extends Server {
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
                 Log.d(TAG, "Nsd service unregistered successfully");
-                broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                statusListener.onServerStopped(attack.getWebsite());
             }
         };
     }
@@ -139,6 +135,6 @@ public class NsdServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+        statusListener.onServerError(attack.getWebsite());
     }
 }

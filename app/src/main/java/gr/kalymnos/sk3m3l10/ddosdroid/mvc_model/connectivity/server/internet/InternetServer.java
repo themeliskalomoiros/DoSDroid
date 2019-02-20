@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.support.v4.content.LocalBroadcastManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -13,9 +12,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_STARTED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class InternetServer extends Server {
     private BroadcastReceiver connectivityReceiver;
@@ -30,7 +26,7 @@ public class InternetServer extends Server {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (internetLost(intent)) {
-                    broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                    statusListener.onServerStopped(attack.getWebsite());
                 }
             }
 
@@ -54,7 +50,7 @@ public class InternetServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+        statusListener.onServerRunning(attack.getWebsite());
         uploadAttack();
         registerReceiver();
     }
@@ -75,6 +71,6 @@ public class InternetServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+        statusListener.onServerError(attack.getWebsite());
     }
 }
