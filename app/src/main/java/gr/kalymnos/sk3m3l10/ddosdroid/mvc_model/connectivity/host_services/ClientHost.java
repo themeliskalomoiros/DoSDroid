@@ -116,7 +116,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
 
     @Override
     public void onClientDisconnected(Attack attack) {
-        //  Not called from main thread
+        //  Not called from main thread - not removing client here because of concurrent connection exception.
         updateAttackWithoutCurrentUser(attack);
         if (clients.size() == 0)
             stopSelf();
@@ -141,18 +141,17 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     @Override
-    public void onAttackUpload(Attack uploadedAttack) {
+    public void onAttackDelete(Attack deletedAttack) {
+        if (clients.containsKey(deletedAttack.getWebsite()))
+            Action.stopClientOf(deletedAttack, this);
+    }
 
+    @Override
+    public void onAttackUpload(Attack uploadedAttack) {
     }
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
-
-    }
-
-    @Override
-    public void onAttackDelete(Attack deletedAttack) {
-
     }
 
     public static class Action {
