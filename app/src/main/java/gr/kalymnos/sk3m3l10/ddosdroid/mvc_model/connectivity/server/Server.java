@@ -29,7 +29,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected static final String TAG = "MyServer";
     public static final String RESPONSE = "this_attack_has_started";
     private static final int THREAD_POOL_SIZE = 10;
-    public static final String ACTION_SERVER_STATUS = "action_server_status_broadcasted";
 
     protected Attack attack;
     protected AttackRepository repo;
@@ -92,7 +91,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         }
     }
 
-    public final String getAttackingWebsite() {
+    public final String getKey() {
         return attack.getWebsite();
     }
 

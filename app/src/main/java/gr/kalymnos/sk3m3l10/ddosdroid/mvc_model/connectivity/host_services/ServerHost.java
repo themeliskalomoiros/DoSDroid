@@ -53,13 +53,12 @@ public class ServerHost extends Service implements Server.ServerStatusListener {
 
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
-        String website = server.getAttackingWebsite();
-        if (!servers.containsKey(website)) {
+        if (!servers.containsKey(server.getKey())) {
             server.setServerStatusListener(this);
-            servers.put(website, server);
+            servers.put(server.getKey(), server);
             server.start();
         } else {
-            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getAttackingWebsite(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getKey(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -69,8 +68,9 @@ public class ServerHost extends Service implements Server.ServerStatusListener {
     }
 
     private void handleStopServerAction(Intent intent) {
-        String website = intent.getStringExtra(Extras.EXTRA_WEBSITE);
-        Server server = servers.get(website);
+        String websiteKey = intent.getStringExtra(Extras.EXTRA_WEBSITE);
+        Server server = servers.get(websiteKey);
+        servers.remove(websiteKey);
         server.stop();
     }
 
@@ -93,20 +93,16 @@ public class ServerHost extends Service implements Server.ServerStatusListener {
 
     @Override
     public void onServerStopped(String key) {
-        /** Probably will cause ConcurrentModificationException*/
-        servers.remove(key);
         if (servers.size() == 0)
             stopSelf();
     }
 
     @Override
     public void onServerError(String key) {
-        /** Probably will cause ConcurrentModificationException*/
         servers.remove(key);
         Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
-        // TODO: should I use the bellow commented code here?
-//        if (servers.size() == 0)
-//            stopSelf();
+        if (servers.size() == 0)
+            stopSelf();
     }
 
     public static class Action {
