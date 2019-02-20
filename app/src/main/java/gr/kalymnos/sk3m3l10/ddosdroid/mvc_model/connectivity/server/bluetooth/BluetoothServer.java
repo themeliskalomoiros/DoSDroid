@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -24,15 +23,11 @@ import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
 import static android.bluetooth.BluetoothAdapter.STATE_OFF;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class BluetoothServer extends Server {
     private Thread acceptClientThread;
     private BluetoothServerSocket serverSocket;
     private BroadcastReceiver bluetoothStateReceiver;
-    private LocalBroadcastManager localBroadcastManager;
 
     public BluetoothServer(Context context, Attack attack) {
         super(context, attack);
@@ -41,7 +36,6 @@ public class BluetoothServer extends Server {
     }
 
     private void initFields(Context context) {
-        localBroadcastManager = LocalBroadcastManager.getInstance(context);
         initServerSocket();
         initAcceptClientThread();
         initBluetoothStateReceiver();
@@ -106,7 +100,7 @@ public class BluetoothServer extends Server {
     public void stop() {
         closeServerSocket();
         context.unregisterReceiver(bluetoothStateReceiver);
-        broadcastStopped(getAttackingWebsite(), localBroadcastManager);
+        statusListener.onServerStopped(attack.getWebsite());
         super.stop();
     }
 
@@ -124,14 +118,14 @@ public class BluetoothServer extends Server {
         if (serverSocket != null) {
             acceptClientThread.start();
             repo.upload(attack);
-            broadcastRunning(getAttackingWebsite(), localBroadcastManager);
+            statusListener.onServerRunning(attack.getWebsite());
         } else {
-            broadcastError(getAttackingWebsite(), localBroadcastManager);
+            statusListener.onServerError(attack.getWebsite());
         }
     }
 
     @Override
     public void onConstraintResolveFailure() {
-        broadcastError(getAttackingWebsite(), localBroadcastManager);
+        statusListener.onServerError(attack.getWebsite());
     }
 }

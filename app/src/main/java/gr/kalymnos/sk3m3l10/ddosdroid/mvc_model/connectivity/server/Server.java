@@ -29,7 +29,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected static final String TAG = "MyServer";
     public static final String RESPONSE = "this_attack_has_started";
     private static final int THREAD_POOL_SIZE = 10;
-    public static final String ACTION_SERVER_STATUS = "action_server_status_broadcasted";
 
     protected Attack attack;
     protected AttackRepository repo;
@@ -37,9 +36,14 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected Context context;
     protected ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
+    protected ServerStatusListener statusListener;
 
-    public static boolean isValid(String serverResponse) {
-        return serverResponse.equals(RESPONSE);
+    public interface ServerStatusListener {
+        void onServerRunning(String key);
+
+        void onServerStopped(String key);
+
+        void onServerError(String key);
     }
 
     public Server(Context context, Attack attack) {
@@ -60,6 +64,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
+    public void setServerStatusListener(ServerStatusListener statusListener) {
+        this.statusListener = statusListener;
+    }
+
     public abstract void start();
 
     public void stop() {
@@ -68,6 +76,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         repo.delete(attack.getPushId());
         repo.removeOnRepositoryChangeListener();
         context = null;
+        statusListener = null;
     }
 
     private void shutdownThreadPool() {
@@ -82,14 +91,8 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         }
     }
 
-    public final String getAttackingWebsite() {
+    public final String getKey() {
         return attack.getWebsite();
-    }
-
-    public interface Status {
-        int RUNNING = 10;
-        int STOPPED = 11;
-        int ERROR = 12;
     }
 
     public interface Builder {
@@ -115,23 +118,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-
-        if (!(obj instanceof Server))
-            return false;
-
-        Server server = (Server) obj;
-        return this.getAttackingWebsite().equals(server.getAttackingWebsite());
-    }
-
-    //  This technique is taken from the book Effective Java, Second Edition, Item 9
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + this.getAttackingWebsite().hashCode();
-        return result;
+    public static boolean isValid(String serverResponse) {
+        return serverResponse.equals(RESPONSE);
     }
 }
