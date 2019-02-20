@@ -121,10 +121,10 @@ public class ServerHost extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unregisterStatusReceiver();
         stopServers();
         setServersToStoppedStatus();
         servers.clear();
-        unregisterStatusReceiver();
     }
 
     private void stopServers() {
