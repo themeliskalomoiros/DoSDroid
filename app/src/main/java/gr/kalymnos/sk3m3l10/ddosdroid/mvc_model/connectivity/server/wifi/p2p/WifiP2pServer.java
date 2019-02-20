@@ -167,18 +167,7 @@ public class WifiP2pServer extends Server {
     }
 
     private void removeGroup() {
-        wifiP2pManager.removeGroup(channel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "Wifi peer to peer group removed.");
-                statusListener.onServerStopped(attack.getWebsite());
-            }
-
-            @Override
-            public void onFailure(int i) {
-                Log.d(TAG, "Failed to remove wifi peer to peer group.");
-            }
-        });
+        wifiP2pManager.removeGroup(channel, null);
     }
 
     @Override
