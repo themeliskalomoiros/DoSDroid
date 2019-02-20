@@ -77,6 +77,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         repo.delete(attack.getPushId());
         repo.removeOnRepositoryChangeListener();
         context = null;
+        statusListener = null;
     }
 
     private void shutdownThreadPool() {
