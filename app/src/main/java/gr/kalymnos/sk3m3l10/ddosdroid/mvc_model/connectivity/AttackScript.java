@@ -44,7 +44,7 @@ public class AttackScript extends Thread {
         } catch (FileNotFoundException e) {
             Log.w(TAG, "Website " + url + " not found.");
         } catch (IOException e) {
-            Log.e(TAG, "openStream() error.", e);
+            Log.w(TAG, "openStream() error.", e);
         } finally {
             closeInputStream(in);
         }

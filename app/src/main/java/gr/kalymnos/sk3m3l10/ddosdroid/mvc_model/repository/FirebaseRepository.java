@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -52,7 +53,31 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     @Override
     public void update(Attack attack) {
         Log.d(TAG, "update()");
-        allAttacksRef.child(attack.getPushId()).setValue(attack, null);
+        allAttacksRef.addListenerForSingleValueEvent(getValueEventListenerOf(attack));
+    }
+
+    @NonNull
+    private ValueEventListener getValueEventListenerOf(Attack attack) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot attacksSnapshot) {
+                if (attackExistsInRepo(attacksSnapshot))
+                    allAttacksRef.child(attack.getPushId()).setValue(attack, null);
+            }
+
+            private boolean attackExistsInRepo(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot attackSnapshot : dataSnapshot.getChildren()) {
+                    Attack temp = attackSnapshot.getValue(Attack.class);
+                    if (temp.equals(attack))
+                        return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
     }
 
     @Override
