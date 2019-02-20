@@ -80,10 +80,14 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private int getItemViewTypeFrom(Attack attack) {
         if (Attacks.includesBot(attack, Bots.local()))
             return FETCH_ONLY_USER_JOINED_ATTACKS;
-        if (Attacks.getHostUUIDText(attack).equals(Bots.local().getId())) {
+        if (isOwner(attack)) {
             return FETCH_ONLY_USER_OWN_ATTACKS;
         }
         return FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
+    }
+
+    private boolean isOwner(Attack attack) {
+        return Attacks.getHostUUIDText(attack).equals(Bots.local().getId());
     }
 
     public void setOnItemClickListener(OnAttackClickListener listener) {
