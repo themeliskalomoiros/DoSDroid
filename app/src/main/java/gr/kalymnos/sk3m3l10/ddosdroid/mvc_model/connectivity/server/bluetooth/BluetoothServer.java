@@ -11,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.BuildConfig;
@@ -71,9 +70,6 @@ public class BluetoothServer extends Server {
                 try {
                     BluetoothSocket socket = serverSocket.accept();
                     executor.execute(new BluetoothServerThread(socket));
-                } catch (SocketException e) {
-                    Log.w(TAG, "BluetoothServerSocket probably closed, exiting thread.", e);
-                    break;
                 } catch (IOException e) {
                     Log.w(TAG, "BluetoothServerSocket probably closed, exiting thread.", e);
                     break;
