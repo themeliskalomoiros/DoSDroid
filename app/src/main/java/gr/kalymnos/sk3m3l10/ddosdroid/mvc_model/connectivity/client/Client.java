@@ -88,14 +88,18 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
 
     @Override
     public void onServerDisconnection() {
-        clientConnectionListener.onClientDisconnected(this, attack);
         releaseResources();
+        clientConnectionListener.onClientDisconnected(this, attack);
+        nullReferences();
     }
 
     private void releaseResources() {
         serverConnection.releaseResources();
         attackScript.stopAttack();
         repo.stopListenForChanges();
+    }
+
+    private void nullReferences() {
         context = null;
         clientConnectionListener = null;
     }
