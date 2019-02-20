@@ -9,11 +9,11 @@
     <TextView
         android:id="@+id/website_textview"
         style="@style/Attack_List_Item_Website"
-        app:layout_constraintBottom_toBottomOf="@+id/website_imageview"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/website_imageview"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="www.sport24.gr" />
 
     <TextView
@@ -24,13 +24,5 @@
         app:layout_constraintStart_toStartOf="@+id/website_textview"
         app:layout_constraintTop_toBottomOf="@+id/website_textview"
         tools:text="Users joined this attack: 13" />
-
-    <ImageView
-        android:id="@+id/website_imageview"
-        style="@style/Attack_List_Item_Website_Icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/website_textview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -34,11 +34,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_CONTENT_TYPE
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.includesBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks.isAttackOwnedByBot;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil.containsKey;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.itemFromLinkedHashSet;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.itemFromLinkedHashSet;
 
 public abstract class AttackListFragment extends Fragment implements AttackListViewMvc.OnAttackClickListener,
-        AttackListViewMvc.OnJoinSwitchCheckedStateListener, AttackListViewMvc.OnActivateSwitchCheckedStateListener,
+        AttackListViewMvc.OnJoinedAttackDeleteClickListener, AttackListViewMvc.OnOwnerAttackDeleteClickListener,
         AttackRepository.OnRepositoryChangeListener {
     protected static final String TAG = "AttackListFrag";
 
@@ -82,8 +82,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     private void initViewMvc(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
         viewMvc = new AttackListViewMvcImpl(inflater, container);
         viewMvc.setOnAttackClickListener(this);
-        viewMvc.setOnJoinSwitchCheckedStateListener(this);
-        viewMvc.setOnActivateSwitchCheckedStateListener(this);
+        viewMvc.setOnJoinedAttackDeleteClickListener(this);
+        viewMvc.setOnOwnerAttackDeleteClickListener(this);
     }
 
     @Override
@@ -131,21 +131,18 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public void onJoinSwitchCheckedState(int position, boolean isChecked) {
-        if (!isChecked) {
-            Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
-            ClientHost.Action.stopClientOf(attack, getContext());
-            Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
-        }
+    public void onJoinedAttackDeleteClick(int position) {
+        //  TODO: Is this duplicate with onOwnerAttackDeleteClick()?
+        Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
+        ClientHost.Action.stopClientOf(attack, getContext());
+        Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onActivateSwitchCheckedState(int position, boolean isChecked) {
-        if (!isChecked) {
-            Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
-            ServerHost.Action.stopServerOf(attack.getWebsite(), getContext());
-            Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
-        }
+    public void onOwnerAttackDeleteClick(int position) {
+        Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
+        ServerHost.Action.stopServerOf(attack.getWebsite(), getContext());
+        Snackbar.make(viewMvc.getRootView(), getString(R.string.canceled_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
