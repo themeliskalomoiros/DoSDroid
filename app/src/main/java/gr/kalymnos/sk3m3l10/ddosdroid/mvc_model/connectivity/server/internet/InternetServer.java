@@ -22,20 +22,19 @@ public class InternetServer extends Server {
 
     public InternetServer(Context context, Attack attack) {
         super(context, attack);
-        initConnectivityReceiver();
+        initReceiver();
     }
 
-    private void initConnectivityReceiver() {
-        //  Is registered only after a successful start, which happens in onConstraintsResolved()
+    private void initReceiver() {
         connectivityReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (disconnectionHappened(intent)) {
+                if (internetLost(intent)) {
                     broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
                 }
             }
 
-            private boolean disconnectionHappened(Intent intent) {
+            private boolean internetLost(Intent intent) {
                 return intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)
                         && intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
             }
