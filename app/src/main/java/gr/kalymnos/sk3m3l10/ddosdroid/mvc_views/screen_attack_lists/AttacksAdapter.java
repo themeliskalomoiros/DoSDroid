@@ -7,26 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.LinkedHashSet;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.SharedPrefPersistance;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.ServerStatusPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnActivateSwitchCheckedStateListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackClickListener;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinSwitchCheckedStateListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_NOT_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.itemFromLinkedHashSet;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnAttackClickListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnJoinedAttackDeleteClickListener;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc.OnOwnerAttackDeleteClickListener;
 import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.hasItems;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.CollectionUtil.itemFromLinkedHashSet;
 
 class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private static final String TAG = "AttacksAdapter";
@@ -34,8 +31,8 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     private Context context;
     private LinkedHashSet<Attack> attacks;
     private OnAttackClickListener itemClickListener;
-    private OnJoinSwitchCheckedStateListener switchCheckedStateListener;
-    private OnActivateSwitchCheckedStateListener activateSwitchCheckedStateListener;
+    private OnJoinedAttackDeleteClickListener joinedDeleteClickListener;
+    private OnOwnerAttackDeleteClickListener ownerDeleteClickListener;
 
     AttacksAdapter(Context context) {
         this.context = context;
@@ -94,17 +91,16 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         itemClickListener = listener;
     }
 
-    public void setOnSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener) {
-        this.switchCheckedStateListener = listener;
+    public void setOnJoinedAttackDeleteClickListener(OnJoinedAttackDeleteClickListener listener) {
+        this.joinedDeleteClickListener = listener;
     }
 
-    public void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener) {
-        this.activateSwitchCheckedStateListener = listener;
+    public void setOnOwnerAttackDeleteClickListener(OnOwnerAttackDeleteClickListener listener) {
+        this.ownerDeleteClickListener = listener;
     }
 
     abstract class AttackHolder extends RecyclerView.ViewHolder {
         private TextView websiteTitle, websiteSubtitle;
-        private ImageView websiteIcon;
 
         AttackHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,13 +115,11 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
             });
             websiteTitle = itemView.findViewById(R.id.website_textview);
             websiteSubtitle = itemView.findViewById(R.id.number_joined_textview);
-            websiteIcon = itemView.findViewById(R.id.website_imageview);
         }
 
         void bind(Attack attack) {
             websiteTitle.setText(attack.getWebsite());
             websiteSubtitle.setText(createTextFrom(attack.getBotIds().size()));
-            //  TODO: if a website has a favicon.ico then display it in websiteIcon
         }
 
         private String createTextFrom(int usersJoined) {
@@ -140,7 +134,7 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
     }
 
     private class JoinedAttackHolder extends AttackHolder {
-        private Switch joinSwitch;
+        private ImageView deleteAttack;
 
         JoinedAttackHolder(@NonNull View itemView) {
             super(itemView);
@@ -153,17 +147,16 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
 
         private void initSwitch(@NonNull View itemView) {
-            joinSwitch = itemView.findViewById(R.id.join_switch);
-            joinSwitch.setOnCheckedChangeListener((view, isChecked) -> {
-                if (switchCheckedStateListener != null) {
-                    switchCheckedStateListener.onJoinSwitchCheckedState(getAdapterPosition(), isChecked);
-                }
+            deleteAttack = itemView.findViewById(R.id.delete_attack);
+            deleteAttack.setOnClickListener(view -> {
+                if (joinedDeleteClickListener != null)
+                    joinedDeleteClickListener.onJoinedAttackDeleteClick(getAdapterPosition());
             });
         }
     }
 
     private class OwnerAttackHolder extends AttackHolder {
-        private Switch activateSwitch;
+        private ImageView deleteAttack;
 
         OwnerAttackHolder(@NonNull View itemView) {
             super(itemView);
@@ -171,30 +164,16 @@ class AttacksAdapter extends RecyclerView.Adapter<AttacksAdapter.AttackHolder> {
         }
 
         private void initActivationSwitch(@NonNull View itemView) {
-            activateSwitch = itemView.findViewById(R.id.activation_switch);
-            setCheckedListener();
-        }
-
-        private void setCheckedListener() {
-            activateSwitch.setOnCheckedChangeListener((view, isChecked) -> {
-                if (activateSwitchCheckedStateListener != null) {
-                    activateSwitchCheckedStateListener.onActivateSwitchCheckedState(getAdapterPosition(), isChecked);
-                }
+            deleteAttack = itemView.findViewById(R.id.delete_attack);
+            deleteAttack.setOnClickListener(view -> {
+                if (ownerDeleteClickListener != null)
+                    ownerDeleteClickListener.onOwnerAttackDeleteClick(getAdapterPosition());
             });
         }
 
         @Override
         void bind(Attack attack) {
             super.bind(attack);
-            setCheckedState();
-        }
-
-        private void setCheckedState() {
-            Attack attack = itemFromLinkedHashSet(attacks, getLayoutPosition());
-            String serverWebsite = attack.getWebsite();
-            ServerStatusPersistance persistance = new SharedPrefPersistance(context);
-            boolean serverActive = persistance.isStarted(serverWebsite);
-            activateSwitch.setChecked(serverActive);
         }
     }
 
