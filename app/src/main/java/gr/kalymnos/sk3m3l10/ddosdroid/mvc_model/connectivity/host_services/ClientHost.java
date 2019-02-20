@@ -68,24 +68,25 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
         Client client = new Client(this, attack);
         client.setClientConnectionListener(this);
         if (clients.containsKey(attack.getWebsite())) {
-            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + client.getAttackedWebsite(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + client.getAttack().getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
+            clients.put(attack.getWebsite(), client);
             client.connect();
         }
     }
 
     private void handleStopAttackAction(Attack attack) {
-        Client client = clients.get(attack.getWebsite());
-        clients.remove(client);
+        String key = attack.getWebsite();
+        Client client = clients.get(key);
+        clients.remove(key);
         client.disconnect();
     }
 
     @Override
-    public void onClientConnected(Client thisClient, Attack attack) {
-        //  TODO: This is not called from main thread, maybe it will arise problems!
-        clients.put(attack.getWebsite(), thisClient);
-        updateAttackWithCurrentUser(attack);
-        //  TODO: Better way to do is waiting for the attack to update and then start foreground
+    public void onClientConnected(String key) {
+        Client client = clients.get(key);
+        updateAttackWithCurrentUser(client.getAttack());
+        //  Better to startForeground when update() returned
         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
     }
 
@@ -95,8 +96,9 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     @Override
-    public void onClientConnectionError() {
-        //  Not called from main thread
+    public void onClientConnectionError(String key) {
+        Client client = clients.get(key);
+        clients.remove(client);
         displayErrorToastOnUIThread();
     }
 
@@ -107,9 +109,10 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     @Override
-    public void onClientDisconnected(Client thisClient, Attack attack) {
-        //  TODO: This is not called from main thread, maybe it will arise problems!
-        updateAttackWithoutCurrentUser(attack);
+    public void onClientDisconnected(String key) {
+        //  Not called from main thread
+        Client client = clients.get(key);
+        updateAttackWithoutCurrentUser(client.getAttack());
         if (clients.size() == 0)
             stopSelf();
     }
