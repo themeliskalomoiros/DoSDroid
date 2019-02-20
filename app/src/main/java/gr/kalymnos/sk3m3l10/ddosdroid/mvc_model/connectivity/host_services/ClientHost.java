@@ -103,8 +103,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
 
     @Override
     public void onClientConnectionError(String key) {
-        Client client = clients.get(key);
-        clients.remove(client);
+        clients.remove(key);
         displayErrorToastOnUIThread();
     }
 

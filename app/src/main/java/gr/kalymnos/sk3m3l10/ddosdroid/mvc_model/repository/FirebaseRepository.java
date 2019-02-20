@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class FirebaseRepository extends AttackRepository implements ChildEventListener {
-    private static final String TAG = "FirebaseAttackRepositor";
+    private static final String TAG = "FirebaseRepository";
     private static final String NODE_ATTACKS = "attacks";
 
     private DatabaseReference allAttacksRef;
