@@ -26,13 +26,12 @@ class BluetoothServerThread implements Runnable {
     }
 
     private OutputStream getOutputStreamFrom(@NonNull BluetoothSocket socket) {
-        OutputStream outputStream = null;
         try {
-            outputStream = socket.getOutputStream();
+            return socket.getOutputStream();
         } catch (IOException e) {
             Log.e(TAG, "Error obtaining outStream from socket", e);
+            return null;
         }
-        return outputStream;
     }
 
     @Override
