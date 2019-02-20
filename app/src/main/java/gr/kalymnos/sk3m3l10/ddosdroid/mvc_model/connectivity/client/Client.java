@@ -120,6 +120,7 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
 
     @Override
     public void onAttackDelete(Attack deletedAttack) {
-        disconnect();
+        if (deletedAttack.getPushId().equals(attack.getPushId()))
+            disconnect();
     }
 }
