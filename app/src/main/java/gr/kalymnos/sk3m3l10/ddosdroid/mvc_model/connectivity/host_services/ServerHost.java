@@ -194,16 +194,16 @@ public class ServerHost extends Service {
                     .setContentText(getString(R.string.server_notification_small_text))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.server_notification_big_text)))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(createContentPendingIntent())
-                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), createStopServicePendingIntent());
+                    .setContentIntent(getContentPendingIntent())
+                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), getStopServicePendingIntent());
         }
 
-        PendingIntent createContentPendingIntent() {
+        PendingIntent getContentPendingIntent() {
             Intent intent = AllAttackListsActivity.Action.createIntent(ServerHost.this, FETCH_ONLY_USER_OWN_ATTACKS, R.string.your_attacks_label);
             return PendingIntent.getActivity(ServerHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
-        PendingIntent createStopServicePendingIntent() {
+        PendingIntent getStopServicePendingIntent() {
             Intent intent = new Intent(ServerHost.this, ServerHost.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(ServerHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);

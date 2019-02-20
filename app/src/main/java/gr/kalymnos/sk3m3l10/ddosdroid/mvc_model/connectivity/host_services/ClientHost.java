@@ -180,16 +180,16 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
                     .setContentText(getString(R.string.client_notification_small_text))
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.client_notification_big_text)))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(createContentPendingIntent())
-                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), createStopServicePendingIntent());
+                    .setContentIntent(getContentPendingIntent())
+                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), getStopServicePendingIntent());
         }
 
-        PendingIntent createContentPendingIntent() {
+        PendingIntent getContentPendingIntent() {
             Intent intent = AllAttackListsActivity.Action.createIntent(ClientHost.this, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.joined_attacks_label);
             return PendingIntent.getActivity(ClientHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
-        PendingIntent createStopServicePendingIntent() {
+        PendingIntent getStopServicePendingIntent() {
             Intent intent = new Intent(ClientHost.this, ClientHost.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(ClientHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
