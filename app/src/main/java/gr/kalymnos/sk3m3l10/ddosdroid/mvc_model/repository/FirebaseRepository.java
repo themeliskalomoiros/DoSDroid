@@ -45,16 +45,19 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
 
     @Override
     public void upload(Attack attack) {
+        Log.d(TAG,"upload()");
         allAttacksRef.child(attack.getPushId()).setValue(attack, null);
     }
 
     @Override
     public void update(Attack attack) {
+        Log.d(TAG,"update()");
         upload(attack); // For firebase its pretty much the same, this database is kind of json file
     }
 
     @Override
     public void delete(String attackId) {
+        Log.d(TAG,"delete()");
         DatabaseReference attackRef = allAttacksRef.child(attackId);
         attackRef.removeValue();
     }
