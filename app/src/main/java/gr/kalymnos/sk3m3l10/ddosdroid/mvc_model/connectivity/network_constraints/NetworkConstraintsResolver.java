@@ -13,7 +13,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.wifi_p2p.WifiP2pEnabledConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.wifi_p2p.WifiP2pGroupConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi_p2p.WifiP2pServer;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.p2p.WifiP2pServer;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.BLUETOOTH;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.INTERNET;

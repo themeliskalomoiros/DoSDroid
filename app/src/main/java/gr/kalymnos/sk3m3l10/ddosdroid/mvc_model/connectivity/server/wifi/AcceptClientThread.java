@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi;
 
 import android.util.Log;
 

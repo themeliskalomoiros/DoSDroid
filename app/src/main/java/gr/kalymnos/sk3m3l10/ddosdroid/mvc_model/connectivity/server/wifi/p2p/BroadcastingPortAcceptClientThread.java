@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi_p2p;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.p2p;
 
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.AcceptClientThread;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.AcceptClientThread;
 
 /*  This thread first broadcasts the local port and then
  *   starts accepting client connection request.*/

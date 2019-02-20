@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 
 public class ServerResponseThread extends Thread {
     private static final String TAG = "ServerResponseThread";

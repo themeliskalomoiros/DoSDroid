@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.nsd;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.nsd;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
@@ -9,7 +9,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.AcceptClientThread;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.AcceptClientThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
