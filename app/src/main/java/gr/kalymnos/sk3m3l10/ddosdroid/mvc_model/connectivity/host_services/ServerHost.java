@@ -5,11 +5,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -19,63 +17,21 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusReceiver;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.ServerStatusPersistance;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.SharedPrefPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ServerHost.ForegroundNotification.NOTIFICATION_ID;
 
-public class ServerHost extends Service {
+public class ServerHost extends Service implements Server.ServerStatusListener {
     private static final String TAG = "MyServerHost";
 
     private Map<String, Server> servers;
-    private ServerStatusReceiver statusReceiver;
-    private ServerStatusPersistance statusPersistance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initFields();
-        registerServerStatusReceiver();
-    }
-
-    private void initFields() {
         servers = new HashMap<>();
-        statusPersistance = new SharedPrefPersistance(this);
-        initStatusReceiver();
-    }
-
-    private void initStatusReceiver() {
-        statusReceiver = new ServerStatusReceiver() {
-            @Override
-            protected void handleServerStatusAction(Intent intent) {
-                switch (getServerStatusFrom(intent)) {
-                    case Server.Status.RUNNING:
-                        statusPersistance.setToStarted(getServerWebsiteFrom(intent));
-                        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
-                        break;
-                    case Server.Status.STOPPED:
-                        servers.remove(getServerWebsiteFrom(intent));
-                        statusPersistance.setToStopped(getServerWebsiteFrom(intent));
-                        if (servers.size() == 0) {
-                            stopSelf();
-                        }
-                        break;
-                    case Server.Status.ERROR:
-                        servers.remove(getServerWebsiteFrom(intent));
-                        Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        };
-    }
-
-    private void registerServerStatusReceiver() {
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        manager.registerReceiver(statusReceiver, new IntentFilter(Server.ACTION_SERVER_STATUS));
     }
 
     @Override
@@ -99,6 +55,7 @@ public class ServerHost extends Service {
         Server server = createServerFrom(intent);
         String website = server.getAttackingWebsite();
         if (!servers.containsKey(website)) {
+            server.setServerStatusListener(this);
             servers.put(website, server);
             server.start();
         } else {
@@ -120,9 +77,7 @@ public class ServerHost extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterStatusReceiver();
         stopServers();
-        setServersToStoppedStatus();
         servers.clear();
     }
 
@@ -131,14 +86,27 @@ public class ServerHost extends Service {
             entry.getValue().stop();
     }
 
-    private void setServersToStoppedStatus() {
-        for (Map.Entry<String, Server> entry : servers.entrySet())
-            statusPersistance.setToStopped(entry.getKey());
+    @Override
+    public void onServerRunning(String key) {
+        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
     }
 
-    private void unregisterStatusReceiver() {
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
-        manager.unregisterReceiver(statusReceiver);
+    @Override
+    public void onServerStopped(String key) {
+        /** Probably will cause ConcurrentModificationException*/
+        servers.remove(key);
+        if (servers.size() == 0)
+            stopSelf();
+    }
+
+    @Override
+    public void onServerError(String key) {
+        /** Probably will cause ConcurrentModificationException*/
+        servers.remove(key);
+        Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
+        // TODO: should I use the bellow commented code here?
+//        if (servers.size() == 0)
+//            stopSelf();
     }
 
     public static class Action {
