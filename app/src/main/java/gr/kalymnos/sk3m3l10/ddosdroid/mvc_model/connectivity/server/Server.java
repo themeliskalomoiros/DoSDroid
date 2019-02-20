@@ -37,6 +37,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected Context context;
     protected ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
+    protected ServerStatusListener statusListener;
 
     public interface ServerStatusListener {
         void onServerStarted(String key);
@@ -62,6 +63,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         NetworkConstraintsResolver.Builder builder = new NetworkConstraintsResolver.BuilderImp();
         constraintsResolver = builder.build(context, attack.getNetworkType(), this);
         constraintsResolver.setOnConstraintsResolveListener(this);
+    }
+
+    public void setServerStatusListener(ServerStatusListener statusListener) {
+        this.statusListener = statusListener;
     }
 
     public abstract void start();
