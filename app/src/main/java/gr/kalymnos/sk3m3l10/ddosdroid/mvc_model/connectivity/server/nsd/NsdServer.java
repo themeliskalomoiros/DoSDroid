@@ -9,7 +9,6 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -60,9 +59,6 @@ public class NsdServer extends Server {
                 try {
                     Socket socket = serverSocket.accept();
                     executor.execute(new NsdServerThread(socket));
-                } catch (SocketException e) {
-                    Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed.", e);
-                    break;
                 } catch (IOException e) {
                     Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
                     break;
