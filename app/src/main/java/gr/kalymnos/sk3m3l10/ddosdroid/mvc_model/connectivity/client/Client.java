@@ -94,7 +94,7 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
 
     private void releaseResources() {
         serverConnection.releaseResources();
-        attackScript.stopExecution();
+        attackScript.stopAttack();
         repo.stopListenForChanges();
         context = null;
         clientConnectionListener = null;
