@@ -38,6 +38,14 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
 
+    public interface ServerStatusListener {
+        void onServerStarted(String key);
+
+        void onServerStopped(String key);
+
+        void onServerError(String key);
+    }
+
     public static boolean isValid(String serverResponse) {
         return serverResponse.equals(RESPONSE);
     }
