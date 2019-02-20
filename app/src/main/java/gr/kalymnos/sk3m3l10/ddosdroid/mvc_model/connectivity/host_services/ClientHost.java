@@ -28,7 +28,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ClientHost.ForegroundNotification.NOTIFICATION_ID;
 
-public class ClientHost extends Service implements Client.ClientConnectionListener {
+public class ClientHost extends Service implements Client.ClientConnectionListener, AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "ClientHost";
 
     private Map<String, Client> clients;
@@ -38,7 +38,13 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     public void onCreate() {
         super.onCreate();
         clients = new HashMap<>();
+        initRepo();
+        repo.startListenForChanges();
+    }
+
+    private void initRepo() {
         repo = new FirebaseRepository();
+        repo.setOnRepositoryChangeListener(this);
     }
 
     @Override
@@ -124,6 +130,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     @Override
     public void onDestroy() {
         super.onDestroy();
+        repo.stopListenForChanges();
         disconnectClients();
         clients.clear();
     }
@@ -131,6 +138,21 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     private void disconnectClients() {
         for (Map.Entry<String, Client> entry : clients.entrySet())
             entry.getValue().disconnect();
+    }
+
+    @Override
+    public void onAttackUpload(Attack uploadedAttack) {
+
+    }
+
+    @Override
+    public void onAttackUpdate(Attack changedAttack) {
+
+    }
+
+    @Override
+    public void onAttackDelete(Attack deletedAttack) {
+
     }
 
     public static class Action {
