@@ -41,14 +41,15 @@
         app:layout_constraintTop_toBottomOf="@+id/number_joined_textview" />
 
     <ImageView
+        android:id="@+id/delete_attack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:background="@color/secondaryColor"
-        android:elevation="@dimen/half_of_half_default_margin"
         android:contentDescription="@string/website_image_content_description"
+        android:elevation="@dimen/half_of_half_default_margin"
         android:src="@drawable/ic_delete_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

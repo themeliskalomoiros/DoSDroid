@@ -41,6 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/number_joined_textview" />
 
     <ImageView
+        android:id="@+id/delete_attack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
