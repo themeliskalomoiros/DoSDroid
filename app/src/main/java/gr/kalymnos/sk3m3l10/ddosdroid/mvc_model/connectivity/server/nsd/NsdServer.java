@@ -8,8 +8,8 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.AcceptClientThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -28,7 +28,7 @@ public class NsdServer extends Server {
 
     private int localPort;
     private ServerSocket serverSocket;
-    private Thread acceptClientThread;
+    private AcceptClientThread acceptClientThread;
 
     private String nsdServiceName;
     private NsdManager.RegistrationListener registrationListener;
@@ -40,7 +40,7 @@ public class NsdServer extends Server {
 
     private void initFields() {
         initServerSocketAndPort();
-        initAcceptClientThread();
+        acceptClientThread = new AcceptClientThread(executor, serverSocket);
         initRegistrationListener(context);
     }
 
@@ -51,20 +51,6 @@ public class NsdServer extends Server {
         } catch (IOException e) {
             Log.e(TAG, "Error initializing server socket", e);
         }
-    }
-
-    private void initAcceptClientThread() {
-        acceptClientThread = new Thread(() -> {
-            while (true) {
-                try {
-                    Socket socket = serverSocket.accept();
-                    executor.execute(new NsdServerThread(socket));
-                } catch (IOException e) {
-                    Log.w(TAG, "Error on serverSocket.accept(). Maybe the serverSocket closed", e);
-                    break;
-                }
-            }
-        });
     }
 
     private void initRegistrationListener(Context context) {
