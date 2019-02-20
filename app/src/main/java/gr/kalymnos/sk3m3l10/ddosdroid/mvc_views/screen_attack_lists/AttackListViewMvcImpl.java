@@ -65,13 +65,13 @@ public class AttackListViewMvcImpl implements AttackListViewMvc {
     }
 
     @Override
-    public void setOnJoinSwitchCheckedStateListener(OnJoinSwitchCheckedStateListener listener) {
-        attacksAdapter.setOnSwitchCheckedStateListener(listener);
+    public void setOnJoinedAttackDeleteClickListener(OnJoinedAttackDeleteClickListener listener) {
+        attacksAdapter.setOnJoinedAttackDeleteClickListener(listener);
     }
 
     @Override
-    public void setOnActivateSwitchCheckedStateListener(OnActivateSwitchCheckedStateListener listener) {
-        attacksAdapter.setOnActivateSwitchCheckedStateListener(listener);
+    public void setOnOwnerAttackDeleteClickListener(OnOwnerAttackDeleteClickListener listener) {
+        attacksAdapter.setOnOwnerAttackDeleteClickListener(listener);
     }
 
     @Override
