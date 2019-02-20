@@ -46,10 +46,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         void onServerError(String key);
     }
 
-    public static boolean isValid(String serverResponse) {
-        return serverResponse.equals(RESPONSE);
-    }
-
     public Server(Context context, Attack attack) {
         initFields(context, attack);
     }
@@ -123,23 +119,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
-
-        if (!(obj instanceof Server))
-            return false;
-
-        Server server = (Server) obj;
-        return this.getAttackingWebsite().equals(server.getAttackingWebsite());
-    }
-
-    //  This technique is taken from the book Effective Java, Second Edition, Item 9
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + this.getAttackingWebsite().hashCode();
-        return result;
+    public static boolean isValid(String serverResponse) {
+        return serverResponse.equals(RESPONSE);
     }
 }
