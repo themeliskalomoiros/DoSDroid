@@ -16,7 +16,6 @@ import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.BuildConfig;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
@@ -26,6 +25,9 @@ import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;
 import static android.bluetooth.BluetoothAdapter.STATE_OFF;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class BluetoothServer extends Server {
     private Thread acceptClientThread;
@@ -40,9 +42,27 @@ public class BluetoothServer extends Server {
     }
 
     private void initFields(Context context) {
-        localBroadcastManager = localBroadcastManager;
+        localBroadcastManager = LocalBroadcastManager.getInstance(context);
+        initServerSocket();
         initAcceptClientThread();
         initBluetoothStateReceiver();
+    }
+
+    private void initServerSocket() {
+        try {
+            setAttackHostInfo();
+            BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+            serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getHostUUID(attack));
+        } catch (IOException e) {
+            Log.e(TAG, "Error creating BluetoothServerSocket", e);
+        }
+    }
+
+    private void setAttackHostInfo() {
+        UUID uuid = UUID.randomUUID();
+        String macAddress = BluetoothDeviceUtil.getLocalMacAddress(context);
+        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
+        attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
     }
 
     private void initAcceptClientThread() {
@@ -90,13 +110,14 @@ public class BluetoothServer extends Server {
     public void stop() {
         closeServerSocket();
         context.unregisterReceiver(bluetoothStateReceiver);
-        ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), localBroadcastManager);
+        broadcastStopped(getAttackingWebsite(), localBroadcastManager);
         super.stop();
     }
 
     private void closeServerSocket() {
         try {
-            serverSocket.close();
+            if (serverSocket != null)
+                serverSocket.close();
         } catch (IOException e) {
             Log.e(TAG, "Error while closing BluetoothServerSocket", e);
         }
@@ -104,38 +125,17 @@ public class BluetoothServer extends Server {
 
     @Override
     public void onConstraintsResolved() {
-        boolean serverSocketInitialized = initServerSocket();
-        if (serverSocketInitialized) {
+        if (serverSocket != null) {
             acceptClientThread.start();
             repo.upload(attack);
-            ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), localBroadcastManager);
+            broadcastRunning(getAttackingWebsite(), localBroadcastManager);
         } else {
-            ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), localBroadcastManager);
+            broadcastError(getAttackingWebsite(), localBroadcastManager);
         }
-    }
-
-    private boolean initServerSocket() {
-        //  Tip: can be initialized inside constructor if attackHostInfo can be set inside constructor
-        try {
-            setAttackHostInfo();
-            BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-            serverSocket = adapter.listenUsingRfcommWithServiceRecord(BuildConfig.APPLICATION_ID, Attacks.getHostUUID(attack));
-            return true;
-        } catch (IOException e) {
-            Log.e(TAG, "Error creating BluetoothServerSocket", e);
-            return false;
-        }
-    }
-
-    private void setAttackHostInfo() {
-        UUID uuid = UUID.randomUUID();
-        String macAddress = BluetoothDeviceUtil.getLocalMacAddress(context);
-        attack.addSingleHostInfo(EXTRA_ATTACK_HOST_UUID, uuid.toString());
-        attack.addSingleHostInfo(EXTRA_MAC_ADDRESS, macAddress);
     }
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), localBroadcastManager);
+        broadcastError(getAttackingWebsite(), localBroadcastManager);
     }
 }
