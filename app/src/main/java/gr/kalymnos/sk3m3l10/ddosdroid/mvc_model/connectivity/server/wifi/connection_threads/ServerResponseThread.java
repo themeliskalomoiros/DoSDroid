@@ -10,7 +10,7 @@ import java.net.Socket;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 
-public class ServerResponseThread extends Thread {
+public class ServerResponseThread implements Runnable {
     private static final String TAG = "ServerResponseThread";
 
     private Socket socket;
