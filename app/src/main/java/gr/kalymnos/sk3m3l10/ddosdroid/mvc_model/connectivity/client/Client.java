@@ -105,8 +105,8 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
         clientConnectionListener = null;
     }
 
-    public final String getAttackedWebsite() {
-        return attack.getWebsite();
+    public final Attack getAttack() {
+        return attack;
     }
 
     @Override
