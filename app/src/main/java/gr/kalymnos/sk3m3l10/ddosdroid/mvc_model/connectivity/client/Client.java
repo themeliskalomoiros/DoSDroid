@@ -30,11 +30,11 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
     private ClientConnectionListener clientConnectionListener;
 
     public interface ClientConnectionListener {
-        void onClientConnected(Client thisClient, Attack attack);
+        void onClientConnected(String key);
 
-        void onClientConnectionError();
+        void onClientConnectionError(String key);
 
-        void onClientDisconnected(Client thisClient, Attack attack);
+        void onClientDisconnected(String key);
     }
 
     public Client(Context context, Attack attack) {
@@ -75,21 +75,22 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
     @Override
     public void onServerConnection() {
         repo.startListenForChanges();
-        if (!attackScript.isAlive())
+        if (!attackScript.isAlive()) {
             attackScript.start();
-        clientConnectionListener.onClientConnected(this, attack);
+            clientConnectionListener.onClientConnected(attack.getWebsite());
+        }
     }
 
     @Override
     public void onServerConnectionError() {
         serverConnection.releaseResources();
-        clientConnectionListener.onClientConnectionError();
+        clientConnectionListener.onClientConnectionError(attack.getWebsite());
     }
 
     @Override
     public void onServerDisconnection() {
         releaseResources();
-        clientConnectionListener.onClientDisconnected(this, attack);
+        clientConnectionListener.onClientDisconnected(attack.getWebsite());
         nullReferences();
     }
 
