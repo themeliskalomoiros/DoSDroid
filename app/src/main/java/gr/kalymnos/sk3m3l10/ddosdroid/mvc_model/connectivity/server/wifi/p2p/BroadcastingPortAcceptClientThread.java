@@ -12,13 +12,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.connect
 /*  This thread first broadcasts the local port and then
  *   starts accepting client connection request.*/
 
-public class BroadcastingPortAcceptClientThread extends AcceptClientThread {
-    public static final String ACTION_LOCAL_PORT_OBTAINED = "action local port obtained";
+class BroadcastingPortAcceptClientThread extends AcceptClientThread {
+    static final String ACTION_LOCAL_PORT_OBTAINED = "action local port obtained";
 
     private int localPort;
     private final LocalBroadcastManager manager;
 
-    public BroadcastingPortAcceptClientThread(ExecutorService executor, ServerSocket serverSocket, LocalBroadcastManager manager) {
+    BroadcastingPortAcceptClientThread(ExecutorService executor, ServerSocket serverSocket, LocalBroadcastManager manager) {
         super(executor, serverSocket);
         this.manager = manager;
         localPort = serverSocket.getLocalPort();
