@@ -33,11 +33,11 @@
         <activity android:name=".mvc_controllers.activities.JoinAttackActivity" />
 
         <service
-            android:name=".mvc_model.connectivity.client.ClientHost"
+            android:name=".mvc_model.connectivity.host_services.ClientHost"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".mvc_model.connectivity.server.ServerHost"
+            android:name=".mvc_model.connectivity.host_services.ServerHost"
             android:enabled="true"
             android:exported="false" />
 

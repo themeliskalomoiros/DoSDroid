@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.AttackCreationFragment;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.ServerHost;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;

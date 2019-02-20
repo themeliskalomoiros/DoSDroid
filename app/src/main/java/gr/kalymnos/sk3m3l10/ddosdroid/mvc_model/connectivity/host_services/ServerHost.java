@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -19,6 +19,7 @@ import java.util.Map;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusReceiver;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.ServerStatusPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.repository.SharedPrefPersistance;
@@ -26,7 +27,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.ServerHost.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ServerHost.ForegroundNotification.NOTIFICATION_ID;
 
 public class ServerHost extends Service {
     private static final String TAG = "MyServerHost";
