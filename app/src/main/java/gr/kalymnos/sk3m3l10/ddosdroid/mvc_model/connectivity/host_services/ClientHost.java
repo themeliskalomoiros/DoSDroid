@@ -109,10 +109,9 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
     }
 
     @Override
-    public void onClientDisconnected(String key) {
+    public void onClientDisconnected(Attack attack) {
         //  Not called from main thread
-        Client client = clients.get(key);
-        updateAttackWithoutCurrentUser(client.getAttack());
+        updateAttackWithoutCurrentUser(attack);
         if (clients.size() == 0)
             stopSelf();
     }

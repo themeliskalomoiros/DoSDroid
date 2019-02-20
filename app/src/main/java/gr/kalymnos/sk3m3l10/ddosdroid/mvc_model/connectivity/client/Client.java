@@ -34,7 +34,7 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
 
         void onClientConnectionError(String key);
 
-        void onClientDisconnected(String key);
+        void onClientDisconnected(Attack attack);
     }
 
     public Client(Context context, Attack attack) {
@@ -90,7 +90,7 @@ public class Client implements ConnectionToServer.ConnectionToServerListener, At
     @Override
     public void onServerDisconnection() {
         releaseResources();
-        clientConnectionListener.onClientDisconnected(attack.getWebsite());
+        clientConnectionListener.onClientDisconnected(attack);
         nullReferences();
     }
 
