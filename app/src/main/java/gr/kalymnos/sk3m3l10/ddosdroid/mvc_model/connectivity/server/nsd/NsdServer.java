@@ -12,7 +12,6 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
@@ -20,6 +19,9 @@ import static android.content.Context.NSD_SERVICE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_SERVICE_NAME;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_SERVICE_TYPE;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class NsdServer extends Server {
     private static final String INITIAL_SERVICE_NAME = "DdosDroid"; // It can be change due to colisions
@@ -77,7 +79,7 @@ public class NsdServer extends Server {
                 nsdServiceName = nsdServiceInfo.getServiceName();
                 uploadAttack();
                 acceptClientThread.start();
-                ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                broadcastRunning(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
             }
 
             private void uploadAttack() {
@@ -94,7 +96,7 @@ public class NsdServer extends Server {
             @Override
             public void onRegistrationFailed(NsdServiceInfo nsdServiceInfo, int i) {
                 Log.e(TAG, "Nsd registration failed");
-                ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
             }
 
             @Override
@@ -105,7 +107,7 @@ public class NsdServer extends Server {
             @Override
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
                 Log.d(TAG, "Nsd service unregistered successfully");
-                ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+                broadcastStopped(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
             }
         };
     }
@@ -155,6 +157,6 @@ public class NsdServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
+        broadcastError(getAttackingWebsite(), LocalBroadcastManager.getInstance(context));
     }
 }

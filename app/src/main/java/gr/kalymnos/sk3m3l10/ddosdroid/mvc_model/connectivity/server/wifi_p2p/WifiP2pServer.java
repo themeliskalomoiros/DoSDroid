@@ -14,7 +14,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
@@ -26,6 +25,9 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_DEVICE_NAME;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_LOCAL_PORT;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
 
 public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
@@ -67,7 +69,7 @@ public class WifiP2pServer extends Server {
             private void stopIfStateDisabled(Context context, Intent intent) {
                 if (isStateDisabled(intent)) {
                     stop();
-                    ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), localBroadcastManager);
+                    broadcastStopped(getAttackingWebsite(), localBroadcastManager);
                 }
             }
 
@@ -96,7 +98,7 @@ public class WifiP2pServer extends Server {
                 if (isPortAction) {
                     addPortToAttack(intent);
                     repo.upload(attack);
-                    ServerStatusBroadcaster.broadcastRunning(getAttackingWebsite(), localBroadcastManager);
+                    broadcastRunning(getAttackingWebsite(), localBroadcastManager);
                 }
             }
 
@@ -144,7 +146,7 @@ public class WifiP2pServer extends Server {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "Wifi peer to peer group removed.");
-                ServerStatusBroadcaster.broadcastStopped(getAttackingWebsite(), localBroadcastManager);
+                broadcastStopped(getAttackingWebsite(), localBroadcastManager);
             }
 
             @Override
@@ -175,7 +177,7 @@ public class WifiP2pServer extends Server {
 
     @Override
     public void onConstraintResolveFailure() {
-        ServerStatusBroadcaster.broadcastError(getAttackingWebsite(), localBroadcastManager);
+        broadcastError(getAttackingWebsite(), localBroadcastManager);
     }
 
     public WifiP2pManager getWifiP2pManager() {
