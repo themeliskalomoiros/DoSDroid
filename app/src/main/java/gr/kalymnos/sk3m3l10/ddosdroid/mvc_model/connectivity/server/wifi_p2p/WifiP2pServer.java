@@ -13,6 +13,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -28,6 +31,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_MAC_ADDRESS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastError;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastRunning;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.status.ServerStatusBroadcaster.broadcastStopped;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi_p2p.BroadcastingPortAcceptClientThread.ACTION_LOCAL_PORT_OBTAINED;
 
 public class WifiP2pServer extends Server {
     private WifiP2pManager wifiP2pManager;
@@ -38,7 +42,8 @@ public class WifiP2pServer extends Server {
     private LocalBroadcastManager localBroadcastManager;
     private boolean receiversRegistered = false;
 
-    private AcceptClientThread acceptClientThread;
+    private ServerSocket serverSocket;
+    private BroadcastingPortAcceptClientThread acceptClientThread;
 
     public WifiP2pServer(Context context, Attack attack) {
         super(context, attack);
@@ -46,13 +51,22 @@ public class WifiP2pServer extends Server {
     }
 
     private void initFields() {
-        localBroadcastManager = LocalBroadcastManager.getInstance(context);
         wifiP2pManager = (WifiP2pManager) context.getSystemService(Context.WIFI_P2P_SERVICE);
         channel = wifiP2pManager.initialize(context, Looper.getMainLooper(), null);
-        acceptClientThread = new AcceptClientThread(executor, localBroadcastManager);
+        initServerSocket();
+        localBroadcastManager = LocalBroadcastManager.getInstance(context);
+        acceptClientThread = new BroadcastingPortAcceptClientThread(executor, serverSocket, localBroadcastManager);
         initWifiDirectReceiver();
         initPortReceiver();
         initGroupInfoListener();
+    }
+
+    private void initServerSocket() {
+        try {
+            serverSocket = new ServerSocket(0);
+        } catch (IOException e) {
+            Log.e(TAG, "Error creating server socket.");
+        }
     }
 
     private void initWifiDirectReceiver() {
@@ -94,7 +108,7 @@ public class WifiP2pServer extends Server {
         portReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                boolean isPortAction = intent.getAction().equals(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED);
+                boolean isPortAction = intent.getAction().equals(ACTION_LOCAL_PORT_OBTAINED);
                 if (isPortAction) { // Local port is broadcasted when accept thread started running.
                     addPortToAttack(intent);
                     repo.upload(attack);
@@ -137,9 +151,17 @@ public class WifiP2pServer extends Server {
     }
 
     private void releaseResources() {
-        acceptClientThread.close();
+        close(serverSocket);
         unregisterReceivers();
         removeGroup();
+    }
+
+    private void close(ServerSocket serverSocket) {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error when closing server socket");
+        }
     }
 
     private void unregisterReceivers() {
@@ -170,7 +192,7 @@ public class WifiP2pServer extends Server {
     }
 
     private void registerReceivers() {
-        localBroadcastManager.registerReceiver(portReceiver, new IntentFilter(AcceptClientThread.ACTION_LOCAL_PORT_OBTAINED));
+        localBroadcastManager.registerReceiver(portReceiver, new IntentFilter(ACTION_LOCAL_PORT_OBTAINED));
         context.registerReceiver(wifiDirectReceiver, getIntentFilter());
         receiversRegistered = true;
     }
