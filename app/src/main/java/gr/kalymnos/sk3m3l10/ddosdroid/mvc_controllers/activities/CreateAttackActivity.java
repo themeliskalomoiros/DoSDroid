@@ -12,10 +12,12 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public class CreateAttackActivity extends AppCompatActivity implements AttackCreationFragment.OnAttackCreationListener {
     private AttackPhaseViewMvc viewMvc;
+    private AttackCreationFragment creationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        creationFragment = new AttackCreationFragment();
         viewMvc = new AttackPhaseViewMvcImp(LayoutInflater.from(this), null);
         setupUiFrom(viewMvc);
     }
@@ -27,7 +29,7 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackCre
 
     private void showAttackCreationFragment(AttackPhaseViewMvc viewMvc) {
         getSupportFragmentManager().beginTransaction()
-                .replace(viewMvc.getFragmentContainerId(), new AttackCreationFragment())
+                .replace(viewMvc.getFragmentContainerId(), creationFragment)
                 .commit();
     }
 
