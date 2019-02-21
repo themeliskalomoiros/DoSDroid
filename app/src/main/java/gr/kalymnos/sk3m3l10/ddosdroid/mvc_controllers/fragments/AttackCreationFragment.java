@@ -19,7 +19,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
-        AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener {
+        AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener,
+        AttackCreationViewMvc.OnPickerClickListener {
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
 
@@ -43,6 +44,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         viewMvc.setOnAttackCreationClickListener(this);
         viewMvc.setOnNetworkConfigurationSelectedListener(this);
         viewMvc.setOnWebsiteTextChangeListener(this);
+        viewMvc.setOnPickerClickListener(this);
     }
 
     @Override
@@ -84,5 +86,17 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         } else {
             viewMvc.bindWebsiteCreationTime(getString(R.string.target_set_to_label) + " " + text + ".");
         }
+    }
+
+    @Override
+    public void onTimePickerClick() {
+        if (callback != null)
+            callback.onTimePickerClicked();
+    }
+
+    @Override
+    public void onDatePickerClick() {
+        if (callback != null)
+            callback.onDatePickerClicked();
     }
 }

@@ -61,12 +61,12 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackCre
     }
 
     @Override
-    public void onDateSet(android.widget.DatePicker datePicker, int i, int i1, int i2) {
+    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
 
     }
 
     @Override
-    public void onTimeSet(android.widget.TimePicker timePicker, int i, int i1) {
+    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
 
     }
 }
