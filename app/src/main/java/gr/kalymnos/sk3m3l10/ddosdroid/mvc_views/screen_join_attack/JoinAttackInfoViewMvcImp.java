@@ -42,7 +42,7 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     }
 
     @Override
-    public void bindWebsiteDate(String date) {
+    public void bindCreationDate(String date) {
         String prefix = root.getContext().getResources().getString(R.string.attack_date_prefix);
         this.date.setText(prefix + " " + date);
     }
@@ -53,7 +53,7 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     }
 
     @Override
-    public void bindLaunchTime(String text) {
+    public void bindLaunchDate(String text) {
         launchTime.setText(text);
     }
 

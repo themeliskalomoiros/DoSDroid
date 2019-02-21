@@ -11,11 +11,11 @@ public interface JoinAttackInfoViewMvc extends ViewMvc {
 
     void bindWebsite(String website);
 
-    void bindWebsiteDate(String date);
+    void bindCreationDate(String date);
 
     void bindAttackForce(int count);
 
-    void bindLaunchTime(String text);
+    void bindLaunchDate(String date);
 
     void bindNetworkConfiguration(String networkConf);
 }
