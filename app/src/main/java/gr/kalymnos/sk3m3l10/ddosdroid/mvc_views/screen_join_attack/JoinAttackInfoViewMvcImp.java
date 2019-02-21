@@ -20,7 +20,7 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     private void initViews(LayoutInflater inflater, ViewGroup container) {
         root = inflater.inflate(R.layout.screen_join_attack_info, container, false);
         website = root.findViewById(R.id.website_textview);
-        date = root.findViewById(R.id.tv_website_hint);
+        date = root.findViewById(R.id.tv_website_creation_time);
         attackForce = root.findViewById(R.id.tv_attack_force);
         networkConf = root.findViewById(R.id.network_configuration);
         fab = root.findViewById(R.id.fab);

@@ -16,9 +16,9 @@ public interface AttackCreationViewMvc extends ViewMvc {
         void websiteTextChanged(String text);
     }
 
-    void setWebsiteHint(String hint);
+    void bindWebsiteCreationTime(String hint);
 
-    void setNetworkConfigHint(String hint);
+    void bindNetworkConfig(String hint);
 
     void setOnAttackCreationClickListener(OnAttackCreationClickListener listener);
 

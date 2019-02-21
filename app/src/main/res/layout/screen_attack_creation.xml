@@ -34,10 +34,10 @@
             android:text="@string/network_configuration_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_website_creation_time" />
 
         <TextView
-            android:id="@+id/tv_website_hint"
+            android:id="@+id/tv_website_creation_time"
             style="@style/Website_Hint"
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/default_margin"

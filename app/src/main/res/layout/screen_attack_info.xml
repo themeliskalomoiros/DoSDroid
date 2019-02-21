@@ -28,32 +28,42 @@
             tools:text="SPORT24.GR" />
 
         <TextView
-            android:id="@+id/tv_website_hint"
+            android:id="@+id/tv_website_creation_time"
             style="@style/Subtitle_TextView"
-            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             app:layout_constraintEnd_toEndOf="@+id/website_textview"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/website_textview"
-            app:layout_constraintTop_toBottomOf="@+id/website_textview"
+            app:layout_constraintTop_toBottomOf="@+id/tv_begin_attack"
             tools:text="Created on 14/12/2017." />
 
 
         <TextView
             android:id="@+id/tv_begin_attack"
             style="@style/Header_TextView"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/begin_attack_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
+            app:layout_constraintTop_toBottomOf="@+id/website_textview" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             style="@style/Attack_FAB"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/ic_swords"
-            app:layout_constraintTop_toBottomOf="@+id/tv_begin_attack" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_website_creation_time" />
 
 
     </android.support.constraint.ConstraintLayout>

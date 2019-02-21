@@ -70,15 +70,15 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @Override
     public void onNetworkSelected(String hint) {
-        viewMvc.setNetworkConfigHint(hint);
+        viewMvc.bindNetworkConfig(hint);
     }
 
     @Override
     public void websiteTextChanged(String text) {
         if (TextUtils.isEmpty(text)) {
-            viewMvc.setWebsiteHint(getString(R.string.set_the_target_of_the_attack_label));
+            viewMvc.bindWebsiteCreationTime(getString(R.string.set_the_target_of_the_attack_label));
         } else {
-            viewMvc.setWebsiteHint(getString(R.string.target_set_to_label) + " " + text + ".");
+            viewMvc.bindWebsiteCreationTime(getString(R.string.target_set_to_label) + " " + text + ".");
         }
     }
 }
