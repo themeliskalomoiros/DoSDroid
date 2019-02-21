@@ -22,4 +22,13 @@ public class TimePicker extends DialogFragment {
         return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(),
                 currentHour, currentMinute, DateFormat.is24HourFormat(getActivity()));
     }
+
+    public static class TimeData {
+        public int hourOfDay, minute;
+
+        public TimeData(int hourOfDay, int minute) {
+            this.hourOfDay = hourOfDay;
+            this.minute = minute;
+        }
+    }
 }
