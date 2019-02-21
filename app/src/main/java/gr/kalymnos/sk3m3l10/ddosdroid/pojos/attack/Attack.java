@@ -11,7 +11,7 @@ import java.util.Map;
 public class Attack implements Parcelable {
     private String pushId, website;
     private int networkType;
-    private long creationTimeMilli, launchTimeMilli;
+    private long creationTimestamp, launchTimestamp;
     private Map<String, String> hostInfo = new HashMap<>();
     private List<String> botIds = new ArrayList<>(); // Ideally a Set but Firebase accepts map/list.
 
@@ -21,7 +21,7 @@ public class Attack implements Parcelable {
     public Attack(String website, int networkType) {
         this.website = website;
         this.networkType = networkType;
-        this.creationTimeMilli = System.currentTimeMillis();
+        this.creationTimestamp = System.currentTimeMillis();
     }
 
     public String getPushId() {
@@ -32,12 +32,12 @@ public class Attack implements Parcelable {
         this.pushId = pushId;
     }
 
-    public long getLaunchTimeMilli() {
-        return launchTimeMilli;
+    public long getLaunchTimestamp() {
+        return launchTimestamp;
     }
 
-    public void setLaunchTimeMilli(long launchTimeMilli) {
-        this.launchTimeMilli = launchTimeMilli;
+    public void setLaunchTimestamp(long launchTimestamp) {
+        this.launchTimestamp = launchTimestamp;
     }
 
     public String getWebsite() {
@@ -48,8 +48,8 @@ public class Attack implements Parcelable {
         return networkType;
     }
 
-    public long getCreationTimeMilli() {
-        return creationTimeMilli;
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 
     public List<String> getBotIds() {
@@ -86,6 +86,15 @@ public class Attack implements Parcelable {
     }
 
     //  Parcelable implementation
+    protected Attack(Parcel in) {
+        pushId = in.readString();
+        website = in.readString();
+        networkType = in.readInt();
+        creationTimestamp = in.readLong();
+        launchTimestamp = in.readLong();
+        botIds = in.createStringArrayList();
+    }
+
     public static final Creator<Attack> CREATOR = new Creator<Attack>() {
         @Override
         public Attack createFromParcel(Parcel in) {
@@ -98,15 +107,6 @@ public class Attack implements Parcelable {
         }
     };
 
-    protected Attack(Parcel in) {
-        pushId = in.readString();
-        website = in.readString();
-        networkType = in.readInt();
-        creationTimeMilli = in.readLong();
-        launchTimeMilli = in.readLong();
-        botIds = in.createStringArrayList();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -117,8 +117,8 @@ public class Attack implements Parcelable {
         parcel.writeString(pushId);
         parcel.writeString(website);
         parcel.writeInt(networkType);
-        parcel.writeLong(creationTimeMilli);
-        parcel.writeLong(launchTimeMilli);
+        parcel.writeLong(creationTimestamp);
+        parcel.writeLong(launchTimestamp);
         parcel.writeStringList(botIds);
     }
 }
