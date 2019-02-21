@@ -18,8 +18,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvc_model.connectivity.client.bluetooth.RequestLocationPermissionForBluetoothActivity"></activity>
-        <activity android:name=".mvc_controllers.activities.MainActivity">
+        <activity
+            android:name=".mvc_model.connectivity.client.bluetooth.RequestLocationPermissionForBluetoothActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".mvc_controllers.activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,9 +32,14 @@
         </activity>
         <activity
             android:name=".mvc_controllers.activities.CreateAttackActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".mvc_controllers.activities.AllAttackListsActivity" />
-        <activity android:name=".mvc_controllers.activities.JoinAttackActivity" />
+        <activity
+            android:name=".mvc_controllers.activities.AllAttackListsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvc_controllers.activities.JoinAttackActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".mvc_model.connectivity.host_services.ClientHost"
@@ -41,8 +50,12 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.enable.EnableBluetoothActivity" />
-        <activity android:name=".mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverableActivity" />
+        <activity
+            android:name=".mvc_model.connectivity.network_constraints.bluetooth.enable.EnableBluetoothActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvc_model.connectivity.network_constraints.bluetooth.discoverable.BluetoothDiscoverableActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
