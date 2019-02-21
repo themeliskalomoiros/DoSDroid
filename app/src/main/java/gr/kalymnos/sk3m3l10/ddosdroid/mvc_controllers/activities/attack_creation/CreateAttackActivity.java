@@ -13,13 +13,21 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 public class CreateAttackActivity extends AppCompatActivity implements AttackCreationFragment.OnAttackCreationListener {
     private AttackPhaseViewMvc viewMvc;
     private AttackCreationFragment creationFragment;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        creationFragment = new AttackCreationFragment();
+        initFragments();
         viewMvc = new AttackPhaseViewMvcImp(LayoutInflater.from(this), null);
         setupUiFrom(viewMvc);
+    }
+
+    private void initFragments() {
+        creationFragment = new AttackCreationFragment();
+        datePicker = new DatePicker();
+        timePicker = new TimePicker();
     }
 
     private void setupUiFrom(AttackPhaseViewMvc viewMvc) {
