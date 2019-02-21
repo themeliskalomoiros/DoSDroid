@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -10,7 +12,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseV
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackPhaseViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class CreateAttackActivity extends AppCompatActivity implements AttackCreationFragment.OnAttackCreationListener {
+public class CreateAttackActivity extends AppCompatActivity implements AttackCreationFragment.OnAttackCreationListener,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private AttackPhaseViewMvc viewMvc;
     private AttackCreationFragment creationFragment;
     private DatePicker datePicker;
@@ -55,5 +58,15 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackCre
     @Override
     public void onTimePickerClicked() {
         timePicker.show(getSupportFragmentManager(), TimePicker.TAG);
+    }
+
+    @Override
+    public void onDateSet(android.widget.DatePicker datePicker, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTimeSet(android.widget.TimePicker timePicker, int i, int i1) {
+
     }
 }
