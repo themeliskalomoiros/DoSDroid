@@ -11,7 +11,6 @@ import android.text.format.DateFormat;
 import java.util.Calendar;
 
 public class TimePicker extends DialogFragment {
-    private TimePickerDialog.OnTimeSetListener timeSetListener;
 
     @NonNull
     @Override
@@ -19,17 +18,7 @@ public class TimePicker extends DialogFragment {
         final Calendar cal = Calendar.getInstance();
         int currentHour = cal.get(Calendar.HOUR_OF_DAY);
         int currentMinute = cal.get(Calendar.MINUTE);
-        return new TimePickerDialog(getContext(), timeSetListener, currentHour, currentMinute,
-                DateFormat.is24HourFormat(getContext()));
-    }
-
-    public void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener timeSetListener) {
-        this.timeSetListener = timeSetListener;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        timeSetListener = null;
+        return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(),
+                currentHour, currentMinute, DateFormat.is24HourFormat(getActivity()));
     }
 }

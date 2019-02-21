@@ -10,7 +10,6 @@ import android.support.v4.app.DialogFragment;
 import java.util.Calendar;
 
 public class DatePicker extends DialogFragment {
-    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @NonNull
     @Override
@@ -19,16 +18,7 @@ public class DatePicker extends DialogFragment {
         int currentYear = cal.get(Calendar.YEAR);
         int currentMonth = cal.get(Calendar.MONTH);
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getContext(), dateSetListener, currentYear, currentMonth, currentDay);
-    }
-
-    public void setOnDateSetListener(DatePickerDialog.OnDateSetListener dateSetListener) {
-        this.dateSetListener = dateSetListener;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        dateSetListener = null;
+        return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(),
+                currentYear, currentMonth, currentDay);
     }
 }
