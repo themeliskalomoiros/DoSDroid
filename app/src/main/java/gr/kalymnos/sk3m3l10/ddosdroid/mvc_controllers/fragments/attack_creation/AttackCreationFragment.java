@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_creation;
 
 import android.content.Context;
 import android.os.Bundle;
