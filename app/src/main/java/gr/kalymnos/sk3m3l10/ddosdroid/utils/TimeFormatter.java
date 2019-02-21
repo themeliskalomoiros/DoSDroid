@@ -5,6 +5,7 @@ import java.util.Calendar;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.TimePicker;
 
 public final class TimeFormatter {
+
     private TimeFormatter() {
     }
 
