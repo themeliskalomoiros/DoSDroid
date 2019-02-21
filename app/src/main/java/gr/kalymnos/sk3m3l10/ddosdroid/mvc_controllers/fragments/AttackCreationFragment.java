@@ -75,12 +75,24 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @Override
     public void onAttackCreateClicked(String website) {
-        if (URLUtil.isValidUrl(website)) {
+        if (userProvidedAllData(website)){
             Attack attack = createAttack(website);
             callback.onAttackCreated(attack);
-        } else {
-            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean userProvidedAllData(String website) {
+        if (!URLUtil.isValidUrl(website)) {
+            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
+            return false;
+        } else if (date == null) {
+            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
+            return false;
+        } else if (time == null) {
+            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     @NonNull
