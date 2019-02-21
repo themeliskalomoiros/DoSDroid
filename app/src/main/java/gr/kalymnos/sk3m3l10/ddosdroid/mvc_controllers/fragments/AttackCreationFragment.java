@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.DatePicker;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.TimePicker;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -23,6 +25,8 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         AttackCreationViewMvc.OnPickerClickListener {
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
+    private TimePicker.TimeData timeData;
+    private DatePicker.DateData dateData;
 
     public interface OnAttackCreationListener {
         void onAttackCreated(Attack attack);
@@ -55,6 +59,14 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implement" + callback.getClass().getCanonicalName());
         }
+    }
+
+    public void setTimeData(TimePicker.TimeData timeData) {
+        this.timeData = timeData;
+    }
+
+    public void setDateData(DatePicker.DateData dateData) {
+        this.dateData = dateData;
     }
 
     @Override
