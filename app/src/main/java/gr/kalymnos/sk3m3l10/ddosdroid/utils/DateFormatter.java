@@ -14,7 +14,7 @@ public final class DateFormatter {
     }
 
     public static String timeFrom(long timestamp) {
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
         return getHour(cal) + ":" + cal.get(Calendar.MINUTE);
     }
