@@ -70,7 +70,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
     }
 
     @Override
-    public void onAttackCreationClicked(String website) {
+    public void onAttackCreateClicked(String website) {
         if (URLUtil.isValidUrl(website)) {
             Attack attack = createAttack(website);
             callback.onAttackCreated(attack);

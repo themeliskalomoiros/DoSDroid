@@ -140,7 +140,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         fab = root.findViewById(R.id.fab);
         fab.setOnClickListener((view -> {
             if (onAttackCreationClickListener != null) {
-                onAttackCreationClickListener.onAttackCreationClicked(websiteEditText.getText().toString());
+                onAttackCreationClickListener.onAttackCreateClicked(websiteEditText.getText().toString());
             }
         }));
     }

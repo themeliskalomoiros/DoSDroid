@@ -5,7 +5,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.ViewMvc;
 public interface AttackCreationViewMvc extends ViewMvc {
 
     interface OnAttackCreationClickListener {
-        void onAttackCreationClicked(String website);
+        void onAttackCreateClicked(String website);
     }
 
     interface OnNetworkConfigurationSelectedListener {
