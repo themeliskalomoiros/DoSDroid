@@ -11,13 +11,13 @@ public final class DateFormatter {
     private DateFormatter() {
     }
 
-    public static String dateFrom(DatePicker.Date date) {
-        return dateFrom(date.year, date.month, date.dayOfMonth);
+    public static String from(DatePicker.Date date) {
+        return from(date.year, date.month, date.dayOfMonth);
     }
 
-    public static String dateFrom(int year, int month, int dayOfMonth) {
+    public static String from(int year, int month, int dayOfMonth) {
         final Calendar cal = calendarFrom(year, month, dayOfMonth);
-        return dateFrom(cal);
+        return from(cal);
     }
 
     @NonNull
@@ -29,14 +29,14 @@ public final class DateFormatter {
         return cal;
     }
 
-    public static String dateFrom(long timestamp) {
+    public static String from(long timestamp) {
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
-        return dateFrom(cal);
+        return from(cal);
     }
 
     @NonNull
-    private static String dateFrom(Calendar cal) {
+    private static String from(Calendar cal) {
         return String.format("%d/%d/%d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
     }
 }

@@ -19,6 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreati
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.TimeFormatter;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
         AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener,
@@ -63,6 +64,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     public void setTime(TimePicker.Time time) {
         this.time = time;
+        viewMvc.bindTimeText(TimeFormatter.from(time));
     }
 
     public void setDate(DatePicker.Date date) {

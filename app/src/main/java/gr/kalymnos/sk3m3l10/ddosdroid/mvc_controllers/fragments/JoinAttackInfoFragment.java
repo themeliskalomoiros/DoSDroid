@@ -15,9 +15,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter.dateFrom;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
     private Attack attack;
@@ -69,13 +69,13 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         if (timePast) {
             viewMvc.bindLaunchDate(getString(R.string.attack_already_started_label));
         } else {
-            String launch = dateFrom(timestamp);
+            String launch = DateFormatter.from(timestamp);
             viewMvc.bindLaunchDate(launch);
         }
     }
 
     private void bindCreationTime(long timestamp) {
-        String creation = dateFrom(timestamp);
+        String creation = DateFormatter.from(timestamp);
         viewMvc.bindCreationDate(creation);
     }
 

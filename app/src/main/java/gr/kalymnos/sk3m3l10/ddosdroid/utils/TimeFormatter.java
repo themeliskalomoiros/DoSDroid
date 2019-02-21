@@ -2,11 +2,21 @@ package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
 import java.util.Calendar;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.TimePicker;
+
 public final class TimeFormatter {
     private TimeFormatter() {
     }
 
-    public static String timeFrom(long timestamp) {
+    public static String from(TimePicker.Time time) {
+        return from(time.hourOfDay, time.minute);
+    }
+
+    public static String from(int hour, int minute) {
+        return getValueWithZeroPrefixIfIsLessThanTen(hour) + ":" + getValueWithZeroPrefixIfIsLessThanTen(minute);
+    }
+
+    public static String from(long timestamp) {
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp);
         return getHour(cal) + ":" + getMinutes(cal);
