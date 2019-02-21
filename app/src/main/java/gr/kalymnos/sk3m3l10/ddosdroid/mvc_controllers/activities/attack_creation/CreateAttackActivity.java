@@ -49,11 +49,11 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackCre
 
     @Override
     public void onDatePickerClicked() {
-
+        datePicker.show(getSupportFragmentManager(), DatePicker.TAG);
     }
 
     @Override
     public void onTimePickerClicked() {
-
+        timePicker.show(getSupportFragmentManager(), TimePicker.TAG);
     }
 }
