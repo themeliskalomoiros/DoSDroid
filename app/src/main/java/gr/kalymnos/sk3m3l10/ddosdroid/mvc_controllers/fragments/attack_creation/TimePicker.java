@@ -23,7 +23,7 @@ public class TimePicker extends DialogFragment {
                 DateFormat.is24HourFormat(getContext()));
     }
 
-    public void setTimeSetListener(TimePickerDialog.OnTimeSetListener timeSetListener) {
+    public void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener timeSetListener) {
         this.timeSetListener = timeSetListener;
     }
 
