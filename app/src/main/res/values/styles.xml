@@ -70,7 +70,6 @@
 
     <style name="Subtitle_TextView" parent="Header_TextView">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textColor">@color/secondaryLightColor</item>
         <item name="android:textSize">@dimen/subtitle_text_size</item>
         <item name="android:textStyle">italic</item>
         <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">textEnd</item>
@@ -90,6 +89,7 @@
         <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
         <item name="android:textSize">@dimen/main_site_name_text_size</item>
         <item name="android:lines">@integer/website_lines</item>
+        <item name="android:textColor">@color/secondaryColor</item>
     </style>
 
     <style name="Website_EditText" parent="Website_TextView">

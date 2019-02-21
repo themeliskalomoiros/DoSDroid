@@ -17,7 +17,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@string/against_label"
+            android:drawableEnd="@drawable/ic_http_black_24dp"
+            android:drawableRight="@drawable/ic_http_black_24dp"
+            android:text="@string/target_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,30 +40,66 @@
         <TextView
             android:id="@+id/tv_website_hint"
             style="@style/Subtitle_TextView"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_launch_time"
+            app:layout_constraintTop_toBottomOf="@+id/tv_launch_time"
+            tools:text="Created on 14/12/2017." />
+
+        <TextView
+            android:id="@+id/launch_time_label"
+            style="@style/Header_TextView"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_marginTop="8dp"
+            android:drawableEnd="@drawable/ic_date_range_black_16dp"
+            android:drawableRight="@drawable/ic_date_range_black_16dp"
+            android:text="@string/launch_time_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/website_textview" />
+
+
+        <TextView
+            android:id="@+id/tv_launch_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:paddingStart="@dimen/double_default_margin"
+            android:paddingLeft="@dimen/double_default_margin"
+            android:paddingEnd="@dimen/double_default_margin"
+            android:paddingRight="@dimen/double_default_margin"
+            android:textSize="@dimen/spinner_item_text_size"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/website_textview"
-            tools:text="Created on 14/12/2017." />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/launch_time_label"
+            tools:text="Begins on 01/04/2019, 13:05." />
 
         <TextView
             android:id="@+id/attack_force_label"
             style="@style/Header_TextView"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:drawableEnd="@drawable/ic_people_black_16dp"
+            android:drawableRight="@drawable/ic_people_black_16dp"
             android:text="@string/attack_force_label"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_website_hint" />
 
 
         <TextView
             android:id="@+id/tv_attack_force"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
@@ -74,29 +112,10 @@
             android:paddingRight="@dimen/double_default_margin"
             android:textSize="@dimen/spinner_item_text_size"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/attack_force_label"
             tools:text="10 people joined." />
-
-
-        <TextView
-            android:id="@+id/network_configuration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:paddingStart="@dimen/double_default_margin"
-            android:paddingLeft="@dimen/double_default_margin"
-            android:paddingEnd="@dimen/double_default_margin"
-            android:paddingRight="@dimen/double_default_margin"
-            android:textSize="@dimen/spinner_item_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/network_configuration_label"
-            tools:text="The botnet of this attack is connected through Internet." />
 
         <TextView
             android:id="@+id/network_configuration_label"
@@ -107,11 +126,33 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:drawableRight="@drawable/ic_phone_android_black_16dp"
             android:text="@string/network_configuration_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.669"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_attack_force" />
+
+        <TextView
+            android:id="@+id/network_configuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:paddingStart="@dimen/double_default_margin"
+            android:paddingLeft="@dimen/double_default_margin"
+            android:paddingEnd="@dimen/double_default_margin"
+            android:paddingRight="@dimen/double_default_margin"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/spinner_item_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/network_configuration_label"
+            tools:text="The botnet of this attack is connected through Internet." />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -126,21 +167,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/network_configuration" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/ic_robot_line_art"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/fab"
             app:layout_constraintTop_toBottomOf="@+id/network_configuration" />
 
     </android.support.constraint.ConstraintLayout>
