@@ -33,4 +33,12 @@ public class CalendarUtil {
         cal.set(Calendar.MINUTE, time.minute);
         return cal;
     }
+
+    public static boolean isAfterNowCalendar(Calendar calendar) {
+        final Calendar now = Calendar.getInstance();
+        if (calendar.compareTo(now) <= 0) {
+            return true;
+        }
+        return false;
+    }
 }
