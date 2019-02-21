@@ -25,6 +25,10 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     public interface OnAttackCreationListener {
         void onAttackCreated(Attack attack);
+
+        void onDatePickerClicked();
+
+        void onTimePickerClicked();
     }
 
     @Nullable

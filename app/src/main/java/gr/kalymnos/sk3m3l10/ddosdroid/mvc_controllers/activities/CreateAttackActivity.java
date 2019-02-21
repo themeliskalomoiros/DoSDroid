@@ -38,4 +38,14 @@ public class CreateAttackActivity extends AppCompatActivity implements AttackCre
         ServerHost.Action.startServerOf(attack, this);
         finish();
     }
+
+    @Override
+    public void onDatePickerClicked() {
+
+    }
+
+    @Override
+    public void onTimePickerClicked() {
+
+    }
 }
