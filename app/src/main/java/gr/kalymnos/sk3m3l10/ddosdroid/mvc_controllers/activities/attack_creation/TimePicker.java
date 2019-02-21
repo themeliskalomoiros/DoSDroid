@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.fragments.attack_creation;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
