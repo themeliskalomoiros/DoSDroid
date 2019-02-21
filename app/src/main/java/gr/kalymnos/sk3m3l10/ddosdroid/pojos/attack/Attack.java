@@ -11,7 +11,7 @@ import java.util.Map;
 public class Attack implements Parcelable {
     private String pushId, website;
     private int networkType;
-    private long timeMillis;
+    private long creationTimeMilli, launchTimeMilli;
     private Map<String, String> hostInfo = new HashMap<>();
     private List<String> botIds = new ArrayList<>(); // Ideally a Set but Firebase accepts map/list.
 
@@ -21,7 +21,7 @@ public class Attack implements Parcelable {
     public Attack(String website, int networkType) {
         this.website = website;
         this.networkType = networkType;
-        this.timeMillis = System.currentTimeMillis();
+        this.creationTimeMilli = System.currentTimeMillis();
     }
 
     public String getPushId() {
@@ -32,6 +32,14 @@ public class Attack implements Parcelable {
         this.pushId = pushId;
     }
 
+    public long getLaunchTimeMilli() {
+        return launchTimeMilli;
+    }
+
+    public void setLaunchTimeMilli(long launchTimeMilli) {
+        this.launchTimeMilli = launchTimeMilli;
+    }
+
     public String getWebsite() {
         return website;
     }
@@ -40,8 +48,8 @@ public class Attack implements Parcelable {
         return networkType;
     }
 
-    public long getTimeMillis() {
-        return timeMillis;
+    public long getCreationTimeMilli() {
+        return creationTimeMilli;
     }
 
     public List<String> getBotIds() {
@@ -54,44 +62,6 @@ public class Attack implements Parcelable {
 
     public void addSingleHostInfo(String key, String value) {
         hostInfo.put(key, value);
-    }
-
-
-    // Parcelable code
-    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
-        @Override
-        public Attack createFromParcel(Parcel in) {
-            return new Attack(in);
-        }
-
-        @Override
-        public Attack[] newArray(int size) {
-            return new Attack[size];
-        }
-    };
-
-    protected Attack(Parcel in) {
-        pushId = in.readString();
-        website = in.readString();
-        networkType = in.readInt();
-        timeMillis = in.readLong();
-        botIds = in.createStringArrayList();
-        in.readMap(hostInfo, Map.class.getClassLoader());
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(pushId);
-        parcel.writeString(website);
-        parcel.writeInt(networkType);
-        parcel.writeLong(timeMillis);
-        parcel.writeStringList(botIds);
-        parcel.writeMap(hostInfo);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     //  Overriding equality. Two objects are equal when their id's are equal.
@@ -113,5 +83,42 @@ public class Attack implements Parcelable {
         int result = 17;
         result = 31 * result + this.getPushId().hashCode();
         return result;
+    }
+
+    //  Parcelable implementation
+    public static final Creator<Attack> CREATOR = new Creator<Attack>() {
+        @Override
+        public Attack createFromParcel(Parcel in) {
+            return new Attack(in);
+        }
+
+        @Override
+        public Attack[] newArray(int size) {
+            return new Attack[size];
+        }
+    };
+
+    protected Attack(Parcel in) {
+        pushId = in.readString();
+        website = in.readString();
+        networkType = in.readInt();
+        creationTimeMilli = in.readLong();
+        launchTimeMilli = in.readLong();
+        botIds = in.createStringArrayList();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(pushId);
+        parcel.writeString(website);
+        parcel.writeInt(networkType);
+        parcel.writeLong(creationTimeMilli);
+        parcel.writeLong(launchTimeMilli);
+        parcel.writeStringList(botIds);
     }
 }
