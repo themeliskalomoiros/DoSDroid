@@ -23,7 +23,7 @@ import static android.support.constraint.Constraints.TAG;
 public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private View root;
     private EditText websiteEditText;
-    private TextView websiteCreationTime, networkConfigHint;
+    private TextView websiteCreationTime, networkConfigHint, launchDate, launchTime;
     private Spinner spinner;
     private FloatingActionButton fab;
     private ProgressBar progressBar;
@@ -43,6 +43,8 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         websiteCreationTime = root.findViewById(R.id.tv_website_creation_time);
         networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
         progressBar = root.findViewById(R.id.progressBar);
+        launchDate = root.findViewById(R.id.tv_launch_date);
+        launchTime = root.findViewById(R.id.tv_launch_time);
         initPickers();
         initEditText();
         initSpinner(inflater);
@@ -157,12 +159,12 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
 
     @Override
     public void bindDateText(String text) {
-
+        launchDate.setText(text);
     }
 
     @Override
     public void bindTimeText(String text) {
-
+        launchTime.setText(text);
     }
 
     @Override
