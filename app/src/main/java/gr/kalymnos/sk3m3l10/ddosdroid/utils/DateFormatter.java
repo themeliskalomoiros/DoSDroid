@@ -1,24 +1,43 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
-import android.content.res.Configuration;
-import android.support.v4.os.ConfigurationCompat;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.Calendar;
 
 public final class DateFormatter {
 
     private DateFormatter() {
     }
 
-    public static String dateFrom(long timeMillis, Configuration configuration) {
-        Date date = new Date(timeMillis);
-        DateFormat formatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getCurrentLocale(configuration));
-        return formatter.format(date);
+    public static String dateFrom(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        return String.format("%d/%d/%d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.YEAR));
     }
 
-    private static Locale getCurrentLocale(Configuration configuration) {
-        return ConfigurationCompat.getLocales(configuration).get(0);
+    public static String timeFrom(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        return getHour(cal) + ":" + cal.get(Calendar.MINUTE);
+    }
+
+    private static String getHour(Calendar cal) {
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        return getValueWithZeroPrefixIfIsLessThanTen(hour);
+    }
+
+    private static String getMinutes(Calendar cal) {
+        int minutes = cal.get(Calendar.MINUTE);
+        return getValueWithZeroPrefixIfIsLessThanTen(minutes);
+    }
+
+    private static String getValueWithZeroPrefixIfIsLessThanTen(int minutes) {
+        if (minutes < 10) {
+            return valueWithZeroPrefix(minutes);
+        } else {
+            return String.valueOf(minutes);
+        }
+    }
+
+    private static String valueWithZeroPrefix(int value) {
+        return String.valueOf("0" + value);
     }
 }
