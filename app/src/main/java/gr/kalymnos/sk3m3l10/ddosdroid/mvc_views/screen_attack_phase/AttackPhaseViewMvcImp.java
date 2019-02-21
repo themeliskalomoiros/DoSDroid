@@ -12,7 +12,7 @@ public class AttackPhaseViewMvcImp implements AttackPhaseViewMvc {
     private Toolbar toolbar;
 
     public AttackPhaseViewMvcImp(LayoutInflater inflater, ViewGroup container) {
-        root = inflater.inflate(R.layout.screen_create_attack, container, false);
+        root = inflater.inflate(R.layout.screen_attack_phase, container, false);
         toolbar = root.findViewById(R.id.toolBar);
     }
 
