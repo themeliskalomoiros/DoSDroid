@@ -16,7 +16,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter.stringDateFrom;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter.dateFrom;
 
 public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoViewMvc.OnJoinAttackClickListener {
     private Attack attack;
@@ -55,7 +55,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         viewMvc.bindAttackForce(attack.getBotIds().size());
         viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
-        String date = stringDateFrom(attack.getCreationTimeMilli(), getContext().getResources().getConfiguration());
+        String date = dateFrom(attack.getCreationTimeMilli(), getContext().getResources().getConfiguration());
         viewMvc.bindWebsiteDate(date);
     }
 

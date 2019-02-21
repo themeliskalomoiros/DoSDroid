@@ -12,7 +12,7 @@ public final class DateFormatter {
     private DateFormatter() {
     }
 
-    public static String stringDateFrom(long timeMillis, Configuration configuration) {
+    public static String dateFrom(long timeMillis, Configuration configuration) {
         Date date = new Date(timeMillis);
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.DEFAULT, getCurrentLocale(configuration));
         return formatter.format(date);
