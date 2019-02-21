@@ -30,6 +30,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private OnAttackCreationClickListener onAttackCreationClickListener;
     private OnNetworkConfigurationSelectedListener onNetworkConfigurationSelectedListener;
     private OnWebsiteTextChangeListener onWebsiteTextChangeListener;
+    private OnPickerClickListener onPickerClickListener;
 
     public AttackCreationViewMvcImpl(LayoutInflater inflater, ViewGroup container) {
         initViews(inflater, container);
@@ -143,6 +144,11 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     @Override
     public void setOnWebsiteTextChangeListener(OnWebsiteTextChangeListener listener) {
         onWebsiteTextChangeListener = listener;
+    }
+
+    @Override
+    public void setOnPickerClickListener(OnPickerClickListener listener) {
+        onPickerClickListener = listener;
     }
 
     @Override
