@@ -16,6 +16,12 @@ public interface AttackCreationViewMvc extends ViewMvc {
         void websiteTextChanged(String text);
     }
 
+    interface OnPickerClickListener {
+        void onTimePickerClick();
+
+        void onDatePickerClick();
+    }
+
     void bindWebsiteCreationTime(String hint);
 
     void bindNetworkConfig(String hint);
@@ -25,6 +31,8 @@ public interface AttackCreationViewMvc extends ViewMvc {
     void setOnNetworkConfigurationSelectedListener(OnNetworkConfigurationSelectedListener listener);
 
     void setOnWebsiteTextChangeListener(OnWebsiteTextChangeListener listener);
+
+    void setOnPickerClickListener(OnPickerClickListener listener);
 
     int getNetworkConf();
 
