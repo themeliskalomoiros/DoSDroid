@@ -63,6 +63,7 @@
     <string name="not_following_attack">You are no longer attacking</string>
     <string name="canceled_attack">You canceled the attack on</string>
     <string name="launch_time_label">Launch Time</string>
+    <string name="attack_already_started_label">Attack already started.</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>

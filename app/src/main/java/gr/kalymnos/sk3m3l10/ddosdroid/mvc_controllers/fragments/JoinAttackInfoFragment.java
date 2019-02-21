@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Special;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
@@ -55,8 +56,27 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         viewMvc.bindAttackForce(attack.getBotIds().size());
         viewMvc.bindNetworkConfiguration(NetworkTypeTranslator.translate(attack.getNetworkType()));
         viewMvc.bindWebsite(attack.getWebsite());
-        String date = dateFrom(attack.getCreationTimestamp());
-        viewMvc.bindCreationDate(date);
+        bindDates();
+    }
+
+    private void bindDates() {
+        bindLaunchTime(attack.getLaunchTimestamp());
+        bindCreationTime(attack.getCreationTimestamp());
+    }
+
+    private void bindLaunchTime(long timestamp) {
+        boolean timePast = attack.getLaunchTimestamp() > System.currentTimeMillis();
+        if (timePast) {
+            viewMvc.bindLaunchDate(getString(R.string.attack_already_started_label));
+        } else {
+            String launch = dateFrom(timestamp);
+            viewMvc.bindLaunchDate(launch);
+        }
+    }
+
+    private void bindCreationTime(long timestamp) {
+        String creation = dateFrom(timestamp);
+        viewMvc.bindCreationDate(creation);
     }
 
     @Override
