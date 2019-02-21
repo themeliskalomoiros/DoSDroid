@@ -26,6 +26,10 @@ public interface AttackCreationViewMvc extends ViewMvc {
 
     void bindNetworkConfig(String text);
 
+    void bindDateText(String text);
+
+    void bindTimeText(String text);
+
     void setOnAttackCreationClickListener(OnAttackCreationClickListener listener);
 
     void setOnNetworkConfigurationSelectedListener(OnNetworkConfigurationSelectedListener listener);

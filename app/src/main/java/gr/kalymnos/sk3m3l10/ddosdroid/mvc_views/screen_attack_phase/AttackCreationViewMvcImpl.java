@@ -156,6 +156,16 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     @Override
+    public void bindDateText(String text) {
+
+    }
+
+    @Override
+    public void bindTimeText(String text) {
+
+    }
+
+    @Override
     public void setOnAttackCreationClickListener(OnAttackCreationClickListener listener) {
         onAttackCreationClickListener = listener;
     }
