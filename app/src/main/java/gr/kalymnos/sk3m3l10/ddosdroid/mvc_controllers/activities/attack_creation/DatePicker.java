@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import java.util.Calendar;
 
 public class DatePicker extends DialogFragment {
+    public static final String TAG = "DatePicker";
 
     @NonNull
     @Override

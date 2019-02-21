@@ -11,6 +11,7 @@ import android.text.format.DateFormat;
 import java.util.Calendar;
 
 public class TimePicker extends DialogFragment {
+    public static final String TAG = "TimePicker";
 
     @NonNull
     @Override
