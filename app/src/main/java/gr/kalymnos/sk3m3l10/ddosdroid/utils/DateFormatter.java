@@ -16,22 +16,12 @@ public final class DateFormatter {
     }
 
     public static String from(int year, int month, int dayOfMonth) {
-        final Calendar cal = calendarFrom(year, month, dayOfMonth);
+        final Calendar cal = CalendarUtil.from(year, month, dayOfMonth);
         return from(cal);
     }
 
-    @NonNull
-    private static Calendar calendarFrom(int year, int month, int dayOfMonth) {
-        final Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        return cal;
-    }
-
     public static String from(long timestamp) {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timestamp);
+        final Calendar cal = CalendarUtil.from(timestamp);
         return from(cal);
     }
 

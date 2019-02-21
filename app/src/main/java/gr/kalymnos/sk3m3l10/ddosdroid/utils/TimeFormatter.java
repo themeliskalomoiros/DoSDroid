@@ -18,8 +18,7 @@ public final class TimeFormatter {
     }
 
     public static String from(long timestamp) {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timestamp);
+        final Calendar cal = CalendarUtil.from(timestamp);
         return getHour(cal) + ":" + getMinutes(cal);
     }
 
