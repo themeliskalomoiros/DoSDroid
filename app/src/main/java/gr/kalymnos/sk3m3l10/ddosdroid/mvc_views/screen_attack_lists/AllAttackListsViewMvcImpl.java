@@ -22,7 +22,7 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
 
     public AllAttackListsViewMvcImpl(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, String[] tabTitles, int contentType) {
         initFields(inflater, container, fragmentManager, tabTitles, contentType);
-        setupViewPager();
+        setupViewPager(tabTitles.length);
     }
 
     private void initFields(LayoutInflater inflater, ViewGroup container, FragmentManager fragmentManager, String[] tabTitles, int contentType) {
@@ -36,7 +36,8 @@ public class AllAttackListsViewMvcImpl implements AllAttackListsViewMvc {
         viewPager = root.findViewById(R.id.viewPager);
     }
 
-    private void setupViewPager() {
+    private void setupViewPager(int tabCount) {
+        viewPager.setOffscreenPageLimit(tabCount - 1);
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = root.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
