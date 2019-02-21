@@ -5,8 +5,11 @@ import android.support.annotation.NonNull;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
 import java.util.UUID;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.DatePicker;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.TimePicker;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
@@ -67,5 +70,15 @@ public final class Attacks {
     private static DatabaseReference getAttackDatabaseReference() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         return database.getReference().child("attacks");
+    }
+
+    public static long getLaunchTimestamp(DatePicker.Date date, TimePicker.Time time) {
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, date.year);
+        c.set(Calendar.MONTH, date.month);
+        c.set(Calendar.DAY_OF_MONTH, date.dayOfMonth);
+        c.set(Calendar.HOUR_OF_DAY, time.hourOfDay);
+        c.set(Calendar.MINUTE, time.minute);
+        return c.getTimeInMillis();
     }
 }
