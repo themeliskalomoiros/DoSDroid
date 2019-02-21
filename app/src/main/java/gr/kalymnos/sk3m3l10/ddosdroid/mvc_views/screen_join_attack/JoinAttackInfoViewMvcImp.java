@@ -10,7 +10,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 
 public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     private View root;
-    private TextView website, date, attackForce, networkConf;
+    private TextView website, date, attackForce, networkConf, launchTime;
     private FloatingActionButton fab;
 
     public JoinAttackInfoViewMvcImp(LayoutInflater inflater, ViewGroup container) {
@@ -22,6 +22,7 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
         website = root.findViewById(R.id.website_textview);
         date = root.findViewById(R.id.tv_website_creation_time);
         attackForce = root.findViewById(R.id.tv_attack_force);
+        launchTime = root.findViewById(R.id.tv_launch_time);
         networkConf = root.findViewById(R.id.network_configuration);
         fab = root.findViewById(R.id.fab);
     }
@@ -49,6 +50,11 @@ public class JoinAttackInfoViewMvcImp implements JoinAttackInfoViewMvc {
     @Override
     public void bindAttackForce(int count) {
         attackForce.setText(attackForce.getContext().getString(R.string.people_joined_this_attack) + " " + count);
+    }
+
+    @Override
+    public void bindLaunchTime(String text) {
+        launchTime.setText(text);
     }
 
     @Override

@@ -15,5 +15,7 @@ public interface JoinAttackInfoViewMvc extends ViewMvc {
 
     void bindAttackForce(int count);
 
+    void bindLaunchTime(String text);
+
     void bindNetworkConfiguration(String networkConf);
 }
