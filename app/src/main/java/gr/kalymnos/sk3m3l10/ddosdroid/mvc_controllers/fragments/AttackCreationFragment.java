@@ -19,6 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreati
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.CalendarUtil;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
 import gr.kalymnos.sk3m3l10.ddosdroid.utils.TimeFormatter;
 
@@ -75,7 +76,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @Override
     public void onAttackCreateClicked(String website) {
-        if (userProvidedAllData(website)){
+        if (userProvidedAllData(website)) {
             Attack attack = createAttack(website);
             callback.onAttackCreated(attack);
         }
@@ -86,10 +87,13 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
             Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
             return false;
         } else if (date == null) {
-            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(viewMvc.getRootView(), R.string.havent_assigned_date_label, Snackbar.LENGTH_SHORT).show();
             return false;
         } else if (time == null) {
-            Snackbar.make(viewMvc.getRootView(), R.string.enter_valid_url_label, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(viewMvc.getRootView(), R.string.havent_assigned_time_label, Snackbar.LENGTH_SHORT).show();
+            return false;
+        } else if (CalendarUtil.isAfterNowCalendar(CalendarUtil.from(date, time))) {
+            Snackbar.make(viewMvc.getRootView(), R.string.invalid_date_time, Snackbar.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -97,7 +101,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @NonNull
     private Attack createAttack(String website) {
-        Attack attack = new Attack(website, viewMvc.getNetworkConf(),Attacks.getLaunchTimestamp(date,time));
+        Attack attack = new Attack(website, viewMvc.getNetworkConf(), Attacks.getLaunchTimestamp(date, time));
         attack.setPushId(Attacks.createPushId());
         return attack;
     }

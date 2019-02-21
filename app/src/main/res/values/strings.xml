@@ -67,6 +67,9 @@
     <string name="launch_date_label">Launch Date</string>
     <string name="set_date_label">Define the date.</string>
     <string name="set_time_label">Set the time.</string>
+    <string name="havent_assigned_date_label">You haven\'t assigned a date.</string>
+    <string name="havent_assigned_time_label">You haven\'t assigned time.</string>
+    <string name="invalid_date_time">The date and time you\'ve defined already passed!</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
