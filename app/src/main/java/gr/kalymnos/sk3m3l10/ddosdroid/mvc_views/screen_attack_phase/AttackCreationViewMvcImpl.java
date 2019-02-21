@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     private Spinner spinner;
     private FloatingActionButton fab;
     private ProgressBar progressBar;
+    private ImageView datePicker, timePicker;
 
     private OnAttackCreationClickListener onAttackCreationClickListener;
     private OnNetworkConfigurationSelectedListener onNetworkConfigurationSelectedListener;
@@ -41,9 +43,31 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
         websiteCreationTime = root.findViewById(R.id.tv_website_creation_time);
         networkConfigHint = root.findViewById(R.id.tv_network_config_hint);
         progressBar = root.findViewById(R.id.progressBar);
+        initPickers();
         initEditText();
         initSpinner(inflater);
         initFab();
+    }
+
+    private void initPickers() {
+        initDatePicker();
+        initTimePicker();
+    }
+
+    private void initDatePicker() {
+        datePicker = root.findViewById(R.id.date_picker);
+        datePicker.setOnClickListener(view -> {
+            if (onPickerClickListener != null)
+                onPickerClickListener.onDatePickerClick();
+        });
+    }
+
+    private void initTimePicker() {
+        timePicker = root.findViewById(R.id.time_picker);
+        timePicker.setOnClickListener(view -> {
+            if (onPickerClickListener != null)
+                onPickerClickListener.onTimePickerClick();
+        });
     }
 
     private void initEditText() {
