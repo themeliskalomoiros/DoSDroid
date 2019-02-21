@@ -18,9 +18,10 @@ public class Attack implements Parcelable {
     public Attack() {
     }
 
-    public Attack(String website, int networkType) {
+    public Attack(String website, int networkType, long launchTimestamp) {
         this.website = website;
         this.networkType = networkType;
+        this.launchTimestamp = launchTimestamp;
         this.creationTimestamp = System.currentTimeMillis();
     }
 
@@ -34,10 +35,6 @@ public class Attack implements Parcelable {
 
     public long getLaunchTimestamp() {
         return launchTimestamp;
-    }
-
-    public void setLaunchTimestamp(long launchTimestamp) {
-        this.launchTimestamp = launchTimestamp;
     }
 
     public String getWebsite() {
