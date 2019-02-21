@@ -97,7 +97,7 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
 
     @NonNull
     private Attack createAttack(String website) {
-        Attack attack = new Attack(website, viewMvc.getNetworkConf());
+        Attack attack = new Attack(website, viewMvc.getNetworkConf(),Attacks.getLaunchTimestamp(date,time));
         attack.setPushId(Attacks.createPushId());
         return attack;
     }
