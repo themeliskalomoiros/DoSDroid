@@ -146,13 +146,13 @@ public class AttackCreationViewMvcImpl implements AttackCreationViewMvc {
     }
 
     @Override
-    public void bindWebsiteCreationTime(String hint) {
-        websiteCreationTime.setText(hint);
+    public void bindWebsiteCreationTime(String text) {
+        websiteCreationTime.setText(text);
     }
 
     @Override
-    public void bindNetworkConfig(String hint) {
-        networkConfigHint.setText(hint);
+    public void bindNetworkConfig(String text) {
+        networkConfigHint.setText(text);
     }
 
     @Override

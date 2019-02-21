@@ -22,9 +22,9 @@ public interface AttackCreationViewMvc extends ViewMvc {
         void onDatePickerClick();
     }
 
-    void bindWebsiteCreationTime(String hint);
+    void bindWebsiteCreationTime(String text);
 
-    void bindNetworkConfig(String hint);
+    void bindNetworkConfig(String text);
 
     void setOnAttackCreationClickListener(OnAttackCreationClickListener listener);
 
