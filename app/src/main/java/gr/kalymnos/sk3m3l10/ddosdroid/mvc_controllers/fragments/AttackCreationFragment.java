@@ -25,8 +25,8 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         AttackCreationViewMvc.OnPickerClickListener {
     private AttackCreationViewMvc viewMvc;
     private OnAttackCreationListener callback;
-    private TimePicker.TimeData timeData;
-    private DatePicker.DateData dateData;
+    private TimePicker.Time time;
+    private DatePicker.Date date;
 
     public interface OnAttackCreationListener {
         void onAttackCreated(Attack attack);
@@ -61,12 +61,12 @@ public class AttackCreationFragment extends Fragment implements AttackCreationVi
         }
     }
 
-    public void setTimeData(TimePicker.TimeData timeData) {
-        this.timeData = timeData;
+    public void setTime(TimePicker.Time time) {
+        this.time = time;
     }
 
-    public void setDateData(DatePicker.DateData dateData) {
-        this.dateData = dateData;
+    public void setDate(DatePicker.Date date) {
+        this.date = date;
     }
 
     @Override

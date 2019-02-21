@@ -23,10 +23,10 @@ public class TimePicker extends DialogFragment {
                 currentHour, currentMinute, DateFormat.is24HourFormat(getActivity()));
     }
 
-    public static class TimeData {
+    public static class Time {
         public int hourOfDay, minute;
 
-        public TimeData(int hourOfDay, int minute) {
+        public Time(int hourOfDay, int minute) {
             this.hourOfDay = hourOfDay;
             this.minute = minute;
         }

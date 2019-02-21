@@ -23,10 +23,10 @@ public class DatePicker extends DialogFragment {
                 currentYear, currentMonth, currentDay);
     }
 
-    public static class DateData {
+    public static class Date {
         public int year, month, dayOfMonth;
 
-        public DateData(int year, int month, int dayOfMonth) {
+        public Date(int year, int month, int dayOfMonth) {
             this.year = year;
             this.month = month;
             this.dayOfMonth = dayOfMonth;
