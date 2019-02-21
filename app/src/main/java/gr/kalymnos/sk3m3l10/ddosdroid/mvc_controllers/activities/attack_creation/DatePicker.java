@@ -22,4 +22,14 @@ public class DatePicker extends DialogFragment {
         return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getActivity(),
                 currentYear, currentMonth, currentDay);
     }
+
+    public static class DateData {
+        public int year, month, dayOfMonth;
+
+        public DateData(int year, int month, int dayOfMonth) {
+            this.year = year;
+            this.month = month;
+            this.dayOfMonth = dayOfMonth;
+        }
+    }
 }
