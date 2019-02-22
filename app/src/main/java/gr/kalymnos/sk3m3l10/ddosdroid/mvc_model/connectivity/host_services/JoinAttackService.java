@@ -59,16 +59,15 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         switch (intent.getAction()) {
             case Action.ACTION_JOIN_ATTACK:
                 handleStartAttackAction(attack);
-                return START_REDELIVER_INTENT;
+                break;
             case Action.ACTION_LEAVE_ATTACK:
                 handleStopAttackAction(attack);
-                return START_REDELIVER_INTENT;
+                break;
             case Action.ACTION_STOP_SERVICE:
                 stopSelf(); // onDestroy() will be called clearing resources
-                return START_NOT_STICKY;
-            default:
-                return super.onStartCommand(intent, flags, startId);
+                break;
         }
+        return START_NOT_STICKY;
     }
 
     private void handleStartAttackAction(Attack attack) {
