@@ -88,6 +88,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         scheduleJob(client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
         displayToastOnUIThread(this, R.string.client_connected_msg);
+        client.removeClientConnectionListener();
     }
 
     private void scheduleJob(Attack attack) {
@@ -114,7 +115,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onAttackDelete(Attack deletedAttack) {
-        if (jobPersit.has(deletedAttack.getWebsite()))
+        if (jobPersit.has(deletedAttack.getPushId()))
             Action.leave(deletedAttack, this);
     }
 
