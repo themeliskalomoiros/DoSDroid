@@ -99,7 +99,6 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
     @Override
     public void onServiceLost(NsdServiceInfo nsdServiceInfo) {
         Log.d(TAG, "Service lost");
-        connectionListener.onServerConnectionError();
     }
 
     @Override
