@@ -81,7 +81,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void handleStopAttackAction(Attack attack) {
-
+        jobScheduler.cancel(attack.getPushId());
     }
 
     @Override
