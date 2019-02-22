@@ -26,10 +26,10 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ClientHost.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService.ForegroundNotification.NOTIFICATION_ID;
 
-public class ClientHost extends Service implements Client.ClientConnectionListener, AttackRepository.OnRepositoryChangeListener {
-    private static final String TAG = "ClientHost";
+public class JoinAttackService extends Service implements Client.ClientConnectionListener, AttackRepository.OnRepositoryChangeListener {
+    private static final String TAG = "JoinAttackService";
 
     private Map<String, Client> clients;
     private AttackRepository repo;
@@ -167,7 +167,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
         }
 
         private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
-            Intent intent = new Intent(context, ClientHost.class);
+            Intent intent = new Intent(context, JoinAttackService.class);
             intent.setAction(action);
             intent.putExtra(Extras.EXTRA_ATTACK, attack);
             return intent;
@@ -179,7 +179,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
 
         @NonNull
         private static Intent createStopServiceIntent(Context context) {
-            Intent intent = new Intent(context, ClientHost.class);
+            Intent intent = new Intent(context, JoinAttackService.class);
             intent.setAction(ACTION_STOP_SERVICE);
             return intent;
         }
@@ -196,7 +196,7 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
         }
 
         NotificationCompat.Builder createNotificationBuilder() {
-            return new NotificationCompat.Builder(ClientHost.this, CHANNEL_ID)
+            return new NotificationCompat.Builder(JoinAttackService.this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_fist)
                     .setContentTitle(getString(R.string.client_notification_title))
                     .setContentText(getString(R.string.client_notification_small_text))
@@ -207,14 +207,14 @@ public class ClientHost extends Service implements Client.ClientConnectionListen
         }
 
         PendingIntent getContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(ClientHost.this, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.joined_attacks_label);
-            return PendingIntent.getActivity(ClientHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intent = AllAttackListsActivity.Action.createIntent(JoinAttackService.this, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.joined_attacks_label);
+            return PendingIntent.getActivity(JoinAttackService.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         PendingIntent getStopServicePendingIntent() {
-            Intent intent = new Intent(ClientHost.this, ClientHost.class);
+            Intent intent = new Intent(JoinAttackService.this, JoinAttackService.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
-            return PendingIntent.getService(ClientHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            return PendingIntent.getService(JoinAttackService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ClientHost;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ServerHost;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.FirebaseRepository;
@@ -134,7 +134,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onJoinedAttackDeleteClick(int position) {
         //  TODO: Is this duplicate with onOwnerAttackDeleteClick()?
         Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
-        ClientHost.Action.stopClientOf(attack, getContext());
+        JoinAttackService.Action.stopClientOf(attack, getContext());
         Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
     }
 

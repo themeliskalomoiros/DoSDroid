@@ -42,7 +42,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".mvc_model.connectivity.host_services.ClientHost"
+            android:name=".mvc_model.connectivity.host_services.JoinAttackService"
             android:enabled="true"
             android:exported="false" />
         <service
