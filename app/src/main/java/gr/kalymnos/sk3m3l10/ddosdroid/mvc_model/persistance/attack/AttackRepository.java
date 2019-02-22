@@ -29,5 +29,7 @@ public abstract class AttackRepository {
 
     public abstract void update(Attack attack);
 
+    public abstract void updateRemovingLocalBot(String attackId);
+
     public abstract void delete(String attackId);
 }

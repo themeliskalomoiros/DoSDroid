@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 public class FirebaseRepository extends AttackRepository implements ChildEventListener {
     private static final String TAG = "FirebaseRepository";
@@ -78,6 +79,31 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         };
+    }
+
+    @Override
+    public void updateRemovingLocalBot(String attackId) {
+        allAttacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot attackSnapshot : dataSnapshot.getChildren()) {
+                    Attack attack = attackSnapshot.getValue(Attack.class);
+                    boolean attackFound = attack.getPushId().equals(attackId);
+                    if (attackFound) {
+                        updateWithoutLocalBot(attack);
+                    }
+                }
+            }
+
+            private void updateWithoutLocalBot(Attack attack) {
+                attack.getBotIds().remove(Bots.localId());
+                update(attack);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override
