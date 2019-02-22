@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
  * This class just save the job tags as keys,
  * no need to worry about the value.
  * */
-public class PrefsJobPersistance extends JobPersistance {
+public class PrefsJobPersistance implements JobPersistance {
     private final SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
 
@@ -23,18 +23,7 @@ public class PrefsJobPersistance extends JobPersistance {
     @Override
     public void save(String jobTag) {
         editor.putBoolean(jobTag, true);
-        commit(jobTag, editor);
-    }
-
-    private void commit(String jobTag, SharedPreferences.Editor editor) {
-        new Thread(() -> {
-            boolean saved = editor.commit();
-            if (saved) {
-                listener.onJobSave(jobTag);
-            } else {
-                listener.onJobSaveError(jobTag);
-            }
-        }).start();
+        editor.apply();
     }
 
     @Override

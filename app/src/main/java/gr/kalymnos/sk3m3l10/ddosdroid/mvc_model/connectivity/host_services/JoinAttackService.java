@@ -27,7 +27,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 
 public class JoinAttackService extends Service implements Client.ClientConnectionListener,
-        AttackRepository.OnRepositoryChangeListener, JobPersistance.OnJobPersistanceListener {
+        AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "JoinAttackService";
 
     private AttackRepository attackRepo;
@@ -44,7 +44,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         attackRepo = new FirebaseRepository();
         attackRepo.setOnRepositoryChangeListener(this);
         jobPersit = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
-        jobPersit.setOnJobPersistanceListener(this);
     }
 
     @Override
@@ -86,6 +85,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onClientConnection(Client client) {
+        jobPersit.save(client.getAttack().getPushId());
         AttackJobScheduler.schedule(this, client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
         displayToastOnUIThread(this, R.string.client_connected_msg);
@@ -120,21 +120,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
-    }
-
-    @Override
-    public void onJobSave(String jobTag) {
-
-    }
-
-    @Override
-    public void onJobSaveError(String jobTag) {
-
-    }
-
-    @Override
-    public void onJobDelete(String jobTag) {
-
     }
 
     private static void displayToastOnUIThread(Context context, int msgRes) {
