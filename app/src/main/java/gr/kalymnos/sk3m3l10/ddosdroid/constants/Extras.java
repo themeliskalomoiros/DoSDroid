@@ -12,8 +12,9 @@ public final class Extras {
     public static final String EXTRA_LOCAL_PORT = "extra_local_port";
     public static final String EXTRA_MAC_ADDRESS = "extra_mac_address";
     public static final String EXTRA_TITLE = "extra_title";
-    public static final String EXTRA_SERVER_STATUS = "extra_server_status";
     public static final String EXTRA_WEBSITE = "extra_website";
+    public static final String EXTRA_JOB = "extra_job";
+
 
     private Extras() {
     }
