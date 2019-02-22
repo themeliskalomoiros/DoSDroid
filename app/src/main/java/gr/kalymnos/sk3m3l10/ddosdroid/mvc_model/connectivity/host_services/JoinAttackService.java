@@ -86,7 +86,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     @Override
     public void onClientConnection(Client client) {
         updateAttackWithCurrentUser(client.getAttack());
-        displayToastOnUIThread(R.string.client_connected_msg);
+        displayToastOnUIThread(this, R.string.client_connected_msg);
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
@@ -94,16 +94,10 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         attackRepo.update(attack);
     }
 
-    private void displayToastOnUIThread(int msgRes) {
-        Runnable displayToast = () -> Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(displayToast);
-    }
-
     @Override
     public void onClientConnectionError(Client client) {
         client.removeClientConnectionListener();
-        displayToastOnUIThread(R.string.client_connection_error_msg);
+        displayToastOnUIThread(this, R.string.client_connection_error_msg);
     }
 
     private void updateAttackWithoutCurrentUser(Attack attack) {
@@ -144,6 +138,12 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     @Override
     public void onJobDelete(String jobTag) {
 
+    }
+
+    private static void displayToastOnUIThread(Context context, int msgRes) {
+        Runnable displayToast = () -> Toast.makeText(context, msgRes, Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(displayToast);
     }
 
     public static class Action {
