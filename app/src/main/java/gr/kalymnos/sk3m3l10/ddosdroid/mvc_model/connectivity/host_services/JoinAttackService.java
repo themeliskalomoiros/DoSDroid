@@ -90,8 +90,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     @Override
-    public void onClientConnected(String key) {
-        Client client = clients.get(key);
+    public void onClientConnection(Client client) {
         updateAttackWithCurrentUser(client.getAttack());
         //  Better to startForeground when update() returned
         startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
@@ -103,7 +102,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     @Override
-    public void onClientConnectionError(String key) {
+    public void onClientConnectionError(Client client) {
         clients.remove(key);
         displayErrorToastOnUIThread();
     }
@@ -115,7 +114,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     @Override
-    public void onClientDisconnected(Attack attack) {
+    public void onClientDisconnection(Client client) {
         //  Not called from main thread - not removing client here because of concurrent connection exception.
         updateAttackWithoutCurrentUser(attack);
         if (clients.size() == 0)

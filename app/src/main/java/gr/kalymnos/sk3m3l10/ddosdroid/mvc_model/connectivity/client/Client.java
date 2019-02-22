@@ -23,11 +23,11 @@ public class Client implements ConnectionToServer.ConnectionToServerListener {
     private ClientConnectionListener clientConnectionListener;
 
     public interface ClientConnectionListener {
-        void onClientConnected(String key);
+        void onClientConnection(Client client);
 
-        void onClientConnectionError(String key);
+        void onClientConnectionError(Client client);
 
-        void onClientDisconnected(Attack attack);
+        void onClientDisconnection(Client client);
     }
 
     public Client(Context context, Attack attack) {
@@ -60,19 +60,19 @@ public class Client implements ConnectionToServer.ConnectionToServerListener {
 
     @Override
     public void onServerConnection() {
-        clientConnectionListener.onClientConnected(attack.getWebsite());
+        clientConnectionListener.onClientConnection(this);
     }
 
     @Override
     public void onServerConnectionError() {
         serverConnection.releaseResources();
-        clientConnectionListener.onClientConnectionError(attack.getWebsite());
+        clientConnectionListener.onClientConnectionError(this);
     }
 
     @Override
     public void onServerDisconnection() {
         releaseResources();
-        clientConnectionListener.onClientDisconnected(attack);
+        clientConnectionListener.onClientDisconnection(this);
         nullReferences();
     }
 
