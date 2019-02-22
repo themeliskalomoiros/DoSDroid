@@ -101,10 +101,9 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
     }
 
     private void stopServers() {
-        for (Map.Entry<String, Server> entry : servers.entrySet()){
+        for (Map.Entry<String, Server> entry : servers.entrySet())
             entry.getValue().stop();
-            entry.getValue().clearReferences();
-        }
+
     }
 
     public static class Action {

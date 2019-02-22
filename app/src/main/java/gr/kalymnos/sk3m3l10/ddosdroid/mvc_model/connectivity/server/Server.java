@@ -1,6 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -75,6 +76,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         shutdownThreadPool();
         repo.delete(attack.getPushId());
         repo.removeOnRepositoryChangeListener();
+        clearReferences();
     }
 
     private void shutdownThreadPool() {
@@ -89,9 +91,10 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         }
     }
 
-    public final void clearReferences() {
+    private final void clearReferences() {
         context = null;
         statusListener = null;
+        Log.d(TAG, "statusListener = null");
     }
 
     public final String getKey() {

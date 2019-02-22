@@ -86,6 +86,7 @@ public class NsdServer extends Server {
             public void onServiceUnregistered(NsdServiceInfo nsdServiceInfo) {
                 Log.d(TAG, "Nsd service unregistered successfully");
                 statusListener.onServerStopped(attack.getWebsite());
+                NsdServer.super.stop();
             }
         };
     }
@@ -99,7 +100,6 @@ public class NsdServer extends Server {
     public void stop() {
         closeServerSocket();
         unregisterService();
-        super.stop();
     }
 
     private void closeServerSocket() {
