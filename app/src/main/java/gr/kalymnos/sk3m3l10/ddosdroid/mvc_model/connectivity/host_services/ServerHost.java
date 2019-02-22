@@ -53,12 +53,12 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
 
     private void handleStartServerAction(Intent intent) {
         Server server = createServerFrom(intent);
-        if (!servers.containsKey(server.getKey())) {
+        if (servers.containsKey(server.getKey())) {
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getKey(), Toast.LENGTH_SHORT).show();
+        } else {
             server.setServerStatusListener(this);
             servers.put(server.getKey(), server);
             server.start();
-        } else {
-            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getKey(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -72,18 +72,6 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
         Server server = servers.get(websiteKey);
         servers.remove(websiteKey);
         server.stop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopServers();
-        servers.clear();
-    }
-
-    private void stopServers() {
-        for (Map.Entry<String, Server> entry : servers.entrySet())
-            entry.getValue().stop();
     }
 
     @Override
@@ -103,6 +91,18 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
         Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
         if (servers.size() == 0)
             stopSelf();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopServers();
+        servers.clear();
+    }
+
+    private void stopServers() {
+        for (Map.Entry<String, Server> entry : servers.entrySet())
+            entry.getValue().stop();
     }
 
     public static class Action {
