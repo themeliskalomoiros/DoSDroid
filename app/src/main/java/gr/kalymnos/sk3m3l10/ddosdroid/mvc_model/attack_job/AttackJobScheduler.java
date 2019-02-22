@@ -21,7 +21,7 @@ public final class AttackJobScheduler {
     private AttackJobScheduler() {
     }
 
-    private static void schedule(Context context, Attack attack) {
+    public static void schedule(Context context, Attack attack) {
         long launchTime = attack.getLaunchTimestamp();
         long launchTimePlusOneMinute = launchTime + ONE_MINUTE_IN_MILLI;
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));

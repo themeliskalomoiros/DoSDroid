@@ -14,6 +14,7 @@ import android.widget.Toast;
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_job.AttackJobScheduler;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.FirebaseRepository;
@@ -85,6 +86,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onClientConnection(Client client) {
+        AttackJobScheduler.schedule(this, client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
         displayToastOnUIThread(this, R.string.client_connected_msg);
     }
