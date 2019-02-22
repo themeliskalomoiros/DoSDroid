@@ -2,8 +2,10 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job;
 
 import android.content.SharedPreferences;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
-
+/*
+ * This class just save the job tags as keys,
+ * no need to worry about the value.
+ * */
 public class PrefsJobPersistance extends JobPersistance {
     private final SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
@@ -15,13 +17,12 @@ public class PrefsJobPersistance extends JobPersistance {
 
     @Override
     public boolean exists(String jobTag) {
-        String value = preferences.getString(Extras.EXTRA_JOB, "");
-        return value.equals(jobTag);
+        return preferences.contains(jobTag);
     }
 
     @Override
     public void save(String jobTag) {
-        editor.putString(Extras.EXTRA_JOB, jobTag);
+        editor.putBoolean(jobTag, true);
         commit(jobTag, editor);
     }
 
