@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsA
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.FirebaseRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job.JobRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job.JobPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -29,22 +28,23 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService.ForegroundNotification.NOTIFICATION_ID;
 
-public class JoinAttackService extends Service implements Client.ClientConnectionListener, AttackRepository.OnRepositoryChangeListener {
+public class JoinAttackService extends Service implements Client.ClientConnectionListener,
+        AttackRepository.OnRepositoryChangeListener, JobPersistance.OnJobPersistanceListener {
     private static final String TAG = "JoinAttackService";
 
     private Map<String, Client> clients;
     private AttackRepository attackRepo;
-    private JobRepository jobRepo;
+    private JobPersistance jobRepo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         clients = new HashMap<>();
-        initRepo();
+        initRepos();
         attackRepo.startListenForChanges();
     }
 
-    private void initRepo() {
+    private void initRepos() {
         attackRepo = new FirebaseRepository();
         attackRepo.setOnRepositoryChangeListener(this);
     }
@@ -153,6 +153,21 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onAttackUpdate(Attack changedAttack) {
+    }
+
+    @Override
+    public void onJobSave(String jobTag) {
+
+    }
+
+    @Override
+    public void onJobSaveError(String jobTag) {
+
+    }
+
+    @Override
+    public void onJobDelete(String jobTag) {
+
     }
 
     public static class Action {

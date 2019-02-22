@@ -4,11 +4,11 @@ import android.content.SharedPreferences;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 
-public class PrefsJobRepository extends JobRepository {
+public class PrefsJobPersistance extends JobPersistance {
     private final SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
 
-    public PrefsJobRepository(SharedPreferences preferences) {
+    public PrefsJobPersistance(SharedPreferences preferences) {
         this.preferences = preferences;
         this.editor = this.preferences.edit();
     }
@@ -20,7 +20,7 @@ public class PrefsJobRepository extends JobRepository {
     }
 
     @Override
-    public void add(String jobTag) {
+    public void save(String jobTag) {
         editor.putString(Extras.EXTRA_JOB, jobTag);
         commit(jobTag, editor);
     }
@@ -29,15 +29,15 @@ public class PrefsJobRepository extends JobRepository {
         new Thread(() -> {
             boolean saved = editor.commit();
             if (saved) {
-                listener.onJobRepositoryAdded(jobTag);
+                listener.onJobSave(jobTag);
             } else {
-                listener.onJobRepositoryAddedError(jobTag);
+                listener.onJobSaveError(jobTag);
             }
         }).start();
     }
 
     @Override
-    public void remove(String jobTag) {
+    public void delete(String jobTag) {
         editor.remove(jobTag);
         editor.apply();
     }
