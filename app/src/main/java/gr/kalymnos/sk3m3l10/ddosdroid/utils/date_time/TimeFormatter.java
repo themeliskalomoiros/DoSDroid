@@ -34,13 +34,13 @@ public final class TimeFormatter {
 
     private static String getValueWithZeroPrefixIfIsLessThanTen(int value) {
         if (value < 10) {
-            return valueWithZeroPrefix(value);
+            return addZeroPrefixTo(value);
         } else {
             return String.valueOf(value);
         }
     }
 
-    private static String valueWithZeroPrefix(int value) {
+    private static String addZeroPrefixTo(int value) {
         return String.valueOf("0" + value);
     }
 }
