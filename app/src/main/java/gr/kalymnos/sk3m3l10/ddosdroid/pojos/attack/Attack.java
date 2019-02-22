@@ -83,15 +83,6 @@ public class Attack implements Parcelable {
     }
 
     //  Parcelable implementation
-    protected Attack(Parcel in) {
-        pushId = in.readString();
-        website = in.readString();
-        networkType = in.readInt();
-        creationTimestamp = in.readLong();
-        launchTimestamp = in.readLong();
-        botIds = in.createStringArrayList();
-    }
-
     public static final Creator<Attack> CREATOR = new Creator<Attack>() {
         @Override
         public Attack createFromParcel(Parcel in) {
@@ -104,9 +95,14 @@ public class Attack implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
+    protected Attack(Parcel in) {
+        pushId = in.readString();
+        website = in.readString();
+        networkType = in.readInt();
+        creationTimestamp = in.readLong();
+        launchTimestamp = in.readLong();
+        botIds = in.createStringArrayList();
+        in.readMap(hostInfo, Map.class.getClassLoader());
     }
 
     @Override
@@ -117,5 +113,11 @@ public class Attack implements Parcelable {
         parcel.writeLong(creationTimestamp);
         parcel.writeLong(launchTimestamp);
         parcel.writeStringList(botIds);
+        parcel.writeMap(hostInfo);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
