@@ -75,7 +75,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void handleJoinAttackAction(Attack attack) {
-        if (jobPersist.has(attack.getWebsite())) {
+        if (jobPersist.has(attack.getPushId())) {
             Toast.makeText(this, getString(R.string.already_attacking_label)
                     + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
