@@ -55,10 +55,10 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public int onStartCommand(Intent intent, int flags, int startId) {
         Attack attack = intent.getParcelableExtra(Extras.EXTRA_ATTACK);
         switch (intent.getAction()) {
-            case Action.ACTION_START_ATTACK:
+            case Action.ACTION_JOIN_ATTACK:
                 handleStartAttackAction(attack);
                 return START_REDELIVER_INTENT;
-            case Action.ACTION_STOP_ATTACK:
+            case Action.ACTION_LEAVE_ATTACK:
                 handleStopAttackAction(attack);
                 return START_REDELIVER_INTENT;
             case Action.ACTION_STOP_SERVICE:
@@ -134,16 +134,16 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     public static class Action {
-        private static final String ACTION_START_ATTACK = TAG + "start attack action";
-        private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
+        private static final String ACTION_JOIN_ATTACK = TAG + "join attack action";
+        private static final String ACTION_LEAVE_ATTACK = TAG + "leave attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
         public static void join(Attack attack, Context context) {
-            context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
+            context.startService(createIntentWithAttackExtra(context, attack, ACTION_JOIN_ATTACK));
         }
 
         public static void leave(Attack attack, Context context) {
-            context.startService(createIntentWithAttackExtra(context, attack, ACTION_STOP_ATTACK));
+            context.startService(createIntentWithAttackExtra(context, attack, ACTION_LEAVE_ATTACK));
         }
 
         private static Intent createIntentWithAttackExtra(Context context, Attack attack, String action) {
