@@ -1,5 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job;
 
+import java.util.Map;
+
 public interface JobPersistance {
     String FILE_NAME = "JobPersistance";
 
@@ -12,4 +14,6 @@ public interface JobPersistance {
     void delete(String jobTag);
 
     void clear();
+
+    Map<String,?> map();
 }

@@ -2,6 +2,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job;
 
 import android.content.SharedPreferences;
 
+import java.util.Map;
+
 /*
  * This class just save the job tags as keys,
  * no need to worry about the value.
@@ -41,5 +43,10 @@ public class PrefsJobPersistance implements JobPersistance {
     public void clear() {
         editor.clear();
         editor.apply();
+    }
+
+    @Override
+    public Map<String, ?> map() {
+        return preferences.getAll();
     }
 }
