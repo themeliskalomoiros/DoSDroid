@@ -16,6 +16,11 @@ public class PrefsJobPersistance implements JobPersistance {
     }
 
     @Override
+    public int size() {
+        return preferences.getAll().size();
+    }
+
+    @Override
     public boolean has(String jobTag) {
         return preferences.contains(jobTag);
     }

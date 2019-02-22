@@ -1,11 +1,13 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job;
 
 public interface JobPersistance {
-    public static final String FILE_NAME = "JobPersistance";
+    String FILE_NAME = "JobPersistance";
 
-    public abstract boolean has(String jobTag);
+    int size();
 
-    public abstract void save(String jobTag);
+    boolean has(String jobTag);
 
-    public abstract void delete(String jobTag);
+    void save(String jobTag);
+
+    void delete(String jobTag);
 }
