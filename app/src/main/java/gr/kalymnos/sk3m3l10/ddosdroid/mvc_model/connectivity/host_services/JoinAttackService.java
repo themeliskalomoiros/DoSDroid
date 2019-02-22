@@ -11,7 +11,6 @@ import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
@@ -33,14 +32,12 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         AttackRepository.OnRepositoryChangeListener, JobPersistance.OnJobPersistanceListener {
     private static final String TAG = "JoinAttackService";
 
-    private Map<String, Client> clients;
     private AttackRepository attackRepo;
-    private JobPersistance jobRepo;
+    private JobPersistance jobPersit;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        clients = new HashMap<>();
         initRepos();
         attackRepo.startListenForChanges();
     }
@@ -48,8 +45,8 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void initRepos() {
         attackRepo = new FirebaseRepository();
         attackRepo.setOnRepositoryChangeListener(this);
-        jobRepo = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
-        jobRepo.setOnJobPersistanceListener(this);
+        jobPersit = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
+        jobPersit.setOnJobPersistanceListener(this);
     }
 
     @Override
@@ -76,12 +73,11 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void handleStartAttackAction(Attack attack) {
-        Client client = new Client(this, attack);
-        client.setClientConnectionListener(this);
-        if (clients.containsKey(attack.getWebsite())) {
-            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + client.getAttack().getWebsite(), Toast.LENGTH_SHORT).show();
+        if (jobPersit.has(attack.getWebsite())) {
+            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
-            clients.put(attack.getWebsite(), client);
+            Client client = new Client(this, attack);
+            client.setClientConnectionListener(this);
             client.connect();
         }
     }
