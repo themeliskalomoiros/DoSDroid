@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
