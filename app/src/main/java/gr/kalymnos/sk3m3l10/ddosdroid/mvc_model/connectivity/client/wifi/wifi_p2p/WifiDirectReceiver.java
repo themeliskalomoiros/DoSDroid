@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi.wifi_p2p;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.util.Log;
 
 import java.net.InetAddress;
 
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi.SocketConnectionThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
 import static android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_STATE;

@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

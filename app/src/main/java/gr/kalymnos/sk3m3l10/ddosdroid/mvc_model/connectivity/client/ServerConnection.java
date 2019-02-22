@@ -4,8 +4,8 @@ import android.content.Context;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.bluetooth.BluetoothServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.internet.InternetServerConnection;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.nsd.NsdServerConnection;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p.WifiP2PServerConnection;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi.nsd.NsdServerConnection;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi.wifi_p2p.WifiP2PServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.BLUETOOTH;

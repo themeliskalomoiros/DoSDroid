@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi.wifi_p2p;
 
 import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
