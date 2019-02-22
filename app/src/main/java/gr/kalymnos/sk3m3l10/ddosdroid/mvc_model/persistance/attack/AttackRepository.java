@@ -6,11 +6,11 @@ public abstract class AttackRepository {
     protected OnRepositoryChangeListener repositoryListener;
 
     public interface OnRepositoryChangeListener {
-        void onAttackUpload(Attack uploadedAttack);
+        void onAttackUpload(Attack attack);
 
-        void onAttackUpdate(Attack changedAttack);
+        void onAttackUpdate(Attack attack);
 
-        void onAttackDelete(Attack deletedAttack);
+        void onAttackDelete(Attack attack);
     }
 
     public final void setOnRepositoryChangeListener(OnRepositoryChangeListener listener) {

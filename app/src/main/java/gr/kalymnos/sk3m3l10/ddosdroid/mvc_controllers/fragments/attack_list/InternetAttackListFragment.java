@@ -10,18 +10,18 @@ public class InternetAttackListFragment extends AttackListFragment {
     private static final String TAG = AttackListFragment.TAG + "Internet";
 
     @Override
-    public void onAttackUpload(Attack uploadedAttack) {
-        if (uploadedAttack.getNetworkType() == INTERNET) {
-            cacheAttackAccordingToContentType(uploadedAttack);
+    public void onAttackUpload(Attack attack) {
+        if (attack.getNetworkType() == INTERNET) {
+            cacheAttackAccordingToContentType(attack);
             viewMvc.bindAttacks(cachedAttacks);
         }
     }
 
     @Override
-    public void onAttackUpdate(Attack changedAttack) {
-        if (changedAttack.getNetworkType() == INTERNET) {
-            cachedAttacks.remove(changedAttack);
-            cacheAttackAccordingToContentType(changedAttack);
+    public void onAttackUpdate(Attack attack) {
+        if (attack.getNetworkType() == INTERNET) {
+            cachedAttacks.remove(attack);
+            cacheAttackAccordingToContentType(attack);
             viewMvc.bindAttacks(cachedAttacks);
         }
     }

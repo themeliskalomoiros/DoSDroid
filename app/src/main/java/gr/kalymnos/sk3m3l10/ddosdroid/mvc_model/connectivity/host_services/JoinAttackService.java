@@ -127,17 +127,16 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     @Override
-    public void onAttackDelete(Attack deletedAttack) {
-        if (jobPersit.has(deletedAttack.getPushId()))
-            Action.leave(deletedAttack, this);
+    public void onAttackDelete(Attack attack) {
+        Action.leave(attack, this);
     }
 
     @Override
-    public void onAttackUpload(Attack uploadedAttack) {
+    public void onAttackUpload(Attack attack) {
     }
 
     @Override
-    public void onAttackUpdate(Attack changedAttack) {
+    public void onAttackUpdate(Attack attack) {
     }
 
     private static void showToastOnUIThread(Context context, int msgRes) {

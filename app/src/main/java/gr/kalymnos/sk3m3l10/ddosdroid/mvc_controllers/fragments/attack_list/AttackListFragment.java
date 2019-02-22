@@ -146,8 +146,8 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     }
 
     @Override
-    public final void onAttackDelete(Attack deletedAttack) {
-        cachedAttacks.remove(deletedAttack);
+    public final void onAttackDelete(Attack attack) {
+        cachedAttacks.remove(attack);
         viewMvc.bindAttacks(cachedAttacks);
     }
 

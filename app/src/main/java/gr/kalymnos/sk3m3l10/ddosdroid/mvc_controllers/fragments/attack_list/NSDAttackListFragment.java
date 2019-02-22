@@ -7,18 +7,18 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.NSD;
 public class NSDAttackListFragment extends AttackListFragment {
 
     @Override
-    public void onAttackUpload(Attack uploadedAttack) {
-        if (uploadedAttack.getNetworkType() == NSD) {
-            cacheAttackAccordingToContentType(uploadedAttack);
+    public void onAttackUpload(Attack attack) {
+        if (attack.getNetworkType() == NSD) {
+            cacheAttackAccordingToContentType(attack);
             viewMvc.bindAttacks(cachedAttacks);
         }
     }
 
     @Override
-    public void onAttackUpdate(Attack changedAttack) {
-        if (changedAttack.getNetworkType() == NSD) {
-            cachedAttacks.remove(changedAttack);
-            cacheAttackAccordingToContentType(changedAttack);
+    public void onAttackUpdate(Attack attack) {
+        if (attack.getNetworkType() == NSD) {
+            cachedAttacks.remove(attack);
+            cacheAttackAccordingToContentType(attack);
             viewMvc.bindAttacks(cachedAttacks);
         }
     }
