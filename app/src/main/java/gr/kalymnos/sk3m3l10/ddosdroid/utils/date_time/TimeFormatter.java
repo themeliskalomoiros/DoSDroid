@@ -19,15 +19,15 @@ public final class TimeFormatter {
 
     public static String from(long timestamp) {
         final Calendar cal = CalendarUtil.from(timestamp);
-        return getHour(cal) + ":" + getMinutes(cal);
+        return stringHourFrom(cal) + ":" + stringMinuteFrom(cal);
     }
 
-    private static String getHour(Calendar cal) {
+    private static String stringHourFrom(Calendar cal) {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         return getStringOf(hour);
     }
 
-    private static String getMinutes(Calendar cal) {
+    private static String stringMinuteFrom(Calendar cal) {
         int minutes = cal.get(Calendar.MINUTE);
         return getStringOf(minutes);
     }
