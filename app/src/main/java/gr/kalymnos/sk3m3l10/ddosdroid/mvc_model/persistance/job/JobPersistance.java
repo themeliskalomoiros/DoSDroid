@@ -1,7 +1,7 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job;
 
 public abstract class JobPersistance {
-    protected static final String FILE_NAME = "JobPersistance";
+    public static final String FILE_NAME = "JobPersistance";
 
     protected OnJobPersistanceListener listener;
 
@@ -13,8 +13,12 @@ public abstract class JobPersistance {
         void onJobDelete(String jobTag);
     }
 
-    public final void setListener(OnJobPersistanceListener listener) {
+    public final void setOnJobPersistanceListener(OnJobPersistanceListener listener) {
         this.listener = listener;
+    }
+
+    public final void removeOnJobPersistanceListener() {
+        this.listener = null;
     }
 
     public abstract boolean exists(String jobTag);
