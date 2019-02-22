@@ -77,8 +77,8 @@ public class WifiP2pServer extends Server {
 
             private void stopIfStateDisabled(Context context, Intent intent) {
                 if (isStateDisabled(intent)) {
-                    stop();
                     statusListener.onServerStopped(attack.getWebsite());
+                    stop();
                 }
             }
 

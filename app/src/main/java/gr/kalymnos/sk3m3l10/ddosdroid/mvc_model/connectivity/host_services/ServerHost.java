@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -81,6 +82,7 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
 
     @Override
     public void onServerStopped(String key) {
+        Log.d(TAG, "onServerStopped()");
         if (servers.size() == 0)
             stopSelf();
     }
@@ -103,7 +105,6 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
     private void stopServers() {
         for (Map.Entry<String, Server> entry : servers.entrySet())
             entry.getValue().stop();
-
     }
 
     public static class Action {

@@ -45,6 +45,7 @@ public class InternetServer extends Server {
     @Override
     public void stop() {
         context.unregisterReceiver(connectivityReceiver);
+        statusListener.onServerStopped(attack.getWebsite());
         super.stop();
     }
 
