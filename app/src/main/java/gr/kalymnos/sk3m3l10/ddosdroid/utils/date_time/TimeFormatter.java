@@ -14,7 +14,7 @@ public final class TimeFormatter {
     }
 
     public static String from(int hour, int minute) {
-        return getValueWithZeroPrefixIfIsLessThanTen(hour) + ":" + getValueWithZeroPrefixIfIsLessThanTen(minute);
+        return getStringOf(hour) + ":" + getStringOf(minute);
     }
 
     public static String from(long timestamp) {
@@ -24,15 +24,15 @@ public final class TimeFormatter {
 
     private static String getHour(Calendar cal) {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        return getValueWithZeroPrefixIfIsLessThanTen(hour);
+        return getStringOf(hour);
     }
 
     private static String getMinutes(Calendar cal) {
         int minutes = cal.get(Calendar.MINUTE);
-        return getValueWithZeroPrefixIfIsLessThanTen(minutes);
+        return getStringOf(minutes);
     }
 
-    private static String getValueWithZeroPrefixIfIsLessThanTen(int value) {
+    private static String getStringOf(int value) {
         if (value < 10) {
             return addZeroPrefixTo(value);
         } else {
