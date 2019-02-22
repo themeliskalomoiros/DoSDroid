@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,11 +60,11 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void bindDates() {
-        bindLaunchTime(attack.getLaunchTimestamp());
-        bindCreationTime(attack.getCreationTimestamp());
+        bindLaunchDate(attack.getLaunchTimestamp());
+        bindCreationDate(attack.getCreationTimestamp());
     }
 
-    private void bindLaunchTime(long timestamp) {
+    private void bindLaunchDate(long timestamp) {
         boolean timePast = timestamp < System.currentTimeMillis();
         if (timePast) {
             viewMvc.bindLaunchDate(getString(R.string.attack_already_started_label));
@@ -75,7 +74,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
         }
     }
 
-    private void bindCreationTime(long timestamp) {
+    private void bindCreationDate(long timestamp) {
         String creation = DateFormatter.from(timestamp);
         viewMvc.bindCreationDate(creation);
     }
