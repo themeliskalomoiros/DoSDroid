@@ -21,6 +21,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsA
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job.JobRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -32,19 +33,20 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private static final String TAG = "JoinAttackService";
 
     private Map<String, Client> clients;
-    private AttackRepository repo;
+    private AttackRepository attackRepository;
+    private JobRepository jobRepository;
 
     @Override
     public void onCreate() {
         super.onCreate();
         clients = new HashMap<>();
         initRepo();
-        repo.startListenForChanges();
+        attackRepository.startListenForChanges();
     }
 
     private void initRepo() {
-        repo = new FirebaseRepository();
-        repo.setOnRepositoryChangeListener(this);
+        attackRepository = new FirebaseRepository();
+        attackRepository.setOnRepositoryChangeListener(this);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void updateAttackWithCurrentUser(Attack attack) {
         Attacks.addBot(attack, Bots.local());
-        repo.update(attack);
+        attackRepository.update(attack);
     }
 
     @Override
@@ -123,13 +125,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void updateAttackWithoutCurrentUser(Attack attack) {
         attack.getBotIds().remove(Bots.localId());
-        repo.update(attack);
+        attackRepository.update(attack);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        repo.stopListenForChanges();
+        attackRepository.stopListenForChanges();
         disconnectClients();
         clients.clear();
     }
