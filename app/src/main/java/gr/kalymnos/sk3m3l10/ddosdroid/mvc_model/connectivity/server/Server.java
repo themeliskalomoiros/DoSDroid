@@ -75,8 +75,6 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         shutdownThreadPool();
         repo.delete(attack.getPushId());
         repo.removeOnRepositoryChangeListener();
-        context = null;
-        statusListener = null;
     }
 
     private void shutdownThreadPool() {
@@ -89,6 +87,11 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         } catch (InterruptedException e) {
             executor.shutdownNow();
         }
+    }
+
+    public final void clearReferences() {
+        context = null;
+        statusListener = null;
     }
 
     public final String getKey() {
