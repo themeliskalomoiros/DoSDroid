@@ -11,6 +11,8 @@ import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
@@ -65,6 +67,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
                 handleLeaveAttackAction(attack);
                 break;
             case Action.ACTION_STOP_SERVICE:
+                removeLocalBotAndUpdateAttacks();
                 stopSelf(); // onDestroy() will be called clearing resources
                 break;
         }
@@ -101,6 +104,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void removeLocalBotFrom(Attack attack) {
         attack.getBotIds().remove(Bots.localId());
         attackRepo.update(attack);
+    }
+
+    private void removeLocalBotAndUpdateAttacks() {
+        Map<String,?> jobKeys = jobPersist.map();
+        for (Map.Entry<String,?> entry : jobKeys.entrySet()){
+            attackRepo.removeLocalBotAndUpdate(entry.getKey());
+        }
     }
 
     @Override

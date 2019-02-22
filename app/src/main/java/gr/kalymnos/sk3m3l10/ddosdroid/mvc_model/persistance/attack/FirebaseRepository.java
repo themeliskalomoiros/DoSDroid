@@ -82,7 +82,7 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     }
 
     @Override
-    public void updateRemovingLocalBot(String attackId) {
+    public void removeLocalBotAndUpdate(String attackId) {
         allAttacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
