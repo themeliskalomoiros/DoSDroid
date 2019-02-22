@@ -2,6 +2,8 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
 
 import android.content.Context;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 /* Note:
@@ -20,6 +22,7 @@ public class Client implements ServerConnection.ServerConnectionListener {
     private Attack attack;
 
     private ServerConnection serverConnection;
+    private AtomicBoolean serverConnected;
     private ClientConnectionListener clientConnectionListener;
 
     public interface ClientConnectionListener {
@@ -36,6 +39,7 @@ public class Client implements ServerConnection.ServerConnectionListener {
         this.context = context;
         this.attack = attack;
         this.clientConnectionListener = listener;
+        this.serverConnected = new AtomicBoolean(false);
         initServerConnection();
     }
 
@@ -55,7 +59,10 @@ public class Client implements ServerConnection.ServerConnectionListener {
 
     @Override
     public void onServerConnection() {
-        clientConnectionListener.onClientConnection(this);
+        if (!serverConnected.get()) {
+            clientConnectionListener.onClientConnection(this);
+            serverConnected.set(true);
+        }
     }
 
     @Override
