@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class JoinAttackInfoFragment extends Fragment implements JoinAttackInfoVi
     }
 
     private void bindLaunchTime(long timestamp) {
-        boolean timePast = attack.getLaunchTimestamp() > System.currentTimeMillis();
+        boolean timePast = timestamp < System.currentTimeMillis();
         if (timePast) {
             viewMvc.bindLaunchDate(getString(R.string.attack_already_started_label));
         } else {
