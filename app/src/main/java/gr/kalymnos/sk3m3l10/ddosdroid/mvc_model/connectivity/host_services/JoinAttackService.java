@@ -25,6 +25,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService.ForegroundNotification.NOTIFICATION_ID;
 
 public class JoinAttackService extends Service implements Client.ClientConnectionListener,
         AttackRepository.OnRepositoryChangeListener {
@@ -77,6 +78,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         } else {
             Client client = new Client(this, attack, this);
             client.connect();
+            startForeground(NOTIFICATION_ID,new ForegroundNotification().create());
         }
     }
 
@@ -172,7 +174,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         static final int CONTENT_INTENT_REQUEST_CODE = 2932;
         static final int STOP_INTENT_REQUEST_CODE = 2933;
 
-        Notification createNotification() {
+        Notification create() {
             return createNotificationBuilder().build();
         }
 

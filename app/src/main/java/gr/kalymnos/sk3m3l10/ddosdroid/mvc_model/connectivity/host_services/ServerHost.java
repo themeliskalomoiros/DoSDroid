@@ -88,7 +88,7 @@ public class ServerHost extends Service implements Server.ServerStatusListener {
 
     @Override
     public void onServerRunning(String key) {
-        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
+        startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
     }
 
     @Override
@@ -143,7 +143,7 @@ public class ServerHost extends Service implements Server.ServerStatusListener {
         static final int CONTENT_INTENT_REQUEST_CODE = 1932;
         static final int STOP_INTENT_REQUEST_CODE = 1933;
 
-        Notification createNotification() {
+        Notification create() {
             return createNotificationBuilder().build();
         }
 
