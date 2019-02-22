@@ -50,6 +50,14 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name=".mvc_model.attack_job.AttackJob"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".mvc_model.connectivity.network_constraints.bluetooth.enable.EnableBluetoothActivity"
             android:screenOrientation="portrait" />
