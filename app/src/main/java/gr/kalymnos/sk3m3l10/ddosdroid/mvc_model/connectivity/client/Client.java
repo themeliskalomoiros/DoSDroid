@@ -48,6 +48,10 @@ public class Client implements ServerConnection.ServerConnectionListener {
         this.clientConnectionListener = listener;
     }
 
+    public void removeClientConnectionListener() {
+        this.clientConnectionListener = null;
+    }
+
     public void connect() {
         serverConnection.connectToServer();
     }
