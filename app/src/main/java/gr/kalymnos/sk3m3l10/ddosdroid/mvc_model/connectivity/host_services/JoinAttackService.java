@@ -30,6 +30,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "JoinAttackService";
 
+    private AttackJobScheduler jobScheduler;
     private AttackRepository attackRepo;
     private JobPersistance jobPersit;
 
@@ -37,6 +38,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onCreate() {
         super.onCreate();
         initRepos();
+        jobScheduler = new AttackJobScheduler(this);
         attackRepo.startListenForChanges();
     }
 
@@ -92,7 +94,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void scheduleJob(Attack attack) {
-        AttackJobScheduler.schedule(this, attack);
+        jobScheduler.schedule(attack);
         jobPersit.save(attack.getPushId());
     }
 

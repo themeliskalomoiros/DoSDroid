@@ -18,19 +18,21 @@ import gr.kalymnos.sk3m3l10.ddosdroid.utils.BundleUtil;
 public final class AttackJobScheduler {
     private static final long ONE_MINUTE_IN_MILLI = TimeUnit.MINUTES.toMillis(10);
 
-    private AttackJobScheduler() {
+    private FirebaseJobDispatcher dispatcher;
+
+    public AttackJobScheduler(Context context) {
+        this.dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
     }
 
-    public static void schedule(Context context, Attack attack) {
+    public void schedule(Attack attack) {
         long launchTime = attack.getLaunchTimestamp();
-        long launchTimePlusOneMinute = launchTime + ONE_MINUTE_IN_MILLI;
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job attackJob = jobFrom(attack, dispatcher, (int) launchTime, (int) launchTimePlusOneMinute);
+        long plusOneMinute = launchTime + ONE_MINUTE_IN_MILLI;
+        Job attackJob = jobFrom(attack, (int) launchTime, (int) plusOneMinute);
         dispatcher.mustSchedule(attackJob);
     }
 
     @NonNull
-    private static Job jobFrom(Attack attack, FirebaseJobDispatcher dispatcher, int windowStart, int windowEnd) {
+    private Job jobFrom(Attack attack, int windowStart, int windowEnd) {
         return dispatcher.newJobBuilder()
                 .setService(AttackJobService.class)
                 .setTag(attack.getPushId())
@@ -41,6 +43,10 @@ public final class AttackJobScheduler {
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setExtras(BundleUtil.bundleWith(attack))
                 .build();
+    }
+
+    public void cancel(String jobTag) {
+        dispatcher.cancel(jobTag);
     }
 
 }
