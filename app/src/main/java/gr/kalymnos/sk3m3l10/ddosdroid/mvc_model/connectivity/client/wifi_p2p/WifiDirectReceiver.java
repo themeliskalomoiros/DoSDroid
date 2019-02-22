@@ -26,11 +26,11 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.WifiP2pUtil.fail
 public class WifiDirectReceiver extends BroadcastReceiver implements SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";
 
-    private WifiP2PConnectionToServer serverConnection;
+    private WifiP2PServerConnection serverConnection;
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
 
-    public WifiDirectReceiver(WifiP2PConnectionToServer serverConnection, WifiP2pManager manager, WifiP2pManager.Channel channel) {
+    public WifiDirectReceiver(WifiP2PServerConnection serverConnection, WifiP2pManager manager, WifiP2pManager.Channel channel) {
         this.serverConnection = serverConnection;
         this.manager = manager;
         this.channel = channel;

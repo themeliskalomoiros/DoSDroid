@@ -4,13 +4,13 @@ import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Looper;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ConnectionToServer;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
-public class WifiP2PConnectionToServer extends ConnectionToServer {
+public class WifiP2PServerConnection extends ServerConnection {
     private WifiDirectReceiver receiver;
 
-    public WifiP2PConnectionToServer(Context context, Attack attack) {
+    public WifiP2PServerConnection(Context context, Attack attack) {
         super(context, attack);
         initReceiver(context);
     }

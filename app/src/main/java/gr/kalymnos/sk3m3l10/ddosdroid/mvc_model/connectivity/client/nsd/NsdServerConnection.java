@@ -8,7 +8,7 @@ import android.util.Log;
 
 import java.net.InetAddress;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ConnectionToServer;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ServerConnection;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.wifi_p2p.SocketConnectionThread;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
@@ -16,13 +16,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 /* May don't find a service in a public wifi network.
 *  Many authors find Android's NSD implementation buggy.*/
 
-public class NsdConnectionToServer extends ConnectionToServer implements NsdManager.DiscoveryListener,
+public class NsdServerConnection extends ServerConnection implements NsdManager.DiscoveryListener,
         SocketConnectionThread.OnServerResponseListener {
-    private static final String TAG = "NsdConnectionToServer";
+    private static final String TAG = "NsdServerConnection";
 
     private NsdManager manager;
 
-    public NsdConnectionToServer(Context context, Attack attack) {
+    public NsdServerConnection(Context context, Attack attack) {
         super(context, attack);
         manager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
     }
@@ -83,7 +83,7 @@ public class NsdConnectionToServer extends ConnectionToServer implements NsdMana
                 int port = nsdServiceInfo.getPort();
                 InetAddress inetAddress = nsdServiceInfo.getHost();
                 SocketConnectionThread thread = new SocketConnectionThread(inetAddress, port);
-                thread.setServerResponseListener(NsdConnectionToServer.this);
+                thread.setServerResponseListener(NsdServerConnection.this);
                 return thread;
             }
 
