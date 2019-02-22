@@ -1,11 +1,8 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client;
 
 import android.content.Context;
-import android.util.Log;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.AttackScript;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.attack_job.AttackScript;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 /* Note:
