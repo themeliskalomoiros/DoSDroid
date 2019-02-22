@@ -21,6 +21,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job.JobPersistance;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job.PrefsJobPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
@@ -47,6 +48,8 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void initRepos() {
         attackRepo = new FirebaseRepository();
         attackRepo.setOnRepositoryChangeListener(this);
+        jobRepo = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
+        jobRepo.setOnJobPersistanceListener(this);
     }
 
     @Override
