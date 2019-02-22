@@ -34,10 +34,4 @@ public class InternetServerConnection extends ServerConnection {
         String attackStartedPass = attack.getHostInfo().get(EXTRA_ATTACK_STARTED);
         return Server.isValid(attackStartedPass);
     }
-
-    @Override
-    public void disconnectFromServer() {
-        connectionListener.onServerDisconnection();
-        releaseResources();
-    }
 }

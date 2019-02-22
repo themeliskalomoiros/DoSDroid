@@ -22,9 +22,9 @@ public class SocketConnectionThread extends Thread {
     private OnServerResponseListener serverResponseListener;
 
     public interface OnServerResponseListener {
-        void onServerResponseReceived();
+        void onValidServerResponse();
 
-        void onServerResponseError();
+        void onErrorServerResponse();
     }
 
     public SocketConnectionThread(InetAddress host, int port) {
@@ -50,7 +50,7 @@ public class SocketConnectionThread extends Thread {
             reportServerResponse();
         } else {
             Log.d(TAG, "Connection failed");
-            serverResponseListener.onServerResponseError();
+            serverResponseListener.onErrorServerResponse();
         }
         closeSocket();
     }
@@ -67,9 +67,9 @@ public class SocketConnectionThread extends Thread {
 
     private void reportServerResponse() {
         if (Server.isValid(getResponse())) {
-            serverResponseListener.onServerResponseReceived();
+            serverResponseListener.onValidServerResponse();
         } else {
-            serverResponseListener.onServerResponseError();
+            serverResponseListener.onErrorServerResponse();
         }
     }
 

@@ -20,15 +20,12 @@ public abstract class ServerConnection {
 
     public Attack attack;
     protected Context context;
-    public ConnectionToServerListener connectionListener;
+    public ServerConnectionListener connectionListener;
 
-    public interface ConnectionToServerListener {
+    public interface ServerConnectionListener {
         void onServerConnection();
 
         void onServerConnectionError();
-
-        //  TODO: Probably not needed
-        void onServerDisconnection();
     }
 
     public ServerConnection(Context context, Attack attack) {
@@ -36,13 +33,11 @@ public abstract class ServerConnection {
         this.attack = attack;
     }
 
-    public void setConnectionToServerListener(ConnectionToServerListener listener) {
+    public void setConnectionToServerListener(ServerConnectionListener listener) {
         this.connectionListener = listener;
     }
 
     public abstract void connectToServer();
-
-    public abstract void disconnectFromServer();
 
     protected void releaseResources() {
         context = null;

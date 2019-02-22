@@ -130,11 +130,6 @@ public class BluetoothServerConnection extends ServerConnection implements Netwo
     }
 
     @Override
-    public void disconnectFromServer() {
-        connectionListener.onServerDisconnection();
-    }
-
-    @Override
     protected void releaseResources() {
         constraintsResolver.releaseResources();
         unregisterReceivers();

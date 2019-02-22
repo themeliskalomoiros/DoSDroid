@@ -13,7 +13,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
  * They don't keep a connection for long. Their connection is live until the client
  * receives a response from server. After that client starts attacking.*/
 
-public class Client implements ServerConnection.ConnectionToServerListener {
+public class Client implements ServerConnection.ServerConnectionListener {
     private static final String TAG = "MyClient";
 
     private Context context;
@@ -61,21 +61,6 @@ public class Client implements ServerConnection.ConnectionToServerListener {
     public void onServerConnectionError() {
         serverConnection.releaseResources();
         clientConnectionListener.onClientConnectionError(this);
-    }
-
-    @Override
-    public void onServerDisconnection() {
-        releaseResources();
-        nullReferences();
-    }
-
-    private void releaseResources() {
-        serverConnection.releaseResources();
-    }
-
-    private void nullReferences() {
-        context = null;
-        clientConnectionListener = null;
     }
 
     public final Attack getAttack() {

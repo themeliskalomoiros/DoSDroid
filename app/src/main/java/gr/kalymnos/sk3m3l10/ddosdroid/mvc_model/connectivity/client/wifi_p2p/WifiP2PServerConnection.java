@@ -27,11 +27,6 @@ public class WifiP2PServerConnection extends ServerConnection {
     }
 
     @Override
-    public void disconnectFromServer() {
-        connectionListener.onServerDisconnection();
-    }
-
-    @Override
     protected void releaseResources() {
         receiver.releaseWifiP2pResources();
         context.unregisterReceiver(receiver);

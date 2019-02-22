@@ -33,11 +33,6 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
     }
 
     @Override
-    public void disconnectFromServer() {
-        connectionListener.onServerDisconnection();
-    }
-
-    @Override
     protected void releaseResources() {
         manager.stopServiceDiscovery(this);
         super.releaseResources();
@@ -104,7 +99,7 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
     @Override
     public void onServiceLost(NsdServiceInfo nsdServiceInfo) {
         Log.d(TAG, "Service lost");
-        disconnectFromServer();
+        connectionListener.onServerConnectionError();
     }
 
     @Override
@@ -119,12 +114,12 @@ public class NsdServerConnection extends ServerConnection implements NsdManager.
     }
 
     @Override
-    public void onServerResponseReceived() {
+    public void onValidServerResponse() {
         connectionListener.onServerConnection();
     }
 
     @Override
-    public void onServerResponseError() {
+    public void onErrorServerResponse() {
         connectionListener.onServerConnectionError();
     }
 }
