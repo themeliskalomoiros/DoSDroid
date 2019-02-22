@@ -33,20 +33,20 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private static final String TAG = "JoinAttackService";
 
     private Map<String, Client> clients;
-    private AttackRepository attackRepository;
-    private JobRepository jobRepository;
+    private AttackRepository attackRepo;
+    private JobRepository jobRepo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         clients = new HashMap<>();
         initRepo();
-        attackRepository.startListenForChanges();
+        attackRepo.startListenForChanges();
     }
 
     private void initRepo() {
-        attackRepository = new FirebaseRepository();
-        attackRepository.setOnRepositoryChangeListener(this);
+        attackRepo = new FirebaseRepository();
+        attackRepo.setOnRepositoryChangeListener(this);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void updateAttackWithCurrentUser(Attack attack) {
         Attacks.addBot(attack, Bots.local());
-        attackRepository.update(attack);
+        attackRepo.update(attack);
     }
 
     @Override
@@ -125,13 +125,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void updateAttackWithoutCurrentUser(Attack attack) {
         attack.getBotIds().remove(Bots.localId());
-        attackRepository.update(attack);
+        attackRepo.update(attack);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        attackRepository.stopListenForChanges();
+        attackRepo.stopListenForChanges();
         disconnectClients();
         clients.clear();
     }
@@ -144,7 +144,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     @Override
     public void onAttackDelete(Attack deletedAttack) {
         if (clients.containsKey(deletedAttack.getWebsite()))
-            Action.stopClientOf(deletedAttack, this);
+            Action.leave(deletedAttack, this);
     }
 
     @Override
@@ -160,11 +160,11 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
-        public static void createClientOf(Attack attack, Context context) {
+        public static void join(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_START_ATTACK));
         }
 
-        public static void stopClientOf(Attack attack, Context context) {
+        public static void leave(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_STOP_ATTACK));
         }
 
@@ -172,17 +172,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
             Intent intent = new Intent(context, JoinAttackService.class);
             intent.setAction(action);
             intent.putExtra(Extras.EXTRA_ATTACK, attack);
-            return intent;
-        }
-
-        public static void stopService(Context context) {
-            context.startService(createStopServiceIntent(context));
-        }
-
-        @NonNull
-        private static Intent createStopServiceIntent(Context context) {
-            Intent intent = new Intent(context, JoinAttackService.class);
-            intent.setAction(ACTION_STOP_SERVICE);
             return intent;
         }
     }

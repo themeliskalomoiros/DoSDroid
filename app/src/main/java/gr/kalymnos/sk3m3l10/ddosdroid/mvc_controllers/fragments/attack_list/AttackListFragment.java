@@ -134,7 +134,7 @@ public abstract class AttackListFragment extends Fragment implements AttackListV
     public void onJoinedAttackDeleteClick(int position) {
         //  TODO: Is this duplicate with onOwnerAttackDeleteClick()?
         Attack attack = itemFromLinkedHashSet(cachedAttacks, position);
-        JoinAttackService.Action.stopClientOf(attack, getContext());
+        JoinAttackService.Action.leave(attack, getContext());
         Snackbar.make(viewMvc.getRootView(), getString(R.string.not_following_attack) + " " + attack.getWebsite(), Snackbar.LENGTH_SHORT).show();
     }
 

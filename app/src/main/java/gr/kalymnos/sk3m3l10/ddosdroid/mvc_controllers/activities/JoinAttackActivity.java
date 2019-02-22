@@ -54,7 +54,7 @@ public class JoinAttackActivity extends AppCompatActivity implements JoinAttackI
 
     @Override
     public void onJoinAttackButtonClicked(Attack attack) {
-        JoinAttackService.Action.createClientOf(attack, this);
+        JoinAttackService.Action.join(attack, this);
         finish();
     }
 }
