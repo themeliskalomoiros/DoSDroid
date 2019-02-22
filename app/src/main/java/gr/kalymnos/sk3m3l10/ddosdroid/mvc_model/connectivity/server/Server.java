@@ -11,8 +11,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.bluetooth.Bl
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.internet.InternetServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.nsd.NsdServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.p2p.WifiP2pServer;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.attack.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.NetworkTypes.BLUETOOTH;

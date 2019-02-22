@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.persistance.job;
+package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.persistance;
 
 import java.util.Map;
 
