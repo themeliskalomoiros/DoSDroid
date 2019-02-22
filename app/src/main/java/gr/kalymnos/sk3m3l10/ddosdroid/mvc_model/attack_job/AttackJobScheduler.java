@@ -49,4 +49,8 @@ public final class AttackJobScheduler {
         dispatcher.cancel(jobTag);
     }
 
+    public void cancelAll(){
+        dispatcher.cancelAll();
+    }
+
 }
