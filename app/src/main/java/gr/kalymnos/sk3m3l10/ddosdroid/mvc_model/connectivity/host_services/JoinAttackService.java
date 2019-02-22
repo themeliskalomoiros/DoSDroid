@@ -33,7 +33,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private AttackJobScheduler jobScheduler;
     private AttackRepository attackRepo;
-    private JobPersistance jobPersit;
+    private JobPersistance jobPersist;
 
     @Override
     public void onCreate() {
@@ -46,7 +46,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void initRepos() {
         attackRepo = new FirebaseRepository();
         attackRepo.setOnRepositoryChangeListener(this);
-        jobPersit = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
+        jobPersist = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
     }
 
     @Override
@@ -72,13 +72,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void handleStartAttackAction(Attack attack) {
-        if (jobPersit.has(attack.getWebsite())) {
+        if (jobPersist.has(attack.getWebsite())) {
             Toast.makeText(this, getString(R.string.already_attacking_label)
                     + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
             Client client = new Client(this, attack, this);
             client.connect();
-            startForeground(NOTIFICATION_ID,new ForegroundNotification().create());
+            startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
         }
     }
 
@@ -86,11 +86,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         cancelJobOf(attack);
         removeLocalBotFrom(attack);
         showToastOnUIThread(this, R.string.left_attack_label);
+        if (jobPersist.size()==0)
+            stopSelf();
     }
 
     private void cancelJobOf(Attack attack) {
         jobScheduler.cancel(attack.getPushId());
-        jobPersit.delete(attack.getPushId());
+        jobPersist.delete(attack.getPushId());
     }
 
     private void removeLocalBotFrom(Attack attack) {
@@ -108,7 +110,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void scheduleJob(Attack attack) {
         jobScheduler.schedule(attack);
-        jobPersit.save(attack.getPushId());
+        jobPersist.save(attack.getPushId());
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
@@ -120,6 +122,8 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onClientConnectionError(Client client) {
         client.removeClientConnectionListener();
         showToastOnUIThread(this, R.string.client_connection_error_msg);
+        if (jobPersist.size() == 0)
+            stopSelf();
     }
 
     @Override
