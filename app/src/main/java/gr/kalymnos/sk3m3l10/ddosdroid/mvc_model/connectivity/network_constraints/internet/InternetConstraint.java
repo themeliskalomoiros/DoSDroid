@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraint;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity.hasInternetConnection;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.InternetConnectivity.hasInternetConnection;
 
 public class InternetConstraint extends NetworkConstraint {
 

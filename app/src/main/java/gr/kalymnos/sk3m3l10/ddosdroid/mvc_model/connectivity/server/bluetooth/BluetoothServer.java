@@ -16,7 +16,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.BuildConfig;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.BluetoothDeviceUtil;
 
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.EXTRA_STATE;

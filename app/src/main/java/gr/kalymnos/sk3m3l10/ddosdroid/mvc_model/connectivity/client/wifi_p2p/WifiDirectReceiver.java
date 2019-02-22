@@ -21,7 +21,7 @@ import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_AC
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION;
 import static android.net.wifi.p2p.WifiP2pManager.WIFI_P2P_STATE_ENABLED;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtil.failureTextFrom;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.WifiP2pUtil.failureTextFrom;
 
 public class WifiDirectReceiver extends BroadcastReceiver implements SocketConnectionThread.OnServerResponseListener {
     private static final String TAG = "WifiDirectReceiver";

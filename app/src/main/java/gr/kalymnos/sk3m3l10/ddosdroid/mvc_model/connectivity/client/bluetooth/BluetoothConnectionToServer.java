@@ -16,8 +16,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil.getPairedDeviceOf;
-import static gr.kalymnos.sk3m3l10.ddosdroid.utils.BluetoothDeviceUtil.isLocalDevicePairedWithServerOf;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.BluetoothDeviceUtil.getPairedDeviceOf;
+import static gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.BluetoothDeviceUtil.isLocalDevicePairedWithServerOf;
 
 public class BluetoothConnectionToServer extends ConnectionToServer implements NetworkConstraintsResolver.OnConstraintsResolveListener,
         BluetoothConnectionThread.OnBluetoothServerResponseListener {

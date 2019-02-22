@@ -19,9 +19,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreati
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_phase.AttackCreationViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.CalendarUtil;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.TimeFormatter;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.date_time.CalendarUtil;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.date_time.DateFormatter;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.date_time.TimeFormatter;
 
 public class AttackCreationFragment extends Fragment implements AttackCreationViewMvc.OnNetworkConfigurationSelectedListener,
         AttackCreationViewMvc.OnAttackCreationClickListener, AttackCreationViewMvc.OnWebsiteTextChangeListener,

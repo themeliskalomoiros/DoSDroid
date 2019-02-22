@@ -15,7 +15,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInf
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_join_attack.JoinAttackInfoViewMvcImp;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.NetworkTypeTranslator;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.DateFormatter;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.date_time.DateFormatter;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 

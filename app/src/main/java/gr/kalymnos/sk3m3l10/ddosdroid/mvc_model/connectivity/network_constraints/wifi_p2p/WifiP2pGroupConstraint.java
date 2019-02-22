@@ -7,7 +7,7 @@ import android.util.Log;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.network_constraints.NetworkConstraint;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.wifi.p2p.WifiP2pServer;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.WifiP2pUtil;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.WifiP2pUtil;
 
 // Resolves when the group is created successfully.
 

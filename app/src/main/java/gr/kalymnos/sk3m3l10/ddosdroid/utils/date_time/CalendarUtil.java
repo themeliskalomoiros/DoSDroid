@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.utils;
+package gr.kalymnos.sk3m3l10.ddosdroid.utils.date_time;
 
 import android.support.annotation.NonNull;
 
@@ -7,7 +7,11 @@ import java.util.Calendar;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.DatePicker;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.TimePicker;
 
-public class CalendarUtil {
+public final class CalendarUtil {
+
+    private CalendarUtil() {
+    }
+
     @NonNull
     public static Calendar from(int year, int month, int dayOfMonth) {
         final Calendar cal = Calendar.getInstance();

@@ -1,4 +1,4 @@
-package gr.kalymnos.sk3m3l10.ddosdroid.utils;
+package gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

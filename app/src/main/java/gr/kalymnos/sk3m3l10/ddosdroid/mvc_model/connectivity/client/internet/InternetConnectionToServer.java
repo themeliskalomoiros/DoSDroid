@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.ConnectionToServer;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.server.Server;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
-import gr.kalymnos.sk3m3l10.ddosdroid.utils.InternetConnectivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.utils.connectivity.InternetConnectivity;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_STARTED;
 
