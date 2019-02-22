@@ -11,8 +11,6 @@ import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import java.util.Map;
-
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
@@ -26,7 +24,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService.ForegroundNotification.NOTIFICATION_ID;
 
 public class JoinAttackService extends Service implements Client.ClientConnectionListener,
         AttackRepository.OnRepositoryChangeListener, JobPersistance.OnJobPersistanceListener {
@@ -74,7 +71,8 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void handleStartAttackAction(Attack attack) {
         if (jobPersit.has(attack.getWebsite())) {
-            Toast.makeText(this, getString(R.string.already_attacking_label) + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.already_attacking_label)
+                    + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
             Client client = new Client(this, attack);
             client.setClientConnectionListener(this);
@@ -83,17 +81,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void handleStopAttackAction(Attack attack) {
-        String key = attack.getWebsite();
-        Client client = clients.get(key);
-        clients.remove(key);
-        client.disconnect();
+
     }
 
     @Override
     public void onClientConnection(Client client) {
         updateAttackWithCurrentUser(client.getAttack());
-        //  Better to startForeground when update() returned
-        startForeground(NOTIFICATION_ID, new ForegroundNotification().createNotification());
+        displayToastOnUIThread(R.string.client_connected_msg);
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
@@ -101,24 +95,16 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         attackRepo.update(attack);
     }
 
-    @Override
-    public void onClientConnectionError(Client client) {
-        clients.remove(key);
-        displayErrorToastOnUIThread();
-    }
-
-    private void displayErrorToastOnUIThread() {
-        Runnable displayToast = () -> Toast.makeText(this, R.string.client_connection_error_msg, Toast.LENGTH_SHORT).show();
+    private void displayToastOnUIThread(int msgRes) {
+        Runnable displayToast = () -> Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(displayToast);
     }
 
     @Override
-    public void onClientDisconnection(Client client) {
-        //  Not called from main thread - not removing client here because of concurrent connection exception.
-        updateAttackWithoutCurrentUser(attack);
-        if (clients.size() == 0)
-            stopSelf();
+    public void onClientConnectionError(Client client) {
+        client.removeClientConnectionListener();
+        displayToastOnUIThread(R.string.client_connection_error_msg);
     }
 
     private void updateAttackWithoutCurrentUser(Attack attack) {
@@ -130,18 +116,11 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onDestroy() {
         super.onDestroy();
         attackRepo.stopListenForChanges();
-        disconnectClients();
-        clients.clear();
-    }
-
-    private void disconnectClients() {
-        for (Map.Entry<String, Client> entry : clients.entrySet())
-            entry.getValue().disconnect();
     }
 
     @Override
     public void onAttackDelete(Attack deletedAttack) {
-        if (clients.containsKey(deletedAttack.getWebsite()))
+        if (jobPersit.has(deletedAttack.getWebsite()))
             Action.leave(deletedAttack, this);
     }
 
