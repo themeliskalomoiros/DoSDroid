@@ -80,7 +80,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
                     + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
             connectClient(attack);
-            startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
         }
     }
 
@@ -107,8 +106,8 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void removeLocalBotAndUpdateAttacks() {
-        Map<String,?> jobKeys = jobPersist.map();
-        for (Map.Entry<String,?> entry : jobKeys.entrySet()){
+        Map<String, ?> jobKeys = jobPersist.map();
+        for (Map.Entry<String, ?> entry : jobKeys.entrySet()) {
             attackRepo.removeLocalBotAndUpdate(entry.getKey());
         }
     }
@@ -118,6 +117,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         scheduleJob(client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
         client.removeClientConnectionListener();
+        startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
     }
 
     private void scheduleJob(Attack attack) {
