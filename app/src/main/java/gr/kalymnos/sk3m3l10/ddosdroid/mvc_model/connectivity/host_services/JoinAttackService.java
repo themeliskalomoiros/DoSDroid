@@ -74,8 +74,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
             Toast.makeText(this, getString(R.string.already_attacking_label)
                     + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
-            Client client = new Client(this, attack);
-            client.setClientConnectionListener(this);
+            Client client = new Client(this, attack, this);
             client.connect();
         }
     }

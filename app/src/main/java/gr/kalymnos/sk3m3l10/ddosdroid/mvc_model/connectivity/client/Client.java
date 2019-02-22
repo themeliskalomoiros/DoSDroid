@@ -28,13 +28,14 @@ public class Client implements ServerConnection.ServerConnectionListener {
         void onClientConnectionError(Client client);
     }
 
-    public Client(Context context, Attack attack) {
-        initFields(context, attack);
+    public Client(Context context, Attack attack, ClientConnectionListener listener) {
+        initFields(context, attack, listener);
     }
 
-    private void initFields(Context context, Attack attack) {
+    private void initFields(Context context, Attack attack, ClientConnectionListener listener) {
         this.context = context;
         this.attack = attack;
+        this.clientConnectionListener = listener;
         initServerConnection();
     }
 
@@ -42,10 +43,6 @@ public class Client implements ServerConnection.ServerConnectionListener {
         ServerConnection.Factory factory = new ServerConnection.FactoryImp();
         serverConnection = factory.create(context, attack);
         serverConnection.setConnectionToServerListener(this);
-    }
-
-    public void setClientConnectionListener(ClientConnectionListener listener) {
-        this.clientConnectionListener = listener;
     }
 
     public void removeClientConnectionListener() {
