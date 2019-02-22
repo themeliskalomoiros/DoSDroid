@@ -82,13 +82,20 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     private void handleStopAttackAction(Attack attack) {
         jobScheduler.cancel(attack.getPushId());
+        removeLocalBotFrom(attack);
+        showToastOnUIThread(this, R.string.left_attack_label);
+    }
+
+    private void removeLocalBotFrom(Attack attack) {
+        attack.getBotIds().remove(Bots.localId());
+        attackRepo.update(attack);
     }
 
     @Override
     public void onClientConnection(Client client) {
         scheduleJob(client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
-        displayToastOnUIThread(this, R.string.client_connected_msg);
+        showToastOnUIThread(this, R.string.client_connected_msg);
         client.removeClientConnectionListener();
     }
 
@@ -105,7 +112,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     @Override
     public void onClientConnectionError(Client client) {
         client.removeClientConnectionListener();
-        displayToastOnUIThread(this, R.string.client_connection_error_msg);
+        showToastOnUIThread(this, R.string.client_connection_error_msg);
     }
 
     @Override
@@ -128,7 +135,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onAttackUpdate(Attack changedAttack) {
     }
 
-    private static void displayToastOnUIThread(Context context, int msgRes) {
+    private static void showToastOnUIThread(Context context, int msgRes) {
         Runnable displayToast = () -> Toast.makeText(context, msgRes, Toast.LENGTH_SHORT).show();
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(displayToast);
