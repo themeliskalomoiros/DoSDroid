@@ -70,6 +70,7 @@
     <string name="havent_assigned_date_label">Assign a date.</string>
     <string name="havent_assigned_time_label">Assign time.</string>
     <string name="invalid_date_time">Date and time already passed!</string>
+    <string name="begins_on_prefix">Begins on</string>
     <string-array name="network_technologies_titles">
         <item>Internet</item>
         <item>WiFi P2P</item>
