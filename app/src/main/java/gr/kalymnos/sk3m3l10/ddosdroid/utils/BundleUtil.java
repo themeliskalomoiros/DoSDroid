@@ -21,10 +21,4 @@ public final class BundleUtil {
         }
         return false;
     }
-
-    public static Bundle bundleWith(Attack attack) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Extras.EXTRA_ATTACK, attack);
-        return bundle;
-    }
 }
