@@ -10,4 +10,6 @@ public interface JobPersistance {
     void save(String jobTag);
 
     void delete(String jobTag);
+
+    void clear();
 }

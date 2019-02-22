@@ -36,4 +36,10 @@ public class PrefsJobPersistance implements JobPersistance {
         editor.remove(jobTag);
         editor.apply();
     }
+
+    @Override
+    public void clear() {
+        editor.clear();
+        editor.apply();
+    }
 }
