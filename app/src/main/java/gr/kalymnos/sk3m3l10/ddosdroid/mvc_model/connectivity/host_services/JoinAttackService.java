@@ -59,10 +59,10 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         Attack attack = intent.getParcelableExtra(Extras.EXTRA_ATTACK);
         switch (intent.getAction()) {
             case Action.ACTION_JOIN_ATTACK:
-                handleStartAttackAction(attack);
+                handleJoinAttackAction(attack);
                 break;
             case Action.ACTION_LEAVE_ATTACK:
-                handleStopAttackAction(attack);
+                handleLeaveAttackAction(attack);
                 break;
             case Action.ACTION_STOP_SERVICE:
                 stopSelf(); // onDestroy() will be called clearing resources
@@ -71,18 +71,22 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         return START_NOT_STICKY;
     }
 
-    private void handleStartAttackAction(Attack attack) {
+    private void handleJoinAttackAction(Attack attack) {
         if (jobPersist.has(attack.getWebsite())) {
             Toast.makeText(this, getString(R.string.already_attacking_label)
                     + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
         } else {
-            Client client = new Client(this, attack, this);
-            client.connect();
+            connectClient(attack);
             startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
         }
     }
 
-    private void handleStopAttackAction(Attack attack) {
+    private void connectClient(Attack attack) {
+        Client client = new Client(this, attack, this);
+        client.connect();
+    }
+
+    private void handleLeaveAttackAction(Attack attack) {
         cancelJobOf(attack);
         removeLocalBotFrom(attack);
         showToastOnUIThread(this, R.string.left_attack_label);
