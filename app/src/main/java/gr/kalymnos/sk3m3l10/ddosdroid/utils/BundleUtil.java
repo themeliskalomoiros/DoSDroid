@@ -1,10 +1,14 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.utils;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public final class BundleUtil {
 
@@ -16,5 +20,11 @@ public final class BundleUtil {
             return true;
         }
         return false;
+    }
+
+    private static Bundle bundleWith(Attack attack) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Extras.EXTRA_ATTACK, attack);
+        return bundle;
     }
 }
