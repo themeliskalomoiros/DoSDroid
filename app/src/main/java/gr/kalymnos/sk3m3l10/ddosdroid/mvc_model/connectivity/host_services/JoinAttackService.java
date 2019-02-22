@@ -138,6 +138,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onDestroy() {
         super.onDestroy();
         attackRepo.stopListenForChanges();
+        attackRepo.removeOnRepositoryChangeListener();
         cancelAllJobs();
     }
 
