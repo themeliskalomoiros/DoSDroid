@@ -81,9 +81,14 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     }
 
     private void handleStopAttackAction(Attack attack) {
-        jobScheduler.cancel(attack.getPushId());
+        cancelJobOf(attack);
         removeLocalBotFrom(attack);
         showToastOnUIThread(this, R.string.left_attack_label);
+    }
+
+    private void cancelJobOf(Attack attack) {
+        jobScheduler.cancel(attack.getPushId());
+        jobPersit.delete(attack.getPushId());
     }
 
     private void removeLocalBotFrom(Attack attack) {
