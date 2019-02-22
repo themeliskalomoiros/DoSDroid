@@ -21,7 +21,7 @@ public abstract class JobPersistance {
         this.listener = null;
     }
 
-    public abstract boolean exists(String jobTag);
+    public abstract boolean has(String jobTag);
 
     public abstract void save(String jobTag);
 

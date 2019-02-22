@@ -16,7 +16,7 @@ public class PrefsJobPersistance extends JobPersistance {
     }
 
     @Override
-    public boolean exists(String jobTag) {
+    public boolean has(String jobTag) {
         return preferences.contains(jobTag);
     }
 
