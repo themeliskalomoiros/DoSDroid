@@ -89,8 +89,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void handleLeaveAttackAction(Attack attack) {
         cancelJobOf(attack);
         removeLocalBotFrom(attack);
-        showToastOnUIThread(this, R.string.left_attack_label);
-        if (jobPersist.size()==0)
+        if (jobPersist.size() == 0)
             stopSelf();
     }
 
@@ -108,7 +107,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onClientConnection(Client client) {
         scheduleJob(client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
-        showToastOnUIThread(this, R.string.client_connected_msg);
         client.removeClientConnectionListener();
     }
 
@@ -125,9 +123,15 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     @Override
     public void onClientConnectionError(Client client) {
         client.removeClientConnectionListener();
-        showToastOnUIThread(this, R.string.client_connection_error_msg);
+        showToastOnUIThread(R.string.client_connection_error_msg);
         if (jobPersist.size() == 0)
             stopSelf();
+    }
+
+    private void showToastOnUIThread(int msgRes) {
+        Runnable displayToast = () -> Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(displayToast);
     }
 
     @Override
@@ -147,12 +151,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onAttackUpdate(Attack attack) {
-    }
-
-    private static void showToastOnUIThread(Context context, int msgRes) {
-        Runnable displayToast = () -> Toast.makeText(context, msgRes, Toast.LENGTH_SHORT).show();
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(displayToast);
     }
 
     public static class Action {
