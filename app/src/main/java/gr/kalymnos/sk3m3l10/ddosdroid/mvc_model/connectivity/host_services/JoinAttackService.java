@@ -100,11 +100,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         displayToastOnUIThread(this, R.string.client_connection_error_msg);
     }
 
-    private void updateAttackWithoutCurrentUser(Attack attack) {
-        attack.getBotIds().remove(Bots.localId());
-        attackRepo.update(attack);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
