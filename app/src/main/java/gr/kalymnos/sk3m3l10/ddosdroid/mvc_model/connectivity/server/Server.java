@@ -36,9 +36,9 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
     protected Context context;
     protected ExecutorService executor;
     protected NetworkConstraintsResolver constraintsResolver;
-    protected ServerStatusListener statusListener;
+    protected OnServerStatusChangeListener statusListener;
 
-    public interface ServerStatusListener {
+    public interface OnServerStatusChangeListener {
         void onServerRunning(String key);
 
         void onServerStopped(String key);
@@ -64,7 +64,7 @@ public abstract class Server implements NetworkConstraintsResolver.OnConstraints
         constraintsResolver.setOnConstraintsResolveListener(this);
     }
 
-    public void setServerStatusListener(ServerStatusListener statusListener) {
+    public void setServerStatusListener(OnServerStatusChangeListener statusListener) {
         this.statusListener = statusListener;
     }
 

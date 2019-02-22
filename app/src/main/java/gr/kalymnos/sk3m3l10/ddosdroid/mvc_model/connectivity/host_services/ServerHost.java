@@ -23,7 +23,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_U
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ServerHost.ForegroundNotification.NOTIFICATION_ID;
 
-public class ServerHost extends Service implements Server.ServerStatusListener {
+public class ServerHost extends Service implements Server.OnServerStatusChangeListener {
     private static final String TAG = "MyServerHost";
 
     private Map<String, Server> servers;
