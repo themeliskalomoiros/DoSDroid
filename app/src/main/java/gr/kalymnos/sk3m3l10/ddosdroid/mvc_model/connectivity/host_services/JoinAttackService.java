@@ -85,10 +85,14 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onClientConnection(Client client) {
-        jobPersit.save(client.getAttack().getPushId());
-        AttackJobScheduler.schedule(this, client.getAttack());
+        scheduleJob(client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
         displayToastOnUIThread(this, R.string.client_connected_msg);
+    }
+
+    private void scheduleJob(Attack attack) {
+        AttackJobScheduler.schedule(this, attack);
+        jobPersit.save(attack.getPushId());
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
