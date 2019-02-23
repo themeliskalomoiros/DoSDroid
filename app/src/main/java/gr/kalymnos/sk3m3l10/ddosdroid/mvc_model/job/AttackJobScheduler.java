@@ -15,6 +15,7 @@ import com.firebase.jobdispatcher.Trigger;
 import java.util.concurrent.TimeUnit;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.AttackLaunchService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public final class AttackJobScheduler {
@@ -56,18 +57,8 @@ public final class AttackJobScheduler {
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setReplaceCurrent(false)
-                .setExtras(getBundleOf(attack))
+                .setExtras(AttackLaunchService.Action.getBundleOf(attack.getPushId(),attack.getWebsite()))
                 .build();
-    }
-
-    @NonNull
-    private Bundle getBundleOf(Attack attack) {
-        // Unfortunately an unmarshaling exception is thrown when trying to store the Attack
-        // inside the bundle. There are some submitted issues on github, but no solutions.
-        Bundle bundle = new Bundle();
-        bundle.putString(Extras.EXTRA_ATTACK, attack.getPushId());
-        bundle.putString(Extras.EXTRA_WEBSITE, attack.getWebsite());
-        return bundle;
     }
 
     public void cancel(String jobTag) {

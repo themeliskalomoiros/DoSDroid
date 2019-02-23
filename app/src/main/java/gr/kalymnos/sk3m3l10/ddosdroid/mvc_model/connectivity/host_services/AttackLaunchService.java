@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
+import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.AttackScript;
 
@@ -91,6 +92,13 @@ public class AttackLaunchService extends Service {
         private static final String ACTION_START_ATTACK = TAG + "start attack action";
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service";
+
+        public static Bundle getBundleOf(String attackId, String website) {
+            Bundle extras = new Bundle();
+            extras.putString(Extras.EXTRA_ATTACK, attackId);
+            extras.putString(Extras.EXTRA_WEBSITE, website);
+            return extras;
+        }
 
         public static void launch(Bundle extras, Context context) {
             throwIfInvalid(extras);
