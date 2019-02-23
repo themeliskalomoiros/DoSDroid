@@ -19,7 +19,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public final class AttackJobScheduler {
     private static final String TAG = "AttackJobScheduler";
-    private static final int ONE_MINUTE = 60;
+    private static final int ONE_MINUTE = 1;
 
     int windowStart, windowEnd;
     private FirebaseJobDispatcher dispatcher;
@@ -55,8 +55,8 @@ public final class AttackJobScheduler {
                 .setTag(attack.getPushId())
                 .setRecurring(false)
                 .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
-                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setReplaceCurrent(false)
                 .setExtras(bundle)
                 .build();
