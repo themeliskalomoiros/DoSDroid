@@ -8,14 +8,10 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.widget.Toast;
 
-import java.util.Map;
-
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.Client;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.AttackJobScheduler;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.persistance.JobPersistance;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.persistance.PrefsJobPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -25,20 +21,14 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 public class JoinAttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "JoinAttackService";
 
-    private AttackJobScheduler jobScheduler;
     private AttackRepository attackRepo;
-    private JobPersistance jobPersist;
+    private AttackJobScheduler jobScheduler;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initRepos();
-        jobScheduler = new AttackJobScheduler(this);
-    }
-
-    private void initRepos() {
         attackRepo = new FirebaseRepository();
-        jobPersist = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
+        jobScheduler = new AttackJobScheduler(this);
     }
 
     @Override
@@ -51,39 +41,19 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         Attack attack = intent.getParcelableExtra(Extras.EXTRA_ATTACK);
         switch (intent.getAction()) {
             case Action.ACTION_JOIN_ATTACK:
-                handleJoinAttackAction(attack);
+                connectClient(attack);
                 break;
             case Action.ACTION_LEAVE_ATTACK:
-                handleLeaveAttackAction(attack);
+                jobScheduler.cancel(attack.getPushId());
+                removeLocalBotFrom(attack);
                 break;
         }
         return START_NOT_STICKY;
     }
 
-    private void handleJoinAttackAction(Attack attack) {
-        if (jobPersist.has(attack.getPushId())) {
-            Toast.makeText(this, getString(R.string.already_attacking_label)
-                    + " " + attack.getWebsite(), Toast.LENGTH_SHORT).show();
-        } else {
-            connectClient(attack);
-        }
-    }
-
     private void connectClient(Attack attack) {
         Client client = new Client(this, attack, this);
         client.connect();
-    }
-
-    private void handleLeaveAttackAction(Attack attack) {
-        cancelJobOf(attack);
-        removeLocalBotFrom(attack);
-        if (jobPersist.size() == 0)
-            stopSelf();
-    }
-
-    private void cancelJobOf(Attack attack) {
-        jobScheduler.cancel(attack.getPushId());
-        jobPersist.delete(attack.getPushId());
     }
 
     private void removeLocalBotFrom(Attack attack) {
@@ -93,14 +63,10 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
 
     @Override
     public void onClientConnection(Client client) {
-        scheduleJob(client.getAttack());
-        updateAttackWithCurrentUser(client.getAttack());
         client.removeClientConnectionListener();
-    }
-
-    private void scheduleJob(Attack attack) {
-        jobScheduler.schedule(attack);
-        jobPersist.save(attack.getPushId());
+        jobScheduler.schedule(client.getAttack());
+        updateAttackWithCurrentUser(client.getAttack());
+        stopSelf();
     }
 
     private void updateAttackWithCurrentUser(Attack attack) {
@@ -112,25 +78,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public void onClientConnectionError(Client client) {
         client.removeClientConnectionListener();
         showToastOnUIThread(R.string.client_connection_error_msg);
-        if (jobPersist.size() == 0)
-            stopSelf();
+        stopSelf();
     }
 
     private void showToastOnUIThread(int msgRes) {
         Runnable displayToast = () -> Toast.makeText(this, msgRes, Toast.LENGTH_SHORT).show();
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(displayToast);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cancelAllJobs();
-    }
-
-    private void cancelAllJobs() {
-        jobScheduler.cancelAll();
-        jobPersist.clear();
     }
 
     public static class Action {
