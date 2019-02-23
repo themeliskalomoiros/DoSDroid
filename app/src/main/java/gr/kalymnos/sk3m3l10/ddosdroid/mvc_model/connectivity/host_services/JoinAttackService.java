@@ -46,7 +46,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
                 break;
             case Action.ACTION_LEAVE_ATTACK:
                 jobScheduler.cancel(attack.getPushId());
-                stopAttackScript(attack);
+                stopScript(attack);
                 updateWithoutLocalBotFrom(attack);
                 break;
         }
@@ -58,7 +58,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         client.connect();
     }
 
-    private void stopAttackScript(Attack attack) {
+    private void stopScript(Attack attack) {
         String id = attack.getPushId();
         String website = attack.getWebsite();
         Bundle extras = AttackLaunchService.Action.getBundleForAction(id, website);
