@@ -11,7 +11,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
  * currently following is deleted from the AttackRepository.
  *
  * Details:
- * The above is usually the way where the client knows its server was shutdown.
+ * The above is usually the way where the client knows its server was drop.
  * They don't keep a connection for long. Their connection is live until the client
  * receives a response from server. After that client starts attacking.*/
 

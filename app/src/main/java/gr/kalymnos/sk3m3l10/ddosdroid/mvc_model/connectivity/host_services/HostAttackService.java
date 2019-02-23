@@ -22,9 +22,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_OWN_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.ServerHost.ForegroundNotification.NOTIFICATION_ID;
+import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.HostAttackService.ForegroundNotification.NOTIFICATION_ID;
 
-public class ServerHost extends Service implements Server.OnServerStatusChangeListener {
+public class HostAttackService extends Service implements Server.OnServerStatusChangeListener {
     private static final String TAG = "MyServerHost";
 
     private Map<String, Server> servers;
@@ -38,11 +38,11 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         switch (intent.getAction()) {
-            case Action.ACTION_START_SERVER:
-                handleStartServerAction(intent);
+            case Action.ACTION_HOST_ATTACK:
+                handleHostAction(intent);
                 return START_STICKY;
-            case Action.ACTION_STOP_SERVER:
-                handleStopServerAction(intent);
+            case Action.ACTION_DROP_ATTACK:
+                handleDropAction(intent);
                 return START_STICKY;
             case Action.ACTION_STOP_SERVICE:
                 stopSelf();
@@ -52,7 +52,7 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
         }
     }
 
-    private void handleStartServerAction(Intent intent) {
+    private void handleHostAction(Intent intent) {
         Server server = createServerFrom(intent);
         if (servers.containsKey(server.getKey())) {
             Toast.makeText(this, getString(R.string.already_attacking_label) + " " + server.getKey(), Toast.LENGTH_SHORT).show();
@@ -68,7 +68,7 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
         return new Server.BuilderImp().build(this, attack);
     }
 
-    private void handleStopServerAction(Intent intent) {
+    private void handleDropAction(Intent intent) {
         String websiteKey = intent.getStringExtra(Extras.EXTRA_WEBSITE);
         Server server = servers.get(websiteKey);
         servers.remove(websiteKey);
@@ -90,7 +90,7 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
     @Override
     public void onServerError(String key) {
         servers.remove(key);
-        Toast.makeText(ServerHost.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
+        Toast.makeText(HostAttackService.this, getString(R.string.server_error_msg), Toast.LENGTH_LONG).show();
         if (servers.size() == 0)
             stopSelf();
     }
@@ -108,33 +108,33 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
     }
 
     public static class Action {
-        private static final String ACTION_START_SERVER = TAG + "start server action";
-        private static final String ACTION_STOP_SERVER = TAG + "stop server action";
+        private static final String ACTION_HOST_ATTACK = TAG + "host attack action";
+        private static final String ACTION_DROP_ATTACK = TAG + "drop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
-        public static void startServerOf(Attack attack, Context context) {
-            Intent intent = createStartServerIntent(context, attack);
+        public static void host(Attack attack, Context context) {
+            Intent intent = createHostAttackIntent(context, attack);
             context.startService(intent);
         }
 
         @NonNull
-        private static Intent createStartServerIntent(Context context, Attack attack) {
-            Intent intent = new Intent(context, ServerHost.class);
+        private static Intent createHostAttackIntent(Context context, Attack attack) {
+            Intent intent = new Intent(context, HostAttackService.class);
             intent.putExtra(EXTRA_ATTACK, attack);
-            intent.setAction(ACTION_START_SERVER);
+            intent.setAction(ACTION_HOST_ATTACK);
             return intent;
         }
 
-        public static void stopServerOf(String serverWebsite, Context context) {
-            Intent intent = createStopServerIntent(context, serverWebsite);
+        public static void drop(String serverWebsite, Context context) {
+            Intent intent = createDropAttackIntent(context, serverWebsite);
             context.startService(intent);
         }
 
         @NonNull
-        private static Intent createStopServerIntent(Context context, String serverWebsite) {
-            Intent intent = new Intent(context, ServerHost.class);
+        private static Intent createDropAttackIntent(Context context, String serverWebsite) {
+            Intent intent = new Intent(context, HostAttackService.class);
             intent.putExtra(Extras.EXTRA_WEBSITE, serverWebsite);
-            intent.setAction(ACTION_STOP_SERVER);
+            intent.setAction(ACTION_DROP_ATTACK);
             return intent;
         }
     }
@@ -150,7 +150,7 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
         }
 
         NotificationCompat.Builder createNotificationBuilder() {
-            return new NotificationCompat.Builder(ServerHost.this, CHANNEL_ID)
+            return new NotificationCompat.Builder(HostAttackService.this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_www_icon)
                     .setContentTitle(getString(R.string.server_notification_title))
                     .setContentText(getString(R.string.server_notification_small_text))
@@ -161,14 +161,14 @@ public class ServerHost extends Service implements Server.OnServerStatusChangeLi
         }
 
         PendingIntent getContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(ServerHost.this, FETCH_ONLY_USER_OWN_ATTACKS, R.string.your_attacks_label);
-            return PendingIntent.getActivity(ServerHost.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent intent = AllAttackListsActivity.Action.createIntent(HostAttackService.this, FETCH_ONLY_USER_OWN_ATTACKS, R.string.your_attacks_label);
+            return PendingIntent.getActivity(HostAttackService.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         PendingIntent getStopServicePendingIntent() {
-            Intent intent = new Intent(ServerHost.this, ServerHost.class);
+            Intent intent = new Intent(HostAttackService.this, HostAttackService.class);
             intent.setAction(Action.ACTION_STOP_SERVICE);
-            return PendingIntent.getService(ServerHost.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            return PendingIntent.getService(HostAttackService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 

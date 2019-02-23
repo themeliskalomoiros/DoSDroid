@@ -46,7 +46,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name=".mvc_model.connectivity.host_services.ServerHost"
+            android:name=".mvc_model.connectivity.host_services.HostAttackService"
             android:enabled="true"
             android:exported="false" />
 
