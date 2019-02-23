@@ -29,6 +29,11 @@ public class AttackLaunchService extends Service {
             case Action.ACTION_START_ATTACK:
                 startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
                 break;
+            case Action.ACTION_STOP_ATTACK:
+                break;
+            case Action.ACTION_STOP_SERVICE:
+                stopSelf();
+                break;
         }
         return START_NOT_STICKY;
     }
