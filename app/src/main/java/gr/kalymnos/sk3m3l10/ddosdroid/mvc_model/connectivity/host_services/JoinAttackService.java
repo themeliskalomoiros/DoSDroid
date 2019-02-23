@@ -1,33 +1,26 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.util.Map;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.AttackJobScheduler;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.client.Client;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.AttackJobScheduler;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.persistance.JobPersistance;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.persistance.PrefsJobPersistance;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
-
-import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
-import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService.ForegroundNotification.NOTIFICATION_ID;
 
 public class JoinAttackService extends Service implements Client.ClientConnectionListener,
         AttackRepository.OnRepositoryChangeListener {
@@ -117,7 +110,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         scheduleJob(client.getAttack());
         updateAttackWithCurrentUser(client.getAttack());
         client.removeClientConnectionListener();
-        startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
     }
 
     private void scheduleJob(Attack attack) {
@@ -188,39 +180,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
             intent.setAction(action);
             intent.putExtra(Extras.EXTRA_ATTACK, attack);
             return intent;
-        }
-    }
-
-    class ForegroundNotification {
-        static final String CHANNEL_ID = TAG + "channel id";
-        static final int NOTIFICATION_ID = 291919;
-        static final int CONTENT_INTENT_REQUEST_CODE = 2932;
-        static final int STOP_INTENT_REQUEST_CODE = 2933;
-
-        Notification create() {
-            return createNotificationBuilder().build();
-        }
-
-        NotificationCompat.Builder createNotificationBuilder() {
-            return new NotificationCompat.Builder(JoinAttackService.this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_fist)
-                    .setContentTitle(getString(R.string.client_notification_title))
-                    .setContentText(getString(R.string.client_notification_small_text))
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getString(R.string.client_notification_big_text)))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setContentIntent(getContentPendingIntent())
-                    .addAction(R.drawable.ic_stop, getString(R.string.shutdown_label), getStopServicePendingIntent());
-        }
-
-        PendingIntent getContentPendingIntent() {
-            Intent intent = AllAttackListsActivity.Action.createIntent(JoinAttackService.this, FETCH_ONLY_USER_JOINED_ATTACKS, R.string.joined_attacks_label);
-            return PendingIntent.getActivity(JoinAttackService.this, CONTENT_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-
-        PendingIntent getStopServicePendingIntent() {
-            Intent intent = new Intent(JoinAttackService.this, JoinAttackService.class);
-            intent.setAction(Action.ACTION_STOP_SERVICE);
-            return PendingIntent.getService(JoinAttackService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
 }
