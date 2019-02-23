@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.HashMap;
@@ -89,15 +88,7 @@ public class AttackLaunchService extends Service {
 
         public static void launch(Bundle extras, Context context) {
             throwIfInvalid(extras);
-            context.startService(getStartAttackIntent(extras, context));
-        }
-
-        @NonNull
-        private static Intent getStartAttackIntent(Bundle extras, Context context) {
-            Intent intent = new Intent(context, AttackLaunchService.class);
-            intent.setAction(ACTION_START_ATTACK);
-            intent.putExtras(extras);
-            return intent;
+            context.startService(getIntentOf(ACTION_START_ATTACK, extras, context));
         }
 
         private static void throwIfInvalid(Bundle extras) {
@@ -107,20 +98,18 @@ public class AttackLaunchService extends Service {
         }
 
         public static void stop(Bundle extras, Context context) {
-            context.startService(getStopAttackIntent(extras, context));
+            context.startService(getIntentOf(ACTION_STOP_ATTACK, extras, context));
         }
 
-        private static Intent getStopAttackIntent(Bundle extras, Context context) {
+        private static Intent getIntentOf(String action, Bundle extras, Context context) {
             Intent intent = new Intent(context, AttackLaunchService.class);
-            intent.setAction(ACTION_STOP_ATTACK);
+            intent.setAction(action);
             intent.putExtras(extras);
             return intent;
         }
-
     }
 
     class ForegroundNotification {
-
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 291919;
         static final int CONTENT_INTENT_REQUEST_CODE = 2932;
