@@ -22,8 +22,7 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attacks;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 
-public class JoinAttackService extends Service implements Client.ClientConnectionListener,
-        AttackRepository.OnRepositoryChangeListener {
+public class JoinAttackService extends Service implements Client.ClientConnectionListener {
     private static final String TAG = "JoinAttackService";
 
     private AttackJobScheduler jobScheduler;
@@ -35,12 +34,10 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         super.onCreate();
         initRepos();
         jobScheduler = new AttackJobScheduler(this);
-        attackRepo.startListenForChanges();
     }
 
     private void initRepos() {
         attackRepo = new FirebaseRepository();
-        attackRepo.setOnRepositoryChangeListener(this);
         jobPersist = new PrefsJobPersistance(getSharedPreferences(JobPersistance.FILE_NAME, MODE_PRIVATE));
     }
 
@@ -139,27 +136,12 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     @Override
     public void onDestroy() {
         super.onDestroy();
-        attackRepo.stopListenForChanges();
-        attackRepo.removeOnRepositoryChangeListener();
         cancelAllJobs();
     }
 
     private void cancelAllJobs() {
         jobScheduler.cancelAll();
         jobPersist.clear();
-    }
-
-    @Override
-    public void onAttackDelete(Attack attack) {
-        Action.leave(attack, this);
-    }
-
-    @Override
-    public void onAttackUpload(Attack attack) {
-    }
-
-    @Override
-    public void onAttackUpdate(Attack attack) {
     }
 
     public static class Action {
