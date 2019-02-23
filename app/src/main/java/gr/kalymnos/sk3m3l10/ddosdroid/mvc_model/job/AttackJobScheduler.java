@@ -1,7 +1,6 @@
 package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -14,7 +13,6 @@ import com.firebase.jobdispatcher.Trigger;
 
 import java.util.concurrent.TimeUnit;
 
-import gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.AttackLaunchService;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
@@ -57,7 +55,7 @@ public final class AttackJobScheduler {
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setReplaceCurrent(false)
-                .setExtras(AttackLaunchService.Action.getBundleOf(attack.getPushId(),attack.getWebsite()))
+                .setExtras(AttackLaunchService.Action.getBundleForAction(attack.getPushId(),attack.getWebsite()))
                 .build();
     }
 

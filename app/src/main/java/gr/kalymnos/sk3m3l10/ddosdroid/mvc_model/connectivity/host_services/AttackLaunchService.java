@@ -93,7 +93,7 @@ public class AttackLaunchService extends Service {
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service";
 
-        public static Bundle getBundleOf(String attackId, String website) {
+        public static Bundle getBundleForAction(String attackId, String website) {
             Bundle extras = new Bundle();
             extras.putString(Extras.EXTRA_ATTACK, attackId);
             extras.putString(Extras.EXTRA_WEBSITE, website);

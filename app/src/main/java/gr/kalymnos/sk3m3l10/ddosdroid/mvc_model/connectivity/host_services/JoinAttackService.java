@@ -3,6 +3,7 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -45,7 +46,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
                 break;
             case Action.ACTION_LEAVE_ATTACK:
                 jobScheduler.cancel(attack.getPushId());
-                //  TODO: stop the attack script as well
+                stopAttackScript(attack);
                 updateWithoutLocalBotFrom(attack);
                 break;
         }
@@ -55,6 +56,13 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void connectClient(Attack attack) {
         Client client = new Client(this, attack, this);
         client.connect();
+    }
+
+    private void stopAttackScript(Attack attack) {
+        String id = attack.getPushId();
+        String website = attack.getWebsite();
+        Bundle extras = AttackLaunchService.Action.getBundleForAction(id, website);
+        AttackLaunchService.Action.stop(extras, this);
     }
 
     private void updateWithoutLocalBotFrom(Attack attack) {
