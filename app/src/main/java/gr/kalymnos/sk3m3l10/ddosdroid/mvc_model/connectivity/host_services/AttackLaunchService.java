@@ -39,6 +39,7 @@ public class AttackLaunchService extends Service {
         String attackId = intent.getStringExtra(EXTRA_ATTACK);
         switch (intent.getAction()) {
             case Action.ACTION_START_ATTACK:
+                cachedAndStartScript(website, attackId);
                 startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
                 break;
             case Action.ACTION_STOP_ATTACK:
@@ -48,6 +49,12 @@ public class AttackLaunchService extends Service {
                 break;
         }
         return START_NOT_STICKY;
+    }
+
+    private void cachedAndStartScript(String website, String attackId) {
+        AttackScript script = new AttackScript(website);
+        scripts.put(attackId,script);
+        script.start();
     }
 
     @Override

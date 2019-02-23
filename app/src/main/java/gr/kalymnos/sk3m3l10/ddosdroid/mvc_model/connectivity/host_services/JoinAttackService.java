@@ -153,6 +153,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_JOIN_ATTACK));
         }
 
+        //  TODO: Is this useful? Maybe AttackLaunchService should have this functionality
         public static void leave(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_LEAVE_ATTACK));
         }
