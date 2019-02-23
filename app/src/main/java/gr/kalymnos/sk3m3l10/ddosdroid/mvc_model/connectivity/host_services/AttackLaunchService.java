@@ -105,13 +105,15 @@ public class AttackLaunchService extends Service implements AttackRepository.OnR
         super.onDestroy();
         repo.stopListenForChanges();
         repo.removeOnRepositoryChangeListener();
-        stopAllScripts();
+        stopAllScriptsAndUpdate();
         scripts.clear();
     }
 
-    private void stopAllScripts() {
-        for (Map.Entry<String, AttackScript> entry : scripts.entrySet())
+    private void stopAllScriptsAndUpdate() {
+        for (Map.Entry<String, AttackScript> entry : scripts.entrySet()){
             entry.getValue().stopAttacking();
+            repo.updateWithoutLocalBot(entry.getKey());
+        }
     }
 
     public static class Action {
