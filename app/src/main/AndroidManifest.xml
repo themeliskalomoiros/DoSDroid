@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".mvc_model.connectivity.host_services.AttackService"
+            android:name=".mvc_model.connectivity.host_services.AttackLaunchService"
             android:enabled="true"
             android:exported="false"></service>
 

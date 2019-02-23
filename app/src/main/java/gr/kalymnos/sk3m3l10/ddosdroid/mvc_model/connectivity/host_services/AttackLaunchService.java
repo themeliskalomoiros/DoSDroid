@@ -12,8 +12,8 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 
-public class AttackService extends Service {
-    private static final String TAG = "AttackService";
+public class AttackLaunchService extends Service {
+    private static final String TAG = "AttackLaunchService";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -36,7 +36,7 @@ public class AttackService extends Service {
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service";
 
-        public static void startAttack(Bundle attackBundle, Context context) {
+        public static void launch(Bundle attackBundle, Context context) {
             throwIfInvalid(attackBundle);
             Intent intent = getStartAttackIntent(attackBundle, context);
             context.startService(intent);
@@ -44,7 +44,7 @@ public class AttackService extends Service {
 
         @NonNull
         private static Intent getStartAttackIntent(Bundle attackBundle, Context context) {
-            Intent intent = new Intent(context, AttackService.class);
+            Intent intent = new Intent(context, AttackLaunchService.class);
             intent.setAction(ACTION_START_ATTACK);
             intent.putExtras(attackBundle);
             return intent;
