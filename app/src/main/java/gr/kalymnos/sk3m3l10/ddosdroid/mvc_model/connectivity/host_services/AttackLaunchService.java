@@ -84,7 +84,7 @@ public class AttackLaunchService extends Service implements AttackRepository.OnR
     private void stopScriptOf(String attackId) {
         AttackScript script = scripts.get(attackId);
         script.stopAttacking();
-        scripts.remove(script);
+        scripts.remove(attackId);
     }
 
     @Override
