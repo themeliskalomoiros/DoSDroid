@@ -48,8 +48,6 @@ public final class AttackJobScheduler {
 
     @NonNull
     private Job jobFrom(Attack attack, int windowStart, int windowEnd) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Extras.EXTRA_WEBSITE, attack.getWebsite());
         return dispatcher.newJobBuilder()
                 .setService(AttackJobService.class)
                 .setTag(attack.getPushId())
@@ -58,8 +56,16 @@ public final class AttackJobScheduler {
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setReplaceCurrent(false)
-                .setExtras(bundle)
+                .setExtras(getBundleFrom(attack))
                 .build();
+    }
+
+    @NonNull
+    private Bundle getBundleFrom(Attack attack) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Extras.EXTRA_WEBSITE, attack.getWebsite());
+        bundle.putString(Extras.EXTRA_ATTACK, attack.getPushId());
+        return bundle;
     }
 
     public void cancel(String jobTag) {
