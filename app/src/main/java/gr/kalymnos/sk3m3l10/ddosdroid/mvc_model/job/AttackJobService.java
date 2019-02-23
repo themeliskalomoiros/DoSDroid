@@ -15,6 +15,7 @@ public class AttackJobService extends JobService {
     public boolean onStartJob(@NonNull JobParameters job) {
         Log.d(TAG, "job started");
         AttackLaunchService.Action.launch(job.getExtras(), this);
+        jobFinished(job,false);
         return false; // Answers to the question: "Is there still work going on?"
     }
 
