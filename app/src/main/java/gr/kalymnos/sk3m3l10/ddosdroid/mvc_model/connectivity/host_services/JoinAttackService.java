@@ -56,10 +56,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
             case Action.ACTION_LEAVE_ATTACK:
                 handleLeaveAttackAction(attack);
                 break;
-            case Action.ACTION_STOP_SERVICE:
-                removeLocalBotAndUpdateAttacks();
-                stopSelf(); // onDestroy() will be called clearing resources
-                break;
         }
         return START_NOT_STICKY;
     }
@@ -93,13 +89,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     private void removeLocalBotFrom(Attack attack) {
         attack.getBotIds().remove(Bots.localId());
         attackRepo.update(attack);
-    }
-
-    private void removeLocalBotAndUpdateAttacks() {
-        Map<String, ?> jobKeys = jobPersist.map();
-        for (Map.Entry<String, ?> entry : jobKeys.entrySet()) {
-            attackRepo.removeLocalBotAndUpdate(entry.getKey());
-        }
     }
 
     @Override
@@ -147,7 +136,6 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
     public static class Action {
         private static final String ACTION_JOIN_ATTACK = TAG + "join attack action";
         private static final String ACTION_LEAVE_ATTACK = TAG + "leave attack action";
-        private static final String ACTION_STOP_SERVICE = TAG + "stop service action";
 
         public static void join(Attack attack, Context context) {
             context.startService(createIntentWithAttackExtra(context, attack, ACTION_JOIN_ATTACK));
