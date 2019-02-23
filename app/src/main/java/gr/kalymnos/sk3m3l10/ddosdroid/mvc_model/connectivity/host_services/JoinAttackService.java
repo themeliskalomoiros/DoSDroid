@@ -45,7 +45,8 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
                 break;
             case Action.ACTION_LEAVE_ATTACK:
                 jobScheduler.cancel(attack.getPushId());
-                removeLocalBotFrom(attack);
+                //  TODO: stop the attack script as well
+                updateWithoutLocalBotFrom(attack);
                 break;
         }
         return START_NOT_STICKY;
@@ -56,7 +57,7 @@ public class JoinAttackService extends Service implements Client.ClientConnectio
         client.connect();
     }
 
-    private void removeLocalBotFrom(Attack attack) {
+    private void updateWithoutLocalBotFrom(Attack attack) {
         attack.getBotIds().remove(Bots.localId());
         attackRepo.update(attack);
     }

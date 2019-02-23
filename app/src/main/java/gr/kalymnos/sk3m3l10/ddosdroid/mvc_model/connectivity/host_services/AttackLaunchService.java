@@ -62,11 +62,17 @@ public class AttackLaunchService extends Service {
     }
 
     private void handleStopAction(String attackId) {
+        if (scripts.containsKey(attackId))
+            stopScriptOf(attackId);
+
+        if (scripts.size() == 0)
+            stopSelf();
+    }
+
+    private void stopScriptOf(String attackId) {
         AttackScript script = scripts.get(attackId);
         script.stopAttacking();
         scripts.remove(script);
-        if (scripts.size() == 0)
-            stopSelf();
     }
 
     @Override
