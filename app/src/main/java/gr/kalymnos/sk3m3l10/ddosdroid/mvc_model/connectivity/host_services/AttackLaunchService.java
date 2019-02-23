@@ -93,10 +93,10 @@ public class AttackLaunchService extends Service {
         }
 
         @NonNull
-        private static Intent getStartAttackIntent(Bundle attackBundle, Context context) {
+        private static Intent getStartAttackIntent(Bundle extras, Context context) {
             Intent intent = new Intent(context, AttackLaunchService.class);
             intent.setAction(ACTION_START_ATTACK);
-            intent.putExtras(attackBundle);
+            intent.putExtras(extras);
             return intent;
         }
 
@@ -106,14 +106,14 @@ public class AttackLaunchService extends Service {
                 throw new UnsupportedOperationException(TAG + ": Not a valid bundle");
         }
 
-        public static void stop(String attackId, Context context) {
-            context.startService(getStopAttackIntent(attackId, context));
+        public static void stop(Bundle extras, Context context) {
+            context.startService(getStopAttackIntent(extras, context));
         }
 
-        private static Intent getStopAttackIntent(String attackId, Context context) {
+        private static Intent getStopAttackIntent(Bundle extras, Context context) {
             Intent intent = new Intent(context, AttackLaunchService.class);
             intent.setAction(ACTION_STOP_ATTACK);
-            intent.putExtra(EXTRA_ATTACK, attackId);
+            intent.putExtras(extras);
             return intent;
         }
 

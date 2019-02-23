@@ -20,6 +20,7 @@ public class AttackJobService extends JobService {
 
     @Override
     public boolean onStopJob(@NonNull JobParameters job) {
+        AttackLaunchService.Action.stop(job.getExtras(), this);
         Log.d(TAG, "job stopped");
         return false; // Answers to the question: "Should this job be retried?"
     }
