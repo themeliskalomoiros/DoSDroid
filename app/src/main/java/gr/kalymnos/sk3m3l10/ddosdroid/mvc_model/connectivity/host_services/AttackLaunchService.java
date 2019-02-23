@@ -66,13 +66,20 @@ public class AttackLaunchService extends Service {
         AttackScript script = scripts.get(attackId);
         script.stopAttacking();
         scripts.remove(script);
-        if (scripts.size()==0)
+        if (scripts.size() == 0)
             stopSelf();
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void onDestroy() {
+        super.onDestroy();
+        stopAllScripts();
+        scripts.clear();
+    }
+
+    private void stopAllScripts() {
+        for (Map.Entry<String, AttackScript> entry : scripts.entrySet())
+            entry.getValue().stopAttacking();
     }
 
     public static class Action {
@@ -109,9 +116,11 @@ public class AttackLaunchService extends Service {
             intent.putExtra(EXTRA_ATTACK, attackId);
             return intent;
         }
+
     }
 
     class ForegroundNotification {
+
         static final String CHANNEL_ID = TAG + "channel id";
         static final int NOTIFICATION_ID = 291919;
         static final int CONTENT_INTENT_REQUEST_CODE = 2932;
@@ -142,6 +151,11 @@ public class AttackLaunchService extends Service {
             intent.setAction(Action.ACTION_STOP_SERVICE);
             return PendingIntent.getService(AttackLaunchService.this, STOP_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
+
     }
 
+    @Override
+    public IBinder onBind(Intent intent) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }
