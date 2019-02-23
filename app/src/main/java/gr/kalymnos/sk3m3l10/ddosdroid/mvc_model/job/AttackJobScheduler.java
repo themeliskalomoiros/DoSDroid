@@ -19,8 +19,9 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public final class AttackJobScheduler {
     private static final String TAG = "AttackJobScheduler";
-    private static final long ONE_MINUTE_IN_MILLI = TimeUnit.MINUTES.toMillis(10);
+    private static final int ONE_MINUTE = 60;
 
+    int windowStart, windowEnd;
     private FirebaseJobDispatcher dispatcher;
 
     public AttackJobScheduler(Context context) {
@@ -28,16 +29,20 @@ public final class AttackJobScheduler {
     }
 
     public void schedule(Attack attack) {
-        int windowOpen = 0;
-        int windowEnd = 0;
-        long currentTime = System.currentTimeMillis();
-        long launchTime = attack.getLaunchTimestamp() - currentTime;
-        if (launchTime - currentTime >= 0) {
-            windowOpen = (int) launchTime;
-            windowEnd = (int) (launchTime + ONE_MINUTE_IN_MILLI);
-        }
-        Job attackJob = jobFrom(attack, windowOpen, windowEnd);
+        calculateTriggerWindows(attack);
+        Job attackJob = jobFrom(attack, windowStart, windowEnd);
         dispatcher.mustSchedule(attackJob);
+    }
+
+    private void calculateTriggerWindows(Attack attack) {
+        long currentTimeMillis = System.currentTimeMillis();
+        long launchTimeMillis = attack.getLaunchTimestamp();
+        long windowStartMillis = launchTimeMillis - currentTimeMillis;
+        boolean attackHaveNotBegun = windowStartMillis >= 0;
+        if (attackHaveNotBegun) {
+            windowStart = (int) TimeUnit.MILLISECONDS.toSeconds(windowStartMillis);
+            windowEnd = windowStart + ONE_MINUTE;
+        }
     }
 
     @NonNull
@@ -49,9 +54,9 @@ public final class AttackJobScheduler {
                 .setTag(attack.getPushId())
                 .setRecurring(false)
                 .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
                 .setReplaceCurrent(false)
-                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setExtras(bundle)
                 .build();
     }
