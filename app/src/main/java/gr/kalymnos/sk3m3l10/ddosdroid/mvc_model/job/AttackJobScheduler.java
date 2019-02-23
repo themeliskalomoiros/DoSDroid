@@ -56,15 +56,14 @@ public final class AttackJobScheduler {
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setReplaceCurrent(false)
-                .setExtras(getBundleFrom(attack))
+                .setExtras(getBundleOf(attack))
                 .build();
     }
 
     @NonNull
-    private Bundle getBundleFrom(Attack attack) {
+    private Bundle getBundleOf(Attack attack) {
         Bundle bundle = new Bundle();
-        bundle.putString(Extras.EXTRA_WEBSITE, attack.getWebsite());
-        bundle.putString(Extras.EXTRA_ATTACK, attack.getPushId());
+        bundle.putParcelable(Extras.EXTRA_ATTACK, attack);
         return bundle;
     }
 
