@@ -66,7 +66,7 @@ public final class AttackJobScheduler {
         // inside the bundle. There are some submitted issues on github, but no solutions.
         Bundle bundle = new Bundle();
         bundle.putString(Extras.EXTRA_ATTACK, attack.getPushId());
-        bundle.putString(Extras.EXTRA_WEBSITE, attack.getPushId());
+        bundle.putString(Extras.EXTRA_WEBSITE, attack.getWebsite());
         return bundle;
     }
 
