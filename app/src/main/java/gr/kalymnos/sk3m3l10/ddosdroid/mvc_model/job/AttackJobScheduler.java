@@ -2,7 +2,6 @@ package gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -17,7 +16,6 @@ import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.Attac
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
 
 public final class AttackJobScheduler {
-    private static final String TAG = "AttackJobScheduler";
     private static final int ONE_MINUTE_IN_SECONDS = 60;
 
     int windowStart, windowEnd; // In seconds
@@ -30,7 +28,6 @@ public final class AttackJobScheduler {
     synchronized public void schedule(Attack attack) {
         calculateTriggerWindows(attack);
         Job attackJob = jobFrom(attack, windowStart, windowEnd);
-        Log.d(TAG, "Attack will start after a time between " + windowStart + " seconds until " + windowEnd + " seconds");
         dispatcher.mustSchedule(attackJob);
     }
 
@@ -55,18 +52,12 @@ public final class AttackJobScheduler {
                 .setTrigger(Trigger.executionWindow(windowStart, windowEnd))
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setReplaceCurrent(false)
-                .setExtras(AttackLaunchService.Action.getBundleForAction(attack.getPushId(),attack.getWebsite()))
+                .setExtras(AttackLaunchService.Action.getBundleForAction(attack.getPushId(), attack.getWebsite()))
                 .build();
     }
 
     public void cancel(String jobTag) {
         dispatcher.cancel(jobTag);
-        Log.d(TAG, "Job: " + jobTag + " canceled");
-    }
-
-    public void cancelAll() {
-        dispatcher.cancelAll();
-        Log.d(TAG, "Canceled all jobs");
     }
 
 }
