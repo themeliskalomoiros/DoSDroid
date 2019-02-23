@@ -10,8 +10,12 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.AllAttackListsActivity;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.job.AttackScript;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.ContentTypes.FETCH_ONLY_USER_JOINED_ATTACKS;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
@@ -20,6 +24,14 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_service
 
 public class AttackLaunchService extends Service {
     private static final String TAG = "AttackLaunchService";
+
+    private Map<String, AttackScript> scripts;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        scripts = new HashMap<>();
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
