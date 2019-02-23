@@ -18,9 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".mvc_model.connectivity.host_services.AttackService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".mvc_model.connectivity.client.bluetooth.RequestLocationPermissionForBluetoothActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvc_controllers.activities.MainActivity"
             android:screenOrientation="portrait">
@@ -49,7 +54,6 @@
             android:name=".mvc_model.connectivity.host_services.HostAttackService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".mvc_model.job.AttackJobService"
             android:exported="false">
