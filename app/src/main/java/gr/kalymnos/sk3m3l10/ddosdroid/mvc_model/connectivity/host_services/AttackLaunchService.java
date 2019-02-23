@@ -25,7 +25,7 @@ import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK;
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_WEBSITE;
 import static gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.AttackLaunchService.ForegroundNotification.NOTIFICATION_ID;
 
-public class AttackLaunchService extends Service implements AttackRepository.OnRepositoryChangeListener{
+public class AttackLaunchService extends Service implements AttackRepository.OnRepositoryChangeListener {
     private static final String TAG = "AttackLaunchService";
 
     private Map<String, AttackScript> scripts;
@@ -88,8 +88,23 @@ public class AttackLaunchService extends Service implements AttackRepository.OnR
     }
 
     @Override
+    public void onAttackUpload(Attack attack) {
+    }
+
+    @Override
+    public void onAttackUpdate(Attack attack) {
+    }
+
+    @Override
+    public void onAttackDelete(Attack attack) {
+        Action.stop(Action.getBundleForAction(attack.getPushId(), attack.getWebsite()), this);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+        repo.stopListenForChanges();
+        repo.removeOnRepositoryChangeListener();
         stopAllScripts();
         scripts.clear();
     }
@@ -99,22 +114,8 @@ public class AttackLaunchService extends Service implements AttackRepository.OnR
             entry.getValue().stopAttacking();
     }
 
-    @Override
-    public void onAttackUpload(Attack attack) {
-
-    }
-
-    @Override
-    public void onAttackUpdate(Attack attack) {
-
-    }
-
-    @Override
-    public void onAttackDelete(Attack attack) {
-
-    }
-
     public static class Action {
+
         private static final String ACTION_START_ATTACK = TAG + "start attack action";
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service";
