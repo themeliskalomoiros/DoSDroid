@@ -53,7 +53,7 @@ public class AttackLaunchService extends Service {
 
     private void cachedAndStartScript(String website, String attackId) {
         AttackScript script = new AttackScript(website);
-        scripts.put(attackId,script);
+        scripts.put(attackId, script);
         script.start();
     }
 
@@ -67,10 +67,9 @@ public class AttackLaunchService extends Service {
         private static final String ACTION_STOP_ATTACK = TAG + "stop attack action";
         private static final String ACTION_STOP_SERVICE = TAG + "stop service";
 
-        public static void launch(Bundle attackBundle, Context context) {
-            throwIfInvalid(attackBundle);
-            Intent intent = getStartAttackIntent(attackBundle, context);
-            context.startService(intent);
+        public static void launch(Bundle extras, Context context) {
+            throwIfInvalid(extras);
+            context.startService(getStartAttackIntent(extras, context));
         }
 
         @NonNull
@@ -85,6 +84,17 @@ public class AttackLaunchService extends Service {
             boolean invalidBundle = extras == null || extras.size() == 0;
             if (invalidBundle)
                 throw new UnsupportedOperationException(TAG + ": Not a valid bundle");
+        }
+
+        public static void stop(String attackId, Context context) {
+            context.startService(getStopAttackIntent(attackId, context));
+        }
+
+        private static Intent getStopAttackIntent(String attackId, Context context) {
+            Intent intent = new Intent(context, AttackLaunchService.class);
+            intent.setAction(ACTION_STOP_ATTACK);
+            intent.putExtra(EXTRA_ATTACK, attackId);
+            return intent;
         }
     }
 
