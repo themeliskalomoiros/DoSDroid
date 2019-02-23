@@ -35,14 +35,13 @@ public class AttackLaunchService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String website = intent.getStringExtra(EXTRA_WEBSITE);
         String attackId = intent.getStringExtra(EXTRA_ATTACK);
         switch (intent.getAction()) {
             case Action.ACTION_START_ATTACK:
-                cachedAndStartScript(website, attackId);
-                startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
+                handleStartAction(intent, attackId);
                 break;
             case Action.ACTION_STOP_ATTACK:
+                handleStopAction(attackId);
                 break;
             case Action.ACTION_STOP_SERVICE:
                 stopSelf();
@@ -51,10 +50,24 @@ public class AttackLaunchService extends Service {
         return START_NOT_STICKY;
     }
 
+    private void handleStartAction(Intent intent, String attackId) {
+        String website = intent.getStringExtra(EXTRA_WEBSITE);
+        cachedAndStartScript(website, attackId);
+        startForeground(NOTIFICATION_ID, new ForegroundNotification().create());
+    }
+
     private void cachedAndStartScript(String website, String attackId) {
         AttackScript script = new AttackScript(website);
         scripts.put(attackId, script);
         script.start();
+    }
+
+    private void handleStopAction(String attackId) {
+        AttackScript script = scripts.get(attackId);
+        script.stopAttacking();
+        scripts.remove(script);
+        if (scripts.size()==0)
+            stopSelf();
     }
 
     @Override

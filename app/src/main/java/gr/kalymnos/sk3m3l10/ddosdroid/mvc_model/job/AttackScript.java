@@ -62,7 +62,7 @@ public class AttackScript extends Thread {
         }
     }
 
-    public void stopAttack() {
+    public void stopAttacking() {
         stopped.set(true);
     }
 }
