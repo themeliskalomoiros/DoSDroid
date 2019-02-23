@@ -28,19 +28,20 @@ public final class AttackJobScheduler {
         this.dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
     }
 
-    public void schedule(Attack attack) {
+    synchronized public void schedule(Attack attack) {
         calculateTriggerWindows(attack);
         Job attackJob = jobFrom(attack, windowStart, windowEnd);
         dispatcher.mustSchedule(attackJob);
+        Log.d(TAG, "Attack will start after a time between" + windowStart + " seconds until " + windowEnd + " seconds");
     }
 
     private void calculateTriggerWindows(Attack attack) {
         long currentTimeMillis = System.currentTimeMillis();
         long launchTimeMillis = attack.getLaunchTimestamp();
-        long windowStartMillis = launchTimeMillis - currentTimeMillis;
-        boolean attackHaveNotBegun = windowStartMillis >= 0;
-        if (attackHaveNotBegun) {
-            windowStart = (int) TimeUnit.MILLISECONDS.toSeconds(windowStartMillis);
+        long jobStartsAfterMillis = launchTimeMillis - currentTimeMillis;
+        boolean attackNotStartedYet = jobStartsAfterMillis >= 0;
+        if (attackNotStartedYet) {
+            windowStart = (int) TimeUnit.MILLISECONDS.toSeconds(jobStartsAfterMillis);
             windowEnd = windowStart + ONE_MINUTE;
         }
     }
