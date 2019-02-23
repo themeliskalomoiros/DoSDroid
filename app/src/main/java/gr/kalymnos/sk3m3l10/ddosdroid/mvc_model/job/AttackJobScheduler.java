@@ -32,7 +32,7 @@ public final class AttackJobScheduler {
         calculateTriggerWindows(attack);
         Job attackJob = jobFrom(attack, windowStart, windowEnd);
         dispatcher.mustSchedule(attackJob);
-        Log.d(TAG, "Attack will start after a time between" + windowStart + " seconds until " + windowEnd + " seconds");
+        Log.d(TAG, "Attack will start after a time between " + windowStart + " minutes until " + windowEnd + " minutes");
     }
 
     private void calculateTriggerWindows(Attack attack) {
@@ -41,7 +41,7 @@ public final class AttackJobScheduler {
         long jobStartsAfterMillis = launchTimeMillis - currentTimeMillis;
         boolean attackNotStartedYet = jobStartsAfterMillis >= 0;
         if (attackNotStartedYet) {
-            windowStart = (int) TimeUnit.MILLISECONDS.toSeconds(jobStartsAfterMillis);
+            windowStart = (int) TimeUnit.MILLISECONDS.toMinutes(jobStartsAfterMillis);
             windowEnd = windowStart + ONE_MINUTE;
         }
     }
