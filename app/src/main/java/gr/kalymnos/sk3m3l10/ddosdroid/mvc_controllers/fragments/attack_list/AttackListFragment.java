@@ -16,10 +16,10 @@ import java.util.List;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.R;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.JoinAttackActivity;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.JoinAttackService;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.connectivity.host_services.HostAttackService;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.AttackRepository;
-import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.repository.FirebaseRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.connectivity.host_services.JoinAttackService;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.connectivity.host_services.HostAttackService;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.AttackRepository;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvc;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_views.screen_attack_lists.AttackListViewMvcImpl;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
