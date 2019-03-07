@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
 import com.google.firebase.database.ValueEventListener;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.attack.Attack;
@@ -17,6 +18,13 @@ import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bots;
 public class FirebaseRepository extends AttackRepository implements ChildEventListener {
     private static final String TAG = "FirebaseRepository";
     private static final String NODE_ATTACKS = "attacks";
+    public static final FirebaseDatabase database;
+
+    static {
+        database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
+        database.setLogLevel(Logger.Level.DEBUG);
+    }
 
     private DatabaseReference allAttacksRef;
     private boolean addedChildEventListener;
@@ -26,8 +34,7 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     }
 
     private void initAllAttacksRef() {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        allAttacksRef = firebaseDatabase.getReference().child(NODE_ATTACKS);
+        allAttacksRef = database.getReference().child(NODE_ATTACKS);
     }
 
     @Override
@@ -48,7 +55,12 @@ public class FirebaseRepository extends AttackRepository implements ChildEventLi
     @Override
     public void upload(Attack attack) {
         Log.d(TAG, "upload()");
-        allAttacksRef.child(attack.getPushId()).setValue(attack, null);
+        allAttacksRef.child(attack.getPushId()).setValue(attack, (error, ref) -> {
+            Log.d(TAG, "Upload completed.");
+            if (error != null) {
+                Log.d(TAG, "Database error message: " + error.getMessage());
+            }
+        });
     }
 
     @Override

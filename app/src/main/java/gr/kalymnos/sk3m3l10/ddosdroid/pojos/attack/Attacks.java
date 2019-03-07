@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.DatePicker;
 import gr.kalymnos.sk3m3l10.ddosdroid.mvc_controllers.activities.attack_creation.TimePicker;
+import gr.kalymnos.sk3m3l10.ddosdroid.mvc_model.FirebaseRepository;
 import gr.kalymnos.sk3m3l10.ddosdroid.pojos.bot.Bot;
 
 import static gr.kalymnos.sk3m3l10.ddosdroid.constants.Extras.EXTRA_ATTACK_HOST_UUID;
@@ -68,8 +69,7 @@ public final class Attacks {
 
     @NonNull
     private static DatabaseReference getAttackDatabaseReference() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        return database.getReference().child("attacks");
+        return FirebaseRepository.database.getReference().child("attacks");
     }
 
     public static long getLaunchTimestamp(DatePicker.Date date, TimePicker.Time time) {
