@@ -7,7 +7,9 @@ The true purpose of this app is to demonstrate the power which comes when Androi
 In this case that is accomplished through device connectivity. 
 
 As a result an interest was taken on the various device interactions that are possible through the standard network connectivity
-but with protocols such as Bluetooth, NFC, Wi-Fi P2Pand Bluetooth as well. 
+but with protocols such as Bluetooth, NFC, Wi-Fi P2Pand Bluetooth as well.
+
+![The DosDroid](https://github.com/tomasmichael995/DoSDroid/blob/job_schedule/robot-line.png)
 
 **This app may be used only for educational purposes!** 
 
